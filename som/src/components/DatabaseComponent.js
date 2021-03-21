@@ -1,38 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import { InputGroup, InputGroupText, InputGroupAddon, Input } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
-import { IconButton } from '@material-ui/core';
-import { DATASETFILE } from '../database/datasetFile';
-import { NULLDATASET } from '../database/nullDatasetFile';
+import { IconButton, Modal } from '@material-ui/core';
 
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 
+import DatasetUpload from './DatasetUploadComponent';
+
 class Database extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            datasets: DATASETFILE,
-            nullDatasets: NULLDATASET
-        };
+  
     }
+
+    // React API, used to update the whole DatabaseComponent when the data changed in the datasetfile
+    
+    componentDidMount(){
+       this.render();
+    }
+
+
+
 
     // to create a flexible table head, where the number of columns depends on the attributes in the datafile.
     // dataset: array. JSON data stored inside.
     tableHead(dataset){
         if (dataset !== undefined){
             return(
-                <thead>
-                    <tr>
-                        {Object.keys(dataset[0]).map(element =>
-                            <th>{element}</th>
-                        )}
-                        <th>Operation</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            {Object.keys(dataset[0]).map(element =>
+                                <th>{element}</th>
+                            )}
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
             );
         }
 
@@ -47,28 +53,28 @@ class Database extends Component {
         // when there is no uploaded dataset in the database
         if (dataset.length === 1 && Object.values(dataset[0]).every(element => element === null)){
             return (
-                <tbody>
-                    {dataset.map(file => 
-                        <tr>
-                            {Object.keys(file).map(() => <td></td>)}
-                            <td>{this.operateDataset(true)}</td>
-                        </tr>
-                    )}
+                    <tbody>
+                        {dataset.map(file => 
+                            <tr>
+                                {Object.keys(file).map(() => <td></td>)}
+                                <td>{this.operateDataset(true)}</td>
+                            </tr>
+                        )}
+                </tbody>
+            );
+        } 
+        else {
+            return(
+                    <tbody>
+                        {dataset.map(file => 
+                            <tr>
+                                {Object.values(file).map(filedata =><td>{filedata}</td>)}
+                                <td>{this.operateDataset(false)}</td>
+                            </tr>
+                        )}
                 </tbody>
             );
         }
-
-       
-        return(
-            <tbody>
-                {dataset.map(file => 
-                    <tr>
-                        {Object.values(file).map(filedata =><td>{filedata}</td>)}
-                        <td>{this.operateDataset(false)}</td>
-                    </tr>
-                )}
-            </tbody>
-        );
         
     }
 
@@ -78,9 +84,7 @@ class Database extends Component {
             return(
                 <Container>
                     <Row>
-                    <IconButton aria-label="add a dataset">
-                        <AddIcon />
-                    </IconButton>
+                        <DatasetUpload addDataset={this.props.datasetfile}/>
                     </Row>
                 </Container>
             );
@@ -90,11 +94,11 @@ class Database extends Component {
             <Container>
                 <Row>
                     <IconButton aria-label="add a dataset">
-                        <AddIcon />
+                        <DatasetUpload addDataset={this.props.datasetfile}/>
                     </IconButton>
 
                     <IconButton aria-label="delete a dataset">
-                        <DeleteIcon />
+                        <DeleteIcon addonType/>
                     </IconButton>
 
                     <IconButton aria-label="create matadata">
@@ -130,7 +134,8 @@ class Database extends Component {
                 </Col>
 
                 <Col className="database">
-                    {this.fileTable(this.state.nullDatasets)}
+                    {this.fileTable(this.props.datasetfile)}
+                    <div>{JSON.stringify(this.props.datasetfile)}</div>
                 </Col>
             </Container>
         );

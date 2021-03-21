@@ -7,9 +7,18 @@ import Model from './ModelComponent';
 import Visualisation from './VisualisationComponent';
 import SOMModel from './ModelComponent';
 
+import { DATASET } from '../database/datasetFile';
+
 class Main extends Component {
     constructor(props){
         super(props);
+
+        // MainComponent is the entry of all data from our database
+        // corresponding data will be passed to sub-components through Main
+        // MainComponent是所有数据的入口
+        this.state = {
+            datasets: DATASET
+        };
     }
 
     render(){
@@ -19,7 +28,8 @@ class Main extends Component {
                 <Col className="sidebar" md="3"><Sidebar/></Col>
                 <Col className="main-page">
                     <Switch>
-                        <Route path="/mydatabase" component={Database}/>
+                        <Route path="/mydatabase" component={() => 
+                            <Database datasetfile={this.state.datasets}/>}/>
                         <Route path="/mymodels" component={SOMModel}/>
                         <Route path="/visualisation" component={Visualisation}/>
                     </Switch>

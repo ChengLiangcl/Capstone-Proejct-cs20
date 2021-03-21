@@ -65,3 +65,14 @@ thead{
   background-color: #DEEBF7;
   color: #378CC6;
 }
+
+/*upload button*/
+input[type="file"] {
+  display: none;
+  opacity: 0;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  cursor: pointer;
+}

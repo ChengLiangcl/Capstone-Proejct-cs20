@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Popup from 'react-popup';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'fontsource-roboto';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.css';
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
