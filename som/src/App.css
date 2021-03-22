@@ -72,7 +72,26 @@ input[type="file"] {
   opacity: 0;
 }
 
+label{
+  display: none;
+}
+
 .custom-file-upload {
   display: inline-block;
   cursor: pointer;
 }
+
+/*detailed metadata*/
+.detailed-metadata{
+  display: flex;
+  justify-content: center; /* y-axis */
+  align-items: center; /* x-axis */
+  height: 30vh;
+  background-color:aliceblue;
+}
+
+.detailed-database{
+  height: 70vh;
+  overflow: auto;
+}
+

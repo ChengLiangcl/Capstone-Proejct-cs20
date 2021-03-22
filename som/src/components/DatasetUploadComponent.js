@@ -7,20 +7,21 @@ import AddIcon from '@material-ui/icons/Add';
 import { DATASET } from '../database/datasetFile';
 
 function DatasetUpload(props) {
-
     const [file, setFile] = useState(''); // storing the uploaded file
     // storing the recived file from backend
     //const [data, getFile] = useState({ name: "", size: "" });
     const el = useRef(); // accesing input element
+       
 
     const addFile = (dataset, res) => {
-        console.log(dataset);
             if (dataset.length === 1 && Object.values(dataset[0]).every(element => element === null)){
                 Object.entries(res.data).map((kv) => {
                     dataset[0][kv[0]] = kv[1];
                 });
             } else {
                 dataset.push(res.data);
+                // update the data in the database 
+                //TODO-Backend: pass the data to the backend server
             }
             console.log(dataset);
     }
@@ -66,3 +67,4 @@ function DatasetUpload(props) {
 }
 
 export default DatasetUpload;
+
