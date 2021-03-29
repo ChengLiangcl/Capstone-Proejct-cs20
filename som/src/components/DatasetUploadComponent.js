@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { IconButton, Modal } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import PublishIcon from '@material-ui/icons/Publish';
 
 // Dataset: NullDatasetFile 
 import { DATASET } from '../database/datasetFile';
@@ -59,7 +59,7 @@ function DatasetUpload(props) {
             <input type="file" id="file-upload" ref={el} onChange={handleChange}/>
             <label htmlFor="file-upload">
                 <IconButton aria-label="upload a dataset" component="span">
-                    <AddIcon/>
+                    <PublishIcon/>
                 </IconButton>
             </label>
         </div>   

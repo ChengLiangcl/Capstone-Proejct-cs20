@@ -12,13 +12,12 @@ import { DATASET } from '../database/datasetFile';
 class Main extends Component {
     constructor(props) {
         super(props);
-        const datasetFiles = require('../database-json/datasetFile-files.json');
+        const datasetFiles = require('../database-json/datasetFile.json');
         const iris = require('../database-json/iris.json');
         // MainComponent is the entry of all data from our database
         // corresponding data will be passed to sub-components through Main
         // MainComponent是所有数据的入口
         this.state = {
-            datasets: DATASET,
             datasetsJson: datasetFiles.datasetFile,
             detailedData: iris
         };
