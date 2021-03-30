@@ -6,6 +6,7 @@ export const DatasetFiles = (state = { isLoading: true,
                                         datasetFiles: []}, action) => {
     switch (action.type) {
         case ActionTypes.ADD_DATASETFILES:
+            console.log("I wanna check dataset file");
             return {...state, isLoading: false, errMess: null, datasetFiles: action.payload};
 
         case ActionTypes.DATASETFILES_LOADING:

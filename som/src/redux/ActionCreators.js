@@ -6,9 +6,10 @@ export const fetchDatasetFiles = () => (dispatch) => {
 
     dispatch(datasetFilesLoading(true));
 
-    return fetch(backendUrl + 'datasetFiles') // backend address: Localhost: 3005/datasetFiles
+    return fetch(backendUrl + 'datasetFiles') // backend address: Localhost: 5000/datasetFiles
     .then(response => response.json()) // when the promise resolved, we convert the incoming response into JSON by calling response.json
-    .then(datasetFiles => dispatch(addDatasetFiles(datasetFiles))); // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
+    .then(datasetFiles => dispatch(addDatasetFiles(datasetFiles))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
+    .then( data => console.log(data));
 }
 
 export const datasetFilesLoading = () => ({

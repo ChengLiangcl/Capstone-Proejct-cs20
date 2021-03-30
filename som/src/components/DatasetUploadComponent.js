@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { IconButton, Modal } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
+import http from "../server/baseUrl";
 
 
 function DatasetUpload(props) {
@@ -30,7 +31,7 @@ function DatasetUpload(props) {
     const uploadFile = (file) => {
         const formData = new FormData();
         formData.append('file', file); // appending file
-        axios.post('http://localhost:4500/upload', formData).then(res => {
+        axios.post('http://localhost:5000/upload', formData).then(res => {
             console.log(res);
             /** 
             getFile({ name: res.data.name,

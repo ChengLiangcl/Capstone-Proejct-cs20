@@ -97,7 +97,7 @@ class Database extends Component {
         }
     }
 
-    renderDatasetTable(datasets, isLoading, errMess ) {
+    renderDatasetTable(datasets, isLoading, errMess) {
         if (isLoading) {
             return(
                 <Loading />
