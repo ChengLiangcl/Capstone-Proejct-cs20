@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
 import Sidebar from './SidebarComponent';
 import Database from './DatabaseComponent';
@@ -7,24 +8,32 @@ import Visualisation from './VisualisationComponent';
 import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
 
-import { DATASET } from '../database/datasetFile';
+import { fetchDatasetFiles, uploadDataset } from '../redux/ActionCreators';
+
+const mapStateToProps = state => {
+    return {
+        datasetFiles: state.datasetFiles,
+    }
+  }
+
+const mapDispatchToProps = dispatch => ({
+    fetchDatasetFiles: () => { dispatch(fetchDatasetFiles())}
+    //uploadDataset: (datasetId, fileName, size) => dispatch(uploadDataset(datasetId, fileName, size))
+
+});
 
 class Main extends Component {
     constructor(props) {
         super(props);
-        const datasetFiles = require('../database-json/datasetFile.json');
         const iris = require('../database-json/iris.json');
-        // MainComponent is the entry of all data from our database
-        // corresponding data will be passed to sub-components through Main
-        // MainComponent是所有数据的入口
         this.state = {
-            datasetsJson: datasetFiles.datasetFile,
-            detailedData: iris
+            detailedData: iris,
         };
-        console.log(datasetFiles);
     }
 
-
+    componentDidMount() {
+        this.props.fetchDatasetFiles();
+      }
 
     render() {
         const DatasetWithName = ({match}) => {
@@ -43,7 +52,7 @@ class Main extends Component {
                     <Switch>
                         
                         <Route exact path="/mydatabase" component={() =>
-                            <Database datasetfile={this.state.datasetsJson} value={this.state.datasetsJson}/>} 
+                            <Database datasetFiles={this.props.datasetFiles.datasetFiles} value={this.props.datasetFiles.datasetFiles}/>} 
                         />
                         <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
                         <Route path="/mymodels" component={SOMModel} />
@@ -56,4 +65,4 @@ class Main extends Component {
     }
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

@@ -11,6 +11,7 @@ import TableChartIcon from '@material-ui/icons/TableChart';
 import { Link } from 'react-router-dom';
 
 import DatasetUpload from './DatasetUploadComponent';
+import { Loading } from './LoadingComponent';
 
 
 class Database extends Component {
@@ -20,14 +21,13 @@ class Database extends Component {
 
     // to create a flexible table head, where the number of columns depends on the attributes in the datafile.
     // dataset: array. JSON data stored inside.
-    tableHead(dataset) {
-        if (dataset !== undefined) {
+    tableHead(datasets) {
+        if (datasets !== undefined) {
             return (
                 <thead>
                     <tr>
-                        {Object.keys(dataset[0]).map(element =>
-                            <th key={element}>{element}</th>
-                        )}
+                        <th>File name</th>
+                        <th>Size</th>
                         <th>Operation</th>
                     </tr>
                 </thead>
@@ -40,28 +40,20 @@ class Database extends Component {
     }
 
     //TODO: may change if the design of the database is changed
-    tableBody(dataset) {
-        const icon = ["add only", "no add", "all"];
+    tableBody(datasets) {
         // when there is no uploaded dataset in the database
-        if (dataset.length === 1 && Object.values(dataset[0]).every(element => element === null)) {
+        if (datasets.length === 0) {
             return (
-                <tbody>
-                    {dataset.map(file =>
-                        <tr key={"file"}>
-                            {Object.keys(file).map(() => <td key={"empty"}></td>)}
-                            <td key={"operate"}>{this.operateDataset(false)}</td>
-                        </tr>
-                    )}
-                </tbody>
+                <tbody />
             );
         }
         else { // where are dataset stored in the database
             return (
                 <tbody> 
-                    {dataset.map(file =>
+                    {datasets.map(eachDataset =>
                         <tr key={"eachDataset"}>
-                            {Object.values(file).map(eachDataset => <td key={Object.values(eachDataset)[0]}>{eachDataset}</td>)}
-                            <td key={"operateEachDataset"}>{this.operateDataset(true, file.name)}</td>
+                            {Object.values(eachDataset).slice(1, eachDataset.length).map(eachValue => <td key={Object.values(eachValue)[0]}>{eachValue}</td>)}
+                            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName)}</td>
                         </tr>
                     )}
                 </tbody>
@@ -105,21 +97,32 @@ class Database extends Component {
         }
     }
 
-    fileTable(dataset) {
-
-        return (
-            <Table hover>
-                {this.tableHead(dataset)}
-                {this.tableBody(dataset)}
-            </Table>
-        );
+    renderDatasetTable(datasets, isLoading, errMess ) {
+        if (isLoading) {
+            return(
+                <Loading />
+            );
+        }
+        else if (errMess) {
+            return(
+                <h4>{errMess}</h4>
+            );
+        }
+        else {
+            return (
+                <Table hover>
+                    {this.tableHead(datasets)}
+                    {this.tableBody(datasets)}
+                </Table>
+            );
+        } 
     }
 
     render() {
         return (
             <Container>
                 <Row className="search-box" >
-                <DatasetUpload addDataset={this.props.datasetfile} />
+                <DatasetUpload addDataset={this.props.datasetFiles} />
                     <Col md={{ size: 7 }}>
                         <InputGroup style={{ width: '6' }} >
                             <Input placeholder="Search similar datasets here" />
@@ -131,7 +134,7 @@ class Database extends Component {
                 </Row>
 
                 <Col className="database">
-                    {this.fileTable(this.props.datasetfile)}
+                    {this.renderDatasetTable(this.props.datasetFiles, this.props.dishesLoading, this.props.dishesErrMess)}
                 </Col>
             </Container>
         );

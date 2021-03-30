@@ -3,8 +3,6 @@ import axios from 'axios';
 import { IconButton, Modal } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 
-// Dataset: NullDatasetFile 
-import { DATASET } from '../database/datasetFile';
 
 function DatasetUpload(props) {
     const [file, setFile] = useState(''); // storing the uploaded file
