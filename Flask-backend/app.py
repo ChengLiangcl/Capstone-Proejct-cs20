@@ -13,12 +13,6 @@ CORS(app)
 @cross_origin()
 def upload():
     if request.method == "POST":
-        
-         #req = request.get_json()
-        #print("start")
-        #print(req)
-        #res = make_response(jsonify(req), 200)
-        #print(res)
 
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -38,7 +32,7 @@ def upload():
         print(filename) # e.g. ex.csv
         # TODO: PLEASE deal with the filename to avoid repeating name here
         file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
-        # TODO: save and read the file to MongoDB
+        # TODO: (replace the code below) save the file to MongoDB
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
 
         return filename
@@ -54,6 +48,15 @@ def showAlldatasetFiles():
             data = json.load(f)
         #print(data)
     return json.dumps(data)
+
+@app.route('/newDataset', methods=["GET"])
+def sendNewdatasetFiles():
+    # TODO: (replace the code below) get the uploaded dataset from MongoDB with _id, FileName, Size
+    # because frontend cannot show the new file until it is saved into the MongoDB, and frontend cannot generate _id itself
+    # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
+    new_dataset = [{"_id": {"$oid": "6061862b0d830ba54020706d"},"FileName": "ex_fdy.csv", "Size": "4.68KB"}]
+
+    return json.dumps(new_dataset)
 
 
 if __name__ == "__main__":

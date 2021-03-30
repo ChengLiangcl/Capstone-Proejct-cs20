@@ -17,8 +17,8 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    fetchDatasetFiles: () => { dispatch(fetchDatasetFiles())}
-    //uploadDataset: (datasetId, fileName, size) => dispatch(uploadDataset(datasetId, fileName, size))
+    fetchDatasetFiles: () => { dispatch(fetchDatasetFiles())},
+    uploadDataset: (dataset) => dispatch(uploadDataset(dataset))
 
 });
 
@@ -52,7 +52,10 @@ class Main extends Component {
                     <Switch>
                         
                         <Route exact path="/mydatabase" component={() =>
-                            <Database datasetFiles={this.props.datasetFiles.datasetFiles} value={this.props.datasetFiles.datasetFiles}/>} 
+                            <Database datasetFiles={this.props.datasetFiles.datasetFiles} 
+                                        isLoading = { this.props.datasetFiles.isLoading}
+                                        errMess = { this.props.datasetFiles.errMess}
+                                        uploadDataset = {this.props.uploadDataset}/>}
                         />
                         <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
                         <Route path="/mymodels" component={SOMModel} />

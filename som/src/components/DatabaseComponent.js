@@ -50,8 +50,8 @@ class Database extends Component {
         else { // where are dataset stored in the database
             return (
                 <tbody> 
-                    {datasets.map(eachDataset =>
-                        <tr key={"eachDataset"}>
+                    {datasets.map((eachDataset, index) =>
+                        <tr key={index}>
                             {Object.values(eachDataset).slice(1, eachDataset.length).map(eachValue => <td key={Object.values(eachValue)[0]}>{eachValue}</td>)}
                             <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName)}</td>
                         </tr>
@@ -122,7 +122,7 @@ class Database extends Component {
         return (
             <Container>
                 <Row className="search-box" >
-                <DatasetUpload addDataset={this.props.datasetFiles} />
+                <DatasetUpload addDataset={this.props.uploadDataset} />
                     <Col md={{ size: 7 }}>
                         <InputGroup style={{ width: '6' }} >
                             <Input placeholder="Search similar datasets here" />
@@ -134,7 +134,7 @@ class Database extends Component {
                 </Row>
 
                 <Col className="database">
-                    {this.renderDatasetTable(this.props.datasetFiles, this.props.dishesLoading, this.props.dishesErrMess)}
+                    {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess)}
                 </Col>
             </Container>
         );
