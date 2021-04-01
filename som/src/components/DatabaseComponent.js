@@ -51,7 +51,7 @@ class Database extends Component {
         }
         else { // where are dataset stored in the database
             return (
-                <tbody> 
+                <tbody>
                     {datasets.map((eachDataset, index) =>
                         <tr key={index}>
                             {Object.values(eachDataset).slice(1, eachDataset.length).map(eachValue => <td key={Object.values(eachValue)[0]}>{eachValue}</td>)}
@@ -76,7 +76,7 @@ class Database extends Component {
                 </Container>
             );
         }*/
-       if (showOperate) {
+        if (showOperate) {
             return (
                 <Container>
                     <Row>
@@ -103,12 +103,12 @@ class Database extends Component {
 
     renderDatasetTable(datasets, isLoading, errMess) {
         if (isLoading) {
-            return(
+            return (
                 <Loading />
             );
         }
         else if (errMess) {
-            return(
+            return (
                 <h4>{errMess}</h4>
             );
         }
@@ -119,14 +119,13 @@ class Database extends Component {
                     {this.tableBody(datasets)}
                 </Table>
             );
-        } 
+        }
     }
 
     render() {
         return (
             <Container>
-                <Row className="search-box" >
-                <DatasetUpload addDataset={this.props.uploadDataset} />
+                <Col className="search-box" >
                     <Col md={{ size: 7 }}>
                         <InputGroup style={{ width: '6' }} >
                             <Input placeholder="Search similar datasets here" />
@@ -135,7 +134,12 @@ class Database extends Component {
                             </InputGroupAddon>
                         </InputGroup>
                     </Col>
-                </Row>
+                </Col>
+
+                <Col>
+                    <DatasetUpload uploadDataset={this.props.uploadDataset}
+                        fetchUploadedDataset={this.props.fetchUploadedDataset} />
+                </Col>
 
                 <Col className="database">
                     {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess)}

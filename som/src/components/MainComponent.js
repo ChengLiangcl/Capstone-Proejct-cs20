@@ -9,7 +9,7 @@ import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
 
-import { fetchDatasetFiles, uploadDataset } from '../redux/ActionCreators';
+import { fetchDatasetFiles, uploadDataset, fetchUploadedDataset} from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -19,8 +19,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     fetchDatasetFiles: () => { dispatch(fetchDatasetFiles())},
-    uploadDataset: (dataset) => dispatch(uploadDataset(dataset))
-
+    uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
+    fetchUploadedDataset: () => { dispatch(fetchUploadedDataset())}
 });
 
 class Main extends Component {
@@ -63,6 +63,7 @@ class Main extends Component {
                                         isLoading = { this.props.datasetFiles.isLoading}
                                         errMess = { this.props.datasetFiles.errMess}
                                         uploadDataset = {this.props.uploadDataset}/>}
+                                        fetchUploadedDataset = {this.props.fetchUploadedDataset}
                         />
                         <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect}/>
