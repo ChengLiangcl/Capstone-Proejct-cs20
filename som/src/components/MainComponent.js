@@ -7,6 +7,7 @@ import Database from './DatabaseComponent';
 import Visualisation from './VisualisationComponent';
 import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
+import MetadataForm from './MetadataForm';
 
 import { fetchDatasetFiles, uploadDataset } from '../redux/ActionCreators';
 
@@ -45,6 +46,12 @@ class Main extends Component {
             );
         };
 
+        const DatasetSelect = ({match}) => {
+            return (
+            <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}/>
+            );
+        };
+
         return (
             <Row>
                 <Col className="sidebar" md="3"><Sidebar /></Col>
@@ -58,6 +65,7 @@ class Main extends Component {
                                         uploadDataset = {this.props.uploadDataset}/>}
                         />
                         <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
+                        <Route path="/metadata-form/:datasetName" component={DatasetSelect}/>
                         <Route path="/mymodels" component={SOMModel} />
                         <Route path="/visualisation" component={Visualisation} />
                     </Switch>

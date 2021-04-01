@@ -11,6 +11,7 @@ import TableChartIcon from '@material-ui/icons/TableChart';
 import { Link } from 'react-router-dom';
 
 import DatasetUpload from './DatasetUploadComponent';
+import MetadataForm from './MetadataForm';
 import { Loading } from './LoadingComponent';
 
 
@@ -27,6 +28,7 @@ class Database extends Component {
                 <thead>
                     <tr>
                         <th>File name</th>
+                        <th>Description</th>
                         <th>Size</th>
                         <th>Operation</th>
                     </tr>
@@ -82,9 +84,11 @@ class Database extends Component {
                             <DeleteIcon />
                         </IconButton>
 
-                        <IconButton aria-label="create matadata" component="span">
-                            <CreateIcon />
-                        </IconButton>
+                        <Link to={`/metadata-form/${name}`}>
+                            <IconButton aria-label="create matadata" component="span">
+                                <CreateIcon />
+                            </IconButton>
+                        </Link>
 
                         <Link to={`/mydatabase/${name}`}>
                             <IconButton aria-label="create matadata" component="span">

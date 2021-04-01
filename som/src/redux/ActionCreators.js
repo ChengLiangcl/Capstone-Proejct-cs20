@@ -47,7 +47,6 @@ export const uploadDataset = (dataset) => (dispatch) => {
 
 
 export const fetchUploadedDataset = () => (dispatch) => {
-    //dispatch(newDatasetLoading(true));
 
     return fetch(backendUrl + 'newDataset')
             .then(response => response.json()) 
@@ -59,6 +58,3 @@ export const fetchUploadedDataset = () => (dispatch) => {
             .catch(err => console.log(err))
 };
 
-export const newDatasetLoading = () => ({
-    type: ActionTypes.LOAD_NEWDATASET
-});

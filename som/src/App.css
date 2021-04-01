@@ -95,3 +95,36 @@ label{
   overflow: auto;
 }
 
+/*metadata title*/
+.metadata-title{
+  display: flex;
+  align-items: center;
+  height: 12vh;
+}
+
+.title{
+  padding-left: 5%;
+}
+
+.submit-button{
+  padding-right: 5%;
+  
+}
+
+h4 {
+  color: #378CC6;
+}
+
+
+.submit:hover {
+  background-color: #094b77;
+  color: white;
+}
+
+label{
+  color:#378CC6;
+}
+
+.attribute{
+  color: grey
+}

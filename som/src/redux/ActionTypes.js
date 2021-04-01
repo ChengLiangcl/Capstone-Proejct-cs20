@@ -3,5 +3,4 @@ export const DATASETFILES_FAILED = 'DATASETFILES_FAILED'; // means you fail to f
 export const ADD_DATASETFILES = 'ADD_DATASETFILES'; // you wanna add datasets into your store
 
 export const UPLOAD_DATASET = 'UPLOAD_DATASET'; // add the uploaded dataset to the Redux store
-export const LOAD_NEWDATASET = 'LOAD_NEWDATASET';
 

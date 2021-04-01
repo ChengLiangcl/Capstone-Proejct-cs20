@@ -21,10 +21,6 @@ export const DatasetFiles = (state = { isLoading: true,
         case ActionTypes.UPLOAD_DATASET:
             var dataset = action.payload; // get the uploaded dataset
             return {...state, datasetFiles: state.datasetFiles.concat(dataset)}
-        
-        case ActionTypes.LOAD_NEWDATASET:
-            console.log("Is new dataset uploaded?");
-            return {...state, isLoading: true, errMess: null, datasetFiles: state.datasetFiles};
 
         default:
           return state;

@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import 'fontsource-roboto';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.css';
+import "@pathofdev/react-tag-input/build/index.css";
 
 ReactDOM.render(
   <React.StrictMode>
