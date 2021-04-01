@@ -54,7 +54,7 @@ def sendNewdatasetFiles():
     # TODO: (replace the code below) get the uploaded dataset from MongoDB with _id, FileName, Size
     # because frontend cannot show the new file until it is saved into the MongoDB, and frontend cannot generate _id itself
     # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
-    new_dataset = [{"_id": {"$oid": "6061862b0d830ba54020706d"},"FileName": "ex_fdy.csv", "Size": "4.68KB"}]
+    new_dataset = [{"_id": {"$oid": "6061862b0d830ba54020706d"},"FileName": "ex_fdy.csv", "BriefInfo": "This is a description for new dataset", "Size": "4.68KB"}]
 
     return json.dumps(new_dataset)
 
