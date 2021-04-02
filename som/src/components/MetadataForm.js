@@ -1,10 +1,10 @@
-import React, {Component, useState}  from 'react';
+import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import { Button, Row, Col, Label, Container } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";
 
-function MetadataForm(props){
+function MetadataForm(props) {
     const [tags, setTags] = useState([]);
     const [attr, setAttr] = useState(1);
 
@@ -25,23 +25,34 @@ function MetadataForm(props){
                         <h4>Data Description - {props.dataset.FileName}</h4>
                     </div>
                     <div className="submit-button col-md-4 align-items-center">
-                        <div><Button className="submit" style={{backgroundColor: "#378CC6"}} >Submit</Button></div>
+                        <div><Button className="submit" style={{ backgroundColor: "#378CC6" }} >Submit</Button></div>
                     </div>
                 </Row>
 
                 <LocalForm>
                     <Col className="form-group">
+                        <Row>
+                            <Label htmlFor="briefInfo" md="2">Brief descripton:</Label>
+                            <Col>
+                                <Control.text model=".briefInfo" id="briefInfo" name="briefInfo"
+                                    placeholder="Please input a brief description for the dataset"
+                                    className="form-control" />
+                            </Col>
+                        </Row>
+                    </Col>
+
+                    <Col className="form-group">
                         <Label htmlFor="description">Dataset description:</Label>
                         <Col md={10}>
                             <Control.textarea model=".description" id="description" name="description"
-                                            row="6" className="form-control"/>
+                                row="6" className="form-control" />
                         </Col>
                     </Col>
 
                     <Col className="form-group">
                         <Row>
                             <Label htmlFor="keywords" md={2}>Key words:</Label>
-                            <Col md={8}>
+                            <Col>
                                 <ReactTagInput tags={tags} onChange={(newTags) => setTags(newTags)} />
                             </Col>
                         </Row>
@@ -49,8 +60,8 @@ function MetadataForm(props){
 
                     <Col className="form-group">
                         <Row>
-                            <Label htmlFor="source" md={2}>Source:</Label>
-                            <Col md={8}>
+                            <Label htmlFor="source" md={1}>Source:</Label>
+                            <Col>
                                 <Control.text model=".source" id="source" name="source"
                                     placeholder="Please input your source"
                                     className="form-control" />
@@ -63,8 +74,8 @@ function MetadataForm(props){
                             <Label htmlFor="instance" md={10}>Number of instances:</Label>
                             <Col md={4}>
                                 <Control.input model=".instance" id="instance" name="instance"
-                                            className="form-control"
-                                            min="0" type="number" step="1"/>
+                                    className="form-control"
+                                    min="0" type="number" step="1" />
                             </Col>
                         </Col>
 
@@ -72,11 +83,11 @@ function MetadataForm(props){
                             <Label htmlFor="attribute" md={10}>Number of attributes:</Label>
                             <Col md={4}>
                                 <Control.input model=".attribute" id="attribute" name="attribute"
-                                            className="form-control"
-                                            min="0" type="number" step="1"/>
+                                    className="form-control"
+                                    min="0" type="number" step="1" />
                             </Col>
                         </Col>
-                </Row>
+                    </Row>
 
                     <Col className="form-group">
                         <Row>
@@ -95,20 +106,20 @@ function MetadataForm(props){
                         <Label>Attribute Information:</Label>
                         <Col>
                             <Row>
-                                <Label md={3} className="attribute" htmlFor="attrInfo">{`Attribute${attr}: `}</Label> 
+                                <Label md={3} className="attribute" htmlFor="attrInfo">{`Attribute${attr}: `}</Label>
                                 <Col className="align-item-center">
-                                    <Control.text md={1} model=".attrName" id="attrName" name="attrName" placeholder="attribute name" className="form-control"/> 
+                                    <Control.text md={1} model=".attrName" id="attrName" name="attrName" placeholder="attribute name" className="form-control" />
                                 </Col>
                                 <Col className="align-item-center">
-                                    <Control.text md={1} model=".attrInfo" id="attrInfo" name="attrInfo" placeholder="description" className="form-control"/> 
+                                    <Control.text md={1} model=".attrInfo" id="attrInfo" name="attrInfo" placeholder="description" className="form-control" />
                                 </Col>
-                            </Row>       
+                            </Row>
                         </Col>
                     </Col>
 
                 </LocalForm>
 
-            
+
             </Col>
         </Container>
     );

@@ -5,7 +5,8 @@
         },
         "FileName": "ex.csv",
         "BriefInfo": "This is a description for ex",
-        "Size": "193.9KB"
+        "Size": "193.9KB", 
+        "UserName": "12795757"
     },
     {
         "_id": {
@@ -13,7 +14,8 @@
         },
         "FileName": "ex2.csv",
         "BriefInfo": "This is a description for ex2",
-        "Size": "112.9KB"
+        "Size": "112.9KB",
+        "UserName": "12795757"
     },
     {
         "_id": {
@@ -21,6 +23,7 @@
         },
         "FileName": "ex5.csv",
         "BriefInfo": "This is a description for ex3",
-        "Size": "1345.2KB"    
+        "Size": "1345.2KB",
+        "UserName": "12795757"    
     }
   ]

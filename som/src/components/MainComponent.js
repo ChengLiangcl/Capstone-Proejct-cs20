@@ -46,7 +46,7 @@ class Main extends Component {
             );
         };
 
-        const DatasetSelect = ({match}) => {
+        const DatasetSelect = ({match}) => {      
             return (
             <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}/>
             );
@@ -69,6 +69,7 @@ class Main extends Component {
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect}/>
                         <Route path="/mymodels" component={SOMModel} />
                         <Route path="/visualisation" component={Visualisation} />
+                        <Redirect to="/mydatabase"/>
                     </Switch>
                 </Col>
             </Row>
