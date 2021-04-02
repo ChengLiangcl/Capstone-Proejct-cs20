@@ -54,7 +54,7 @@ class Database extends Component {
                 <tbody>
                     {datasets.map((eachDataset, index) =>
                         <tr key={index}>
-                            {Object.values(eachDataset).slice(1, eachDataset.length-1).map(eachValue => <td key={Object.values(eachValue)[0]}>{eachValue}</td>)}
+                            {Object.values(eachDataset).slice(1, 4).map(eachValue => <td key={Object.values(eachValue)[0]}>{eachValue}</td>)}
                             <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName)}</td>
                         </tr>
                     )}
@@ -143,9 +143,6 @@ class Database extends Component {
 
                 <Col className="database">
                     {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess)}
-                    {this.props.datasetFiles.map(eachDataset => 
-                        JSON.stringify(eachDataset.length)
-                    )}
                 </Col>
             </Container>
         );

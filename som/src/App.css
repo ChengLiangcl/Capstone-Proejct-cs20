@@ -96,6 +96,9 @@ label{
 }
 
 /*metadata title*/
+.metadata-info{
+  overflow: auto;
+}
 .metadata-title{
   display: flex;
   align-items: center;
@@ -126,5 +129,5 @@ label{
 }
 
 .attribute{
-  color: grey
+  color:grey
 }

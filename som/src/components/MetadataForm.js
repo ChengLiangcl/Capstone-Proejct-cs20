@@ -19,7 +19,7 @@ function MetadataForm(props) {
 
     return (
         <Container>
-            <Col>
+            <Col className="metadata-info">
                 <Row className="metadata-title">
                     <div className="title col-md-8">
                         <h4>Data Description - {props.dataset.FileName}</h4>
@@ -29,7 +29,7 @@ function MetadataForm(props) {
                     </div>
                 </Row>
 
-                <LocalForm>
+                <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                     <Col className="form-group">
                         <Row>
                             <Label htmlFor="briefInfo" md="2">Brief descripton:</Label>
@@ -103,15 +103,17 @@ function MetadataForm(props) {
                     </Col>
 
                     <Col className="form-group">
-                        <Label>Attribute Information:</Label>
+                        <Label htmlFor="attrInfo" style={{backgroundColor: "aliceblue", width: "100%"}}>Attribute Information:</Label>
                         <Col>
                             <Row>
-                                <Label md={3} className="attribute" htmlFor="attrInfo">{`Attribute${attr}: `}</Label>
+                                <Label md={3} className="attribute" htmlFor="attrName">{`Attribute${attr}: `}</Label>
                                 <Col className="align-item-center">
                                     <Control.text md={1} model=".attrName" id="attrName" name="attrName" placeholder="attribute name" className="form-control" />
                                 </Col>
+
+                                <Label md={3} className="attribute" htmlFor="attrDescription">{`Attribute${attr}: `}</Label>
                                 <Col className="align-item-center">
-                                    <Control.text md={1} model=".attrInfo" id="attrInfo" name="attrInfo" placeholder="description" className="form-control" />
+                                    <Control.text md={1} model=".attrDescription" id="attrDescription" name="attrDescriptin" placeholder="description" className="form-control" />
                                 </Col>
                             </Row>
                         </Col>
