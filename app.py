@@ -1,4 +1,4 @@
-from flask import Flask, flash, jsonify, request, render_template, make_response, redirect, url_for, abort
+from flask import Flask, flash, jsonify, request, render_template, make_response, redirect, url_for, abort,session
 from werkzeug.utils import secure_filename
 from flask_cors import CORS,cross_origin
 from flask_restful import Api, Resource, reqparse
@@ -7,6 +7,7 @@ import json
 import pymongo
 from bson.json_util import dumps
 from bson.json_util import loads
+from bson import json_util
 import random
 import pandas as pd
 import numpy as np
@@ -136,17 +137,40 @@ def showAlldatasetFiles():
         # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
         # TODO: return a empty [] to me if there is no file in the MongoDB
         data_return = list(db.files.find( {"UserName":"12795757"}))
+        result = db.metadata.find({"UserName":"12795757"})
+        result = loads(dumps(result))
+        size = len(result)
+        description = list()
+        fileName = list()
+        for i in range(size):
+            description.append(result[i]['BriefInfo'])
+            fileName.append(result[i]['FileName'])
+        dicts = {}
+        for key in fileName:
+            for value in description:
+                dicts[key] = value
+                description.remove(value)
+                break  
+        print(dicts)
+            
         if(len(data_return)!=0):
             json_data = dumps(data_return, indent = 2) 
-            with open('data.json_lc.json', 'w') as file:
+            with open('./data.json_tem.json', 'w') as file:
                 file.write(json_data)
-            jsonFile = open('./data.json_lc.json', 'r')
+            jsonFile = open('./data.json_tem.json', 'r')
             values = json.load(jsonFile)
             for element in values:
                 if 'data' in element:
                     del element['data']
+            
+            json_size = len(values)
+            for i in range(len(values)):
+                fileName = str(values[i]["FileName"])
+                if fileName in dicts:
+                    values[i]["BriefInfo"] = dicts[fileName]
             values = dumps(values, indent = 2) 
-            with open('data.json_lc.json', 'w') as file:
+   
+            with open('./data.json_tem.json', 'w') as file:
                 file.write(values)
             return values
                 
@@ -176,6 +200,110 @@ def sendNewdatasetFiles():
     jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
     return json.dumps(values)
+
+@app.route('/submit-metadata', methods=["POST"])
+@cross_origin()
+def submitMetadata():
+    metadata = request.get_json(force=True)
+
+    metadata_dict = metadata[0]
+    FileName = metadata[0]["FileName"]
+    UserName = metadata[0]["UserName"]
+    BriefInfo = metadata[0]["BriefInfo"]
+    Description = metadata[0]["Description"]
+    Source = metadata[0]["Source"]
+    Number_of_Instance =  metadata[0]["Number_of_Instance"]
+    Number_of_Attribute = metadata[0]["Number_of_Attribute"]
+    Label = metadata[0]["Label"]
+    Keywords = metadata[0]["Keywords"]
+    AttrInfo = metadata[0]["AttrInfo"]
+    schema = {
+            "FileName":FileName,
+            "UserName":UserName,
+            "BriefInfo":BriefInfo,
+            "Description":Description,
+            "Source":Source,
+            "Number_of_Instance":Number_of_Instance,
+            "Number_of_Attribute":Number_of_Attribute,
+            "Label":Label,
+            "Keywords":Keywords,
+            "AttrInfo":AttrInfo
+    }
+    
+    
+    # print(metadata) # you can check the content of the matadata through this
+    # the type of the returned matadata is a python list, you can operate on it to save into the MongoDB
+    # print(type(metadata)) 
+    #Define the schema for the dataset, and store all the 
+    if len(loads(dumps(db.metadata.find({"UserName":"12795757","FileName":FileName}))))==0:
+        
+        db.metadata.insert_one(schema)
+        metadata_string = request.data
+    else:
+        db.metadata.delete_one({"UserName":"12795757","FileName":FileName})
+        db.metadata.insert_one(schema)
+        metadata_string = request.data
+
+
+
+
+    # TODO save the metadata into MongoDB
+ 
+    # this return must be string, which will be returned to the frontend immediately
+    # so DO NOT modify the return 'metadata_string'
+    return metadata_string
+
+
+# to delete the selected dataset
+@app.route('/delete-dataset', methods=["POST"])
+@cross_origin()
+def deleteOneDataset():
+
+    # to get the selected dataset name from the frontend
+    datasetName = request.get_json(force=True)
+    print(datasetName) # you can check the gotten dataset name
+    print(type(datasetName))  # string
+    # TODO delete the corresponding dataset in the MongoDB based on the datasetName
+
+    # this return must be string, which will be returned to the frontend immediately
+    # so DO NOT modify the return 'metadata_string'
+    return datasetName
+
+
+# to receive the selected dataset name for getting corresponding detailed data and metadata
+@app.route('/detailedData-name', methods=["POST"])
+@cross_origin()
+def getNameForDetailedData():
+
+    # 1. you get the selected dataset name from the frontend, so that you know which dataset you will extract detailed data from
+    datasetName = request.get_json(force=True)
+    print(datasetName) # you can check the dataset name through this
+    print(type(datasetName))  # string
+
+    getDatasetName = True
+    if(getDatasetName):
+        # TODO to get detailed_data from MongoDB
+        
+        result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
+        result_detailed_data = db.files.find({"FileName":str(datasetName),"UserName":"12795757"})
+        result = loads(dumps(result))
+        result_detailed_data = loads(dumps(result_detailed_data))
+        metadata = result
+        detailed_data = result_detailed_data[0]['data']
+        for element in metadata:
+            if '_id' in element:
+                del element['_id']
+        print(detailed_data)
+
+    else:
+        detailed_data = []
+   
+   
+
+    return json_util.dumps([detailed_data, metadata])
+
+    
+
 
 
 if __name__ == "__main__":
