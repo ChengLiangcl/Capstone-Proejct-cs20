@@ -28,6 +28,7 @@ function DatasetUpload(props) {
 
         setCurrentFile(file);
 
+        // 'props.uploadDataset' is from Redux actionCreators, which is used to post the uploaded dataset to the backend server
         props.uploadDataset(formData, (event) => {
             setProgress(Math.round((1000 * event.loaded) / event.total));
         })

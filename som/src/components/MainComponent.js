@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent, Component, useCallback } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
+import { actions } from 'react-redux-form';
 import Sidebar from './SidebarComponent';
 import Database from './DatabaseComponent';
 import Visualisation from './VisualisationComponent';
@@ -9,46 +10,77 @@ import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
 
-import { fetchDatasetFiles, uploadDataset, fetchUploadedDataset} from '../redux/ActionCreators';
+import {
+    fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, 
+    sendNameForDetailedData
+} from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
+        metadata: state.metadata,
         datasetFiles: state.datasetFiles,
+        detailedData: state.detailedData
     }
-  }
+}
 
 const mapDispatchToProps = dispatch => ({
-    fetchDatasetFiles: () => { dispatch(fetchDatasetFiles())},
+    fetchDatasetFiles: () => { dispatch(fetchDatasetFiles()) },
     uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
-    fetchUploadedDataset: () => { dispatch(fetchUploadedDataset())}
+    fetchUploadedDataset: () => { dispatch(fetchUploadedDataset()) },
+    deleteDataset: (datasetName) => { dispatch(deleteOneDataset(datasetName)) },
+    submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
+    sendNameForDetailedData: (datasetName) => { dispatch(sendNameForDetailedData(datasetName)) }
 });
 
 class Main extends Component {
     constructor(props) {
         super(props);
-        const iris = require('../database-json/iris.json');
         this.state = {
-            detailedData: iris,
-        };
+            selectedDataset: ''
+        }
     }
 
     componentDidMount() {
         this.props.fetchDatasetFiles();
-      }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+
+        if (this.props.metadata.metadata.length === nextProps.metadata.metadata.length){
+            if (this.props.datasetFiles.datasetFiles !== nextProps.datasetFiles.datasetFiles){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
 
     render() {
-        const DatasetWithName = ({match}) => {
-            {/** TODO-Backend: get the id of the selcetd dataset file from the backend
-                <DetailedDataset dataset={this.state.datasetsJson.filter(dataset =>
-                dataset.name === match.params.name)[0]}/> */}
+        const DatasetWithName = ({ match }) => {
+
             return (
-                <DetailedDataset detailedData={this.state.detailedData}/>
+                <DetailedDataset
+                    selectedDataset= {this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
+                    sendNameForDetailedData = {this.props.sendNameForDetailedData}
+                    detailedData={this.props.detailedData.detailedData}
+                    isLoading_detailedData={this.props.detailedData.isLoading}
+                    errMess_detailedData={this.props.detailedData.errMess}
+
+                    metadata={this.props.metadata.metadata}
+                    isLoading_metadata={this.props.metadata.isLoading}
+                    errMess_metadata={this.props.metadata.errMess}  />
             );
         };
 
-        const DatasetSelect = ({match}) => {      
+        const DatasetSelect = ({ match }) => {
             return (
-            <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}/>
+                <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
+                    submitMetadata={this.props.submitMetadata}
+                />
             );
         };
 
@@ -57,19 +89,20 @@ class Main extends Component {
                 <Col className="sidebar" md="3"><Sidebar /></Col>
                 <Col className="main-page">
                     <Switch>
-                        
+
                         <Route exact path="/mydatabase" component={() =>
-                            <Database datasetFiles={this.props.datasetFiles.datasetFiles} 
-                                        isLoading = { this.props.datasetFiles.isLoading}
-                                        errMess = { this.props.datasetFiles.errMess}
-                                        uploadDataset = {this.props.uploadDataset}/>}
-                                        fetchUploadedDataset = {this.props.fetchUploadedDataset}
-                        />
+                            <Database datasetFiles={this.props.datasetFiles.datasetFiles}
+                                isLoading={this.props.datasetFiles.isLoading}
+                                errMess={this.props.datasetFiles.errMess}
+                                uploadDataset={this.props.uploadDataset}
+                                fetchUploadedDataset={this.props.fetchUploadedDataset}
+                                deleteDataset={this.props.deleteDataset}
+                            />} />
                         <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
-                        <Route path="/metadata-form/:datasetName" component={DatasetSelect}/>
+                        <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
                         <Route path="/mymodels" component={SOMModel} />
                         <Route path="/visualisation" component={Visualisation} />
-                        <Redirect to="/mydatabase"/>
+                        <Redirect to="/mydatabase" />
                     </Switch>
                 </Col>
             </Row>

@@ -59,6 +59,7 @@
  
 .database{
   height: 75vh;
+  overflow: auto;
 }
 
 thead{
@@ -84,14 +85,12 @@ label{
 /*detailed metadata*/
 .detailed-metadata{
   display: flex;
-  justify-content: center; /* y-axis */
-  align-items: center; /* x-axis */
-  height: 30vh;
-  background-color: aliceblue;
+  height: 35vh;
+  overflow: auto;
 }
 
 .detailed-database{
-  height: 70vh;
+  height: 65vh;
   overflow: auto;
 }
 
@@ -119,7 +118,7 @@ h4 {
 }
 
 
-.submit:hover {
+.submit-btt:hover {
   background-color: #094b77;
   color: white;
 }
@@ -131,3 +130,9 @@ label{
 .attribute{
   color:grey
 }
+
+.nodisplay{
+  display: none;
+  opacity: 0;
+}
+

@@ -4,16 +4,15 @@ import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { IconButton, Modal, TableRow } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import { Link } from 'react-router-dom';
 
 import DatasetUpload from './DatasetUploadComponent';
-import MetadataForm from './MetadataForm';
+import DeleteOneDataset from './DeleteOneDataset';
 import { Loading } from './LoadingComponent';
-
+import MetadataForm from './MetadataForm';
 
 class Database extends Component {
     constructor(props) {
@@ -65,7 +64,7 @@ class Database extends Component {
     }
 
     //showOperate: bool. the delete button and the create button will be disable
-    operateDataset(showOperate, name) {
+    operateDataset(showOperate, fileName) {
         /** 
         if (icons === "add only") {
             return (
@@ -80,18 +79,17 @@ class Database extends Component {
             return (
                 <Container>
                     <Row>
-                        <IconButton aria-label="delete a dataset" component="span">
-                            <DeleteIcon />
-                        </IconButton>
+                        <DeleteOneDataset deleteDataset={this.props.deleteDataset}
+                            deletedFileName={fileName} />
 
-                        <Link to={`/metadata-form/${name}`}>
+                        <Link to={`/metadata-form/${fileName}`}>
                             <IconButton aria-label="create matadata" component="span">
                                 <CreateIcon />
                             </IconButton>
                         </Link>
 
-                        <Link to={`/mydatabase/${name}`}>
-                            <IconButton aria-label="create matadata" component="span">
+                        <Link to={`/mydatabase/${fileName}`}>
+                            <IconButton aria-label="detailed data" component="span">
                                 <TableChartIcon />
                             </IconButton>
                         </Link>
@@ -137,8 +135,7 @@ class Database extends Component {
                 </Col>
 
                 <Col>
-                    <DatasetUpload uploadDataset={this.props.uploadDataset}
-                        fetchUploadedDataset={this.props.fetchUploadedDataset} />
+                    <DatasetUpload uploadDataset={this.props.uploadDataset}/>
                 </Col>
 
                 <Col className="database">

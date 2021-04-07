@@ -1,12 +1,17 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import {DatasetFiles} from './datasetFiles';
+import { createForms } from 'react-redux-form';
+import { DatasetFiles } from './datasetFiles';
+import { DetailedData } from './detailedData';
+import { Metadata } from './metadata';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 export const ConfigureStore = () => {
     const store = createStore(
         combineReducers({
-            datasetFiles: DatasetFiles
+            datasetFiles: DatasetFiles,
+            detailedData: DetailedData,
+            metadata: Metadata
         }),
         // applyMiddleware can return store enhancer
         // after this, thunk and logger are available within the application

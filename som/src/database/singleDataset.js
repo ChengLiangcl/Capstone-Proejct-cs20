@@ -17,13 +17,15 @@ export const DATASET = [
         "Source": "",
         "Number_of_Instance": 0,
         "Number_of_Attribute": 0,
-        "Attribute1": [
-          {
-            "AttributeName": ""
-          },
-          {
-            "Description": ""
-          }
+        "AttrInfo": [
+            {
+              "attrName": "",
+              "attrDescription": ""
+            },
+            {
+              "attrName": "",
+              "attrDescription": ""
+            }
         ]
     },
     // detailed data

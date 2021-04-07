@@ -1,5 +1,5 @@
 {
-    "row1":{
+    "0":{
         "column1": 5.1,
         "column2": 3.5,
         "column3": 1.4,
@@ -7,7 +7,7 @@
         "label": "Setosa"
     },
 
-    "row2":{
+    "1":{
         "column1": 4.9,
         "column2": 3,
         "column3": 1.4,
@@ -15,7 +15,7 @@
         "label": "Setosa"
     },
 
-    "row3":{
+    "2":{
         "column1": 4.7,
         "column2": 3.2,
         "column3": 1.3,
@@ -23,7 +23,7 @@
         "label": "Setosa"
     },
 
-    "row4":{
+    "3":{
         "column1": 7,
         "column2": 3.2,
         "column3": 4.7,
@@ -31,56 +31,56 @@
         "label": "Versicolor"
     },
 
-    "row5":{
+    "4":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
         "column4": 2.5,
         "label": "Virginica"
     },
-    "row6":{
+    "5":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
         "column4": 2.5,
         "label": "Virginica"
     },
-    "row7":{
+    "6":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
         "column4": 2.5,
         "label": "Virginica"
     },
-    "row8":{
+    "7":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
         "column4": 2.5,
         "label": "Virginica"
     },
-    "row9":{
+    "8":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
         "column4": 2.5,
         "label": "Virginica"
     },
-    "row10":{
+    "9":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
         "column4": 2.5,
         "label": "Virginica"
     },
-    "row11":{
+    "10":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
         "column4": 2.5,
         "label": "Virginica"
     },
-    "row12":{
+    "11":{
         "column1": 6.3,
         "column2": 3.3,
         "column3": 6,
