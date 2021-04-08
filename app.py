@@ -12,8 +12,8 @@ import random
 import pandas as pd
 import numpy as np
 import csv
-client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
-db = client.datasets
+client = pymongo.MongoClient("mongodb://741917776:520569@cluster-shard-00-00.zz90r.mongodb.net:27017,cluster-shard-00-01.zz90r.mongodb.net:27017,cluster-shard-00-02.zz90r.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-kqdxs0-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
+db = client.WebProject
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = './public' # to create a folder which is used to save the uploaded file
 CORS(app)
@@ -264,7 +264,11 @@ def deleteOneDataset():
     print(datasetName) # you can check the gotten dataset name
     print(type(datasetName))  # string
     # TODO delete the corresponding dataset in the MongoDB based on the datasetName
-
+    # delete corresponding dataset
+    db.files.delete_one({"UserName": "12795757", "FileName": datasetName})
+    # delete corresponding metadata in the same time
+    db.metadata.delete_one({"UserName": "12795757", "FileName": datasetName})
+    print("Done the delete")
     # this return must be string, which will be returned to the frontend immediately
     # so DO NOT modify the return 'metadata_string'
     return datasetName
