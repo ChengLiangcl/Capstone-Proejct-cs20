@@ -12,8 +12,8 @@ import random
 import pandas as pd
 import numpy as np
 import csv
-client = pymongo.MongoClient("mongodb://741917776:520569@cluster-shard-00-00.zz90r.mongodb.net:27017,cluster-shard-00-01.zz90r.mongodb.net:27017,cluster-shard-00-02.zz90r.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-kqdxs0-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
-db = client.WebProject
+client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
+db = client.datasets
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = './public' # to create a folder which is used to save the uploaded file
 CORS(app)
@@ -284,8 +284,10 @@ def getNameForDetailedData():
     print(datasetName) # you can check the dataset name through this
     print(type(datasetName))  # string
 
-    getDatasetName = True
-    if(getDatasetName):
+    getDatasetName = False
+    result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
+    result = loads(dumps(result))
+    if(len(result)>0):
         # TODO to get detailed_data from MongoDB
         
         result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
@@ -297,11 +299,16 @@ def getNameForDetailedData():
         for element in metadata:
             if '_id' in element:
                 del element['_id']
-        print(detailed_data)
+      
 
     else:
-        detailed_data = []
-   
+        with open('./detailedData.json') as f:
+            detailed_data = json.load(f)
+        with open('./metadata.json') as f:
+            metadata = json.load(f)
+     
+        
+
    
 
     return json_util.dumps([detailed_data, metadata])

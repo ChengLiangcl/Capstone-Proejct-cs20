@@ -1,0 +1,38 @@
+[
+  {
+    "_id": {
+      "$oid": "606702ccb1e51ef27782dcf6"
+    },
+    "FileName": "copy_of_323ex.csv",
+    "BriefInfo": "copy_of_323ex.csv",
+    "Size": "193.9KB",
+    "UserName": "12795757"
+  },
+  {
+    "_id": {
+      "$oid": "606702eab1e51ef27782dcf7"
+    },
+    "FileName": "ex_fts.csv",
+    "BriefInfo": "111",
+    "Size": "13.532KB",
+    "UserName": "12795757"
+  },
+  {
+    "_id": {
+      "$oid": "606d89c76b3acc15e370ab4c"
+    },
+    "FileName": "ex_ndy.csv",
+    "BriefInfo": "THIS IS THE DATASET FOR JAY PARKasdasdasdasda",
+    "Size": "4.93KB",
+    "UserName": "12795757"
+  },
+  {
+    "_id": {
+      "$oid": "606ec6d73902cb8aa4cf6ffb"
+    },
+    "FileName": "copy_of_611ex_ndy.csv",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "UserName": "12795757"
+  }
+]
