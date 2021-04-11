@@ -11,7 +11,8 @@ import "@pathofdev/react-tag-input/build/index.css";
 function MetadataForm(props) {
     const [tags, setTags] = useState([]);
     const [attr, setAttr] = useState(1);
-    const FileName = localStorage.getItem('selecedNameForMetadata');
+    const FileName = localStorage.getItem('datasetname-metadata');
+    console.log("local get file name: ", FileName);
 
     const handleSubmit = (values) => {
 

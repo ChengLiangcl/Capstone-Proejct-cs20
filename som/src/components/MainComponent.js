@@ -69,11 +69,10 @@ class Main extends Component {
 
     render() {
         const DatasetWithName = ({ match }) => {
-            let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
-            localStorage.setItem('selecedNameForMetadata', datasetName);
+
             return (
                 <DetailedDataset
-                    selectedDataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
+                    selectedDataset= {this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
                     sendNameForDetailedData={this.props.sendNameForDetailedData}
                     detailedData={this.props.detailedData.detailedData}
                     isLoading_detailedData={this.props.detailedData.isLoading}
@@ -86,6 +85,10 @@ class Main extends Component {
         };
 
         const DatasetSelect = ({ match }) => {
+            let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
+            console.log("dataset name: ", datasetName);
+            localStorage.setItem('datasetname-metadata', datasetName);
+
             return (
                 <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
                     submitMetadata={this.props.submitMetadata}
