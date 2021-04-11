@@ -85,7 +85,8 @@ class Main extends Component {
         };
 
         const DatasetSelect = ({ match }) => {
-            let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
+            let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-metadata') :
+                this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
             console.log("dataset name: ", datasetName);
             localStorage.setItem('datasetname-metadata', datasetName);
 
