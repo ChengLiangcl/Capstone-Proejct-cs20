@@ -13,7 +13,7 @@
       "$oid": "606702eab1e51ef27782dcf7"
     },
     "FileName": "ex_fts.csv",
-    "BriefInfo": "111",
+    "BriefInfo": "ex_fts.csv",
     "Size": "13.532KB",
     "UserName": "12795757"
   },
@@ -22,7 +22,7 @@
       "$oid": "606d89c76b3acc15e370ab4c"
     },
     "FileName": "ex_ndy.csv",
-    "BriefInfo": "THIS IS THE DATASET FOR JAY PARKasdasdasdasda",
+    "BriefInfo": "ex_ndy.csv",
     "Size": "4.93KB",
     "UserName": "12795757"
   },

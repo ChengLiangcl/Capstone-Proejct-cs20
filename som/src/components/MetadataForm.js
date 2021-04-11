@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import { Button, Row, Col, Label, Container } from 'reactstrap';
 import { Control, LocalForm, Form, Errors, actions } from 'react-redux-form';
 import ReactTagInput from "@pathofdev/react-tag-input";
+import { Link } from 'react-router-dom';
 import { IconButton, Modal } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -10,16 +11,18 @@ import "@pathofdev/react-tag-input/build/index.css";
 function MetadataForm(props) {
     const [tags, setTags] = useState([]);
     const [attr, setAttr] = useState(1);
+    const FileName = localStorage.getItem('selecedNameForMetadata');
 
     const handleSubmit = (values) => {
-        
+
         const attrInfo = integrateAttrInfo(attr, values);
         const fixedValue = fixEmptyForm(values, tags, attrInfo);
         console.log('Current State is: ' + JSON.stringify(fixedValue));
 
-        alert(`Current State is:  ${JSON.stringify(fixedValue)}`);
         // 'props.submitMetadata' is from Redux actionCreators, which is used to post the metadata to the backend server
         props.submitMetadata(fixedValue);
+        alert(`Current State is:  ${JSON.stringify(fixedValue)}`);
+        props.fetchDatasetFiles();
     };
 
     const TagInputs = (tags) => {
@@ -110,19 +113,17 @@ function MetadataForm(props) {
     const integrateAttrInfo = (attrNum, values) => {
         let attrInfo = [];
 
-        for(let i = 0; i < attrNum; i++){
-            let attrIndex = `Attribute${i+1}`;
+        for (let i = 0; i < attrNum; i++) {
+            let attrIndex = `Attribute${i + 1}`;
 
             attrIndex = {
                 // to identify if the attrName exists in the values (meaning if a user input words into it)
                 // if not, then adding "" to attrName; if the user inputted, then keep the inputted value
-                attrName: values[`attrName${i+1}`] == null ? "" : values[`attrName${i+1}`],
-                attrDescription: values[`attrDescription${i+1}`] == null ? "" : values[`attrDescription${i+1}`]
+                attrName: values[`attrName${i + 1}`] == null ? "" : values[`attrName${i + 1}`],
+                attrDescription: values[`attrDescription${i + 1}`] == null ? "" : values[`attrDescription${i + 1}`]
             };
 
             attrInfo.push(attrIndex);
-            console.log("after push " + i);
-            console.log(attrInfo);
         }
         return attrInfo;
     };
@@ -132,9 +133,9 @@ function MetadataForm(props) {
         let inputForm = ["FileName", "UserName", "BriefInfo", "Description", "Source", "Number_of_Instance", "Number_of_Attribute", "Label", "Keywords", "AttrInfo"]
         let fixedForm = [];
         let fixedValue = {};
-        
-        for (let eachForm of inputForm){
-            switch(eachForm){
+
+        for (let eachForm of inputForm) {
+            switch (eachForm) {
                 case "FileName":
                     fixedValue[eachForm] = props.dataset.FileName;
                     break;
@@ -164,11 +165,11 @@ function MetadataForm(props) {
             <Col className="metadata-info">
                 <Row className="metadata-title">
                     <div className="title col-md-8">
-                        <h4>Data Description - {props.dataset.FileName}</h4>
+                        <h4>Data Description - {FileName}</h4>
                     </div>
                 </Row>
                 <Row>
-                    
+
                 </Row>
 
 

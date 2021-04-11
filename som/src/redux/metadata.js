@@ -1,9 +1,10 @@
 import * as ActionTypes from './ActionTypes';
+import {emptyMetadata} from './metadataEmpty';
 
 export const Metadata = (state = {
     isLoading: true,
     errMess: null,
-    metadata: []
+    metadata: emptyMetadata
 }, action) => {
 
     switch (action.type) {
@@ -11,7 +12,7 @@ export const Metadata = (state = {
             return { ...state, isLoading: false, errMess: null, metadata: action.payload };
 
         case ActionTypes.METADATA_LOADING:
-            return { ...state, isLoading: true, errMess: null, metadata: [] }
+            return { ...state, isLoading: true, errMess: null, metadata: emptyMetadata }
 
         case ActionTypes.METADATA_FAILED:
             return { ...state, isLoading: false, errMess: action.payload };

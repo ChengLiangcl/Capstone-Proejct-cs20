@@ -10,8 +10,10 @@ import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
 
+import compareProps from '../others/compareProps';
+
 import {
-    fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, 
+    fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset,
     sendNameForDetailedData
 } from '../redux/ActionCreators';
 
@@ -29,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
     fetchUploadedDataset: () => { dispatch(fetchUploadedDataset()) },
     deleteDataset: (datasetName) => { dispatch(deleteOneDataset(datasetName)) },
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
-    sendNameForDetailedData: (datasetName) => { dispatch(sendNameForDetailedData(datasetName)) }
+    sendNameForDetailedData: (datasetName) => { dispatch(sendNameForDetailedData(datasetName)) },
 });
 
 class Main extends Component {
@@ -41,38 +43,45 @@ class Main extends Component {
     }
 
     componentDidMount() {
+        console.log("start mount");
         this.props.fetchDatasetFiles();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        console.log("start should");
 
-        if (this.props.metadata.metadata.length === nextProps.metadata.metadata.length){
-            if (this.props.datasetFiles.datasetFiles !== nextProps.datasetFiles.datasetFiles){
+        // if the metadata itself needs to be updated, return true
+        if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0])) {
+            console.log("because of metadata");
+            return true
+        }
+        else {
+            if (this.props.datasetFiles.datasetFiles !== nextProps.datasetFiles.datasetFiles) {
+                console.log("because of dataset files");
                 return true;
             }
             else {
+                console.log("not update");
                 return false;
             }
-        }
-        else {
-            return true;
         }
     }
 
     render() {
         const DatasetWithName = ({ match }) => {
-
+            let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
+            localStorage.setItem('selecedNameForMetadata', datasetName);
             return (
                 <DetailedDataset
-                    selectedDataset= {this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
-                    sendNameForDetailedData = {this.props.sendNameForDetailedData}
+                    selectedDataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
+                    sendNameForDetailedData={this.props.sendNameForDetailedData}
                     detailedData={this.props.detailedData.detailedData}
                     isLoading_detailedData={this.props.detailedData.isLoading}
                     errMess_detailedData={this.props.detailedData.errMess}
 
-                    metadata={this.props.metadata.metadata}
+                    metadata={this.props.metadata.metadata[0]}
                     isLoading_metadata={this.props.metadata.isLoading}
-                    errMess_metadata={this.props.metadata.errMess}  />
+                    errMess_metadata={this.props.metadata.errMess} />
             );
         };
 
@@ -80,6 +89,7 @@ class Main extends Component {
             return (
                 <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
                     submitMetadata={this.props.submitMetadata}
+                    fetchDatasetFiles = {this.props.fetchDatasetFiles}
                 />
             );
         };
@@ -97,6 +107,7 @@ class Main extends Component {
                                 uploadDataset={this.props.uploadDataset}
                                 fetchUploadedDataset={this.props.fetchUploadedDataset}
                                 deleteDataset={this.props.deleteDataset}
+                                fetchDatasetFiles = {this.props.fetchDatasetFiles}
                             />} />
                         <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />

@@ -2,7 +2,7 @@ import * as ActionTypes from './ActionTypes';
 import { DATASETFILES } from '../database/datasetFiles';
 import { backendUrl } from '../server/backendUrl';
 import http from "../server/baseUrl";
-import baseUrl from '../server/baseUrl';
+import {emptyMetadata} from './metadataEmpty';
 
 /**
  * Dataset
@@ -97,6 +97,7 @@ export const submitMetadata = (metadata) => (dispatch) => {
         .then(res => {
             console.log("this is response for metadata");
             console.log(res);
+            dispatch(addMetadata(res.data));
         })
         .catch((err) => console.log(err));
 };
@@ -119,7 +120,7 @@ export const metadataLoading = () => ({
  * Detailed data
  */
 export const sendNameForDetailedData = (datasetName) => (dispatch) => {
-    console.log("start detailed loading")
+    console.log("start detailed loading");
 
     return http.post('/detailedData-name', JSON.stringify(datasetName), {
         headers: {

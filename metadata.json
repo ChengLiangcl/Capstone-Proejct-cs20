@@ -2,15 +2,18 @@
     {
         "FileName": "",
         "UserName": "",
-        "BriefInfo":"",
+        "BriefInfo": "",
         "Description": "",
         "Source": "",
         "Number_of_Instance": "",
         "Number_of_Attribute": "",
         "Label": "",
-        "KeyWords": [],
+        "Keywords": [],
         "AttrInfo": [
-            
+            {
+                "attrName": "",
+                "attrDescription": ""
+            }
         ]
     }
 ]
