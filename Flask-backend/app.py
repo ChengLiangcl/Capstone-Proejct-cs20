@@ -1,20 +1,12 @@
-from flask import Flask, flash, jsonify, request, render_template, make_response, redirect, url_for, abort,session
+from flask import Flask, flash, jsonify, request, render_template, make_response, redirect, url_for, abort, session
 from werkzeug.utils import secure_filename
 from flask_cors import CORS,cross_origin
 from flask_restful import Api, Resource, reqparse
 import os
 import json
-import pymongo
-from bson.json_util import dumps
-from bson.json_util import loads
-from bson import json_util
-import random
-import pandas as pd
-import numpy as np
-import csv
-client = pymongo.MongoClient("mongodb://741917776:520569@cluster-shard-00-00.zz90r.mongodb.net:27017,cluster-shard-00-01.zz90r.mongodb.net:27017,cluster-shard-00-02.zz90r.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-kqdxs0-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
-db = client.WebProject
+
 app = Flask(__name__)
+app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 app.config['UPLOAD_PATH'] = 'public' # to create a folder which is used to save the uploaded file
 CORS(app)
 
@@ -142,48 +134,10 @@ def showAllModelFiles():
         # read datasets JSON file
         # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
         # TODO: return a empty [] to me if there is no file in the MongoDB
-        data_return = list(db.models.find({"UserName": "741917776"}))
-        result = db.modelmetadata.find({"UserName": "741917776"})
-        result = loads(dumps(result))
-        size = len(result)
-        description = list()
-        fileName = list()
-        for i in range(size):
-            description.append(result[i]['BriefInfo'])
-            fileName.append(result[i]['FileName'])
-        dicts = {}
-        for key in fileName:
-            for value in description:
-                dicts[key] = value
-                description.remove(value)
-                break
-        print(dicts)
-
-        if (len(data_return) != 0):
-            json_data = dumps(data_return, indent=2)
-            with open('./data.json_tem.json', 'w') as file:
-                file.write(json_data)
-            jsonFile = open('./data.json_tem.json', 'r')
-            values = json.load(jsonFile)
-            for element in values:
-                if 'data' in element:
-                    del element['data']
-
-            json_size = len(values)
-            for i in range(len(values)):
-                fileName = str(values[i]["FileName"])
-                if fileName in dicts:
-                    values[i]["BriefInfo"] = dicts[fileName]
-            values = dumps(values, indent=2)
-
-            with open('./data.json_tem.json', 'w') as file:
-                file.write(values)
-            return values
-
-        else:
-            print("The user does not have any file")
-            data = []
-            return json.dumps(data)
+        with open('./modelFiles.json') as f:
+            data = json.load(f)
+        #print(data)
+    return json.dumps(data)
 
 @app.route('/upload-model', methods=["GET", "POST"])
 @cross_origin()
@@ -208,94 +162,68 @@ def uploadModel():
         print(filename) # e.g. ex.csv
         # TODO: PLEASE deal with the filename to avoid repeating name here
         file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
+        # TODO: (replace the code below) save the file to MongoDB
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-        #Get the path of the file
-        paths = os.path.join(app.config['UPLOAD_PATH'], filename)
-        #Get the size of the file
-        size = os.path.getsize(paths)
-        size_string = str(size/1000) + "KB"
-        print(size_string)
-        ID = "741917776"
-        newf= paths
-        print(newf)
-        f = open(newf)
-        lines = f.readlines()
-        # copy the content in lines to new list named data
-        data = lines
 
-        results = db.models.find({"FileName": filename, "UserName": "741917776"})
-        for result in results:
-
-            while (result["FileName"] == filename):
-                Prefix = "copy_of_"
-                filename = Prefix + str(random.randint(100,999)) +filename
-                print(filename)
-        store_schema = {
-            "FileName": filename,
-            "BriefInfo": "",
-            "Size": size_string,
-            "UserName": ID,
-            "data": data
-        }
-
-        db.models.insert_one(store_schema)
-
-        return json.dumps(filename)
+        return filename
 
 @app.route('/newModel', methods=["GET"])
 def sendNewModelFiles():
      # TODO: (replace the code below) get the uploaded dataset from MongoDB with _id, FileName, Size
     # because frontend cannot show the new file until it is saved into the MongoDB, and frontend cannot generate _id itself
     # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
+    new_model = [{"_id": {"$oid": "6061862b0d830ba54020706d"},"FileName": "ex_fdy.cod", "BriefInfo": "This is a description for new dataset", "Size": "4.68KB"}]
 
-     data = db.models.find().sort('_id', -1).limit(1)  # Find the newest data to insert
-     json_data = dumps(data, indent=2)
-
-
-     with open('./dataNewJson.json', 'w') as file:
-         file.write(json_data)
-
-     jsonFile = open('./dataNewJson.json', 'r')
-     values = json.load(jsonFile)
-     for element in values:
-         if 'data' in element:
-             del element['data']
-             break
-     values = dumps(values, indent=2)
-     with open('./dataNewJson.json', 'w') as file:
-         file.write(values)
-     jsonFile = open('./dataNewJson.json', 'r')
-     values = json.load(jsonFile)
-
-     return json.dumps(values)
-
-
-
-
-
+    return json.dumps(new_model)
 
 @app.route('/delete-model', methods=["POST"])
 @cross_origin()
 def deleteOneModel():
 
-     # to get the selected dataset name from the frontend
     modelName = request.get_json(force=True)
-    print(modelName) # you can check the gotten dataset name
-    print(type(modelName))  # string
-    # TODO delete the corresponding dataset in the MongoDB based on the datasetName
-    # delete corresponding dataset
-
-   
-    print("Done the delete")
-    # this return must be string, which will be returned to the frontend immediately
-    # so DO NOT modify the return 'metadata_string'
+    print(modelName) 
    
     return modelName
 
 
 
+@app.route('/edit-model-desc', methods=["POST"])
+@cross_origin()
+def editModelDescription():
 
+    data = request.get_json(force=True)
+    print(data) 
+   
+    return data["modelName"]
 
+@app.route('/login', methods=["POST"])
+@cross_origin()
+def login():
+
+    data = request.get_json(force=True)
+    print(data) 
+    success=True
+    if success:
+        return json_util.dumps(data)
+    else:
+        return ""
+
+@app.route('/sign-up', methods=["POST"])
+@cross_origin()
+def signUp():
+
+    data = request.get_json(force=True)
+    print(data) 
+   
+    success=True
+    if success:
+        return json_util.dumps(data)
+    else:
+        return ""
 
 if __name__ == "__main__":
     app.run(debug = True)
+
+
+
+
