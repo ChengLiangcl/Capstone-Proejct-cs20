@@ -131,7 +131,7 @@ function MetadataForm(props) {
 
     // this function is to fill up "" while a user input nothing in a form filed.
     const fixEmptyForm = (values, tags, attrInfo) => {
-        let inputForm = ["FileName", "UserName", "BriefInfo", "Description", "Source", "Number_of_Instance", "Number_of_Attribute", "Label", "Keywords", "AttrInfo"]
+        let inputForm = ["FileName", "UserName", "BriefInfo", "Description", "Source", "Keywords", "AttrInfo"]
         let fixedForm = [];
         let fixedValue = {};
 
@@ -149,9 +149,11 @@ function MetadataForm(props) {
                 case "AttrInfo":
                     fixedValue[eachForm] = attrInfo;
                     break;
+                /**
                 case "Label":
                     fixedValue[eachForm] = values[eachForm] == null ? "Unknown" : values[eachForm];
                     break;
+                 */
                 default:
                     fixedValue[eachForm] = values[eachForm] == null ? "" : values[eachForm];
             }
@@ -205,6 +207,7 @@ function MetadataForm(props) {
                         </Row>
                     </Col>
 
+                    {/** 
                     <Row className="form-group">
                         <Col md={5}>
                             <Label htmlFor="Number_of_Instance" md={10}>Number of instances:</Label>
@@ -238,6 +241,7 @@ function MetadataForm(props) {
                             </Col>
                         </Row>
                     </Col>
+                    */}
 
                     <Col className="form-group">
                         <Row>
