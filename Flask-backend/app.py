@@ -223,7 +223,8 @@ def uploadModel():
         lines = f.readlines()
         # copy the content in lines to new list named data
         data = lines
-
+        Array=filename.split('.',1)
+        filename=Array[0]+".cod"
         results = db.models.find({"FileName": filename, "UserName": "741917776"})
         for result in results:
 
