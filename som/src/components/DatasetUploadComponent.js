@@ -30,7 +30,7 @@ function DatasetUpload(props) {
 
         // 'props.uploadDataset' is from Redux actionCreators, which is used to post the uploaded dataset to the backend server
         props.uploadDataset(formData, (event) => {
-            setProgress(Math.round((1000 * event.loaded) / event.total));
+            setProgress(Math.round((100 * event.loaded) / event.total));
         })
         .then((response) => {
             setMessage("Uploaded successfully");
