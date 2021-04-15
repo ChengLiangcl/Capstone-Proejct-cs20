@@ -13,10 +13,15 @@ import DatasetUpload from './DatasetUploadComponent';
 import DeleteOneDataset from './DeleteOneDataset';
 import { Loading } from './LoadingComponent';
 import MetadataForm from './MetadataForm';
+import SearchFile from './searchFileComponent';
 
 class Database extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidUpdate (){
+        this.props.fetchDatasetFiles();
     }
 
     // to create a flexible table head, where the number of columns depends on the attributes in the datafile.
@@ -124,14 +129,7 @@ class Database extends Component {
         return (
             <Container>
                 <Col className="search-box" >
-                    <Col md={{ size: 7 }}>
-                        <InputGroup style={{ width: '6' }} >
-                            <Input placeholder="Search similar datasets here" />
-                            <InputGroupAddon addonType="append">
-                                <Button style={{ backgroundColor: '#378CC6' }}>Search</Button>
-                            </InputGroupAddon>
-                        </InputGroup>
-                    </Col>
+                    <SearchFile queryDatasets={this.props.queryDatasets}/>
                 </Col>
 
                 <Col>

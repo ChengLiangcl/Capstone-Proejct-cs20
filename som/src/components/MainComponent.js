@@ -14,7 +14,7 @@ import compareProps from '../others/compareProps';
 
 import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset,
-    sendNameForDetailedData
+    sendNameForDetailedData, queryDatasets
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -32,6 +32,7 @@ const mapDispatchToProps = dispatch => ({
     deleteDataset: (datasetName) => { dispatch(deleteOneDataset(datasetName)) },
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
     sendNameForDetailedData: (datasetName) => { dispatch(sendNameForDetailedData(datasetName)) },
+    queryDatasets: (inputValue) => { dispatch(queryDatasets(inputValue)) }
 });
 
 class Main extends Component {
@@ -42,6 +43,7 @@ class Main extends Component {
         }
     }
 
+    
     componentDidMount() {
         console.log("start mount");
         this.props.fetchDatasetFiles();
@@ -49,7 +51,8 @@ class Main extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         console.log("start should");
-
+        console.log("current datasets: ", this.props.datasetFiles.datasetFiles);
+        console.log(" next datasets: ", nextProps.datasetFiles.datasetFiles);
         // if the metadata itself needs to be updated, return true
         if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0])) {
             console.log("because of metadata");
@@ -69,10 +72,10 @@ class Main extends Component {
 
     render() {
         const DatasetWithName = ({ match }) => {
-
+            
             return (
                 <DetailedDataset
-                    selectedDataset= {this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
+                    selectedDataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
                     sendNameForDetailedData={this.props.sendNameForDetailedData}
                     detailedData={this.props.detailedData.detailedData}
                     isLoading_detailedData={this.props.detailedData.isLoading}
@@ -93,10 +96,11 @@ class Main extends Component {
             return (
                 <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
                     submitMetadata={this.props.submitMetadata}
-                    fetchDatasetFiles = {this.props.fetchDatasetFiles}
+                    fetchDatasetFiles={this.props.fetchDatasetFiles}
                 />
             );
         };
+
 
         return (
             <Row>
@@ -104,15 +108,16 @@ class Main extends Component {
                 <Col className="main-page">
                     <Switch>
 
-                        <Route exact path="/mydatabase" component={() =>
+                        <Route exact path="/mydatabase" component={ () => 
                             <Database datasetFiles={this.props.datasetFiles.datasetFiles}
-                                isLoading={this.props.datasetFiles.isLoading}
-                                errMess={this.props.datasetFiles.errMess}
-                                uploadDataset={this.props.uploadDataset}
-                                fetchUploadedDataset={this.props.fetchUploadedDataset}
-                                deleteDataset={this.props.deleteDataset}
-                                fetchDatasetFiles = {this.props.fetchDatasetFiles}
-                            />} />
+                            isLoading={this.props.datasetFiles.isLoading}
+                            errMess={this.props.datasetFiles.errMess}
+                            uploadDataset={this.props.uploadDataset}
+                            fetchUploadedDataset={this.props.fetchUploadedDataset}
+                            deleteDataset={this.props.deleteDataset}
+                            fetchDatasetFiles={this.props.fetchDatasetFiles}
+                            queryDatasets={this.props.queryDatasets}
+                        />} />
                         <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
                         <Route path="/mymodels" component={SOMModel} />

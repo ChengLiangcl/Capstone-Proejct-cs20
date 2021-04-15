@@ -1,0 +1,20 @@
+[
+    {
+      "_id": {
+        "$oid": "606702b2b1e51ef27782dcf5"
+      },
+      "FileName": "ex.csv",
+      "BriefInfo": "This is the querying result",
+      "Size": "193.9KB",
+      "UserName": "12795757"
+    },
+    {
+      "_id": {
+        "$oid": "606702ccb1e51ef27782dcf6"
+      },
+      "FileName": "copy_of_323ex.csv",
+      "BriefInfo": "This is the querying result",
+      "Size": "193.9KB",
+      "UserName": "12795757"
+    }
+  ]

@@ -135,8 +135,6 @@ export const sendNameForDetailedData = (datasetName) => (dispatch) => {
         .catch((err) => console.log(err));
 }
 
-
-
 export const addDetailedData = (detaileddata) => ({
     type: ActionTypes.ADD_DETAILEDDATA,
     payload: detaileddata
@@ -151,4 +149,16 @@ export const detailedDataLoading = () => ({
     type: ActionTypes.DETAILEDDATA_LOADING
 });
 
-
+//query datasets
+export const queryDatasets = (inputValue) => (dispatch) => {
+    return http.post('/query-datasets', JSON.stringify(inputValue), {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }})
+        .then(res => {
+            console.log("this is response for querying datasets");
+            console.log(res.data);
+            dispatch(addDatasetFiles(res.data))
+        })
+        .catch((err) => console.log(err));
+};

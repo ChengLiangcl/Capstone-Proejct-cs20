@@ -76,13 +76,14 @@ def upload():
         f = open(paths,'r') 
         count = 0
 
+        # start to read the file
         #Get the size of coloumn 
         for i in f:
             count = count+1
             if count ==2:
                 size = (len(i.split(" ")))
                 break
-        columnNames = [""] * size
+        columnNames = [""] * size # size = the number of columns
         
         #Assign the coloumn ID
         for i in range(size):
@@ -91,11 +92,12 @@ def upload():
         with open(paths,'r') as f:
             with open("./public/updated_test.csv",'w') as f1:
                 f1.write(','.join(columnNames)+"\n")
-                next(f)
+                next(f) # skip the first line of the dataset
                 for line in f:
                     lines =str(line)
                     lines = lines.split(" ")
                     f1.write(','.join(lines))
+        # len(f)
         #Read the format data and store the data
         data = pd.read_csv("./public/updated_test.csv")
         data = data.to_dict('records')
@@ -212,9 +214,9 @@ def submitMetadata():
     BriefInfo = metadata[0]["BriefInfo"]
     Description = metadata[0]["Description"]
     Source = metadata[0]["Source"]
-    Number_of_Instance =  metadata[0]["Number_of_Instance"]
-    Number_of_Attribute = metadata[0]["Number_of_Attribute"]
-    Label = metadata[0]["Label"]
+    #Number_of_Instance =  metadata[0]["Number_of_Instance"]
+    #Number_of_Attribute = metadata[0]["Number_of_Attribute"]
+    #Label = metadata[0]["Label"]
     Keywords = metadata[0]["Keywords"]
     AttrInfo = metadata[0]["AttrInfo"]
     schema = {
@@ -223,9 +225,9 @@ def submitMetadata():
             "BriefInfo":BriefInfo,
             "Description":Description,
             "Source":Source,
-            "Number_of_Instance":Number_of_Instance,
-            "Number_of_Attribute":Number_of_Attribute,
-            "Label":Label,
+            "Number_of_Instance":"0",
+            "Number_of_Attribute":"0",
+            "Label":"Yes",
             "Keywords":Keywords,
             "AttrInfo":AttrInfo
     }
@@ -300,18 +302,29 @@ def getNameForDetailedData():
             if '_id' in element:
                 del element['_id']
       
-
     else:
         with open('./detailedData.json') as f:
             detailed_data = json.load(f)
         with open('./metadata.json') as f:
             metadata = json.load(f)
      
-        
+# to query datasets based on the dataset name or key words
+@app.route('/query-datasets', methods=["POST"])
+@cross_origin()
+def queryDatasets():
 
-   
+    # you will recieve a inputted word by a user from the frontend
+    input_value = request.get_json(force=True)
+    print(input_value) # you can check the inputted word through this
+    print(type(input_value))  # string
 
-    return json_util.dumps([detailed_data, metadata])
+    # TODO you need to query the corresponding datasets from MongoDB
+    # the input value may be the dataset name, or may be key words
+    # this is the querying result I simulate, please REPLACE it when you get the real results
+    with open('./queryResultsForDatasets.json') as f:
+        queried_datasets = json.load(f)
+
+    return json.dumps(queried_datasets)
 
     
 
