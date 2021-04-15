@@ -177,7 +177,7 @@ function MetadataForm(props) {
                 </Row>
 
 
-                <LocalForm onSubmit={(values) => handleSubmit(values)}>
+                <Form model="initialMetadata" onSubmit={(values) => handleSubmit(values)}>
                     <Col className="form-group">
                         <Row>
                             <Label htmlFor="BriefInfo" md="2">Brief descripton:</Label>
@@ -267,7 +267,7 @@ function MetadataForm(props) {
                         <Button type="submit" style={{ backgroundColor: "#378CC6" }}>Submit</Button>
                     </div>
 
-                </LocalForm>
+                </Form>
 
 
             </Col>
