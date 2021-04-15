@@ -1,7 +1,7 @@
 function compareProps(currentMetadata, nextMetadata) {
 
-    console.log("compareMetadata: ", currentMetadata);
-    console.log("nextMetadata: ", nextMetadata);
+    //console.log("compareMetadata: ", currentMetadata);
+    //console.log("nextMetadata: ", nextMetadata);
     //console.log("nextBriefInfo: ", nextMetadata['BriefInfo']);
     const compareBriefInfo = (currentMetadata.BriefInfo !== nextMetadata.BriefInfo) ? true : false;
     const compareDescription = (currentMetadata.Description !== nextMetadata.Description) ? true : false;

@@ -14,7 +14,7 @@ export const ConfigureStore = () => {
             detailedData: DetailedData,
             metadata: Metadata,
             ...createForms({
-                initialMetadata: IntialMetadata
+                initialMetadata: Metadata
             })
         }),
         // applyMiddleware can return store enhancer

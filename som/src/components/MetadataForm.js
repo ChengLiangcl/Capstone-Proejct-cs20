@@ -15,7 +15,6 @@ function MetadataForm(props) {
     console.log("local get file name: ", FileName);
 
     const handleSubmit = (values) => {
-        console.log("accpeted value: ", values)
         const attrInfo = integrateAttrInfo(attr, values);
         const fixedValue = fixEmptyForm(values, tags, attrInfo);
         console.log('Current State is: ' + JSON.stringify(fixedValue));
@@ -23,7 +22,7 @@ function MetadataForm(props) {
         // 'props.submitMetadata' is from Redux actionCreators, which is used to post the metadata to the backend server
         props.submitMetadata(fixedValue);
         alert(`Current State is:  ${JSON.stringify(fixedValue)}`);
-        props.resetMetadata();
+        //props.resetMetadata();
         props.fetchDatasetFiles();
     };
 
@@ -145,10 +144,10 @@ function MetadataForm(props) {
                     fixedValue[eachForm] = props.dataset.UserName;
                     break;
                 case "Keywords":
-                    fixedValue[eachForm] = tags;
+                    fixedValue[eachForm] = tags.length === 0 ? props.metadata.Keywords : tags
                     break;
                 case "AttrInfo":
-                    fixedValue[eachForm] = attrInfo;
+                    fixedValue[eachForm] = attrInfo.length === 0 ? props.metadata.AttrInfo : attrInfo;
                     break;
                 /**
                 case "Label":
@@ -156,13 +155,19 @@ function MetadataForm(props) {
                     break;
                  */
                 default:
-                    fixedValue[eachForm] = values[eachForm] == null ? "" : values[eachForm];
+                    fixedValue[eachForm] = values[eachForm] == null ? props. metadata[eachForm] : values[eachForm];
             }
         }
         fixedForm.push(fixedValue);
 
         return fixedForm;
     };
+
+    useEffect(() => {
+        // fetch the existing metadata first
+        console.log("start refreshing metadata form")
+        props.sendNameForDetailedData(FileName);
+    });
 
     return (
         <Container>
@@ -177,7 +182,7 @@ function MetadataForm(props) {
                 </Row>
 
 
-                <Form model="initialMetadata" onSubmit={(values) => handleSubmit(values)}>
+                <LocalForm onSubmit={(values) => handleSubmit(values)}>
                     <Col className="form-group">
                         <Row>
                             <Label htmlFor="BriefInfo" md="2">Brief descripton:</Label>
@@ -267,7 +272,7 @@ function MetadataForm(props) {
                         <Button type="submit" style={{ backgroundColor: "#378CC6" }}>Submit</Button>
                     </div>
 
-                </Form>
+                </LocalForm>
 
 
             </Col>

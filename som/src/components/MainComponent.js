@@ -53,6 +53,8 @@ class Main extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         console.log("start should");
         // if the metadata itself needs to be updated, return true
+        console.log("compareMetadata: ", this.props.metadata.metadata);
+        console.log("nextMetadata: ", nextProps.metadata.metadata);
         if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0])) {
             console.log("because of metadata");
             return true
@@ -71,6 +73,10 @@ class Main extends Component {
 
     render() {
         const DatasetWithName = ({ match }) => {
+            let selectedDataset = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-detaileddata') :
+                this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
+            localStorage.setItem('datasetname-detaileddata', selectedDataset);
+            console.log("detaileddata for name: ", selectedDataset);
             
             return (
                 <DetailedDataset
@@ -96,7 +102,8 @@ class Main extends Component {
                 <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
                     submitMetadata={this.props.submitMetadata}
                     fetchDatasetFiles={this.props.fetchDatasetFiles}
-                    resetMetadata={this.props.resetMetadata}
+                    sendNameForDetailedData={this.props.sendNameForDetailedData}
+                    metadata={this.props.metadata.metadata[0]}
                 />
             );
         };

@@ -1,5 +1,5 @@
 export const IntialMetadata = {
-    BriefInfo: '',
+    BriefInfo: 'aaa',
     Description: '',
     Source: ''
 };

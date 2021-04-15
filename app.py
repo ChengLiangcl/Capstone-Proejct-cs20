@@ -308,6 +308,7 @@ def getNameForDetailedData():
             detailed_data = json.load(f)
         with open('./metadata.json') as f:
             metadata = json.load(f)
+    print("why get []: ", metadata)
     return json_util.dumps([detailed_data, metadata])
      
 # to query datasets based on the dataset name or key words
