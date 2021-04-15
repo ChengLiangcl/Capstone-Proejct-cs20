@@ -207,6 +207,7 @@ def sendNewdatasetFiles():
 @cross_origin()
 def submitMetadata():
     metadata = request.get_json(force=True)
+    print(metadata)
 
     metadata_dict = metadata[0]
     FileName = metadata[0]["FileName"]
@@ -307,6 +308,7 @@ def getNameForDetailedData():
             detailed_data = json.load(f)
         with open('./metadata.json') as f:
             metadata = json.load(f)
+    return json_util.dumps([detailed_data, metadata])
      
 # to query datasets based on the dataset name or key words
 @app.route('/query-datasets', methods=["POST"])
@@ -325,9 +327,6 @@ def queryDatasets():
         queried_datasets = json.load(f)
 
     return json.dumps(queried_datasets)
-
-    
-
 
 
 if __name__ == "__main__":

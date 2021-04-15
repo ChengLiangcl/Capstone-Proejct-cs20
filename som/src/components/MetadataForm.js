@@ -15,7 +15,7 @@ function MetadataForm(props) {
     console.log("local get file name: ", FileName);
 
     const handleSubmit = (values) => {
-
+        console.log("accpeted value: ", values)
         const attrInfo = integrateAttrInfo(attr, values);
         const fixedValue = fixEmptyForm(values, tags, attrInfo);
         console.log('Current State is: ' + JSON.stringify(fixedValue));
@@ -23,6 +23,7 @@ function MetadataForm(props) {
         // 'props.submitMetadata' is from Redux actionCreators, which is used to post the metadata to the backend server
         props.submitMetadata(fixedValue);
         alert(`Current State is:  ${JSON.stringify(fixedValue)}`);
+        props.resetMetadata();
         props.fetchDatasetFiles();
     };
 

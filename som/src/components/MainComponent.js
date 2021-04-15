@@ -32,7 +32,8 @@ const mapDispatchToProps = dispatch => ({
     deleteDataset: (datasetName) => { dispatch(deleteOneDataset(datasetName)) },
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
     sendNameForDetailedData: (datasetName) => { dispatch(sendNameForDetailedData(datasetName)) },
-    queryDatasets: (inputValue) => { dispatch(queryDatasets(inputValue)) }
+    queryDatasets: (inputValue) => { dispatch(queryDatasets(inputValue)) },
+    resetMetadata: () => { dispatch(actions.reset('initialMetadata'))}
 });
 
 class Main extends Component {
@@ -51,8 +52,6 @@ class Main extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         console.log("start should");
-        console.log("current datasets: ", this.props.datasetFiles.datasetFiles);
-        console.log(" next datasets: ", nextProps.datasetFiles.datasetFiles);
         // if the metadata itself needs to be updated, return true
         if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0])) {
             console.log("because of metadata");
@@ -97,6 +96,7 @@ class Main extends Component {
                 <MetadataForm dataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
                     submitMetadata={this.props.submitMetadata}
                     fetchDatasetFiles={this.props.fetchDatasetFiles}
+                    resetMetadata={this.props.resetMetadata}
                 />
             );
         };
