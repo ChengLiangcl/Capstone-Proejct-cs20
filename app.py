@@ -14,6 +14,7 @@ import numpy as np
 import csv
 client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
 db = client.datasets
+count = 0
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = './public' # to create a folder which is used to save the uploaded file
 CORS(app)
@@ -284,15 +285,14 @@ def getNameForDetailedData():
 
     # 1. you get the selected dataset name from the frontend, so that you know which dataset you will extract detailed data from
     datasetName = request.get_json(force=True)
-    print(datasetName) # you can check the dataset name through this
-    print(type(datasetName))  # string
-
+    print(datasetName)  # you can check the dataset name through this
+    # print(type(datasetName))  # string
+   
     getDatasetName = False
     result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
     result = loads(dumps(result))
     if(len(result)>0):
         # TODO to get detailed_data from MongoDB
-        
         result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
         result_detailed_data = db.files.find({"FileName":str(datasetName),"UserName":"12795757"})
         result = loads(dumps(result))
@@ -308,7 +308,15 @@ def getNameForDetailedData():
             detailed_data = json.load(f)
         with open('./metadata.json') as f:
             metadata = json.load(f)
-    print("why get []: ", metadata)
+    #Handeling the situation when it return a empty [], change to the relevent metadata.
+    if(len(metadata)==0):
+        result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
+        result = loads(dumps(result))
+        metadata = result
+        for element in metadata:
+            if '_id' in element:
+                del element['_id']
+        
     return json_util.dumps([detailed_data, metadata])
      
 # to query datasets based on the dataset name or key words
@@ -326,6 +334,8 @@ def queryDatasets():
     # this is the querying result I simulate, please REPLACE it when you get the real results
     with open('./queryResultsForDatasets.json') as f:
         queried_datasets = json.load(f)
+   
+    
 
     return json.dumps(queried_datasets)
 
