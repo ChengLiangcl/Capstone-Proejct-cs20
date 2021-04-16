@@ -12,8 +12,10 @@ import random
 import pandas as pd
 import numpy as np
 import csv
-client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
-db = client.datasets
+#client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
+#db = client.datasets
+client = pymongo.MongoClient("mongodb://741917776:520569@cluster-shard-00-00.zz90r.mongodb.net:27017,cluster-shard-00-01.zz90r.mongodb.net:27017,cluster-shard-00-02.zz90r.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-kqdxs0-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True, ssl_cert_reqs='CERT_NONE')
+db = client.WebProject
 count = 0
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = './public' # to create a folder which is used to save the uploaded file
@@ -28,7 +30,7 @@ def upload():
         # if 'file' not in request.files:
         #     flash("No file part")
         #     return redirect(request.url)
-        
+
         # uploaded_file = request.files['file']
         # print(uploaded_file)
         # # if user does not select file browser also
@@ -48,7 +50,7 @@ def upload():
         if 'file' not in request.files:
             flash("No file part")
             return redirect(request.url)
-        
+
         uploaded_file = request.files['file']
         print(uploaded_file)
         # if user does not select file browser also
@@ -56,7 +58,7 @@ def upload():
         if uploaded_file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-    
+
         # check if the post request has the file part
         filename = secure_filename(uploaded_file.filename)
         print(filename) # e.g. ex.csv
@@ -64,7 +66,7 @@ def upload():
         file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
         #Get the path of the file
-        paths = os.path.join(app.config['UPLOAD_PATH'], filename) 
+        paths = os.path.join(app.config['UPLOAD_PATH'], filename)
         #Get the size of the file
         size = os.path.getsize(paths)
         size_string = str(size/1000) + "KB"
@@ -74,18 +76,18 @@ def upload():
         result =  db.files.find({"FileName":filename,"UserName":ID})
         result = loads(dumps(result))
         print(len(result))#Check the size of the json array
-        f = open(paths,'r') 
+        f = open(paths,'r')
         count = 0
 
         # start to read the file
-        #Get the size of coloumn 
+        #Get the size of coloumn
         for i in f:
             count = count+1
             if count ==2:
                 size = (len(i.split(" ")))
                 break
         columnNames = [""] * size # size = the number of columns
-        
+
         #Assign the coloumn ID
         for i in range(size):
             columnNames[i] = "Coloumn" + " " + str(i)
@@ -102,7 +104,7 @@ def upload():
         #Read the format data and store the data
         data = pd.read_csv("./public/updated_test.csv")
         data = data.to_dict('records')
-         
+
         #If the file is not exist
         if(len(result) ==0):
             print("DO this step")
@@ -117,7 +119,7 @@ def upload():
         #If the file is already exist
         else:
             print("to do here")
-            filename = "copy_of_" + str(random.randint(100,999)) + filename 
+            filename = "copy_of_" + str(random.randint(100,999)) + filename
             store_schema={
                 "FileName":filename,
                 "BriefInfo":"",
@@ -126,11 +128,11 @@ def upload():
                 "data": data
             }
             db.files.insert_one(store_schema)
-        
-        
+
+
     return json.dumps(data)
 
-       
+
 
 
 @app.route('/datasetFiles', methods=["GET", "POST"])
@@ -153,11 +155,11 @@ def showAlldatasetFiles():
             for value in description:
                 dicts[key] = value
                 description.remove(value)
-                break  
+                break
         print(dicts)
-            
+
         if(len(data_return)!=0):
-            json_data = dumps(data_return, indent = 2) 
+            json_data = dumps(data_return, indent = 2)
             with open('./data.json_tem.json', 'w') as file:
                 file.write(json_data)
             jsonFile = open('./data.json_tem.json', 'r')
@@ -165,18 +167,18 @@ def showAlldatasetFiles():
             for element in values:
                 if 'data' in element:
                     del element['data']
-            
+
             json_size = len(values)
             for i in range(len(values)):
                 fileName = str(values[i]["FileName"])
                 if fileName in dicts:
                     values[i]["BriefInfo"] = dicts[fileName]
-            values = dumps(values, indent = 2) 
-   
+            values = dumps(values, indent = 2)
+
             with open('./data.json_tem.json', 'w') as file:
                 file.write(values)
             return values
-                
+
         else:
             print("The user does not have any file")
             data = []
@@ -188,7 +190,7 @@ def sendNewdatasetFiles():
     # because frontend cannot show the new file until it is saved into the MongoDB, and frontend cannot generate _id itself
     # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
     data = db.files.find().sort('_id',-1).limit(1)#Find the newest data to insert
-    json_data = dumps(data, indent = 2) 
+    json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
     jsonFile = open('./dataNewJson.json', 'r')
@@ -197,7 +199,7 @@ def sendNewdatasetFiles():
         if 'data' in element:
             del element['data']
             break
-    values = dumps(values, indent = 2) 
+    values = dumps(values, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
         file.write(values)
     jsonFile = open('./dataNewJson.json', 'r')
@@ -233,14 +235,14 @@ def submitMetadata():
             "Keywords":Keywords,
             "AttrInfo":AttrInfo
     }
-    
-    
+
+
     # print(metadata) # you can check the content of the matadata through this
     # the type of the returned matadata is a python list, you can operate on it to save into the MongoDB
     # print(type(metadata)) 
-    #Define the schema for the dataset, and store all the 
+    #Define the schema for the dataset, and store all the
     if len(loads(dumps(db.metadata.find({"UserName":"12795757","FileName":FileName}))))==0:
-        
+
         db.metadata.insert_one(schema)
         metadata_string = request.data
     else:
@@ -252,7 +254,7 @@ def submitMetadata():
 
 
     # TODO save the metadata into MongoDB
- 
+
     # this return must be string, which will be returned to the frontend immediately
     # so DO NOT modify the return 'metadata_string'
     return metadata_string
@@ -287,7 +289,7 @@ def getNameForDetailedData():
     datasetName = request.get_json(force=True)
     print(datasetName)  # you can check the dataset name through this
     # print(type(datasetName))  # string
-   
+
     getDatasetName = False
     result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
     result = loads(dumps(result))
@@ -302,7 +304,7 @@ def getNameForDetailedData():
         for element in metadata:
             if '_id' in element:
                 del element['_id']
-      
+
     else:
         with open('./detailedData.json') as f:
             detailed_data = json.load(f)
@@ -316,9 +318,9 @@ def getNameForDetailedData():
         for element in metadata:
             if '_id' in element:
                 del element['_id']
-        
+
     return json_util.dumps([detailed_data, metadata])
-     
+
 # to query datasets based on the dataset name or key words
 @app.route('/query-datasets', methods=["POST"])
 @cross_origin()
@@ -329,13 +331,30 @@ def queryDatasets():
     print(input_value) # you can check the inputted word through this
     print(type(input_value))  # string
 
+    UserName="12795757"
+    NameArray=[]
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
     # this is the querying result I simulate, please REPLACE it when you get the real results
-    with open('./queryResultsForDatasets.json') as f:
-        queried_datasets = json.load(f)
-   
-    
+    returndata=db.metadata.find({"UserName":UserName,"Keywords":{"$in":[str(input_value)]} })
+    json_data = dumps(returndata, indent=2)
+    with open('./returnmetadata.json', 'w') as file:
+        file.write(json_data)
+    jsonFile = open('./returnmetadata.json', 'r')
+    values = json.load(jsonFile)
+    for element in values:
+        if 'FileName' in element:
+            NameArray.append(element['FileName'])
+
+    #print(NameArray[0])
+    #print(NameArray[1])
+
+    returndataset=db.files.find({"FileName":{"$in":NameArray},"UserName":UserName})
+    json_filedata = dumps(returndataset, indent=2)
+    with open('./queryResultsForDatasets.json', 'w') as f:
+         f.write(json_filedata)
+    jsonFile = open('./queryResultsForDatasets.json', 'r')
+    queried_datasets = json.load(jsonFile)
 
     return json.dumps(queried_datasets)
 
