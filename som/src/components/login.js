@@ -1,27 +1,31 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import {Formik,Field,Form,ErrorMessage} from 'formik';
-import * as Yup from 'yup'
+import * as Yup from 'yup';
+import { Modal, ModalHeader, ModalBody, Row, Col} from 'reactstrap';
 
 import {
   login
 } from '../redux/ActionCreators';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
+
 const mapStateToProps = state => {
   return {
     user: state.user,
   }
 }
+
 const mapDispatchToProps = dispatch => ({
   login: (data) => { dispatch(login(data)) },
 });
+
 const Login=({handleChange,...props}) => {
-    const paperStyle = {padding :20,height:'70vh',margin:"20px auto"}
+    const paperStyle = {padding :20,height:'70vh auto',margin:"20px auto"}
     let myStyle={
         color:'#6495ED',
         fontSize:'48px',
@@ -46,21 +50,45 @@ const initialValues={
     password:''
 
 }
+const validationSchema=Yup.object().shape({
+  username:Yup.string().required("*Required!"),
+  password:Yup.string().required("*Required!")
+
+})
 const onSubmit=(values)=>{
     console.log(values)
   props.login(values)
 }
+
+const [isModalOpen, setModal] = useState(false);
+
+const handlenNoBtn = () => {
+  setModal(!isModalOpen);
+  //location.reload()
+};
+
+
+
 useEffect(()=>{
-  if (props.user.loginSuccess){
-    props.history.replace('/')
+  console.log("helllloo");
+  console.log(props.user.userInfo);
+  if (props.user.userInfo){
+    if (props.user.userInfo !== "login-fails"){
+      props.history.replace('/');
+    }else{
+      setModal(!isModalOpen);
+    }
+    //弹出一个警示，告诉用户登陆失败
+
   }
-},[props.user.loginSuccess])
-    return(
+},[props.user.userInfo])
+    
+return(
         <Grid>
             <Paper elevation={10} style={paperStyle}>
             <div style={myStyle}> SOM </div>
             <h3>Sign In</h3>
-            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
                 {(props)=>(
                     <Form>
                         <div>
@@ -69,9 +97,10 @@ useEffect(()=>{
                             id="outlined-search" 
                             label="username" 
                             name="username"
-
-                        
                             type="search" 
+                            helperText={
+                              <ErrorMessage name="username"/>
+                          }
                             variant="outlined" />
                         </div>
 
@@ -82,6 +111,9 @@ useEffect(()=>{
                             name="password"
                             type="password"
                             autoComplete="current-password"
+                            helperText={
+                              <ErrorMessage name="password"/>
+                          }
                             variant="outlined"/>
                         </div>
 
@@ -108,9 +140,20 @@ useEffect(()=>{
             </div>
 
             </Paper>
+            <Modal isOpen={isModalOpen} centered={true}>
+                <ModalHeader>warning!</ModalHeader>
+                <ModalBody>
+                    <p>Username and password do not match</p>
+                    <Row>
+                        <Col>
+                            <Button onClick={handlenNoBtn}>Ok</Button>
+                        </Col>          
+                    </Row>
+                </ModalBody>
+            </Modal>
             
-          
         </Grid>
+        
 
     )
 

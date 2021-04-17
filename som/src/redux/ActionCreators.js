@@ -13,9 +13,14 @@ export const login = (data) => (dispatch) => {
       "Content-Type": "multipart/form-data",
     }})
     .then(res => {
-      if(res.data){
+      //console.log(data.username); 
+      if(res.data === data.username){
         dispatch(updateUser(res.data));// success
       }
+      else if (res.data === "login-fails"){
+        dispatch(updateUser(res.data));// success
+      }
+      
     })
     .catch((err) => console.log(err));
 

@@ -1,14 +1,27 @@
-import React, { Component } from 'react';
+import React, {Component, useEffect} from 'react';
 import { Card, CardImg, Media } from 'reactstrap';
 import { Container } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import {useHistory} from 'react-router-dom'
 import { Link, NavLink } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+import {updateUser} from '../redux/ActionCreators'
 
 
 function Sidebar(props){
-
+  const dispatch = useDispatch()
+  const history = useHistory()
+    useEffect(()=>{
+      if(!props.username){
+        history.replace('/login')
+      }
+    },[])
     return (
         <div className="col col-md">
+          <div style={{textAlign:'center',fontSize:18}}>{props.username}<span onClick={()=>{
+            dispatch(updateUser(null))
+            history.replace('/login')
+          }} style={{marginLeft:24,paddingLeft:24,borderLeft:'1px solid red',color:'red',cursor:'pointer'}}>sign out</span></div>
             <div className="side-group">
                 <ListGroup className="side-items" flush>
                     <Media className="logo" src={'/assets/logo.png'} alt={'som log'}/>

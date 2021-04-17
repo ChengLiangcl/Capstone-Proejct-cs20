@@ -3,13 +3,12 @@ import * as ActionTypes from './ActionTypes';
 export const User = (state = {
     isLoading: true,
     errMess: null,
-  loginSuccess:false,
-    userInfo: {}
+    userInfo: null
 }, action) => {
     switch (action.type) {
         case ActionTypes.LOGIN:
-            console.log(action.payload);
-            return { ...state, isLoading: false, loginSuccess:true };
+
+          return { ...state, isLoading: false, userInfo: action.payload };
 
         case ActionTypes.SIGN_UP:
             return { ...state }

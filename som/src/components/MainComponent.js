@@ -18,6 +18,7 @@ import {
 
 const mapStateToProps = state => {
     return {
+        user: state.user,
         metadata: state.metadata,
         datasetFiles: state.datasetFiles,
         modelFiles: state.modelFiles,
@@ -53,9 +54,11 @@ class Main extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        /** 
       if (this.props.modelFiles.modelFiles !== nextProps.modelFiles.modelFiles){
         return true
-      }
+      }*/
+        console.log("start update")
         if (this.props.metadata.metadata.length === nextProps.metadata.metadata.length){
             if (this.props.datasetFiles.datasetFiles !== nextProps.datasetFiles.datasetFiles){
                 return true;
@@ -96,7 +99,7 @@ class Main extends Component {
 
         return (
             <Row>
-                <Col className="sidebar" md="3"><Sidebar /></Col>
+                <Col className="sidebar" md="3"><Sidebar username={this.props.user.userInfo}/></Col>
                 <Col className="main-page">
                     <Switch>
 
