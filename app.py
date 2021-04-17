@@ -12,10 +12,9 @@ import random
 import pandas as pd
 import numpy as np
 import csv
-#client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
-#db = client.datasets
-client = pymongo.MongoClient("mongodb://741917776:520569@cluster-shard-00-00.zz90r.mongodb.net:27017,cluster-shard-00-01.zz90r.mongodb.net:27017,cluster-shard-00-02.zz90r.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-kqdxs0-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True, ssl_cert_reqs='CERT_NONE')
-db = client.WebProject
+client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
+db = client.datasets
+
 count = 0
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = './public' # to create a folder which is used to save the uploaded file
@@ -78,6 +77,8 @@ def upload():
         print(len(result))#Check the size of the json array
         f = open(paths,'r')
         count = 0
+        first_num = 0
+        lable = ""
 
         # start to read the file
         #Get the size of coloumn
@@ -87,11 +88,20 @@ def upload():
                 size = (len(i.split(" ")))
                 break
         columnNames = [""] * size # size = the number of columns
+        if int(first_num) < size:
+            lable = "Yes"
+        elif int(first_num) == size:
+            lable = "No"
+        else:
+            lable = "Error"
+       
+        attributes_meta = size
 
         #Assign the coloumn ID
         for i in range(size):
             columnNames[i] = "Coloumn" + " " + str(i)
         #Generate a temporty file to re-format the dataset
+        count = 0
         with open(paths,'r') as f:
             with open("./public/updated_test.csv",'w') as f1:
                 f1.write(','.join(columnNames)+"\n")
@@ -100,7 +110,12 @@ def upload():
                     lines =str(line)
                     lines = lines.split(" ")
                     f1.write(','.join(lines))
-        # len(f)
+                    count = count + 1
+        instance_meta = count
+
+        print(lable)
+        print(instance_meta)
+        print(attributes_meta)
         #Read the format data and store the data
         data = pd.read_csv("./public/updated_test.csv")
         data = data.to_dict('records')
@@ -116,6 +131,25 @@ def upload():
                 "data": data
             }
             db.files.insert_one(store_schema)
+            metadata = {
+                "FileName":filename,
+                "UserName":ID,
+                "BriefInfo":"",
+                "Description":"",
+                "Source":"",
+                "Label":lable,
+                "Number_of_Attribute":attributes_meta,
+                "Number_of_Instance":instance_meta,
+                "Keywords":[],
+                "AttrInfo":[
+
+                    { 
+                        "attrName":"",
+                        "attrDescription":""
+                    }
+                ]
+            }
+            db.metadata.insert_one(metadata)
         #If the file is already exist
         else:
             print("to do here")
@@ -128,6 +162,25 @@ def upload():
                 "data": data
             }
             db.files.insert_one(store_schema)
+            metadata = {
+                "FileName":filename,
+                "UserName":ID,
+                "BriefInfo":"",
+                "Description":"",
+                "Source":"",
+                "Label":lable,
+                "Number_of_Attribute":attributes_meta,
+                "Number_of_Instance":instance_meta,
+                "Keywords":[],
+                "AttrInfo":[
+                    {
+                        "attrName":"",
+                        "attrDescription":""
+                    }
+
+                ]
+            }
+            db.metadata.insert_one(metadata)
 
 
     return json.dumps(data)
@@ -218,9 +271,6 @@ def submitMetadata():
     BriefInfo = metadata[0]["BriefInfo"]
     Description = metadata[0]["Description"]
     Source = metadata[0]["Source"]
-    #Number_of_Instance =  metadata[0]["Number_of_Instance"]
-    #Number_of_Attribute = metadata[0]["Number_of_Attribute"]
-    #Label = metadata[0]["Label"]
     Keywords = metadata[0]["Keywords"]
     AttrInfo = metadata[0]["AttrInfo"]
     schema = {
@@ -229,13 +279,9 @@ def submitMetadata():
             "BriefInfo":BriefInfo,
             "Description":Description,
             "Source":Source,
-            "Number_of_Instance":"0",
-            "Number_of_Attribute":"0",
-            "Label":"Yes",
             "Keywords":Keywords,
             "AttrInfo":AttrInfo
     }
-
 
     # print(metadata) # you can check the content of the matadata through this
     # the type of the returned matadata is a python list, you can operate on it to save into the MongoDB
@@ -243,11 +289,28 @@ def submitMetadata():
     #Define the schema for the dataset, and store all the
     if len(loads(dumps(db.metadata.find({"UserName":"12795757","FileName":FileName}))))==0:
 
-        db.metadata.insert_one(schema)
+        # db.metadata.insert_one(schema)
+        db.metadata.update({"UserName": "12795757","FileName":FileName},
+        {"$set": {
+            "BriefInfo": BriefInfo,
+            "Description": Description,
+            "Source":Source,
+            "Keywords":Keywords,
+            "AttrInfo":AttrInfo
+            }}
+            ) 
+        
         metadata_string = request.data
     else:
-        db.metadata.delete_one({"UserName":"12795757","FileName":FileName})
-        db.metadata.insert_one(schema)
+        db.metadata.update({"UserName": "12795757","FileName":FileName},
+        {"$set": {
+            "BriefInfo": BriefInfo,
+            "Description": Description,
+            "Source":Source,
+            "Keywords":Keywords,
+            "AttrInfo":AttrInfo
+            }}
+            ) 
         metadata_string = request.data
 
 
@@ -290,9 +353,11 @@ def getNameForDetailedData():
     print(datasetName)  # you can check the dataset name through this
     # print(type(datasetName))  # string
 
+
     getDatasetName = False
     result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
     result = loads(dumps(result))
+
     if(len(result)>0):
         # TODO to get detailed_data from MongoDB
         result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
@@ -318,6 +383,9 @@ def getNameForDetailedData():
         for element in metadata:
             if '_id' in element:
                 del element['_id']
+    print('sss')
+    print(metadata)
+    print('sss')
 
     return json_util.dumps([detailed_data, metadata])
 
