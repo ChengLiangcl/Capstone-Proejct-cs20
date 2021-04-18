@@ -293,7 +293,6 @@ def editModelDescription():
     ModelName = data
     print(ModelName)
     # Description = data[0]["description"]
-    print(data[])
     # record = {
     #         "ModelName":ModelName,
     #         "UserName":UserName,
