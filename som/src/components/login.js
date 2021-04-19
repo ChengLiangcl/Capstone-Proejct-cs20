@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { Modal, ModalHeader, ModalBody, Row, Col} from 'reactstrap';
 
 import {
-  login
+  login, updateUser
 } from '../redux/ActionCreators';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
@@ -22,6 +22,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   login: (data) => { dispatch(login(data)) },
+  updateUser: (data) => { dispatch(updateUser(data)) },
 });
 
 const Login=({handleChange,...props}) => {
@@ -55,8 +56,10 @@ const validationSchema=Yup.object().shape({
   password:Yup.string().required("*Required!")
 
 })
+  const [user,setUser] = useState('')
 const onSubmit=(values)=>{
     console.log(values)
+  setUser(values.username)
   props.login(values)
 }
 
@@ -65,15 +68,17 @@ const [isModalOpen, setModal] = useState(false);
 const handlenNoBtn = () => {
   setModal(!isModalOpen);
   //location.reload()
+  props.updateUser(null)
 };
 
 
 
 useEffect(()=>{
   console.log("helllloo");
-  console.log(props.user.userInfo);
+  console.log(123,props.user.userInfo);
   if (props.user.userInfo){
-    if (props.user.userInfo !== "login-fails"){
+    console.log(props.user.userInfo);
+    if (props.user.userInfo===user){
       props.history.replace('/');
     }else{
       setModal(!isModalOpen);

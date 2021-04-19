@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Grid, Paper,Avatar,Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -8,12 +8,13 @@ import * as Yup from 'yup'
 
 
 import {
-  signUp
+  signUp, updateUser
 } from '../redux/ActionCreators';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import {Col, Modal, ModalBody, ModalHeader, Row} from "reactstrap";
 const mapDispatchToProps = dispatch => ({
-  signUp: (data) => { dispatch(signUp(data)) },
+  signUp: (data,cb) => { dispatch(signUp(data,cb)) },
 });
 const Signup=(props)=>{
     const paperStyle = {padding :20,height:'90vh',margin:"20px auto"}
@@ -51,9 +52,21 @@ const validationSchema=Yup.object().shape({
    
 })
 
-const onSubmit=(values)=>{
+  const [isModalOpen, setModal] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+
+  const handlenNoBtn = () => {
+    setModal(!isModalOpen);
+  };
+
+
+  const onSubmit=(values)=>{
     console.log(values)
-  props.signUp(values)
+  props.signUp(values,res=>{
+    setModal(true)
+    console.log(res);
+    setModalContent(res.toString())
+  })
 }
     return(
         
@@ -127,7 +140,16 @@ const onSubmit=(values)=>{
 
 
             </Formik>
-
+              <Modal isOpen={isModalOpen} centered={true}>
+                <ModalBody>
+                  <p>{modalContent}</p>
+                  <Row>
+                    <Col>
+                      <Button onClick={handlenNoBtn}>Ok</Button>
+                    </Col>
+                  </Row>
+                </ModalBody>
+              </Modal>
             </Paper>
 
 

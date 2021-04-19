@@ -17,20 +17,23 @@ export const login = (data) => (dispatch) => {
       if(res.data === data.username){
         dispatch(updateUser(res.data));// success
       }
-      else if (res.data === "login-fails"){
-        dispatch(updateUser(res.data));// success
+      else{
+        dispatch(updateUser(res));
       }
       
     })
     .catch((err) => console.log(err));
 
 }
-export const signUp = (data) => (dispatch) => {
+export const signUp = (data,cb) => (dispatch) => {
 
   return http.post('/sign-up', JSON.stringify(data), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }})
+    }}).then(res => {
+      cb(res.data)
+
+  })
     .catch((err) => console.log(err));
 }
 export const updateUser = (userInfo) => ({
