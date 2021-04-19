@@ -146,6 +146,7 @@ def showAllModelFiles():
     # TODO: return a empty [] to me if there is no file in the MongoDB
     UserName = request.get_json(force=True)
     data_return = list(db.models.find({"UserName": UserName}))
+    print(len(data_return))
     print(db.models.find({"UserName": UserName}))
     result = db.modelmetadata.find({"UserName": UserName})
     result = loads(dumps(result))
@@ -194,7 +195,7 @@ def showAllModelFiles():
 def uploadModel():
     if request.method == "POST":
         #userName = request.files['username']
-        userName = secure_filename(request.files['username'].filename)
+        userName = request.files['username'].filename
         print(userName)
 
         # check if the post request has the file part
@@ -223,6 +224,7 @@ def uploadModel():
         size_string = str(size / 1000) + "KB"
         print(size_string)
         ID = userName
+        print(ID)
         newf = paths
         print(newf)
         f = open(newf)
