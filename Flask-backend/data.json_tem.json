@@ -4,7 +4,7 @@
       "$oid": "607bf8df30d51a570832b90e"
     },
     "FileName": "ex_fdy.cod",
-    "BriefInfo": "",
+    "BriefInfo": "test4",
     "Size": "4.796KB",
     "UserName": "741917776"
   },
@@ -22,26 +22,8 @@
       "$oid": "607d12521cffac42295e8cd1"
     },
     "FileName": "copy_of_817ex_ndy.cod",
-    "BriefInfo": "",
+    "BriefInfo": "hhhhhhh",
     "Size": "4.93KB",
-    "UserName": "741917776"
-  },
-  {
-    "_id": {
-      "$oid": "607d13b9faec9fffb80ad913"
-    },
-    "FileName": "copy_of_382ex_fdy.cod",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "UserName": "741917776"
-  },
-  {
-    "_id": {
-      "$oid": "607d22cb4b7cc8fee819beb0"
-    },
-    "FileName": "ex1.cod",
-    "BriefInfo": "666",
-    "Size": "4.229KB",
     "UserName": "741917776"
   }
 ]

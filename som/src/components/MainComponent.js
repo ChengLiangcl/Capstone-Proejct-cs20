@@ -124,6 +124,7 @@ class Main extends Component {
                           fetchUploadedModel={this.props.fetchUploadedModel}
                           deleteModel={this.props.deleteModel}
                           editModelDescription={this.props.editModelDescription}
+                          fetchModelFiles={this.props.fetchModelFiles}
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
                         <Redirect to="/mydatabase" />

@@ -40,12 +40,16 @@ export const ModelFiles = (state = {
             return { ...state, modelFiles: newModel };
             
         case ActionTypes.EDIT_MODEL_DESCRIPTION:
+            console.log("start edit");
             var {modelName,description} = action.payload;
+            console.log("my modelname:", modelName);
+            console.log("my description:", description)
             state.modelFiles.forEach(item=>{
               if(item.FileName===modelName){
-                item.Description=description
+                item.BriefInfo=description
               }
             })
+            console.log("new modelFile: ", state.modelFiles)
             return { ...state, modelFiles: [...state.modelFiles] };
 
         default:
