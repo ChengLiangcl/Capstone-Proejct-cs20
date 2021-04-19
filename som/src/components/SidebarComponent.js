@@ -19,8 +19,11 @@ function Sidebar(props){
     return (
         <div className="col col-md">
           <div style={{textAlign:'center', fontSize:13, color: 'grey'}}>{props.username}<span onClick={()=>{
-            dispatch(updateUser(null))
-            history.replace('/login')
+            dispatch(updateUser(null));
+            localStorage.removeItem("username");
+            localStorage.removeItem("password");
+            localStorage.removeItem("verifiedUsername");
+            history.replace('/login');
           }} style={{marginLeft:24,paddingLeft:24, fontSize:13, borderLeft:'1px solid',color:'#378CC6',cursor:'pointer'}}>sign out</span></div>
             <div className="side-group">
                 <ListGroup className="side-items" flush>

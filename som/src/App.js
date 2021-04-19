@@ -25,7 +25,6 @@ class App extends Component{
             <Route path="/" component={()=><div className="APP">
               <Main/>
             </div>}/>
-            <Redirect to="/" />
           </Switch>
         </BrowserRouter>
       </Provider>

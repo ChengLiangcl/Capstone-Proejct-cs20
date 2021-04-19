@@ -15,6 +15,7 @@ export const login = (data) => (dispatch) => {
     .then(res => {
       //console.log(data.username); 
       if(res.data === data.username){
+        localStorage.setItem('verifiedUsername', res.data);
         dispatch(updateUser(res.data));// success
       }
       else{
