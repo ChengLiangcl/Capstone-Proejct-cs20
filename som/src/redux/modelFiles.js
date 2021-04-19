@@ -38,6 +38,7 @@ export const ModelFiles = (state = {
                 ...state.modelFiles.slice(deletedIndex + 1, state.modelFiles.length)];
 
             return { ...state, modelFiles: newModel };
+            
         case ActionTypes.EDIT_MODEL_DESCRIPTION:
             var {modelName,description} = action.payload;
             state.modelFiles.forEach(item=>{

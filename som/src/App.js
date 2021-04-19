@@ -1,6 +1,6 @@
 import './App.css';
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import Main from './components/MainComponent';
 
 import {Provider} from 'react-redux';
@@ -25,6 +25,7 @@ class App extends Component{
             <Route path="/" component={()=><div className="APP">
               <Main/>
             </div>}/>
+            <Redirect to="/" />
           </Switch>
         </BrowserRouter>
       </Provider>
