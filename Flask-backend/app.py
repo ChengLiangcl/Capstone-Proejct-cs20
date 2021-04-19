@@ -290,25 +290,24 @@ def editModelDescription():
 
     UserName="741917776"
     data = request.get_json(force=True)
-    ModelName = data
+    print(data)
+    ModelName = data["modelName"]
     print(ModelName)
-    # Description = data[0]["description"]
-    # record = {
-    #         "ModelName":ModelName,
-    #         "UserName":UserName,
-    #         "Description":Description,
-    # }
-    # if len(loads(dumps(db.modelmetadata.find({"UserName": UserName, "ModelName": ModelName})))) == 0:
+    Description = data["description"]
+    record = {
+            "ModelName":ModelName,
+            "UserName":UserName,
+            "Description":Description,
+    }
+    if len(loads(dumps(db.modelmetadata.find({"UserName": UserName, "ModelName": ModelName})))) == 0:
 
-    #     db.modelmetadata.insert_one(record)
+        db.modelmetadata.insert_one(record)
 
-    # else:
-    #     db.modelmetadata.delete_one({"UserName": UserName, "ModelName": ModelName})
-    #     db.modelmetadata.insert_one(record)
+    else:
+        db.modelmetadata.delete_one({"UserName": UserName, "ModelName": ModelName})
+        db.modelmetadata.insert_one(record)
 
-    # return data["modelName"]
-    return data
-    
+    return data["modelName"]
 
 
 @app.route('/login', methods=["POST"])
