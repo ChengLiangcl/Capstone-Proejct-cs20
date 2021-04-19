@@ -32,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
     uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
     fetchUploadedDataset: () => { dispatch(fetchUploadedDataset()) },
     deleteDataset: (datasetName) => { dispatch(deleteOneDataset(datasetName)) },
-    fetchModelFiles: () => { dispatch(fetchModelFiles()) },
+    fetchModelFiles: (userName) => { dispatch(fetchModelFiles(userName)) },
     uploadModel: (model, onUploadProgress) => dispatch(uploadModel(model, onUploadProgress)),
     fetchUploadedModel: () => { dispatch(fetchUploadedModel()) },
     deleteModel: (name) => { dispatch(deleteOneModel(name)) },
@@ -51,7 +51,7 @@ class Main extends Component {
 
     componentDidMount() {
         this.props.fetchDatasetFiles();
-        this.props.fetchModelFiles();
+        this.props.fetchModelFiles(localStorage.getItem('verifiedUsername'));
     }
 
     shouldComponentUpdate(nextProps, nextState) {

@@ -128,16 +128,21 @@ export const deleteOneDataset = (datasetName) => (dispatch) => {
  * Models
  */
 // fetch models from the backend server
-export const fetchModelFiles = () => (dispatch) => {
+export const fetchModelFiles = (userName) => (dispatch) => {
   // test
   // return dispatch(addModelFiles(MODELFILES))
 
   dispatch(modelFilesLoading(true));
 
-  return fetch(backendUrl + 'modelFiles') // backend address: Localhost: 5000/modelFiles
-    .then(response => response.json()) // when the promise resolved, we convert the incoming response into JSON by calling response.json
-    .then(modelFiles => dispatch(addModelFiles(modelFiles))) // when the modelFiles is obtained, we dispatch it into addModelFiles()
-    .then(data => console.log(data));
+  return http.post('/modelFiles', JSON.stringify(userName), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }}) // backend address: Localhost: 5000/modelFiles
+    .then(res => {
+      console.log(res)
+      dispatch(addModelFiles(res.data))
+    }) // when the modelFiles is obtained, we dispatch it into addModelFiles()
+    .catch((err) => console.log(err));
 }
 
 export const modelFilesLoading = () => ({

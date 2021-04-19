@@ -138,57 +138,59 @@ def getNameForDetailedData():
     return json.dumps([detailed_data, metadata])
 
 
-@app.route('/modelFiles', methods=["GET", "POST"])
+@app.route('/modelFiles', methods=["POST"])
 @cross_origin()
 def showAllModelFiles():
-    if request.method == "GET":
-        # read datasets JSON file
-        # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
-        # TODO: return a empty [] to me if there is no file in the MongoDB
-        data_return = list(db.models.find({"UserName": "741917776"}))
-        result = db.modelmetadata.find({"UserName": "741917776"})
-        result = loads(dumps(result))
-        size = len(result)
-        description = list()
-        fileName = list()
-        for i in range(size):
-            description.append(result[i]['Description'])
-            fileName.append(result[i]['ModelName'])
-        dicts = {}
-        print("here here")
-        print(fileName)
-        for key in fileName:
-            for value in description:
-                dicts[key] = value
-                description.remove(value)
-                break
-        print(dicts)
+    # read datasets JSON file
+    # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
+    # TODO: return a empty [] to me if there is no file in the MongoDB
+    userName = request.get_json(force=True)
+    print(userName)
+    
+    data_return = list(db.models.find({"UserName": "741917776"}))
+    result = db.modelmetadata.find({"UserName": "741917776"})
+    result = loads(dumps(result))
+    size = len(result)
+    description = list()
+    fileName = list()
+    for i in range(size):
+        description.append(result[i]['Description'])
+        fileName.append(result[i]['ModelName'])
+    dicts = {}
+    print("here here")
+    print(fileName)
+    for key in fileName:
+        for value in description:
+            dicts[key] = value
+            description.remove(value)
+            break
+    print(dicts)
 
-        if (len(data_return) != 0):
-            json_data = dumps(data_return, indent=2)
-            with open('./data.json_tem.json', 'w') as file:
-                file.write(json_data)
-            jsonFile = open('./data.json_tem.json', 'r')
-            values = json.load(jsonFile)
-            for element in values:
-                if 'data' in element:
-                    del element['data']
+    if (len(data_return) != 0):
+        json_data = dumps(data_return, indent=2)
+        with open('./data.json_tem.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./data.json_tem.json', 'r')
+        values = json.load(jsonFile)
+        for element in values:
+            if 'data' in element:
+                del element['data']
 
-            json_size = len(values)
-            for i in range(len(values)):
-                fileName = str(values[i]["FileName"])
-                if fileName in dicts:
-                    values[i]["BriefInfo"] = dicts[fileName]
-            values = dumps(values, indent=2)
+        json_size = len(values)
+        for i in range(len(values)):
+            fileName = str(values[i]["FileName"])
+            if fileName in dicts:
+                values[i]["BriefInfo"] = dicts[fileName]
+        values = dumps(values, indent=2)
 
-            with open('./data.json_tem.json', 'w') as file:
-                file.write(values)
-            return values
+        with open('./data.json_tem.json', 'w') as file:
+            file.write(values)
+        return values
 
-        else:
-            print("The user does not have any file")
-            data = []
-            return json.dumps(data)
+    else:
+        print("The user does not have any file")
+        data = []
+        return json.dumps(data)
 
 
 @app.route('/upload-model', methods=["GET", "POST"])
