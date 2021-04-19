@@ -144,11 +144,10 @@ def showAllModelFiles():
     # read datasets JSON file
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
-    userName = request.get_json(force=True)
-    print(userName)
-
-    data_return = list(db.models.find({"UserName": "741917776"}))
-    result = db.modelmetadata.find({"UserName": "741917776"})
+    UserName = request.get_json(force=True)
+    data_return = list(db.models.find({"UserName": UserName}))
+    print(db.models.find({"UserName": UserName}))
+    result = db.modelmetadata.find({"UserName": UserName})
     result = loads(dumps(result))
     size = len(result)
     description = list()
@@ -157,14 +156,11 @@ def showAllModelFiles():
         description.append(result[i]['Description'])
         fileName.append(result[i]['ModelName'])
     dicts = {}
-    print("here here")
-    print(fileName)
     for key in fileName:
         for value in description:
             dicts[key] = value
             description.remove(value)
             break
-    print(dicts)
 
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
@@ -226,7 +222,7 @@ def uploadModel():
         size = os.path.getsize(paths)
         size_string = str(size / 1000) + "KB"
         print(size_string)
-        ID = "741917776"
+        ID = userName
         newf = paths
         print(newf)
         f = open(newf)
@@ -235,7 +231,7 @@ def uploadModel():
         data = lines
         Array = filename.split('.', 1)
         filename = Array[0] + ".cod"
-        results = db.models.find({"FileName": filename, "UserName": "741917776"})
+        results = db.models.find({"FileName": filename, "UserName": userName})
         for result in results:
 
             while (result["FileName"] == filename):
@@ -290,16 +286,16 @@ def deleteOneModel():
     userName = model_userName[1]
     print(model_userName[1])
     # delete corresponding dataset
-    db.models.delete_one({"UserName": "741917776", "FileName": modelName})
+    db.models.delete_one({"UserName": userName, "FileName": modelName})
     # delete corresponding metadata in the same time
-    db.modelmetadata.delete_one({"UserName": "741917776", "FileName": modelName})
+    db.modelmetadata.delete_one({"UserName": userName, "FileName": modelName})
     return modelName
 
 
 @app.route('/edit-model-desc', methods=["POST"])
 @cross_origin()
 def editModelDescription():
-    UserName = "741917776"
+
     data = request.get_json(force=True)
 
     print("Here!")
@@ -313,10 +309,10 @@ def editModelDescription():
 
     record = {
             "ModelName":ModelName,
-            "UserName":UserName,
+            "UserName":userName,
             "Description":Description,
     }
-    if len(loads(dumps(db.modelmetadata.find({"UserName": UserName, "ModelName": ModelName})))) == 0:
+    if len(loads(dumps(db.modelmetadata.find({"UserName": userName, "ModelName": ModelName})))) == 0:
 
         db.modelmetadata.insert_one(record)
 
@@ -325,15 +321,15 @@ def editModelDescription():
 
     record = {
         "ModelName": ModelName,
-        "UserName": UserName,
+        "UserName": userName,
         "Description": Description,
     }
-    if len(loads(dumps(db.modelmetadata.find({"UserName": UserName, "ModelName": ModelName})))) == 0:
+    if len(loads(dumps(db.modelmetadata.find({"UserName": userName, "ModelName": ModelName})))) == 0:
 
         db.modelmetadata.insert_one(record)
 
     else:
-        db.modelmetadata.delete_one({"UserName": UserName, "ModelName": ModelName})
+        db.modelmetadata.delete_one({"UserName": userName, "ModelName": ModelName})
         db.modelmetadata.insert_one(record)
 
     return data["modelName"]
