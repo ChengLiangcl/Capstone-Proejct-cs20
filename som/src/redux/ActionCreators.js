@@ -216,8 +216,9 @@ export const deleteOneModel = (modelName) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
-export const editModelDescription = (modelName,description) => (dispatch) => {
-  return http.post('/edit-model-desc', JSON.stringify({modelName, description}), {
+export const editModelDescription = (modelName, description, userName) => (dispatch) => {
+  console.log("edit user name: ", userName)
+  return http.post('/edit-model-desc', JSON.stringify({modelName, description, userName}), {
     headers: {
       "Content-Type": "multipart/form-data",
     }})

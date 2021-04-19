@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
     uploadModel: (model, onUploadProgress) => dispatch(uploadModel(model, onUploadProgress)),
     fetchUploadedModel: () => { dispatch(fetchUploadedModel()) },
     deleteModel: (name) => { dispatch(deleteOneModel(name)) },
-    editModelDescription: (name,description) => { dispatch(editModelDescription(name,description)) },
+    editModelDescription: (name,description, username) => { dispatch(editModelDescription(name,description,username)) },
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
     sendNameForDetailedData: (datasetName) => { dispatch(sendNameForDetailedData(datasetName)) }
 });

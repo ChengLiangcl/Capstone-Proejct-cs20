@@ -146,7 +146,7 @@ def showAllModelFiles():
     # TODO: return a empty [] to me if there is no file in the MongoDB
     userName = request.get_json(force=True)
     print(userName)
-    
+
     data_return = list(db.models.find({"UserName": "741917776"}))
     result = db.modelmetadata.find({"UserName": "741917776"})
     result = loads(dumps(result))
@@ -197,6 +197,9 @@ def showAllModelFiles():
 @cross_origin()
 def uploadModel():
     if request.method == "POST":
+        #userName = request.files['username']
+        userName = secure_filename(request.files['username'].filename)
+        print(userName)
 
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -282,8 +285,10 @@ def sendNewModelFiles():
 @app.route('/delete-model', methods=["POST"])
 @cross_origin()
 def deleteOneModel():
-    modelName = request.get_json(force=True)
-    print(modelName)
+    model_userName = request.get_json(force=True)
+    modelName = model_userName[0]
+    userName = model_userName[1]
+    print(model_userName[1])
     # delete corresponding dataset
     db.models.delete_one({"UserName": "741917776", "FileName": modelName})
     # delete corresponding metadata in the same time
@@ -303,6 +308,8 @@ def editModelDescription():
     ModelName = data["modelName"]
     print(ModelName)
     Description = data["description"]
+    userName = data["userName"]
+    print(userName)
 
     record = {
             "ModelName":ModelName,

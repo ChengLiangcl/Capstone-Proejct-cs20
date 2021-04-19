@@ -24,7 +24,10 @@ function ModelUpload(props) {
         setProgress(0);
 
         const formData = new FormData();
+        formData.append('username', file, localStorage.getItem('verifiedUsername'));
         formData.append('file', file); // appending file
+        
+        console.log("formdata:", formData);
 
         setCurrentFile(file);
 
