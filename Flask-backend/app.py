@@ -14,7 +14,10 @@ import random
 import pandas as pd
 import numpy as np
 import csv
-client = pymongo.MongoClient("mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",ssl=True,ssl_cert_reqs='CERT_NONE')
+
+client = pymongo.MongoClient(
+    "mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",
+    ssl=True, ssl_cert_reqs='CERT_NONE')
 db = client.datasets
 app = Flask(__name__)
 app.secret_key = b'pj&\xe9\xd7\xd7\xabc\xe6KX\xbe\x9f<\x9f\x87'
@@ -152,6 +155,8 @@ def showAllModelFiles():
             description.append(result[i]['Description'])
             fileName.append(result[i]['ModelName'])
         dicts = {}
+        print("here here")
+        print(fileName)
         for key in fileName:
             for value in description:
                 dicts[key] = value
@@ -223,8 +228,8 @@ def uploadModel():
         lines = f.readlines()
         # copy the content in lines to new list named data
         data = lines
-        Array=filename.split('.',1)
-        filename=Array[0]+".cod"
+        Array = filename.split('.', 1)
+        filename = Array[0] + ".cod"
         results = db.models.find({"FileName": filename, "UserName": "741917776"})
         for result in results:
 
@@ -287,17 +292,32 @@ def deleteOneModel():
 @app.route('/edit-model-desc', methods=["POST"])
 @cross_origin()
 def editModelDescription():
-
-    UserName="741917776"
+    UserName = "741917776"
     data = request.get_json(force=True)
+
+    print("Here!")
+
     print(data)
     ModelName = data["modelName"]
     print(ModelName)
     Description = data["description"]
+
     record = {
             "ModelName":ModelName,
             "UserName":UserName,
             "Description":Description,
+    }
+    if len(loads(dumps(db.modelmetadata.find({"UserName": UserName, "ModelName": ModelName})))) == 0:
+
+        db.modelmetadata.insert_one(record)
+
+
+    print(Description)
+
+    record = {
+        "ModelName": ModelName,
+        "UserName": UserName,
+        "Description": Description,
     }
     if len(loads(dumps(db.modelmetadata.find({"UserName": UserName, "ModelName": ModelName})))) == 0:
 
@@ -340,22 +360,20 @@ def login():
 def signUp():
     data = request.get_json(force=True)
     user = {
-        "_id":uuid.uuid4().hex,
-        "name":request.get_json(force=True)['name'],
-        "password":request.get_json(force=True)['password'],
-        "UserName":request.get_json(force=True)['email']
+        "_id": uuid.uuid4().hex,
+        "name": request.get_json(force=True)['name'],
+        "password": request.get_json(force=True)['password'],
+        "UserName": request.get_json(force=True)['email']
     }
     user['password'] = pbkdf2_sha256.encrypt(user['password'])
     print(data)
-    if db.user.find_one({ "UserName": user['UserName'] }):
+    if db.user.find_one({"UserName": user['UserName']}):
         print('email already exist')
         return 'Email already exist'
     else:
         db.user.insert_one(user)
         print('The user add sucessfully')
         return 'Add Sucessfully'
-        
-    
 
 
 if __name__ == "__main__":
