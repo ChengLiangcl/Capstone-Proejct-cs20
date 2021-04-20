@@ -4,7 +4,7 @@
       "$oid": "606d89c76b3acc15e370ab4c"
     },
     "FileName": "ex_ndy.csv",
-    "BriefInfo": "Whoa, I'm on air \uad6c\ub984 \uc704 \uac78\uc5b4 \ub2e4\ub2e4\ub978 state of mind \uc783\uc744 \uac8c \ub9ce\uc544 \ubcf4\uc774\uae34",
+    "BriefInfo": "OK",
     "Size": "4.93KB",
     "UserName": "12795757"
   },
@@ -33,6 +33,15 @@
     "FileName": "copy_of_578ex_fdy.csv",
     "BriefInfo": "check",
     "Size": "4.796KB",
+    "UserName": "12795757"
+  },
+  {
+    "_id": {
+      "$oid": "607b6fcf03a837c0fff2c43a"
+    },
+    "FileName": "copy_of_993ex_ndy.csv",
+    "BriefInfo": "",
+    "Size": "4.93KB",
     "UserName": "12795757"
   }
 ]

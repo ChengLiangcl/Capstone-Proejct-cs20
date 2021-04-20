@@ -103,6 +103,12 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
                                 <td>Whether the dataset contains labels:</td>
                                 <td>{metadata.Label}</td>
                             </tr>
+
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>Keywords:</td>
+                                <td>{JSON.stringify(metadata.Keywords)}</td>
+                            </tr>
                         </tbody>
                     </Table>
                 </Row>

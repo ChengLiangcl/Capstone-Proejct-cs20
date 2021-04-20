@@ -9,10 +9,21 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import "@pathofdev/react-tag-input/build/index.css";
 
 function MetadataForm(props) {
-    const [tags, setTags] = useState([]);
-    const [attr, setAttr] = useState(1);
+
     const FileName = localStorage.getItem('datasetname-metadata');
     console.log("local get file name: ", FileName);
+
+    const BriefInfo = props.metadata.BriefInfo !== "" ? props.metadata.BriefInfo : "Please input a brief description for the dataset";
+    const Description = props.metadata.Description !== "" ? props.metadata.Description : "Please input a detailed description for the dataset";
+    const Source = props.metadata.Source !== "" ? props.metadata.Source : "Please input the source";
+    const Keywords = props.metadata.Keywords.length !== 0 ? String(props.metadata.Keywords) : "Type and press Enter";
+    const AttrLen = props.metadata.AttrInfo.length !== 0 ? props.metadata.AttrInfo.length : attr;
+    const AttrInfo = props.metadata.AttrInfo.map(eachAttr => eachAttr);
+    console.log("Attr Info check", AttrInfo);
+
+    const [tags, setTags] = useState([]);
+    const [attr, setAttr] = useState(AttrLen);
+
 
     const handleSubmit = (values) => {
         const attrInfo = integrateAttrInfo(attr, values);
@@ -44,18 +55,22 @@ function MetadataForm(props) {
     };
 
     const AttrRow = (attrNum, showButtons) => {
+        const AttrName = AttrInfo[attrNum-1].attrName !== "" ? AttrInfo[attrNum-1].attrName : "attribute name";
+        const AttrDescription = AttrInfo[attrNum-1].attrDescription !== "" ? AttrInfo[attrNum-1].attrDescription : "attribute description";
+
+
         if (showButtons) {
             return (
                 <Row>
                     <Label md={2} className="attribute" htmlFor="attrInfo">{`Attribute${attrNum}: `}</Label>
                     <Label className="attribute" htmlFor="attrName"></Label>
                     <Col className="align-item-center">
-                        <Control.text md={1} model={`.attrName${attrNum}`} id={`.attrName${attrNum}`} name="attrName" placeholder="attribute name" className="form-control" />
+                        <Control.text md={1} model={`.attrName${attrNum}`} id={`.attrName${attrNum}`} name="attrName" placeholder={AttrName} className="form-control" />
                     </Col>
 
                     <Label className="attribute" htmlFor="attrDescription"></Label>
                     <Col className="align-item-center">
-                        <Control.text md={1} model={`.attrDescription${attrNum}`} id={`.attrDescription${attrNum}`} name="attrInfo" placeholder="description" className="form-control" />
+                        <Control.text md={1} model={`.attrDescription${attrNum}`} id={`.attrDescription${attrNum}`} name="attrInfo" placeholder={AttrDescription} className="form-control" />
                     </Col>
 
                     <Col>
@@ -77,12 +92,12 @@ function MetadataForm(props) {
                     <Label md={2} className="attribute" htmlFor="attrInfo">{`Attribute${attrNum}: `}</Label>
                     <Label className="attribute" htmlFor="attrName"></Label>
                     <Col className="align-item-center">
-                        <Control.text md={1} model={`.attrName${attrNum}`} id={`.attrName${attrNum}`} name="attrName" placeholder="attribute name" className="form-control" />
+                        <Control.text md={1} model={`.attrName${attrNum}`} id={`.attrName${attrNum}`} name="attrName" placeholder={AttrName} className="form-control" />
                     </Col>
 
                     <Label className="attribute" htmlFor="attrDescription"></Label>
                     <Col className="align-item-center">
-                        <Control.text md={1} model={`.attrDescription${attrNum}`} id={`.attrDescription${attrNum}`} name="attrInfo" placeholder="description" className="form-control" />
+                        <Control.text md={1} model={`.attrDescription${attrNum}`} id={`.attrDescription${attrNum}`} name="attrInfo" placeholder={AttrDescription} className="form-control" />
                     </Col>
 
                     <Col>
@@ -103,6 +118,7 @@ function MetadataForm(props) {
 
     const AttrForm = (num) => {
         let arr = [];
+        let attrArray = [];
         for (let i = 0; i < num; i++) {
             arr.push(AttrRow(i + 1, false));
         }
@@ -134,6 +150,15 @@ function MetadataForm(props) {
         let inputForm = ["FileName", "UserName", "BriefInfo", "Description", "Source", "Keywords", "AttrInfo"]
         let fixedForm = [];
         let fixedValue = {};
+        console.log("attr len: ", attrInfo.length);
+        console.log("attr info: ", attrInfo);
+        const compareAttr = (attrInfo) => {
+            const result = attrInfo.map((eachAttr, index) => {
+                return eachAttr["attrName"] ==="" && eachAttr["attrDescription"] === "" ? "null" : "not-null"
+            })
+            console.log("attr compare: ", result);
+            return result.includes("not-null");
+        }
 
         for (let eachForm of inputForm) {
             switch (eachForm) {
@@ -147,7 +172,7 @@ function MetadataForm(props) {
                     fixedValue[eachForm] = tags.length === 0 ? props.metadata.Keywords : tags
                     break;
                 case "AttrInfo":
-                    fixedValue[eachForm] = attrInfo.length === 0 ? props.metadata.AttrInfo : attrInfo;
+                    fixedValue[eachForm] = compareAttr(attrInfo) ? attrInfo : props.metadata.AttrInfo;
                     break;
                 /**
                 case "Label":
@@ -188,7 +213,7 @@ function MetadataForm(props) {
                             <Label htmlFor="BriefInfo" md="2">Brief descripton:</Label>
                             <Col>
                                 <Control.text model=".BriefInfo" id="BriefInfo" name="BriefInfo"
-                                    placeholder="Please input a brief description for the dataset"
+                                    placeholder={BriefInfo}
                                     className="form-control" />
                             </Col>
                         </Row>
@@ -198,7 +223,7 @@ function MetadataForm(props) {
                         <Label htmlFor="Description">Dataset description:</Label>
                         <Col md={10}>
                             <Control.textarea model=".Description" id="Description" name="Description"
-                                row="6" className="form-control" />
+                                row="6" className="form-control" placeholder={Description}/>
                         </Col>
                     </Col>
 
@@ -207,7 +232,7 @@ function MetadataForm(props) {
                             <Label htmlFor="Source" md={1}>Source:</Label>
                             <Col>
                                 <Control.text model=".Source" id="Source" name="Source"
-                                    placeholder="Please input your source"
+                                    placeholder={Source}
                                     className="form-control" />
                             </Col>
                         </Row>
@@ -253,7 +278,7 @@ function MetadataForm(props) {
                         <Row>
                             <Label htmlFor="keywords" md={2}>Key words:</Label>
                             <Col>
-                                <ReactTagInput tags={tags} onChange={(newTags) => setTags(newTags)} />
+                                <ReactTagInput tags={tags} onChange={(newTags) => setTags(newTags)} placeholder={Keywords}/>
                                 <Control model=".keywords" id="keywords" name="keywords"
                                     value="test" className="form-control nodisplay" />
                             </Col>
