@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f58ed4d8-1bcd-4f6a-8f72-3bcad1bcd217" name="默认变更列表" comment="" />
+    <list default="true" id="f58ed4d8-1bcd-4f6a-8f72-3bcad1bcd217" name="默认变更列表" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.json_tem.json" beforeDir="false" afterPath="$PROJECT_DIR$/data.json_tem.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queryResultsForDatasets.json" beforeDir="false" afterPath="$PROJECT_DIR$/queryResultsForDatasets.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +22,9 @@
         <entry key="FLASK_APP" value="app" />
       </map>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1qqMpRwHGJEbimQx4FMgJ9l2YbT" />
   <component name="ProjectViewState">
@@ -86,6 +94,7 @@
       <updated>1617802849313</updated>
       <workItem from="1617802850384" duration="1516000" />
       <workItem from="1617842332928" duration="67000" />
+      <workItem from="1618895498568" duration="8489000" />
     </task>
     <servers />
   </component>

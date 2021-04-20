@@ -1,20 +1,29 @@
 [
-    {
-      "_id": {
-        "$oid": "606702b2b1e51ef27782dcf5"
-      },
-      "FileName": "ex.csv",
-      "BriefInfo": "This is the querying result",
-      "Size": "193.9KB",
-      "UserName": "12795757"
+  {
+    "_id": {
+      "$oid": "607e51646cea98fe98eae6fe"
     },
-    {
-      "_id": {
-        "$oid": "606702ccb1e51ef27782dcf6"
-      },
-      "FileName": "copy_of_323ex.csv",
-      "BriefInfo": "This is the querying result",
-      "Size": "193.9KB",
-      "UserName": "12795757"
-    }
-  ]
+    "FileName": "ex_fdy.csv",
+    "BriefInfo": "check",
+    "Size": "4.796KB",
+    "UserName": "12795757"
+  },
+  {
+    "_id": {
+      "$oid": "607e516a6cea98fe98eae700"
+    },
+    "FileName": "ex_ndy.csv",
+    "BriefInfo": "THIS IS THE DATASET FOR JAY PARK",
+    "Size": "4.93KB",
+    "UserName": "12795757"
+  },
+  {
+    "_id": {
+      "$oid": "607e58fdce5bb160b992dd6d"
+    },
+    "FileName": "copy_of_491ex_ndy.csv",
+    "BriefInfo": "NBCLASS",
+    "Size": "4.93KB",
+    "UserName": "12795757"
+  }
+]

@@ -398,33 +398,77 @@ def queryDatasets():
     input_value = request.get_json(force=True)
     print(input_value) # you can check the inputted word through this
     print(type(input_value))  # string
-
+    print("1111")
     UserName="12795757"
     NameArray=[]
+    spstr=str(input_value).split(" ")
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
     # this is the querying result I simulate, please REPLACE it when you get the real results
-    returndata=db.metadata.find({"UserName":UserName,"Keywords":{"$in":[str(input_value)]} })
-    json_data = dumps(returndata, indent=2)
+    returndata=db.metadata.find({"UserName":UserName,"Keywords":{"$in":spstr} })
+    json_data1 = dumps(returndata, indent=2)
     with open('./returnmetadata.json', 'w') as file:
-        file.write(json_data)
-    jsonFile = open('./returnmetadata.json', 'r')
-    values = json.load(jsonFile)
-    for element in values:
+        file.write(json_data1)
+    jsonFile1 = open('./returnmetadata.json', 'r')
+    re = json.load(jsonFile1)
+    for element in re:
         if 'FileName' in element:
             NameArray.append(element['FileName'])
 
     #print(NameArray[0])
     #print(NameArray[1])
+    jsonFile2 = open('./data.json_tem.json', 'r')
+    r=json.load(jsonFile2)
+    print(r)
+    for i in spstr:
+     for element in r:
+      if element['FileName'] == i:
+       NameArray.append(element['FileName'])
 
-    returndataset=db.files.find({"FileName":{"$in":NameArray},"UserName":UserName})
-    json_filedata = dumps(returndataset, indent=2)
-    with open('./queryResultsForDatasets.json', 'w') as f:
-         f.write(json_filedata)
-    jsonFile = open('./queryResultsForDatasets.json', 'r')
-    queried_datasets = json.load(jsonFile)
+    print(NameArray)
 
-    return json.dumps(queried_datasets)
+    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName}))
+    result=db.metadata.find({"UserName":UserName})
+    result = loads(dumps(result))
+    size = len(result)
+    description = list()
+    fileName = list()
+    for i in range(size):
+        description.append(result[i]['BriefInfo'])
+        fileName.append(result[i]['FileName'])
+    dicts = {}
+    for key in fileName:
+        for value in description:
+            dicts[key] = value
+            description.remove(value)
+            break
+    print(dicts)
+
+    if (len(data_return) != 0):
+        json_data = dumps(data_return, indent=2)
+        with open('./queryResultsForDatasets.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./queryResultsForDatasets.json', 'r')
+        values = json.load(jsonFile)
+        for element in values:
+            if 'data' in element:
+                del element['data']
+
+        json_size = len(values)
+        for i in range(len(values)):
+            fileName = str(values[i]["FileName"])
+            if fileName in dicts:
+                values[i]["BriefInfo"] = dicts[fileName]
+        values = dumps(values, indent=2)
+
+        with open('./queryResultsForDatasets.json', 'w') as file:
+            file.write(values)
+        return values
+    else:
+     print("The user does not have any file")
+     data = []
+    return json.dumps(data)
+
 
 
 if __name__ == "__main__":
