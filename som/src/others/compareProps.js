@@ -59,6 +59,17 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
         }
     }
 
+    console.log(`compareBriefInfo: ${compareBriefInfo}`);
+    console.log(`compareDescription: ${compareDescription}`);
+    console.log(`compareSource: ${compareSource}`);
+    console.log(`compareNumber_of_Instance: ${compareNumber_of_Instance}`);
+    console.log(`compareNumber_of_Attribute: ${compareNumber_of_Attribute}`);
+    console.log(`compareLabel: ${compareLabel}`);
+    console.log(`compareKeyWords: ${compareKeyWords(currentMetadata.Keywords, nextMetadata.Keywords)}`);
+    console.log(`compareNumber_of_Attribute: ${compareNumber_of_Attribute}`);
+    console.log(`compareAttributes: ${compareAttributes(currentMetadata.AttrInfo, nextMetadata.AttrInfo)}`);
+    console.log(`compareModelFiles ${compareModelFiles(currentModelFiles, nextModelFiles)}`);
+
     //different matadata's length means the user changed metadata just now, the system needs to be updated
     /** 
     if (currentMetadata.length !== nextMetadata.length) {
@@ -67,7 +78,7 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
     // different content of metadata means updating
     if (compareBriefInfo || compareDescription || compareSource || compareNumber_of_Instance ||
         compareNumber_of_Attribute || compareLabel || compareKeyWords(currentMetadata.Keywords, nextMetadata.Keywords) ||
-        compareAttributes(currentMetadata.AttrInfo, nextMetadata.AttrInfo)|| compareModelFiles(currentModelFiles, nextModelFiles)) {
+        compareAttributes(currentMetadata.AttrInfo, nextMetadata.AttrInfo)) {
         return true
     }
     // no different content of metadata means no updating

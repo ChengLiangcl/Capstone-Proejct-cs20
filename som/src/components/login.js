@@ -61,9 +61,9 @@ const Login = ({ handleChange, ...props }) => {
     console.log("check username and password", values)
     // save into the local session
     console.log(values.username)
-    localStorage.setItem('username', values.username);
-    localStorage.setItem('password', values.password)
-    const loginInfo = { username: localStorage.getItem('username'), password: localStorage.getItem('password') };
+    sessionStorage.setItem('username', values.username);
+    sessionStorage.setItem('password', values.password)
+    const loginInfo = { username: sessionStorage.getItem('username'), password: sessionStorage.getItem('password') };
     console.log("userInfo ", loginInfo);
     setUser(loginInfo.username);
     props.login(loginInfo);
@@ -88,7 +88,7 @@ const Login = ({ handleChange, ...props }) => {
     
     if (props.user.userInfo) {
       console.log(props.user.userInfo);
-      if (sessionStorage.getItem('verifiedUsername') === localStorage.getItem('username')) {
+      if (sessionStorage.getItem('verifiedUsername') === sessionStorage.getItem('username')) {
         props.history.replace('/');
       } else {
         setModal(!isModalOpen);
