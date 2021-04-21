@@ -55,9 +55,10 @@ function MetadataForm(props) {
     };
 
     const AttrRow = (attrNum, showButtons) => {
-        const AttrName = AttrInfo[attrNum-1].attrName !== "" ? AttrInfo[attrNum-1].attrName : "attribute name";
-        const AttrDescription = AttrInfo[attrNum-1].attrDescription !== "" ? AttrInfo[attrNum-1].attrDescription : "attribute description";
 
+        const AttrName = AttrInfo[attrNum-1] == undefined || AttrInfo[attrNum-1].attrName === ""  ?  "attribute name" : AttrInfo[attrNum-1].attrName;
+        const AttrDescription = AttrInfo[attrNum-1] == undefined || AttrInfo[attrNum-1].attrDescription === "" ? "attribute description" : AttrInfo[attrNum-1].attrDescription;
+        
 
         if (showButtons) {
             return (
@@ -136,8 +137,8 @@ function MetadataForm(props) {
             attrIndex = {
                 // to identify if the attrName exists in the values (meaning if a user input words into it)
                 // if not, then adding "" to attrName; if the user inputted, then keep the inputted value
-                attrName: values[`attrName${i + 1}`] == null ? "" : values[`attrName${i + 1}`],
-                attrDescription: values[`attrDescription${i + 1}`] == null ? "" : values[`attrDescription${i + 1}`]
+                attrName: values[`attrName${i + 1}`] == null ? AttrInfo[i].attrName : values[`attrName${i + 1}`],
+                attrDescription: values[`attrDescription${i + 1}`] == null ? AttrInfo[i].attrDescription : values[`attrDescription${i + 1}`]
             };
 
             attrInfo.push(attrIndex);
@@ -152,6 +153,7 @@ function MetadataForm(props) {
         let fixedValue = {};
         console.log("attr len: ", attrInfo.length);
         console.log("attr info: ", attrInfo);
+
         const compareAttr = (attrInfo) => {
             const result = attrInfo.map((eachAttr, index) => {
                 return eachAttr["attrName"] ==="" && eachAttr["attrDescription"] === "" ? "null" : "not-null"
@@ -173,6 +175,7 @@ function MetadataForm(props) {
                     break;
                 case "AttrInfo":
                     fixedValue[eachForm] = compareAttr(attrInfo) ? attrInfo : props.metadata.AttrInfo;
+                    console.log("fixed Attr: ", fixedValue[eachForm]);
                     break;
                 /**
                 case "Label":
@@ -248,7 +251,6 @@ function MetadataForm(props) {
                                     min="0" type="number" step="1" />
                             </Col>
                         </Col>
-
                         <Col md={5}>
                             <Label htmlFor="Number_of_Attribute" md={10}>Number of attributes:</Label>
                             <Col md={4}>
@@ -258,7 +260,6 @@ function MetadataForm(props) {
                             </Col>
                         </Col>
                     </Row>
-
                     <Col className="form-group">
                         <Row>
                             <Label md={4}>Whether the dataset containes labels:</Label>
