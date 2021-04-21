@@ -60,8 +60,7 @@ def upload():
         size_string = str(size/1000) + "KB"
         print(size_string)
 
-        ID = "12795757"
-        result =  db.files.find({"FileName":filename,"UserName":ID})
+        result =  db.files.find({"FileName":userName,"UserName":userName})
         result = loads(dumps(result))
         print(len(result))#Check the size of the json array
         f = open(paths,'r')
@@ -116,13 +115,13 @@ def upload():
                 "FileName":filename,
                 "BriefInfo": "",
                 "Size":size_string,
-                "UserName":ID,
+                "UserName":userName,
                 "data": data
             }
             db.files.insert_one(store_schema)
             metadata = {
                 "FileName":filename,
-                "UserName":ID,
+                "UserName":userName,
                 "BriefInfo":"",
                 "Description":"",
                 "Source":"",
@@ -147,13 +146,13 @@ def upload():
                 "FileName":filename,
                 "BriefInfo":"",
                 "Size":size_string,
-                "UserName":ID,
+                "UserName":userName,
                 "data": data
             }
             db.files.insert_one(store_schema)
             metadata = {
                 "FileName":filename,
-                "UserName":ID,
+                "UserName":userName,
                 "BriefInfo":"",
                 "Description":"",
                 "Source":"",
@@ -181,8 +180,8 @@ def showAlldatasetFiles():
     # read datasets JSON file
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
-    data_return = list(db.files.find( {"UserName":"12795757"}))
-    result = db.metadata.find({"UserName":"12795757"})
+    data_return = list(db.files.find( {"UserName":UserName}))
+    result = db.metadata.find({"UserName":UserName})
     result = loads(dumps(result))
     size = len(result)
     description = list()
@@ -275,10 +274,10 @@ def submitMetadata():
     # the type of the returned matadata is a python list, you can operate on it to save into the MongoDB
     # print(type(metadata)) 
     #Define the schema for the dataset, and store all the
-    if len(loads(dumps(db.metadata.find({"UserName":"12795757","FileName":FileName}))))==0:
+    if len(loads(dumps(db.metadata.find({"UserName":UserName,"FileName":FileName}))))==0:
 
         # db.metadata.insert_one(schema)
-        db.metadata.update({"UserName": "12795757","FileName":FileName},
+        db.metadata.update({"UserName": UserName,"FileName":FileName},
         {"$set": {
             "BriefInfo": BriefInfo,
             "Description": Description,
@@ -290,7 +289,7 @@ def submitMetadata():
         
         metadata_string = request.data
     else:
-        db.metadata.update({"UserName": "12795757","FileName":FileName},
+        db.metadata.update({"UserName": UserName,"FileName":FileName},
         {"$set": {
             "BriefInfo": BriefInfo,
             "Description": Description,
@@ -322,9 +321,9 @@ def deleteOneDataset():
     print(type(datasetName))  # string
     # TODO delete the corresponding dataset in the MongoDB based on the datasetName
     # delete corresponding dataset
-    db.files.delete_one({"UserName": "12795757", "FileName": datasetName})
+    db.files.delete_one({"UserName": userName, "FileName": datasetName})
     # delete corresponding metadata in the same time
-    db.metadata.delete_one({"UserName": "12795757", "FileName": datasetName})
+    db.metadata.delete_one({"UserName":userName, "FileName": datasetName})
     print("Done the delete")
     # this return must be string, which will be returned to the frontend immediately
     # so DO NOT modify the return 'metadata_string'
@@ -340,15 +339,14 @@ def getNameForDetailedData():
     userName = dataset_userName[1]
     print(userName)
 
-
     getDatasetName = False
-    result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
+    result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
     result = loads(dumps(result))
 
     if(len(result)>0):
         # TODO to get detailed_data from MongoDB
-        result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
-        result_detailed_data = db.files.find({"FileName":str(datasetName),"UserName":"12795757"})
+        result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
+        result_detailed_data = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
         result = loads(dumps(result))
         result_detailed_data = loads(dumps(result_detailed_data))
         metadata = result
@@ -364,7 +362,7 @@ def getNameForDetailedData():
             metadata = json.load(f)
     #Handeling the situation when it return a empty [], change to the relevent metadata.
     if(len(metadata)==0):
-        result = db.metadata.find({"FileName":str(datasetName),"UserName":"12795757"})
+        result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
         result = loads(dumps(result))
         metadata = result
         for element in metadata:
@@ -387,14 +385,13 @@ def queryDatasets():
 
     print(input_value) # you can check the inputted word through this
     print(type(input_value))  # string
-    print("1111")
-    UserName="12795757"
+    
     NameArray=[]
     spstr=str(input_value).split(" ")
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
     # this is the querying result I simulate, please REPLACE it when you get the real results
-    returndata=db.metadata.find({"UserName":UserName,"Keywords":{"$in":spstr} })
+    returndata=db.metadata.find({"UserName":str(userName),"Keywords":{"$in":spstr} })
     json_data1 = dumps(returndata, indent=2)
     with open('./returnmetadata.json', 'w') as file:
         file.write(json_data1)
@@ -416,8 +413,8 @@ def queryDatasets():
 
     print(NameArray)
 
-    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName}))
-    result=db.metadata.find({"UserName":UserName})
+    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":userName}))
+    result=db.metadata.find({"UserName":userName})
     result = loads(dumps(result))
     size = len(result)
     description = list()
