@@ -1,47 +1,20 @@
 [
   {
     "_id": {
-      "$oid": "607fecb74f3a64a51ddd311a"
+      "$oid": "607fc24fdb4352411ebb0cf2"
     },
-    "FileName": "ex_fdy.csv",
-    "BriefInfo": "123123",
-    "Size": "4.796KB",
-    "UserName": "321@gmail.com"
+    "FileName": "ex.dat",
+    "BriefInfo": "training set",
+    "Size": "193.9KB",
+    "UserName": "freya.mao@outlook.com"
   },
   {
     "_id": {
-      "$oid": "607fed10802181bb3249e3f4"
+      "$oid": "607fd427102124bc590aab17"
     },
-    "FileName": "ex_ndy.csv",
+    "FileName": "ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
-    "UserName": "321@gmail.com"
-  },
-  {
-    "_id": {
-      "$oid": "607fed536654184f9ea1cad9"
-    },
-    "FileName": "copy_of_241ex_fdy.csv",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "UserName": "321@gmail.com"
-  },
-  {
-    "_id": {
-      "$oid": "608000617e41e8fa4e448713"
-    },
-    "FileName": "copy_of_191ex_fdy.csv",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "UserName": "321@gmail.com"
-  },
-  {
-    "_id": {
-      "$oid": "608000697e41e8fa4e448715"
-    },
-    "FileName": "copy_of_709ex_ndy.csv",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "UserName": "321@gmail.com"
+    "Size": "13.532KB",
+    "UserName": "freya.mao@outlook.com"
   }
 ]

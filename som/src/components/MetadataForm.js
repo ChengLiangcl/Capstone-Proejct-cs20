@@ -194,7 +194,7 @@ function MetadataForm(props) {
     useEffect(() => {
         // fetch the existing metadata first
         console.log("start refreshing metadata form")
-        props.sendNameForDetailedData(FileName);
+        props.sendNameForDetailedData(FileName, sessionStorage.getItem('verifiedUsername'));
     });
 
     return (
