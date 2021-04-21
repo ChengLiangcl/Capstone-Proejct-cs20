@@ -28,20 +28,20 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    fetchDatasetFiles: () => { dispatch(fetchDatasetFiles()) },
+    fetchDatasetFiles: (userName) => { dispatch(fetchDatasetFiles(userName)) },
     uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
     fetchUploadedDataset: () => { dispatch(fetchUploadedDataset()) },
-    deleteDataset: (datasetName) => { dispatch(deleteOneDataset(datasetName)) },
-    queryDatasets: (inputValue) => { dispatch(queryDatasets(inputValue)) },
+    deleteDataset: (datasetName, userName) => { dispatch(deleteOneDataset(datasetName, userName)) },
+    queryDatasets: (inputValue, userName) => { dispatch(queryDatasets(inputValue, userName)) },
 
     fetchModelFiles: (userName) => { dispatch(fetchModelFiles(userName)) },
     uploadModel: (model, onUploadProgress) => dispatch(uploadModel(model, onUploadProgress)),
     fetchUploadedModel: () => { dispatch(fetchUploadedModel()) },
-    deleteModel: (name) => { dispatch(deleteOneModel(name)) },
+    deleteModel: (name, userName) => { dispatch(deleteOneModel(name, userName)) },
     editModelDescription: (name, description, username) => { dispatch(editModelDescription(name, description, username)) },
 
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
-    sendNameForDetailedData: (datasetName) => { dispatch(sendNameForDetailedData(datasetName)) }
+    sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName)) }
 });
 
 class Main extends Component {
@@ -53,7 +53,7 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchDatasetFiles();
+        this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
         this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
     }
 

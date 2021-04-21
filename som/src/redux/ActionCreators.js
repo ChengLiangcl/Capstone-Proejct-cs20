@@ -46,14 +46,16 @@ export const updateUser = (userInfo) => ({
  * Dataset
  */
 // fetch datasets from the backend server
-export const fetchDatasetFiles = () => (dispatch) => {
+export const fetchDatasetFiles = (userName) => (dispatch) => {
 
   dispatch(datasetFilesLoading(true));
 
-  return fetch(backendUrl + 'datasetFiles') // backend address: Localhost: 5000/datasetFiles
-      .then(response => response.json()) // when the promise resolved, we convert the incoming response into JSON by calling response.json
-      .then(datasetFiles => dispatch(addDatasetFiles(datasetFiles))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
-      .then(data => console.log(data));
+  return http.post('/datasetFiles', JSON.stringify(userName), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }}) // backend address: Localhost: 5000/datasetFiles
+      .then(res => dispatch(addDatasetFiles(res.data))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
+      .catch((err) => console.log(err));
 }
 
 export const datasetFilesLoading = () => ({
@@ -110,8 +112,8 @@ export const removeOneDataset = (datasetName) => ({
 });
 
 // pass the filename to the backend server and tell it to delete corresponding dataset
-export const deleteOneDataset = (datasetName) => (dispatch) => {
-  return http.post('/delete-dataset', JSON.stringify(datasetName), {
+export const deleteOneDataset = (datasetName, userName) => (dispatch) => {
+  return http.post('/delete-dataset', JSON.stringify([datasetName, userName]), {
       headers: {
         "Content-Type": "multipart/form-data",
       }})
@@ -119,6 +121,20 @@ export const deleteOneDataset = (datasetName) => (dispatch) => {
           console.log("this is response for delete dataset");
           console.log(res);
           dispatch(removeOneDataset(res.data));
+      })
+      .catch((err) => console.log(err));
+};
+
+//query datasets
+export const queryDatasets = (inputValue, userName) => (dispatch) => {
+  return http.post('/query-datasets', JSON.stringify([inputValue, userName]), {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }})
+      .then(res => {
+          console.log("this is response for querying datasets");
+          console.log(res.data);
+          dispatch(addDatasetFiles(res.data))
       })
       .catch((err) => console.log(err));
 };
@@ -204,8 +220,8 @@ export const editOneModelDescription = (modelName,description) => ({
 });
 
 // pass the filename to the backend server and tell it to delete corresponding model
-export const deleteOneModel = (modelName) => (dispatch) => {
-  return http.post('/delete-model', JSON.stringify(modelName), {
+export const deleteOneModel = (modelName, userName) => (dispatch) => {
+  return http.post('/delete-model', JSON.stringify([modelName, userName]), {
     headers: {
       "Content-Type": "multipart/form-data",
     }})
@@ -265,10 +281,10 @@ export const metadataLoading = () => ({
 /**
  * Detailed data
  */
- export const sendNameForDetailedData = (datasetName) => (dispatch) => {
+ export const sendNameForDetailedData = (datasetName, userName) => (dispatch) => {
   console.log("start detailed loading");
 
-  return http.post('/detailedData-name', JSON.stringify(datasetName), {
+  return http.post('/detailedData-name', JSON.stringify([datasetName, userName]), {
       headers: {
         "Content-Type": "multipart/form-data",
       }})
@@ -295,18 +311,6 @@ export const detailedDataLoading = () => ({
   type: ActionTypes.DETAILEDDATA_LOADING
 });
 
-//query datasets
-export const queryDatasets = (inputValue) => (dispatch) => {
-  return http.post('/query-datasets', JSON.stringify(inputValue), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-          console.log("this is response for querying datasets");
-          console.log(res.data);
-          dispatch(addDatasetFiles(res.data))
-      })
-      .catch((err) => console.log(err));
-};
+
 
 

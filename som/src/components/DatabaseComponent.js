@@ -21,7 +21,7 @@ class Database extends Component {
     }
 
     componentDidUpdate (){
-        this.props.fetchDatasetFiles();
+        this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
     }
 
     // to create a flexible table head, where the number of columns depends on the attributes in the datafile.
@@ -48,6 +48,7 @@ class Database extends Component {
     //TODO: may change if the design of the database is changed
     tableBody(datasets) {
         // when there is no uploaded dataset in the database
+        console.log(`dataset length: ${datasets.length}, dataset is ${datasets}`)
         if (datasets.length === 0) {
             return (
                 <tbody />

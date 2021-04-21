@@ -19,7 +19,7 @@ function DeleteOneDataset(props) {
     const handleYesBtn= () => {
         console.log("filename is " + props.deletedFileName);
         console.log(typeof(props.deleteDataset));
-        props.deleteDataset(props.deletedFileName);
+        props.deleteDataset(props.deletedFileName, sessionStorage.getItem('verifiedUsername'));
         setModal(!isModalOpen);
     }
 

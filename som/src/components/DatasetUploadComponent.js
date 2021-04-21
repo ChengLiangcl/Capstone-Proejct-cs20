@@ -24,6 +24,7 @@ function DatasetUpload(props) {
         setProgress(0);
 
         const formData = new FormData();
+        formData.append('username', file, sessionStorage.getItem('verifiedUsername'));
         formData.append('file', file); // appending file
 
         setCurrentFile(file);

@@ -141,7 +141,7 @@ const DetailedDataset = React.memo((props) => {
     console.log("local get file name: ", FileName);
     
     useEffect(() => {
-        props.sendNameForDetailedData(FileName);
+        props.sendNameForDetailedData(FileName, sessionStorage.getItem('verifiedUsername'));
     });
     
     return (

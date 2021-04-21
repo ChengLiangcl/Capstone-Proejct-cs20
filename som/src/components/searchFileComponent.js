@@ -15,7 +15,7 @@ function SearchFile(props) {
 
     const handleClick = () => {
         console.log("the current input value: ", inputValue);
-        props.queryDatasets(inputValue);
+        props.queryDatasets(inputValue, sessionStorage.getItem('verifiedUsername'));
     };
 
     return (

@@ -32,27 +32,8 @@ Datasets
 @cross_origin()
 def upload():
     if request.method == "POST":
-
-        # # check if the post request has the file part
-        # if 'file' not in request.files:
-        #     flash("No file part")
-        #     return redirect(request.url)
-
-        # uploaded_file = request.files['file']
-        # print(uploaded_file)
-        # # if user does not select file browser also
-        # # submit an empty part without filename
-        # if uploaded_file.filename == '':
-        #     flash('No selected file')
-        #     return redirect(request.url)
-
-        # # check if the post request has the file part
-        # filename = secure_filename(uploaded_file.filename)
-        # print(filename) # e.g. ex.csv
-        # # TODO: PLEASE deal with the filename to avoid repeating name here
-        # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
-        # # TODO: (replace the code below) save the file to MongoDB
-        # uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+        userName = request.files['username'].filename
+        print(userName)
 
         if 'file' not in request.files:
             flash("No file part")
@@ -193,54 +174,56 @@ def upload():
 
     return json.dumps(data)
 
-@app.route('/datasetFiles', methods=["GET", "POST"])
+@app.route('/datasetFiles', methods=["POST"])
 def showAlldatasetFiles():
-    if request.method == "GET":
-        # read datasets JSON file
-        # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
-        # TODO: return a empty [] to me if there is no file in the MongoDB
-        data_return = list(db.files.find( {"UserName":"12795757"}))
-        result = db.metadata.find({"UserName":"12795757"})
-        result = loads(dumps(result))
-        size = len(result)
-        description = list()
-        fileName = list()
-        for i in range(size):
-            description.append(result[i]['BriefInfo'])
-            fileName.append(result[i]['FileName'])
-        dicts = {}
-        for key in fileName:
-            for value in description:
-                dicts[key] = value
-                description.remove(value)
-                break
-        print(dicts)
+    UserName = request.get_json(force=True)
+    print("username get: ", UserName)
+    # read datasets JSON file
+    # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
+    # TODO: return a empty [] to me if there is no file in the MongoDB
+    data_return = list(db.files.find( {"UserName":"12795757"}))
+    result = db.metadata.find({"UserName":"12795757"})
+    result = loads(dumps(result))
+    size = len(result)
+    description = list()
+    fileName = list()
+    for i in range(size):
+        description.append(result[i]['BriefInfo'])
+        fileName.append(result[i]['FileName'])
+    dicts = {}
+    for key in fileName:
+        for value in description:
+            dicts[key] = value
+            description.remove(value)
+            break
+    print(dicts)
 
-        if(len(data_return)!=0):
-            json_data = dumps(data_return, indent = 2)
-            with open('./data.json_tem.json', 'w') as file:
-                file.write(json_data)
-            jsonFile = open('./data.json_tem.json', 'r')
-            values = json.load(jsonFile)
-            for element in values:
-                if 'data' in element:
-                    del element['data']
+    if(len(data_return)!=0):
+        print("am I here")
+        json_data = dumps(data_return, indent = 2)
+        with open('./data.json_tem.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./data.json_tem.json', 'r')
+        values = json.load(jsonFile)
+        for element in values:
+            if 'data' in element:
+                del element['data']
 
-            json_size = len(values)
-            for i in range(len(values)):
-                fileName = str(values[i]["FileName"])
-                if fileName in dicts:
-                    values[i]["BriefInfo"] = dicts[fileName]
-            values = dumps(values, indent = 2)
+        json_size = len(values)
+        for i in range(len(values)):
+            fileName = str(values[i]["FileName"])
+            if fileName in dicts:
+                values[i]["BriefInfo"] = dicts[fileName]
+        values = dumps(values, indent = 2)
 
-            with open('./data.json_tem.json', 'w') as file:
-                file.write(values)
-            return values
+        with open('./data.json_tem.json', 'w') as file:
+            file.write(values)
+        return values
 
-        else:
-            print("The user does not have any file")
-            data = []
-            return json.dumps(data)
+    else:
+        print("The user does not have any file")
+        data = []
+        return json.dumps(data)
 
 @app.route('/newDataset', methods=["GET"])
 def sendNewdatasetFiles():
@@ -329,9 +312,12 @@ def submitMetadata():
 @app.route('/delete-dataset', methods=["POST"])
 @cross_origin()
 def deleteOneDataset():
+    dataset_userName = request.get_json(force=True)
+    datasetName= dataset_userName[0]
+    userName = dataset_userName[1]
+    print(userName)
 
     # to get the selected dataset name from the frontend
-    datasetName = request.get_json(force=True)
     print(datasetName) # you can check the gotten dataset name
     print(type(datasetName))  # string
     # TODO delete the corresponding dataset in the MongoDB based on the datasetName
@@ -349,11 +335,10 @@ def deleteOneDataset():
 @app.route('/detailedData-name', methods=["POST"])
 @cross_origin()
 def getNameForDetailedData():
-
-    # 1. you get the selected dataset name from the frontend, so that you know which dataset you will extract detailed data from
-    datasetName = request.get_json(force=True)
-    print(datasetName)  # you can check the dataset name through this
-    # print(type(datasetName))  # string
+    dataset_userName = request.get_json(force=True)
+    datasetName= dataset_userName[0]
+    userName = dataset_userName[1]
+    print(userName)
 
 
     getDatasetName = False
@@ -395,9 +380,11 @@ def getNameForDetailedData():
 @app.route('/query-datasets', methods=["POST"])
 @cross_origin()
 def queryDatasets():
+    inputvalue_userName = request.get_json(force=True)
+    input_value= inputvalue_userName[0]
+    userName = inputvalue_userName[1]
+    print(userName)
 
-    # you will recieve a inputted word by a user from the frontend
-    input_value = request.get_json(force=True)
     print(input_value) # you can check the inputted word through this
     print(type(input_value))  # string
     print("1111")

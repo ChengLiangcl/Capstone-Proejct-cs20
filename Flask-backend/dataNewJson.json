@@ -1,11 +1,11 @@
 [
   {
     "_id": {
-      "$oid": "607eab2c89df5a3fbf296048"
+      "$oid": "607fad52eb7b0956163590cc"
     },
-    "FileName": "copy_of_509ex_ndy.csv",
+    "FileName": "ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.532KB",
     "UserName": "12795757"
   }
 ]

@@ -20,7 +20,7 @@ class SOMModel extends Component {
   }
 
   componentDidUpdate() {
-    this.props.fetchModelFiles();
+    this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
   }
 
   tableHead() {
