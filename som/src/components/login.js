@@ -81,14 +81,14 @@ const Login = ({ handleChange, ...props }) => {
 
   useEffect(() => {
     console.log("helllloo");
-    console.log(123, localStorage.getItem('verifiedUsername'));
-    if (localStorage.getItem('verifiedUsername') != undefined || localStorage.getItem('verifiedUsername') !== null){
-      props.updateUser(localStorage.getItem('verifiedUsername'));
+    console.log(123, sessionStorage.getItem('verifiedUsername'));
+    if (sessionStorage.getItem('verifiedUsername') != undefined || sessionStorage.getItem('verifiedUsername') !== null){
+      props.updateUser(sessionStorage.getItem('verifiedUsername'));
     }
     
     if (props.user.userInfo) {
       console.log(props.user.userInfo);
-      if (localStorage.getItem('verifiedUsername') === localStorage.getItem('username')) {
+      if (sessionStorage.getItem('verifiedUsername') === localStorage.getItem('username')) {
         props.history.replace('/');
       } else {
         setModal(!isModalOpen);
