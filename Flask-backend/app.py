@@ -33,7 +33,10 @@ Datasets
 def upload():
     if request.method == "POST":
         userName = request.files['username'].filename
+        fileName = request.files['file'].filename
+        userName = str(userName)
         print(userName)
+       
 
         if 'file' not in request.files:
             flash("No file part")
@@ -60,9 +63,9 @@ def upload():
         size_string = str(size/1000) + "KB"
         print(size_string)
 
-        result =  db.files.find({"FileName":userName,"UserName":userName})
+        result =  db.files.find({"FileName":fileName,"UserName":userName})
         result = loads(dumps(result))
-        print(len(result))#Check the size of the json array
+        print(result)#Check the size of the json array
         f = open(paths,'r')
         count = 0
         first_num = 0
@@ -337,12 +340,12 @@ def getNameForDetailedData():
     dataset_userName = request.get_json(force=True)
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
-    print(userName)
-
+    # print(datasetName)
+    print(str(userName) + "Check the username")
     getDatasetName = False
     result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
     result = loads(dumps(result))
-
+   
     if(len(result)>0):
         # TODO to get detailed_data from MongoDB
         result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
@@ -354,23 +357,26 @@ def getNameForDetailedData():
         for element in metadata:
             if '_id' in element:
                 del element['_id']
-
-    else:
-        with open('./detailedData.json') as f:
-            detailed_data = json.load(f)
-        with open('./metadata.json') as f:
-            metadata = json.load(f)
+ 
     #Handeling the situation when it return a empty [], change to the relevent metadata.
-    if(len(metadata)==0):
-        result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
+    result_detailed_data = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
+    result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
+    result = loads(dumps(result))
+    result_detailed_data = loads(dumps(result_detailed_data))
+    metadata = result
+    for element in metadata:
+        if '_id' in element:
+            del element['_id']
+    if(len(result_detailed_data)==0):
+        print(datasetName)
+        print(userName)
+        print('end')
+        result = db.files.find({"FileName":str(datasetName),"UserName":userName})
         result = loads(dumps(result))
-        metadata = result
-        for element in metadata:
-            if '_id' in element:
-                del element['_id']
-    print('sss')
-    print(metadata)
-    print('sss')
+        detailed_data = result
+        # print(str(detailed_data) +"ssssssss")
+        
+   
 
     return json_util.dumps([detailed_data, metadata])
 
