@@ -59,6 +59,7 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
         }
     }
 
+    /** 
     console.log(`compareBriefInfo: ${compareBriefInfo}`);
     console.log(`compareDescription: ${compareDescription}`);
     console.log(`compareSource: ${compareSource}`);
@@ -69,6 +70,7 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
     console.log(`compareNumber_of_Attribute: ${compareNumber_of_Attribute}`);
     console.log(`compareAttributes: ${compareAttributes(currentMetadata.AttrInfo, nextMetadata.AttrInfo)}`);
     console.log(`compareModelFiles ${compareModelFiles(currentModelFiles, nextModelFiles)}`);
+    */
 
     //different matadata's length means the user changed metadata just now, the system needs to be updated
     /** 

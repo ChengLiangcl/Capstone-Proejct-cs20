@@ -30,33 +30,37 @@ Datasets and model upload
 @app.route('/connect-upload', methods=["POST"])
 @cross_origin()
 def connect_upload():
-    # check if the post request has the file part
-    if 'file' not in request.files:
-        flash("No file part")
-        return redirect(request.url)
 
+    # get username
     userName = request.files['username'].filename
     print("connect username: ", userName)
     print("get file: ", request.files)
 
-    uploaded_file = request.files['file']
-    print("connect file: ", uploaded_file)
-
-    # if user does not select file browser also
-    # submit an empty part without filename
-    if uploaded_file.filename == '':
-        flash('No selected file')
-        return redirect(request.url)
+    # get files list: multiple files are stored into an list
+    files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-1)]
+    print("file list is: ", files_list)
+    # get the first file
+    print("the first file: ", files_list[0])
+    
+    # get file-name list
+    files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-1)]
+    print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
 
     # check if the post request has the file part
-    filename = secure_filename(uploaded_file.filename)
-    print(filename) # e.g. ex.csv
-    # TODO: PLEASE deal with the filename to avoid repeating name here
-    file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
-    # TODO: (replace the code below) save the file to MongoDB
-    uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+    # if user does not select file browser also
+    # submit an empty part without filename
+    for uploaded_file in files_list:
+        if uploaded_file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
 
-    return json.dumps([filename])
+    # TODO: PLEASE deal with the filename to avoid repeating name here
+    # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
+    # TODO: (replace the code below) save the file to MongoDB
+    for uploaded_file in files_list:
+        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+
+    return json.dumps(files_name_list)
 
 
 '''

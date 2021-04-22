@@ -47,7 +47,7 @@ function DatasetUpload(props) {
             <Row>
                 <div className="md-2">
                     {/*TODO: users may only be allowed to upload .dat => <input> needs to add accept=".dat* ref={el} */}
-                    <input type="file" id="file-upload" ref={el} onChange={handleChange} />
+                    <input type="file" className="file-upload" ref={el} onChange={handleChange} />
                     <label htmlFor="file-upload">
                         <IconButton aria-label="upload a dataset" component="span">
                             <PublishIcon />
