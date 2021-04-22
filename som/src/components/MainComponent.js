@@ -9,12 +9,14 @@ import Visualisation from './VisualisationComponent';
 import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
+import ConnectionUploading from './ConnectionUploading';
+
 import compareProps from '../others/compareProps';
 
 import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
-    sendNameForDetailedData
+    sendNameForDetailedData, connectUploading
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -23,11 +25,14 @@ const mapStateToProps = state => {
         metadata: state.metadata,
         datasetFiles: state.datasetFiles,
         modelFiles: state.modelFiles,
-        detailedData: state.detailedData
+        detailedData: state.detailedData,
+        connectionFiles: state.connectionFiles
     }
 }
 
 const mapDispatchToProps = dispatch => ({
+    connectUploading: (files, onUploadProgress) => dispatch(connectUploading(files, onUploadProgress)),
+
     fetchDatasetFiles: (userName) => { dispatch(fetchDatasetFiles(userName)) },
     uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
     fetchUploadedDataset: () => { dispatch(fetchUploadedDataset()) },
@@ -70,6 +75,10 @@ class Main extends Component {
             if (this.props.datasetFiles.datasetFiles !== nextProps.datasetFiles.datasetFiles) {
                 console.log("because of dataset files");
                 return true;
+            }
+            else if (this.props.connectionFiles.connectionFiles.length !== nextProps.connectionFiles.connectionFiles.length){
+                console.log("because of connection files");
+                return true
             }
             else {
                 console.log("not update");
@@ -120,6 +129,10 @@ class Main extends Component {
                 <Col className="sidebar" md="3"><Sidebar username={this.props.user.userInfo} /></Col>
                 <Col className="main-page">
                     <Switch>
+                        <Route path="/uploading" component={() => 
+                            <ConnectionUploading connectUploading={this.props.connectUploading}
+                                connectionFiles = {this.props.connectionFiles.connectionFiles}
+                            />}/>
 
                         <Route exact path="/mydatabase" component={() =>
                             <Database datasetFiles={this.props.datasetFiles.datasetFiles}

@@ -43,6 +43,32 @@ export const updateUser = (userInfo) => ({
 });
 
 /**
+ * Connect datasets and a model
+ */
+// uploading a new model file
+export const connectUploading = (files, onUploadProgress) => (dispatch) => {
+  console.log("connect start");
+  // post the uploaded model to the backend server
+  return http.post('/connect-upload', files, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onUploadProgress,
+  })
+  .then(res => {
+    console.log("this is response for connection uploading");
+    console.log(res);
+    dispatch(addConnections(res.data));
+  });
+};
+
+export const addConnections = (filename) => ({
+  type: ActionTypes.ADD_CONNECTIONS,
+  payload: filename
+});
+
+
+/**
  * Dataset
  */
 // fetch datasets from the backend server
@@ -77,6 +103,7 @@ export const addDataset = (dataset) => ({
   payload: dataset
 });
 
+
 // uploading a new dataset file
 export const uploadDataset = (dataset, onUploadProgress) => (dispatch) => {
   // post the uploaded dataset to the backend server
@@ -87,7 +114,7 @@ export const uploadDataset = (dataset, onUploadProgress) => (dispatch) => {
       onUploadProgress,
     })
       .then(res => {
-          console.log("this is response");
+          console.log("this is response for uploading dataset");
           console.log(res);
       })
       .then(res => {

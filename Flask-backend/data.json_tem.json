@@ -1,20 +1,38 @@
 [
   {
     "_id": {
-      "$oid": "607fc24fdb4352411ebb0cf2"
+      "$oid": "6080d7561d5b97991c03877f"
     },
     "FileName": "ex.dat",
-    "BriefInfo": "training set",
+    "BriefInfo": "This is for brief description",
     "Size": "193.9KB",
     "UserName": "freya.mao@outlook.com"
   },
   {
     "_id": {
-      "$oid": "607fd427102124bc590aab17"
+      "$oid": "6080d75f1d5b97991c038781"
+    },
+    "FileName": "ex_fdy.dat",
+    "BriefInfo": "",
+    "Size": "4.796KB",
+    "UserName": "freya.mao@outlook.com"
+  },
+  {
+    "_id": {
+      "$oid": "6080ff502c284527a90a950b"
     },
     "FileName": "ex_fts.dat",
     "BriefInfo": "",
     "Size": "13.532KB",
+    "UserName": "freya.mao@outlook.com"
+  },
+  {
+    "_id": {
+      "$oid": "60810d3e218e365ba2ed7f99"
+    },
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
     "UserName": "freya.mao@outlook.com"
   }
 ]

@@ -24,6 +24,40 @@ app.secret_key = b'pj&\xe9\xd7\xd7\xabc\xe6KX\xbe\x9f<\x9f\x87'
 app.config['UPLOAD_PATH'] = 'public'  # to create a folder which is used to save the uploaded file
 CORS(app)
 
+'''
+Datasets and model upload
+'''
+@app.route('/connect-upload', methods=["POST"])
+@cross_origin()
+def connect_upload():
+    # check if the post request has the file part
+    if 'file' not in request.files:
+        flash("No file part")
+        return redirect(request.url)
+
+    userName = request.files['username'].filename
+    print("connect username: ", userName)
+    print("get file: ", request.files)
+
+    uploaded_file = request.files['file']
+    print("connect file: ", uploaded_file)
+
+    # if user does not select file browser also
+    # submit an empty part without filename
+    if uploaded_file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+
+    # check if the post request has the file part
+    filename = secure_filename(uploaded_file.filename)
+    print(filename) # e.g. ex.csv
+    # TODO: PLEASE deal with the filename to avoid repeating name here
+    file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
+    # TODO: (replace the code below) save the file to MongoDB
+    uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+
+    return json.dumps([filename])
+
 
 '''
 Datasets
@@ -60,7 +94,7 @@ def upload():
         size_string = str(size/1000) + "KB"
         print(size_string)
 
-        result =  db.files.find({"FileName":userName,"UserName":userName})
+        result =  db.files.find({"FileName":filename,"UserName":userName})
         result = loads(dumps(result))
         print(len(result))#Check the size of the json array
         f = open(paths,'r')
@@ -169,7 +203,6 @@ def upload():
                 ]
             }
             db.metadata.insert_one(metadata)
-
 
     return json.dumps(data)
 

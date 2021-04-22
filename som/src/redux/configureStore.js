@@ -5,6 +5,7 @@ import { ModelFiles } from './modelFiles';
 import { DetailedData } from './detailedData';
 import { Metadata } from './metadata';
 import { User } from './user';
+import { ConnectionFiles } from './connectionResult';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
@@ -15,7 +16,8 @@ export const ConfigureStore = () => {
             datasetFiles: DatasetFiles,
             modelFiles: ModelFiles,
             detailedData: DetailedData,
-            metadata: Metadata
+            metadata: Metadata,
+            connectionFiles: ConnectionFiles
         }),
         // applyMiddleware can return store enhancer
         // after this, thunk and logger are available within the application
