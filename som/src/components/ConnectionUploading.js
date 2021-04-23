@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Container, Progress, Card, CardBody, CardTitle, CardText, Button, CardColumns } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody} from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import { IconButton, Modal } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
+import NeedUploading from './Modal/NeedUploading';
 
 function ConnectionUploading(props) {
     const [selectedModel, setSelectedModel] = useState(undefined);
@@ -13,6 +14,7 @@ function ConnectionUploading(props) {
     const [message, setMessage] = useState("Please upload your datasets");
 
     const [fileInfo, setFileInfos] = useState("");
+    const [isModalOpen, setModal] = useState(false);
 
     const el = useRef(); // accesing input element
 
@@ -72,6 +74,24 @@ function ConnectionUploading(props) {
             });
     };
 
+    const handleUploadBtn = () => {
+        if (selectedModel == undefined){
+            setModal(!isModalOpen);
+        }
+        else{
+            uploadModel();
+        }
+    }
+
+    const toggleModal = () => {
+        setModal(!isModalOpen);
+    };
+
+    // while a user chooses not to delete a dataset
+    const handlenNoBtn = () => {
+        setModal(!isModalOpen);
+    };
+
     return (
         <Container>
 
@@ -114,10 +134,22 @@ function ConnectionUploading(props) {
                     <button
                         className="btn btn-success"
                         disabled={!selectedFiles}
-                        onClick={uploadModel}>
+                        onClick={handleUploadBtn}>
                         Upload
                     </button>
                 </Col>
+
+                <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>
+                <ModalHeader toggle={toggleModal}>Dataset Delete</ModalHeader>
+                <ModalBody>
+                    <p>You have not selected any model. Please select one before uploading !</p>
+                    <Row>
+                        <Col>
+                            <Button onClick={handleUploadBtn}>Got it!</Button>
+                        </Col>          
+                    </Row>
+                </ModalBody>
+            </Modal>
             </Row>
 
             <Row>
