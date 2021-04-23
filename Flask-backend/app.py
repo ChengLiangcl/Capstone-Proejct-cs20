@@ -86,126 +86,130 @@ def connect_upload():
     # get files list: multiple files are stored into an list
     files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
     print("file list is: ", files_list)
-    # get the first file
-    print("the first file: ", files_list[0])
-    # get file-name list
-    files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-2)]
-    print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
 
-    # check if the post request has the file part
-    # if user does not select file browser also
-    # submit an empty part without filename
-    for uploaded_file in files_list:
-        if uploaded_file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+    # TODO: when a user only upload a model, then the file_list is []
+    # please return a [] file_name_list to the frontend
+    if (len(files_list) != 0):
+        # get the first file
+        print("the first file: ", files_list[0])
+        # get file-name list
+        files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-2)]
+        print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
 
-    # TODO: PLEASE deal with the filename to avoid repeating name here
-    # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
-    # TODO: (replace the code below) save the file to MongoDB
-    for uploaded_file in files_list:
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        count = 0
-        tem = 0
-        first_num = 0
-        lable = ""
-        f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-        for i in f:
-            if count ==0:
-                first_num = i
-            count = count +1
-            if count==2:
-                size = (len(i.split(" ")))
-                break
-        columnNames = [''] * size
-        attributes_meta = size
-        if int(first_num) < size:
-            lable = "Yes"
-        elif int(first_num) == size:
-            lable = "No"
-        else:
-            lable = "Error"
-        for i in range(size):
+        # check if the post request has the file part
+        # if user does not select file browser also
+        # submit an empty part without filename
+        for uploaded_file in files_list:
+            if uploaded_file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
 
-            columnNames[i] = "Coloumn" + " " + str(i)
-        record = 0
-        path_str = './public/' + str(index) + '.'+'dat'
-        with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
-            with open(path_str,'w') as f1:
-                f1.write(','.join(columnNames)+"\n")
-                next(f) # skip the first line of the dataset
-                for line in f:
-                    lines =str(line)
-                    lines = lines.split(" ")
-                    f1.write(','.join(lines))
-                    record = record + 1
-        instance_meta = record
-        index = index + 1
-        data = pd.read_csv(path_str)
-        data = data.to_dict('records')
-        size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        size = str(size/1000) + "KB"
-        if db.files.find({userName:userName,"FileName":uploaded_file.filename}):
-            FileName = "copy_of_" + str(random.randint(100,999)) + "_" +  uploaded_file.filename
-            store_schema={
-                "uuid":uuid_combined,
-                "FileName":FileName,
-                "BriefInfo":"",
-                "Size":size,
-                "UserName":userName,
-                "data": data
-            }
-            db.files.insert_one(store_schema)
-            metadata = {
-                "uuid":uuid_combined,
-                "FileName":FileName,
-                "UserName":userName,
-                "BriefInfo":"",
-                "Description":"",
-                "Source":"",
-                "Label":lable,
-                "Number_of_Attribute":attributes_meta,
-                "Number_of_Instance":instance_meta,
-                "Keywords":[],
-                "AttrInfo":[
-                    {
-                        "attrName":"",
-                        "attrDescription":""
-                    }
+        # TODO: PLEASE deal with the filename to avoid repeating name here
+        # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
+        # TODO: (replace the code below) save the file to MongoDB
+        for uploaded_file in files_list:
+            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            count = 0
+            tem = 0
+            first_num = 0
+            lable = ""
+            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            for i in f:
+                if count ==0:
+                    first_num = i
+                count = count +1
+                if count==2:
+                    size = (len(i.split(" ")))
+                    break
+            columnNames = [''] * size
+            attributes_meta = size
+            if int(first_num) < size:
+                lable = "Yes"
+            elif int(first_num) == size:
+                lable = "No"
+            else:
+                lable = "Error"
+            for i in range(size):
 
-                ]
-            }
-            db.metadata.insert_one(metadata)
-        else:
-            store_schema={
-                "uuid":uuid_combined,
-                "FileName":FileName,
-                "BriefInfo": "",
-                "Size":size,
-                "UserName":userName,
-                "data": data
-            }
-            db.files.insert_one(store_schema)
-            metadata = {
-                "uuid":uuid_combined,
-                "FileName":FileName,
-                "UserName":userName,
-                "BriefInfo":"",
-                "Description":"",
-                "Source":"",
-                "Label":lable,
-                "Number_of_Attribute":attributes_meta,
-                "Number_of_Instance":instance_meta,
-                "Keywords":[],
-                "AttrInfo":[
+                columnNames[i] = "Coloumn" + " " + str(i)
+            record = 0
+            path_str = './public/' + str(index) + '.'+'dat'
+            with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
+                with open(path_str,'w') as f1:
+                    f1.write(','.join(columnNames)+"\n")
+                    next(f) # skip the first line of the dataset
+                    for line in f:
+                        lines =str(line)
+                        lines = lines.split(" ")
+                        f1.write(','.join(lines))
+                        record = record + 1
+            instance_meta = record
+            index = index + 1
+            data = pd.read_csv(path_str)
+            data = data.to_dict('records')
+            size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            size = str(size/1000) + "KB"
+            if db.files.find({userName:userName,"FileName":uploaded_file.filename}):
+                FileName = "copy_of_" + str(random.randint(100,999)) + "_" +  uploaded_file.filename
+                store_schema={
+                    "uuid":uuid_combined,
+                    "FileName":FileName,
+                    "BriefInfo":"",
+                    "Size":size,
+                    "UserName":userName,
+                    "data": data
+                }
+                db.files.insert_one(store_schema)
+                metadata = {
+                    "uuid":uuid_combined,
+                    "FileName":FileName,
+                    "UserName":userName,
+                    "BriefInfo":"",
+                    "Description":"",
+                    "Source":"",
+                    "Label":lable,
+                    "Number_of_Attribute":attributes_meta,
+                    "Number_of_Instance":instance_meta,
+                    "Keywords":[],
+                    "AttrInfo":[
+                        {
+                            "attrName":"",
+                            "attrDescription":""
+                        }
 
-                    { 
-                        "attrName":"",
-                        "attrDescription":""
-                    }
-                ]
-            }
-            db.metadata.insert_one(metadata)
+                    ]
+                }
+                db.metadata.insert_one(metadata)
+            else:
+                store_schema={
+                    "uuid":uuid_combined,
+                    "FileName":FileName,
+                    "BriefInfo": "",
+                    "Size":size,
+                    "UserName":userName,
+                    "data": data
+                }
+                db.files.insert_one(store_schema)
+                metadata = {
+                    "uuid":uuid_combined,
+                    "FileName":FileName,
+                    "UserName":userName,
+                    "BriefInfo":"",
+                    "Description":"",
+                    "Source":"",
+                    "Label":lable,
+                    "Number_of_Attribute":attributes_meta,
+                    "Number_of_Instance":instance_meta,
+                    "Keywords":[],
+                    "AttrInfo":[
+
+                        { 
+                            "attrName":"",
+                            "attrDescription":""
+                        }
+                    ]
+                }
+                db.metadata.insert_one(metadata)
 
     # TODO: I only want all file names get returned
     # please returned the modified name

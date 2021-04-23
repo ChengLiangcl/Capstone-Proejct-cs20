@@ -48,7 +48,7 @@ function ModelUpload(props) {
             <Row>
                 <div className="md-2">
                     {/*TODO: users may only be allowed to upload .dat => <input> needs to add accept=".dat* ref={el} */}
-                    <input type="file" className="file-upload" ref={el} onChange={handleChange} />
+                    <input type="file" ref={el} onChange={handleChange} />
                     <label htmlFor="file-upload">
                         <IconButton aria-label="upload a model" component="span">
                             <PublishIcon />

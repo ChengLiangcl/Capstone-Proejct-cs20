@@ -80,7 +80,7 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
     // different content of metadata means updating
     if (compareBriefInfo || compareDescription || compareSource || compareNumber_of_Instance ||
         compareNumber_of_Attribute || compareLabel || compareKeyWords(currentMetadata.Keywords, nextMetadata.Keywords) ||
-        compareAttributes(currentMetadata.AttrInfo, nextMetadata.AttrInfo)) {
+        compareAttributes(currentMetadata.AttrInfo, nextMetadata.AttrInfo) || compareModelFiles(currentModelFiles, nextModelFiles)) {
         return true
     }
     // no different content of metadata means no updating

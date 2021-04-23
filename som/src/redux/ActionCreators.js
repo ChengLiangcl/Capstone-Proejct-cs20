@@ -256,6 +256,7 @@ export const editOneModelDescription = (modelName,description) => ({
 
 // pass the filename to the backend server and tell it to delete corresponding model
 export const deleteOneModel = (modelName, userName) => (dispatch) => {
+  console.log("delete model: ", [modelName])
   return http.post('/delete-model', JSON.stringify([modelName, userName]), {
     headers: {
       "Content-Type": "multipart/form-data",

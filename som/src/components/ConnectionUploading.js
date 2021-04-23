@@ -44,10 +44,12 @@ function ConnectionUploading(props) {
         formData.append('username', selectedModel, sessionStorage.getItem('verifiedUsername'));
         formData.append('model', selectedModel);
 
-        for (let i = 0; i < selectedFiles.length; i++) {
-            formData.append(`file${i}`, selectedFiles[i]); // appending file
+        if (selectedFiles !== undefined){
+            for (let i = 0; i < selectedFiles.length; i++) {
+                formData.append(`file${i}`, selectedFiles[i]); // appending file
+            }
         }
-
+        
         // Display the keys
         for (var key of formData.keys()) {
             console.log(key);
@@ -133,7 +135,7 @@ function ConnectionUploading(props) {
                 <Col>
                     <button
                         className="btn btn-success"
-                        disabled={!selectedFiles}
+                        disabled={!selectedModel}
                         onClick={handleUploadBtn}>
                         Upload
                     </button>
