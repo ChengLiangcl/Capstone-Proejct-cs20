@@ -88,7 +88,7 @@ def connect_upload():
     print("file list is: ", files_list)
 
     # TODO: when a user only upload a model, then the file_list is []
-    # please return a [] file_name_list to the frontend
+    # please return a [""] file_name_list to the frontend
     if (len(files_list) != 0):
         # get the first file
         print("the first file: ", files_list[0])
