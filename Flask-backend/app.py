@@ -795,8 +795,8 @@ def sendNewModelFiles():
 def deleteOneModel():
     model_userName = request.get_json(force=True)
     print(model_userName)
-    modelName = model_userName[0][0]
-    userName = model_userName[0][1]
+    modelName = model_userName[0]
+    userName = model_userName[1]
 
     # delete corresponding dataset
     db.models.delete_one({"UserName": userName, "FileName": modelName})
