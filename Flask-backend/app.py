@@ -56,7 +56,8 @@ def connect_upload():
     output = open(os.path.join(app.config['UPLOAD_PATH'], model_name),'r')
     data = output.readlines()
     output.close()
-    if(db.models.find({userName:userName,"FileName":model_name})):
+  
+    if len(list(db.models.find({"UserName":userName,"FileName":model_name})))>0:
         print('duplicated')
         model_name = "copy_of_" + str(random.randint(100,999)) + "_" + model_name
         store_schema = {
@@ -149,7 +150,7 @@ def connect_upload():
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
-            if db.files.find({userName:userName,"FileName":uploaded_file.filename}):
+            if len(list(db.files.find({"UserName":userName,"FileName":uploaded_file.filename})))>0:
                 FileName = "copy_of_" + str(random.randint(100,999)) + "_" +  uploaded_file.filename
                 store_schema={
                     "uuid":uuid_combined,
@@ -183,7 +184,7 @@ def connect_upload():
             else:
                 store_schema={
                     "uuid":uuid_combined,
-                    "FileName":FileName,
+                    "FileName":uploaded_file.filename,
                     "BriefInfo": "",
                     "Size":size,
                     "UserName":userName,
@@ -192,7 +193,7 @@ def connect_upload():
                 db.files.insert_one(store_schema)
                 metadata = {
                     "uuid":uuid_combined,
-                    "FileName":FileName,
+                    "FileName":uploaded_file.filename,
                     "UserName":userName,
                     "BriefInfo":"",
                     "Description":"",
@@ -210,9 +211,11 @@ def connect_upload():
                     ]
                 }
                 db.metadata.insert_one(metadata)
+        return json.dumps([model_name, files_name_list])
 
     # TODO: I only want all file names get returned
     # please returned the modified name
+    files_name_list = []
     return json.dumps([model_name, files_name_list])
 
 
