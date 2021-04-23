@@ -159,15 +159,16 @@ function ConnectionUploading(props) {
             </Row>
 
             <Card>
+                <CardTitle><h4>Last Uploading Record</h4></CardTitle>
                 <CardBody>
-                    <CardTitle>uploaded Model</CardTitle>
+                    <CardTitle><strong>uploaded Model</strong></CardTitle>
                     <CardText>
                         <ListGroup>
                         <ListGroupItem className="justify-content-between">{props.connectionFiles[0]}</ListGroupItem>
                         </ListGroup>
                     </CardText>
 
-                    <CardTitle>uploaded Datasets</CardTitle>
+                    <CardTitle><strong>uploaded Datasets</strong></CardTitle>
                     <CardText>
                         <ListGroup>
                             {props.connectionFiles[1].map((filename, index) => (
