@@ -16,7 +16,7 @@ import compareProps from '../others/compareProps';
 import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
-    sendNameForDetailedData, connectUploading
+    sendNameForDetailedData, connectUploading, clearConnectionFiles
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -32,6 +32,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     connectUploading: (files, onUploadProgress) => dispatch(connectUploading(files, onUploadProgress)),
+    clearConnectionFiles: () => dispatch(clearConnectionFiles()),
 
     fetchDatasetFiles: (userName) => { dispatch(fetchDatasetFiles(userName)) },
     uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
@@ -76,9 +77,9 @@ class Main extends Component {
                 console.log("because of dataset files");
                 return true;
             }
-            else if (this.props.connectionFiles.connectionFiles.length !== nextProps.connectionFiles.connectionFiles.length){
+            else if (this.props.connectionFiles.connectionFiles[0] !== nextProps.connectionFiles.connectionFiles[0]){
                 console.log("because of connection files");
-                return true
+                return true   
             }
             else {
                 console.log("not update");
@@ -132,6 +133,7 @@ class Main extends Component {
                         <Route path="/uploading" component={() => 
                             <ConnectionUploading connectUploading={this.props.connectUploading}
                                 connectionFiles = {this.props.connectionFiles.connectionFiles}
+                                clearConnectionFiles = {this.props.clearConnectionFiles}
                             />}/>
 
                         <Route exact path="/mydatabase" component={() =>

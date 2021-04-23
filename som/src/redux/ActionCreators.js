@@ -62,6 +62,14 @@ export const connectUploading = (files, onUploadProgress) => (dispatch) => {
   });
 };
 
+export const clearConnectionFiles = () => (dispatch)=> {
+  dispatch(clearConnections());
+}
+
+export const clearConnections = () => ({
+  type: ActionTypes.CLEAR_CONNECTIONS
+});
+
 export const addConnections = (filename) => ({
   type: ActionTypes.ADD_CONNECTIONS,
   payload: filename

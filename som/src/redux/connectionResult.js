@@ -3,7 +3,7 @@ import * as ActionTypes from './ActionTypes';
 export const ConnectionFiles = (state = {
     isLoading: true,
     errMess: null,
-    connectionFiles: []
+    connectionFiles: ["this is for a uploaded model", ["this is for uploaded datasets"]]
 }, action) => {
     switch (action.type) {
         // when a user upload a dataset, we will first send the dataset to the server,
@@ -13,6 +13,10 @@ export const ConnectionFiles = (state = {
             var files = action.payload; // get the uploaded dataset
             console.log("did i get the connected files? ", action.payload)
             return { ...state, connectionFiles: action.payload };
+        
+        case ActionTypes.CLEAR_CONNECTIONS:
+            const connectionFiles = ["", [""]]
+            return { ...state, connectionFiles: connectionFiles };
 
         default:
             return state;

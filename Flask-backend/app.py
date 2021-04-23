@@ -34,16 +34,27 @@ def connect_upload():
     # get username
     userName = request.files['username'].filename
     print("connect username: ", userName)
+    print("-------------------------------------")
     print("get file: ", request.files)
+    print("-------------------------------------")
+    #get model
+    model = request.files['model']
+    model_name = request.files['model'].filename
+    # save th modle into the public folder
+    # TODO: please remember to check the repeated model name
+    model.save(os.path.join(app.config['UPLOAD_PATH'], model_name))
+    print("model: ", model)
+    print("model name:", model_name)
+    print("--------------------------------------")
 
     # get files list: multiple files are stored into an list
-    files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-1)]
+    files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
     print("file list is: ", files_list)
     # get the first file
     print("the first file: ", files_list[0])
     
     # get file-name list
-    files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-1)]
+    files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-2)]
     print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
 
     # check if the post request has the file part
@@ -60,7 +71,9 @@ def connect_upload():
     for uploaded_file in files_list:
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
-    return json.dumps(files_name_list)
+    # TODO: I only want all file names get returned
+    # please returned the modified name
+    return json.dumps([model_name, files_name_list])
 
 
 '''

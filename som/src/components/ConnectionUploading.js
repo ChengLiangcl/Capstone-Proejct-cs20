@@ -5,21 +5,24 @@ import { IconButton, Modal } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 
 function ConnectionUploading(props) {
+    const [selectedModel, setSelectedModel] = useState(undefined);
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0);
-    const [message, setMessage] = useState("Please upload your model");
+    const [modelMessage, setModelMessage] = useState("Please upload your model");
+    const [message, setMessage] = useState("Please upload your datasets");
 
     const [fileInfo, setFileInfos] = useState("");
 
     const el = useRef(); // accesing input element
 
+
     // It is for get the uploaded file you selected
     const handleModelChange = (event) => {
-        const file = event.target.files[0]; // accessing file
+        const file = event.target.files; // accessing file
         console.log(file.name);
-        setSelectedFiles(file); // storing file
-        setFileInfos(file.name)
+        setSelectedModel(event.target.files[0]); // storing file
+        //setFileInfos(file.name)
     }
 
     const handleDatasetChange = (event) => {
@@ -36,7 +39,8 @@ function ConnectionUploading(props) {
 
         const formData = new FormData();
 
-        formData.append('username', selectedFiles[0], sessionStorage.getItem('verifiedUsername'));
+        formData.append('username', selectedModel, sessionStorage.getItem('verifiedUsername'));
+        formData.append('model', selectedModel);
 
         for (let i = 0; i < selectedFiles.length; i++) {
             formData.append(`file${i}`, selectedFiles[i]); // appending file
@@ -46,7 +50,7 @@ function ConnectionUploading(props) {
         for (var key of formData.keys()) {
             console.log(key);
         }
-        
+
         console.log("selected file:", selectedFiles);
 
         setCurrentFile(selectedFiles);
@@ -57,12 +61,14 @@ function ConnectionUploading(props) {
         })
             .then(() => console.log("I'm back"))
             .then((response) => {
+                setModelMessage("Uploaded successfully");
                 setMessage("Uploaded successfully");
                 console.log("get connect names: ", props.connectionFiles);
             })
             .catch(() => {
                 setProgress(0);
-                setMessage("Could not upload the file!");
+                setModelMessage("Could not upload the model!");
+                setMessage("Could not upload the datasets!");
             });
     };
 
@@ -79,32 +85,18 @@ function ConnectionUploading(props) {
 
             <Row>
                 <Col md="5">
-                    <Row>
-                        <input type="file" id="file-upload" ref={el} onChange={handleModelChange} />
+                    <Row>      
                         <label htmlFor="file-upload">
-                            <IconButton aria-label="upload a model" component="span">
-                                <PublishIcon />
-                            </IconButton>
+                            <input type="file" id="file-upload" ref={el} onChange={handleModelChange} />
                         </label>
-                        <div className="alert alert-light" role="alert">
-                            {fileInfo}
-                        </div>
                     </Row>
                 </Col>
 
-                <Col>
-                    <button
-                        className="btn btn-success"
-                        disabled={!selectedFiles}
-                        onClick={uploadModel}>
-                        Upload
-                    </button>
-                </Col>
             </Row>
 
             <Row>
                 <div className="alert alert-light" role="alert">
-                    {message}
+                    {modelMessage}
                 </div>
             </Row>
 
@@ -112,15 +104,9 @@ function ConnectionUploading(props) {
             <Row>
                 <Col md="5">
                     <Row>
-                        <input type="file" multiple ref={el} onChange={handleDatasetChange} />
                         <label htmlFor="file-upload">
-                            <IconButton aria-label="upload a model" component="span">
-                                <PublishIcon />
-                            </IconButton>
+                            <input type="file" multiple ref={el} onChange={handleDatasetChange} />
                         </label>
-                        <div className="alert alert-light" role="alert">
-                            {fileInfo}
-                        </div>
                     </Row>
                 </Col>
 
@@ -142,11 +128,17 @@ function ConnectionUploading(props) {
 
             <Card>
                 <CardBody>
-                    <CardTitle>List of Files</CardTitle>
+                    <CardTitle>uploaded Model</CardTitle>
                     <CardText>
-                        {JSON.stringify(props.connectionFiles)}
                         <ListGroup>
-                            {props.connectionFiles.map((filename, index) => (
+                        <ListGroupItem className="justify-content-between">{props.connectionFiles[0]}</ListGroupItem>
+                        </ListGroup>
+                    </CardText>
+
+                    <CardTitle>uploaded Datasets</CardTitle>
+                    <CardText>
+                        <ListGroup>
+                            {props.connectionFiles[1].map((filename, index) => (
                                 <ListGroupItem className="justify-content-between">{filename}</ListGroupItem>
                             ))}
                         </ListGroup>
