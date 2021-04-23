@@ -30,6 +30,7 @@ Datasets and model upload
 @app.route('/connect-upload', methods=["POST"])
 @cross_origin()
 def connect_upload():
+    index=0
 
     # get username
     userName = request.files['username'].filename
@@ -37,6 +38,7 @@ def connect_upload():
     print("-------------------------------------")
     print("get file: ", request.files)
     print("-------------------------------------")
+   
     #get model
     model = request.files['model']
     model_name = request.files['model'].filename
@@ -46,13 +48,46 @@ def connect_upload():
     print("model: ", model)
     print("model name:", model_name)
     print("--------------------------------------")
+    uuid_combined = uuid.uuid4().hex
+    print(uuid_combined)
+    #get the file size
+    size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], model_name))
+    size = str(size/1000) + "KB"
+    output = open(os.path.join(app.config['UPLOAD_PATH'], model_name),'r')
+    data = output.readlines()
+    output.close()
+    if(db.models.find({userName:userName,"FileName":model_name})):
+        print('duplicated')
+        model_name = "copy_of_" + str(random.randint(100,999)) + "_" + model_name
+        store_schema = {
+            "uuid":uuid_combined,
+            "FileName": model_name,
+            "BriefInfo": "",
+            "Size": size,
+            "UserName": userName,
+            "data": data
+        }
+        db.models.insert_one(store_schema)
+    else:
+        store_schema = {
+            "uuid":uuid_combined,
+            "FileName": model_name,
+            "BriefInfo": "",
+            "Size": size,
+            "UserName": userName,
+            "data": data
+        }
+        db.models.insert_one(store_schema)
+   
+    
+   #--------------------------Finish Model Uploading--------------------------------------------------------------------
+    
 
     # get files list: multiple files are stored into an list
     files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
     print("file list is: ", files_list)
     # get the first file
     print("the first file: ", files_list[0])
-    
     # get file-name list
     files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-2)]
     print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
@@ -70,6 +105,107 @@ def connect_upload():
     # TODO: (replace the code below) save the file to MongoDB
     for uploaded_file in files_list:
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+        count = 0
+        tem = 0
+        first_num = 0
+        lable = ""
+        f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+        for i in f:
+            if count ==0:
+                first_num = i
+            count = count +1
+            if count==2:
+                size = (len(i.split(" ")))
+                break
+        columnNames = [''] * size
+        attributes_meta = size
+        if int(first_num) < size:
+            lable = "Yes"
+        elif int(first_num) == size:
+            lable = "No"
+        else:
+            lable = "Error"
+        for i in range(size):
+
+            columnNames[i] = "Coloumn" + " " + str(i)
+        record = 0
+        path_str = './public/' + str(index) + '.'+'dat'
+        with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
+            with open(path_str,'w') as f1:
+                f1.write(','.join(columnNames)+"\n")
+                next(f) # skip the first line of the dataset
+                for line in f:
+                    lines =str(line)
+                    lines = lines.split(" ")
+                    f1.write(','.join(lines))
+                    record = record + 1
+        instance_meta = record
+        index = index + 1
+        data = pd.read_csv(path_str)
+        data = data.to_dict('records')
+        size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+        size = str(size/1000) + "KB"
+        if db.files.find({userName:userName,"FileName":uploaded_file.filename}):
+            FileName = "copy_of_" + str(random.randint(100,999)) + "_" +  uploaded_file.filename
+            store_schema={
+                "uuid":uuid_combined,
+                "FileName":FileName,
+                "BriefInfo":"",
+                "Size":size,
+                "UserName":userName,
+                "data": data
+            }
+            db.files.insert_one(store_schema)
+            metadata = {
+                "uuid":uuid_combined,
+                "FileName":FileName,
+                "UserName":userName,
+                "BriefInfo":"",
+                "Description":"",
+                "Source":"",
+                "Label":lable,
+                "Number_of_Attribute":attributes_meta,
+                "Number_of_Instance":instance_meta,
+                "Keywords":[],
+                "AttrInfo":[
+                    {
+                        "attrName":"",
+                        "attrDescription":""
+                    }
+
+                ]
+            }
+            db.metadata.insert_one(metadata)
+        else:
+            store_schema={
+                "uuid":uuid_combined,
+                "FileName":FileName,
+                "BriefInfo": "",
+                "Size":size,
+                "UserName":userName,
+                "data": data
+            }
+            db.files.insert_one(store_schema)
+            metadata = {
+                "uuid":uuid_combined,
+                "FileName":FileName,
+                "UserName":userName,
+                "BriefInfo":"",
+                "Description":"",
+                "Source":"",
+                "Label":lable,
+                "Number_of_Attribute":attributes_meta,
+                "Number_of_Instance":instance_meta,
+                "Keywords":[],
+                "AttrInfo":[
+
+                    { 
+                        "attrName":"",
+                        "attrDescription":""
+                    }
+                ]
+            }
+            db.metadata.insert_one(metadata)
 
     # TODO: I only want all file names get returned
     # please returned the modified name
@@ -171,6 +307,7 @@ def upload():
             }
             db.files.insert_one(store_schema)
             metadata = {
+
                 "FileName":filename,
                 "UserName":userName,
                 "BriefInfo":"",
@@ -194,6 +331,7 @@ def upload():
             print("to do here")
             filename = "copy_of_" + str(random.randint(100,999)) + filename
             store_schema={
+                "uuid":uuid_combined,
                 "FileName":filename,
                 "BriefInfo":"",
                 "Size":size_string,
@@ -202,6 +340,7 @@ def upload():
             }
             db.files.insert_one(store_schema)
             metadata = {
+                "uuid":uuid_combined,
                 "FileName":filename,
                 "UserName":userName,
                 "BriefInfo":"",
@@ -257,6 +396,8 @@ def showAlldatasetFiles():
         for element in values:
             if 'data' in element:
                 del element['data']
+            if 'uuid' in element:
+                del element['uuid']
 
         json_size = len(values)
         for i in range(len(values)):
@@ -568,7 +709,6 @@ def uploadModel():
         #userName = request.files['username']
         userName = request.files['username'].filename
         print(userName)
-
         # check if the post request has the file part
         if 'file' not in request.files:
             flash("No file part")
@@ -606,7 +746,6 @@ def uploadModel():
         filename = Array[0] + ".cod"
         results = db.models.find({"FileName": filename, "UserName": userName})
         for result in results:
-
             while (result["FileName"] == filename):
                 Prefix = "copy_of_"
                 filename = Prefix + str(random.randint(100, 999)) + filename
@@ -655,9 +794,10 @@ def sendNewModelFiles():
 @cross_origin()
 def deleteOneModel():
     model_userName = request.get_json(force=True)
-    modelName = model_userName[0]
-    userName = model_userName[1]
-    print(model_userName[1])
+    print(model_userName)
+    modelName = model_userName[0][0]
+    userName = model_userName[0][1]
+
     # delete corresponding dataset
     db.models.delete_one({"UserName": userName, "FileName": modelName})
     # delete corresponding metadata in the same time
@@ -686,7 +826,6 @@ def editModelDescription():
             "Description":Description,
     }
     if len(loads(dumps(db.modelmetadata.find({"UserName": userName, "ModelName": ModelName})))) == 0:
-
         db.modelmetadata.insert_one(record)
 
 
