@@ -215,7 +215,7 @@ def connect_upload():
 
     # TODO: I only want all file names get returned
     # please returned the modified name
-    files_name_list = []
+    files_name_list = [""]
     return json.dumps([model_name, files_name_list])
 
 
