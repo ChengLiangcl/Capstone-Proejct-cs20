@@ -82,8 +82,6 @@ def connect_upload():
    
     
    #--------------------------Finish Model Uploading--------------------------------------------------------------------
-    
-
     # get files list: multiple files are stored into an list
     files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
     print("file list is: ", files_list)
