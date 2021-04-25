@@ -88,7 +88,9 @@ const validationSchema=Yup.object().shape({
                             type="search" 
                             placeholder="Enter your name"
                             helperText={
-                                <ErrorMessage name="name"/>
+                                <ErrorMessage name="name">
+                                  { msg => <div style={{ color: 'red' }}>{msg}</div> }
+                                </ErrorMessage>
                             }
                             variant="outlined" />
                         </div>
@@ -100,7 +102,9 @@ const validationSchema=Yup.object().shape({
                             type="password"
                             autoComplete="current-password"
                             helperText={
-                                <ErrorMessage name="password"/>
+                                <ErrorMessage name="password">
+                                  { msg => <div style={{ color: 'red' }}>{msg}</div> }
+                                </ErrorMessage>
                             }
                             variant="outlined"/>
                         </div>
@@ -112,7 +116,9 @@ const validationSchema=Yup.object().shape({
                             type="password"
                             autoComplete="current-password"
                             helperText={
-                                <ErrorMessage name="confirmpassword"/>
+                                <ErrorMessage name="confirmpassword">
+                                  { msg => <div style={{ color: 'red' }}>{msg}</div> }
+                                </ErrorMessage>
                             }
                             variant="outlined"/>
                         </div>
@@ -123,7 +129,9 @@ const validationSchema=Yup.object().shape({
                             type="search"
                             autoComplete="current-password"
                             helperText={
-                                <ErrorMessage name="email"/>
+                                <ErrorMessage name="email">
+                                  { msg => <div style={{ color: 'red' }}>{msg}</div> }
+                                </ErrorMessage>
                             }
                             variant="outlined"/>
 
