@@ -576,43 +576,50 @@ def getNameForDetailedData():
 @app.route('/query-datasets', methods=["POST"])
 @cross_origin()
 def queryDatasets():
-    inputvalue_userName = request.get_json(force=True)
-    input_value= inputvalue_userName[0]
-    userName = inputvalue_userName[1]
-    print(userName)
-
+    # you will recieve a inputted word by a user from the frontend
+    input_value = request.get_json(force=True)
     print(input_value) # you can check the inputted word through this
-    print(type(input_value))  # string
-    
+    # print(type(input_value))  # string
+    print("1111")
+    UserName="12795757"
     NameArray=[]
-    spstr=str(input_value).split(" ")
+
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
     # this is the querying result I simulate, please REPLACE it when you get the real results
-    returndata=db.metadata.find({"UserName":str(userName),"Keywords":{"$in":spstr} })
-    json_data1 = dumps(returndata, indent=2)
-    with open('./returnmetadata.json', 'w') as file:
-        file.write(json_data1)
-    jsonFile1 = open('./returnmetadata.json', 'r')
-    re = json.load(jsonFile1)
-    for element in re:
-        if 'FileName' in element:
-            NameArray.append(element['FileName'])
+    returndata=list(db.metadata.find({"UserName":UserName}))
+    data= loads(dumps(returndata))
+    lenth=len(data)
+    T=True
+    T2=False
+    if '&&' in input_value:
+     spstr=str(input_value).split("&&")
+     for i in range(lenth):
+        X=0
+        for element in spstr:
+         if (element in data[i]['FileName'] or element in data[i]['BriefInfo'] or element in data[i][
+             'Description'] or element in data[i]['Keywords']):
+            X=X+1
+        if X==len(spstr):
+         NameArray.append(data[i]['FileName'])
+    elif '||' in input_value:
+     spstr = str(input_value).split("||")
+     for i in range(lenth):
+        for element in spstr:
+           if (element  in data[i]['FileName'] or element  in data[i]['BriefInfo'] or element  in data[i][
+             'Description'] or element  in data[i]['Keywords']):
+                   T2=True
+        if T2 is True:
+         NameArray.append(data[i]['FileName'])
+    else:
+     for i in range(lenth):
+        if (input_value in data[i]['FileName']or input_value in data[i]['BriefInfo']or input_value in data[i]['Description'] or input_value in data[i]['Keywords']):
+            NameArray.append(data[i]['FileName'])
 
-    #print(NameArray[0])
-    #print(NameArray[1])
-    jsonFile2 = open('./data.json_tem.json', 'r')
-    r=json.load(jsonFile2)
-    print(r)
-    for i in spstr:
-     for element in r:
-      if element['FileName'] == i:
-       NameArray.append(element['FileName'])
-
+    print("Now i am here")
     print(NameArray)
-
-    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":userName}))
-    result=db.metadata.find({"UserName":userName})
+    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName}))
+    result=db.metadata.find({"UserName":UserName})
     result = loads(dumps(result))
     size = len(result)
     description = list()

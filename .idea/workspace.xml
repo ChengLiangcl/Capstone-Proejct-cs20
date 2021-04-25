@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="babcf9a7-8692-4c4b-aa8e-38af2265f99c" name="默认变更列表" comment="" />
+    <list default="true" id="babcf9a7-8692-4c4b-aa8e-38af2265f99c" name="默认变更列表" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flask-backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask-backend/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/som/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/som/node_modules/.cache/.eslintcache" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,10 +35,24 @@
       <updated>1618837623502</updated>
       <workItem from="1618837624994" duration="6269000" />
       <workItem from="1618844583829" duration="1730000" />
+      <workItem from="1619328866211" duration="237000" />
+      <workItem from="1619329108800" duration="238000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
