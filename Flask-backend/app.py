@@ -226,6 +226,9 @@ Datasets
 @app.route('/upload', methods=["GET", "POST"])
 @cross_origin()
 def upload():
+    file_name_list = list()
+    index = 0
+    uuid_combined = uuid.uuid4().hex
     if request.method == "POST":
         userName = request.files['username'].filename
         print("get username: ", userName)
@@ -240,144 +243,123 @@ def upload():
         # get file-name list
         files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-1)]
         print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
+        for uploaded_file in files_list:
+            if uploaded_file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+        for upload_file in files_list:
+            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            count = 0
+            tem = 0
+            first_num = 0
+            lable = ""
+            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            for i in f:
+    
+                if count ==0:
+                    first_num = i
+                count = count +1
+                if count==2:
+                    size = (len(i.split(" ")))
+                    break
+            columnNames = [''] * size
+            attributes_meta = size
+            if int(first_num) < size:
+                lable = "Yes"
+            elif int(first_num) == size:
+                lable = "No"
+            else:
+                lable = "Error"
+            for i in range(size):
+                columnNames[i] = "Coloumn" + " " + str(i)
+            record = 0
+            index = index + 1
+            path_str = './public/' + str(index) + '.'+'dat'
+            with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
+                with open(path_str,'w') as f1:
+                    f1.write(','.join(columnNames)+"\n")
+                    next(f) # skip the first line of the dataset
+                    for line in f:
+                        lines =str(line)
+                        lines = lines.split(" ")
+                        f1.write(','.join(lines))
+                        record = record + 1
+            instance_meta = record
+            data = pd.read_csv(path_str)
+            data = data.to_dict('records')
+            size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            size = str(size/1000) + "KB"
+            if len(list(db.files.find({"UserName":userName,"FileName":uploaded_file.filename})))>0:
+                FileName = "copy_of_" + str(random.randint(100,999)) + "_" +  uploaded_file.filename
+                file_name_list.append(FileName)
+                store_schema={
+                    "uuid":uuid_combined,
+                    "FileName":FileName,
+                    "BriefInfo":"",
+                    "Size":size,
+                    "UserName":userName,
+                    "data": data
+                }
+                db.files.insert_one(store_schema)
+                metadata = {
+                    "uuid":uuid_combined,
+                    "FileName":FileName,
+                    "UserName":userName,
+                    "BriefInfo":"",
+                    "Description":"",
+                    "Source":"",
+                    "Label":lable,
+                    "Number_of_Attribute":attributes_meta,
+                    "Number_of_Instance":instance_meta,
+                    "Keywords":[],
+                    "AttrInfo":[
+                        {
+                            "attrName":"",
+                            "attrDescription":""
+                        }
 
+                    ]
+                }
+                db.metadata.insert_one(metadata)
+            else:
+                # file_name_list.append(uploaded_file.filename)
+
+                store_schema={
+                    "uuid":uuid_combined,
+                    "FileName":uploaded_file.filename,
+                    "BriefInfo": "",
+                    "Size":size,
+                    "UserName":userName,
+                    "data": data
+                }
+                db.files.insert_one(store_schema)
+                metadata = {
+                    "uuid":uuid_combined,
+                    "FileName":uploaded_file.filename,
+                    "UserName":userName,
+                    "BriefInfo":"",
+                    "Description":"",
+                    "Source":"",
+                    "Label":lable,
+                    "Number_of_Attribute":attributes_meta,
+                    "Number_of_Instance":instance_meta,
+                    "Keywords":[],
+                    "AttrInfo":[
+
+                        { 
+                            "attrName":"",
+                            "attrDescription":""
+                        }
+                    ]
+                }
+                db.metadata.insert_one(metadata)
+            
+            
 
         # TODO: 把以下代码删掉，换成支持多datasets上传的代码
-        uploaded_file = request.files['file']
-        print(uploaded_file)
-        # if user does not select file browser also
-        # submit an empty part without filename
-        if uploaded_file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+        
 
-        # check if the post request has the file part
-        filename = secure_filename(uploaded_file.filename)
-        print(filename) # e.g. ex.csv
-        #Get file size:
-        file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-        #Get the path of the file
-        paths = os.path.join(app.config['UPLOAD_PATH'], filename)
-        #Get the size of the file
-        size = os.path.getsize(paths)
-        size_string = str(size/1000) + "KB"
-        print(size_string)
-
-        result =  db.files.find({"FileName":filename,"UserName":userName})
-        result = loads(dumps(result))
-        print(len(result))#Check the size of the json array
-        f = open(paths,'r')
-        count = 0
-        first_num = 0
-        lable = ""
-
-        # start to read the file
-        #Get the size of coloumn
-        for i in f:
-            count = count+1
-            if count ==2:
-                size = (len(i.split(" ")))
-                break
-        columnNames = [""] * size # size = the number of columns
-        if int(first_num) < size:
-            lable = "Yes"
-        elif int(first_num) == size:
-            lable = "No"
-        else:
-            lable = "Error"
-       
-        attributes_meta = size
-
-        #Assign the coloumn ID
-        for i in range(size):
-            columnNames[i] = "Coloumn" + " " + str(i)
-        #Generate a temporty file to re-format the dataset
-        count = 0
-        with open(paths,'r') as f:
-            with open("./public/updated_test.csv",'w') as f1:
-                f1.write(','.join(columnNames)+"\n")
-                next(f) # skip the first line of the dataset
-                for line in f:
-                    lines =str(line)
-                    lines = lines.split(" ")
-                    f1.write(','.join(lines))
-                    count = count + 1
-        instance_meta = count
-
-        print(lable)
-        print(instance_meta)
-        print(attributes_meta)
-        #Read the format data and store the data
-        data = pd.read_csv("./public/updated_test.csv")
-        data = data.to_dict('records')
-
-        #If the file is not exist
-        if(len(result) ==0):
-            print("DO this step")
-            store_schema={
-                "FileName":filename,
-                "BriefInfo": "",
-                "Size":size_string,
-                "UserName":userName,
-                "data": data
-            }
-            db.files.insert_one(store_schema)
-            metadata = {
-
-                "FileName":filename,
-                "UserName":userName,
-                "BriefInfo":"",
-                "Description":"",
-                "Source":"",
-                "Label":lable,
-                "Number_of_Attribute":attributes_meta,
-                "Number_of_Instance":instance_meta,
-                "Keywords":[],
-                "AttrInfo":[
-
-                    { 
-                        "attrName":"",
-                        "attrDescription":""
-                    }
-                ]
-            }
-            db.metadata.insert_one(metadata)
-        #If the file is already exist
-        else:
-            print("to do here")
-            filename = "copy_of_" + str(random.randint(100,999)) + filename
-            store_schema={
-                "uuid":uuid_combined,
-                "FileName":filename,
-                "BriefInfo":"",
-                "Size":size_string,
-                "UserName":userName,
-                "data": data
-            }
-            db.files.insert_one(store_schema)
-            metadata = {
-                "uuid":uuid_combined,
-                "FileName":filename,
-                "UserName":userName,
-                "BriefInfo":"",
-                "Description":"",
-                "Source":"",
-                "Label":lable,
-                "Number_of_Attribute":attributes_meta,
-                "Number_of_Instance":instance_meta,
-                "Keywords":[],
-                "AttrInfo":[
-                    {
-                        "attrName":"",
-                        "attrDescription":""
-                    }
-
-                ]
-            }
-            db.metadata.insert_one(metadata)
-
-    return json.dumps(data)
+    return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])
 def showAlldatasetFiles():
@@ -448,7 +430,8 @@ def sendNewdatasetFiles():
     for element in values:
         if 'data' in element:
             del element['data']
-            break
+        if 'uuid' in element:
+            del element['uuid']
     values = dumps(values, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
         file.write(values)
@@ -564,6 +547,8 @@ def getNameForDetailedData():
         for element in metadata:
             if '_id' in element:
                 del element['_id']
+            if'uuid' in element:
+                del element['uuid']
 
     else:
         with open('./detailedData.json') as f:
@@ -578,6 +563,8 @@ def getNameForDetailedData():
         for element in metadata:
             if '_id' in element:
                 del element['_id']
+            if'_uuid' in element:
+                del element['uuid']
     print('sss')
     print(metadata)
     print('sss')
