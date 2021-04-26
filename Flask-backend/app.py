@@ -210,15 +210,8 @@ def connect_upload():
                 }
                 db.metadata.insert_one(metadata)
             
-        # TODO: to get the latest uploaded model and datasets, then return to the frontend
-        # you need to replace this to get the real uplaoded model and datasets from the mongoDB
-        with open('./temp/uploaded_model_and_datasets.json') as f:
-            uploaded_model_datasets = json.load(f)
         return json.dumps([model_name, files_name_list])
 
-    #TODO: when a user only uploaded a model, then you only need to return the latest model
-    with open('./temp/uploaded_model.json') as f:
-                uploaded_model = json.load(f)
     files_name_list = [""]
     return json.dumps([model_name, files_name_list])
 
