@@ -137,19 +137,20 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
    
 
 const DetailedDataset = React.memo((props) => {
-    const FileName = localStorage.getItem('datasetname-detaileddata');
-    console.log("local get file name: ", FileName);
+    //const FileName = localStorage.getItem('datasetname-detaileddata');
+    console.log("local get file name: ", props.selectedDataset);
     
-    useEffect(() => {
-        props.sendNameForDetailedData(FileName, sessionStorage.getItem('verifiedUsername'));
-    });
+    
+    //useEffect(() => {
+        //props.sendNameForDetailedData(props.selectedDataset, sessionStorage.getItem('verifiedUsername'));
+    //});
     
     return (
         <Container>
             <Col className="detailed-metadata" >
-                <Col md={{ size: 7 }}>
+                <Col>
                     <RenderMetadata metadata={props.metadata} isLoading={props.isLoading_metadata} errMess={props.errMess_metadata}
-                        fileName={FileName} />
+                        fileName={props.selectedDataset} />
                 </Col>
             </Col>
 

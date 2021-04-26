@@ -271,6 +271,7 @@ export const deleteOneModel = (modelName, userName) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
+
 export const editModelDescription = (modelName, description, userName) => (dispatch) => {
   console.log("edit user name: ", userName)
   return http.post('/edit-model-desc', JSON.stringify({modelName, description, userName}), {
@@ -278,9 +279,9 @@ export const editModelDescription = (modelName, description, userName) => (dispa
       "Content-Type": "multipart/form-data",
     }})
     .then(res => {
-      console.log("this is response for delete model");
+      console.log("this is response for edit model");
       console.log(res);
-      dispatch(editOneModelDescription(modelName,description));
+      dispatch(editOneModelDescription(modelName, description));
     })
     .catch((err) => console.log(err));
 };

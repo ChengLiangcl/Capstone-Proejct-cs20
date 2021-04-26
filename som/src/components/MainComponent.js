@@ -59,8 +59,8 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
         this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
+        this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -89,25 +89,6 @@ class Main extends Component {
     }
 
     render() {
-        const DatasetWithName = ({ match }) => {
-            let selectedDataset = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-detaileddata') :
-                this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
-            localStorage.setItem('datasetname-detaileddata', selectedDataset);
-            console.log("detaileddata for name: ", selectedDataset);
-
-            return (
-                <DetailedDataset
-                    selectedDataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
-                    sendNameForDetailedData={this.props.sendNameForDetailedData}
-                    detailedData={this.props.detailedData.detailedData}
-                    isLoading_detailedData={this.props.detailedData.isLoading}
-                    errMess_detailedData={this.props.detailedData.errMess}
-
-                    metadata={this.props.metadata.metadata[0]}
-                    isLoading_metadata={this.props.metadata.isLoading}
-                    errMess_metadata={this.props.metadata.errMess} />
-            );
-        };
 
         const DatasetSelect = ({ match }) => {
             let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-metadata') :
@@ -120,7 +101,13 @@ class Main extends Component {
                     submitMetadata={this.props.submitMetadata}
                     fetchDatasetFiles={this.props.fetchDatasetFiles}
                     sendNameForDetailedData={this.props.sendNameForDetailedData}
+                    detailedData={this.props.detailedData.detailedData}
+                    isLoading_detailedData={this.props.detailedData.isLoading}
+                    errMess_detailedData={this.props.detailedData.errMess}
+
                     metadata={this.props.metadata.metadata[0]}
+                    isLoading_metadata={this.props.metadata.isLoading}
+                    errMess_metadata={this.props.metadata.errMess}
                 />
             );
         };
@@ -146,7 +133,6 @@ class Main extends Component {
                                 fetchDatasetFiles={this.props.fetchDatasetFiles}
                                 queryDatasets={this.props.queryDatasets}
                             />} />
-                        <Route path='/mydatabase/:datasetName' component={DatasetWithName} />
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
                         <Route path="/mymodels" component={() => <SOMModel
                             modelFiles={this.props.modelFiles.modelFiles}

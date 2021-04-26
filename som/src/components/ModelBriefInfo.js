@@ -20,8 +20,8 @@ function ModelBriefInfo(props) {
     //while a user chooses to delete a model
     const handleYesBtn = () => {
         console.log("filename is " + props.modelName);
-        console.log(props.modelName);
         props.editModelDescription(props.modelName, briefInfo, sessionStorage.getItem('verifiedUsername'));
+        //props.fetchModelFiles()
         setModal(!isModalOpen);
     }
 
@@ -34,8 +34,10 @@ function ModelBriefInfo(props) {
             <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>
                 <ModalHeader toggle={toggleModal}>Model Delete</ModalHeader>
                 <ModalBody>
-                    <Input placeholder={'Model description'} ref={el} value={briefInfo} onChange={event => setBriefInfo(event.target.value)} />
-                    <Row>
+                    <Row style={{paddingLeft: '2%', paddingRight: '2%'}}>
+                        <Input placeholder={'Model description'} ref={el} value={briefInfo} onChange={event => setBriefInfo(event.target.value)} />
+                    </Row>
+                    <Row style={{paddingTop: '5%'}}>
                         <Col>
                             <Button onClick={handleYesBtn} style={{ backgroundColor: '#378CC6' }}>Yes</Button>
                         </Col>

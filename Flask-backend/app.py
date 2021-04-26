@@ -112,18 +112,15 @@ def connect_upload():
         # (replace the code below) save the file to MongoDB
         for uploaded_file in files_list:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-            count = 0
-            tem = 0
-            first_num = 0
-            lable = ""
+
+            # to get the number at the first line
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            for i in f:
-                if count ==0:
-                    first_num = i
-                count = count +1
-                if count==2:
-                    size = (len(i.split(" ")))
-                    break
+            first_num = [line.rstrip() for line in f.readlines()[0]][0]
+
+            # to get the column number
+            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+
             columnNames = [''] * size
             attributes_meta = size
             if int(first_num) < size:
@@ -243,27 +240,26 @@ def upload():
         # get file-name list
         files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-1)]
         print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
+        
         for uploaded_file in files_list:
             if uploaded_file.filename == '':
                 flash('No selected file')
                 return redirect(request.url)
-        for upload_file in files_list:
+
+        for uploaded_file in files_list:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-            count = 0
-            tem = 0
-            first_num = 0
-            lable = ""
+
+            # to get the number at the first line
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            for i in f:
-    
-                if count ==0:
-                    first_num = i
-                count = count +1
-                if count==2:
-                    size = (len(i.split(" ")))
-                    break
+            first_num = [line.rstrip() for line in f.readlines()[0]][0]
+
+            # to get the column number
+            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+
             columnNames = [''] * size
             attributes_meta = size
+            
             if int(first_num) < size:
                 lable = "Yes"
             elif int(first_num) == size:
@@ -352,12 +348,7 @@ def upload():
                         }
                     ]
                 }
-                db.metadata.insert_one(metadata)
-            
-            
-
-        # TODO: 把以下代码删掉，换成支持多datasets上传的代码
-        
+                db.metadata.insert_one(metadata)  
 
     return json.dumps(file_name_list)
 

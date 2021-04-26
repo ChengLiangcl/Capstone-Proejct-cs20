@@ -1,7 +1,7 @@
 function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextModelFiles) {
 
-    //console.log("compareMetadata: ", currentMetadata);
-    //console.log("nextMetadata: ", nextMetadata);
+    console.log("compareMetadata: ", currentMetadata);
+    console.log("nextMetadata: ", nextMetadata);
     //console.log("nextBriefInfo: ", nextMetadata['BriefInfo']);
     const compareBriefInfo = (currentMetadata.BriefInfo !== nextMetadata.BriefInfo) ? true : false;
     const compareDescription = (currentMetadata.Description !== nextMetadata.Description) ? true : false;
@@ -46,20 +46,21 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
 
     // compare model files
     const compareModelFiles = (currentModelFiles, nextModelFiles) => {
+        console.log("currentModelFiles: ", currentModelFiles)
+        console.log("nextModelFiles: ", nextModelFiles)
         if(currentModelFiles.length !== nextModelFiles.length){
             console.log("because of model files");
             return true
         }
         else if (currentModelFiles.length !== 0 && nextModelFiles.length !== 0){
             const BriefInfo_result = currentModelFiles.map((eachModel, index) => {
-                return eachModel.BriefInfo === nextModelFiles[index]["BriefInfo"] ? "update" : "noUpdate";
+                return eachModel.BriefInfo !== nextModelFiles[index]["BriefInfo"] ? "update" : "noUpdate";
             });
 
             return BriefInfo_result.includes("update");
         }
     }
 
-    /** 
     console.log(`compareBriefInfo: ${compareBriefInfo}`);
     console.log(`compareDescription: ${compareDescription}`);
     console.log(`compareSource: ${compareSource}`);
@@ -67,10 +68,8 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
     console.log(`compareNumber_of_Attribute: ${compareNumber_of_Attribute}`);
     console.log(`compareLabel: ${compareLabel}`);
     console.log(`compareKeyWords: ${compareKeyWords(currentMetadata.Keywords, nextMetadata.Keywords)}`);
-    console.log(`compareNumber_of_Attribute: ${compareNumber_of_Attribute}`);
     console.log(`compareAttributes: ${compareAttributes(currentMetadata.AttrInfo, nextMetadata.AttrInfo)}`);
     console.log(`compareModelFiles ${compareModelFiles(currentModelFiles, nextModelFiles)}`);
-    */
 
     //different matadata's length means the user changed metadata just now, the system needs to be updated
     /** 

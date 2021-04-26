@@ -116,7 +116,6 @@ label{
 
 .submit-button{
   padding-right: 5%;
-  
 }
 
 h4, h5 {
@@ -140,5 +139,13 @@ label{
 .nodisplay{
   display: none;
   opacity: 0;
+}
+
+.title{
+  flex-grow: 1,
+}
+
+.hide{
+  display: 'none',
 }
 

@@ -49,8 +49,18 @@ export const ModelFiles = (state = {
                 item.BriefInfo=description
               }
             })
-            console.log("new modelFile: ", state.modelFiles)
-            return { ...state, modelFiles: [...state.modelFiles] };
+
+            const updatedModel = state.modelFiles.map(item => {
+                if(item.FileName===modelName){
+                    item.BriefInfo=description
+                    return item
+                }else{
+                    return item
+                }
+            })
+
+            console.log("new modelFile: ", updatedModel)
+            return { ...state, modelFiles: updatedModel};
 
         default:
             return state;
