@@ -298,6 +298,22 @@ export const editModelDescription = (modelName, description, userName) => (dispa
     .catch((err) => console.log(err));
 };
 
+//query datasets
+export const queryModels = (inputValue, userName) => (dispatch) => {
+  console.log("start query models");
+  return http.post('/query-models', JSON.stringify([inputValue, userName]), {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }})
+      .then(res => {
+          console.log("this is response for querying models");
+          console.log(res.data);
+          dispatch(addModelFiles(res.data))
+      })
+      .catch((err) => console.log(err));
+};
+
+
 
 /**
  * Metadata

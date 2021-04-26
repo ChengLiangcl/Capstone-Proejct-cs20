@@ -16,7 +16,7 @@ import compareProps from '../others/compareProps';
 import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
-    sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel
+    sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -46,6 +46,7 @@ const mapDispatchToProps = dispatch => ({
     fetchUploadedModel: () => { dispatch(fetchUploadedModel()) },
     deleteModel: (name, userName) => { dispatch(deleteOneModel(name, userName)) },
     editModelDescription: (name, description, username) => { dispatch(editModelDescription(name, description, username)) },
+    queryModels: (inputValue, userName) => { dispatch(queryModels(inputValue, userName))},
 
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
     sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName)) }
@@ -61,7 +62,7 @@ class Main extends Component {
 
     componentDidMount() {
         this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
-        this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
+        //this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -151,6 +152,8 @@ class Main extends Component {
                             connectUploading={this.props.connectUploading}
                             connectionFiles = {this.props.connectionFiles.connectionFiles}
                             clearConnectionFiles = {this.props.clearConnectionFiles}
+
+                            queryModels = {this.props.queryModels}
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
                         <Redirect to="/mymodels" />

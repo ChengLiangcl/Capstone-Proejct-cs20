@@ -13,6 +13,7 @@ import DeleteOneModel from './DeleteOneModel';
 import ModelBriefInfo from './ModelBriefInfo';
 import { Loading } from './LoadingComponent';
 import ConnectUploading from './Modal/ConnectionUploading'
+import SearchModel from './SearchModelComponent';
 
 
 class SOMModel extends Component {
@@ -94,21 +95,14 @@ class SOMModel extends Component {
   render() {
     return (
       <Container>
-        <Col className="search-box">
-          <Col md={{ size: 7 }}>
-            <InputGroup style={{ width: '6' }}>
-              <Input placeholder="Search similar models here" />
-              <InputGroupAddon addonType="append">
-                <Button style={{ backgroundColor: '#378CC6' }}>Search</Button>
-              </InputGroupAddon>
-            </InputGroup>
-          </Col>
+        <Col className="search-box" >
+            <SearchModel queryModels={this.props.queryModels} />
         </Col>
 
         <Col>
           <ConnectUploading connectUploading={this.props.connectUploading}
-                            connectionFiles = {this.props.connectionFiles}
-                            clearConnectionFiles = {this.props.clearConnectionFiles} />
+            connectionFiles={this.props.connectionFiles}
+            clearConnectionFiles={this.props.clearConnectionFiles} />
         </Col>
 
         <Col className="database">

@@ -567,12 +567,11 @@ def getNameForDetailedData():
 @cross_origin()
 def queryDatasets():
     # you will recieve a inputted word by a user from the frontend
-    input_value = request.get_json(force=True)
+    input_value_username = request.get_json(force=True)
+    input_value = input_value_username[0]
+    UserName = input_value_username[1]
     print(input_value) # you can check the inputted word through this
-    # print(type(input_value))  # string
-    print("1111")
-    UserName="12795757"
-    NameArray=[]
+    print(UserName)  # string
 
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
@@ -912,6 +911,24 @@ def bind_model():
     #TODO: 2. set the uuid to the dataset
 
     return "Bind success"
+
+@app.route('/query-models', methods=["POST"])
+@cross_origin()
+def query_model():
+    # you will recieve a inputted word by a user from the frontend
+    input_value_username = request.get_json(force=True)
+    input_value = input_value_username[0]
+    username = input_value_username[1]
+    print(input_value) # you can check the inputted word through this
+    print(username)  # string
+
+    # TODO you need to query the corresponding datasets from MongoDB
+    # the input value may be the dataset name, or may be key words
+    # this is the querying result I simulate, please REPLACE it when you get the real results
+    with open('./queryResultsForModels.json') as f:
+        queried_models = json.load(f)
+
+    return json.dumps(queried_models)
 
 if __name__ == "__main__":
     #sess = Session()
