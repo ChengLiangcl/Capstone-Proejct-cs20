@@ -12,6 +12,7 @@ import ModelUploadComponent from './ModelUploadComponent';
 import DeleteOneModel from './DeleteOneModel';
 import ModelBriefInfo from './ModelBriefInfo';
 import { Loading } from './LoadingComponent';
+import ConnectUploading from './Modal/ConnectionUploading'
 
 
 class SOMModel extends Component {
@@ -105,7 +106,9 @@ class SOMModel extends Component {
         </Col>
 
         <Col>
-          <ModelUploadComponent uploadModel={this.props.uploadModel} />
+          <ConnectUploading connectUploading={this.props.connectUploading}
+                            connectionFiles = {this.props.connectionFiles}
+                            clearConnectionFiles = {this.props.clearConnectionFiles} />
         </Col>
 
         <Col className="database">

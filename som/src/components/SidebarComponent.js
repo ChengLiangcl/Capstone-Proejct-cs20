@@ -28,11 +28,18 @@ function Sidebar(props){
             <div className="side-group">
                 <ListGroup className="side-items" flush>
                     <Media className="logo" src={'/assets/logo.png'} alt={'som log'}/>
-
+                    {/** 
                     <ListGroupItem action>
                         <NavLink className="nav-link" to="/uploading">
                             <span className="slide-icon fa fa-database"></span>
                             &nbsp;Uploading
+                        </NavLink>
+                    </ListGroupItem>
+                    */}
+                    <ListGroupItem action>
+                        <NavLink className="nav-link" to="/mymodels">
+                            <span className="slide-icon fa fa-cubes"></span>
+                            My models
                         </NavLink>
                     </ListGroupItem>
 
@@ -43,12 +50,6 @@ function Sidebar(props){
                         </NavLink>
                     </ListGroupItem>
 
-                    <ListGroupItem action>
-                        <NavLink className="nav-link" to="/mymodels">
-                            <span className="slide-icon fa fa-cubes"></span>
-                            My models
-                        </NavLink>
-                    </ListGroupItem>
                       
                     <ListGroupItem action>
                         <NavLink className="nav-link" to="/visualisation">

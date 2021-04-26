@@ -60,7 +60,8 @@ export const connectUploading = (files, onUploadProgress) => (dispatch) => {
     console.log(res);
     dispatch(addConnections(res.data));
     dispatch(fetchUploadedModel());
-    dispatch(fetchUploadedDataset())
+    dispatch(fetchUploadedDataset());
+    
   });
 };
 
@@ -241,7 +242,7 @@ export const fetchUploadedModel = () => (dispatch) => {
     .then(response => response.json())
     .then(model => dispatch(addModel(model)))
     .then(data => {
-      console.log("this is data");
+      console.log("this is uplaoded model");
       console.log(data);
     });
 };

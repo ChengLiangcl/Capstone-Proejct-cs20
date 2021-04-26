@@ -25,7 +25,16 @@ function DatasetUpload(props) {
 
         const formData = new FormData();
         formData.append('username', file, sessionStorage.getItem('verifiedUsername'));
-        formData.append('file', file); // appending file
+        if (selectedFiles !== undefined) {
+            for (let i = 0; i < selectedFiles.length; i++) {
+                formData.append(`file${i}`, selectedFiles[i]); // appending file
+            }
+        }
+
+        // Display the keys
+        for (var key of formData.keys()) {
+            console.log(key);
+        }
 
         setCurrentFile(file);
 
@@ -47,7 +56,7 @@ function DatasetUpload(props) {
             <Row>
                 <div className="md-2">
                     {/*TODO: users may only be allowed to upload .dat => <input> needs to add accept=".dat* ref={el} */}
-                    <input type="file" className="file-upload" id="file-upload" ref={el} onChange={handleChange} />
+                    <input type="file" multiple className="file-upload" id="file-upload" ref={el} onChange={handleChange} />
                     <label htmlFor="file-upload">
                         <IconButton aria-label="upload a dataset" component="span">
                             <PublishIcon />

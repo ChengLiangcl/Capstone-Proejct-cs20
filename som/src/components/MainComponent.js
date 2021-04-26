@@ -157,9 +157,13 @@ class Main extends Component {
                             deleteModel={this.props.deleteModel}
                             editModelDescription={this.props.editModelDescription}
                             fetchModelFiles={this.props.fetchModelFiles}
+
+                            connectUploading={this.props.connectUploading}
+                            connectionFiles = {this.props.connectionFiles.connectionFiles}
+                            clearConnectionFiles = {this.props.clearConnectionFiles}
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
-                        <Redirect to="/mydatabase" />
+                        <Redirect to="/mymodels" />
                     </Switch>
                 </Col>
             </Row>

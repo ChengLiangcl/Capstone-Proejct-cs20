@@ -1,4 +1,4 @@
-from flask import Flask, flash, jsonify, request, render_template, make_response, redirect, url_for, abort, session
+from flask import Flask, flash, jsonify, request, render_template, make_response, redirect, url_for, abort, session, g
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from flask_restful import Api, Resource, reqparse
@@ -85,6 +85,10 @@ def connect_upload():
     # get files list: multiple files are stored into an list
     files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
     print("file list is: ", files_list)
+    print("file len is", len(files_list))
+    session['uploaded_datasets_len'] = len(files_list)
+    print("len is: ", session['uploaded_datasets_len'])
+    print("check seesion: ",  session.items())
 
     # when a user only upload a model, then the file_list is []
     # please return a [""] file_name_list to the frontend
@@ -230,6 +234,19 @@ def upload():
             flash("No file part")
             return redirect(request.url)
 
+        # TODO： 这是得到多个datasets的代码
+        # get files list: multiple files are stored into an list
+        files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
+        print("file list is: ", files_list)
+
+        # get the first file
+        print("the first file: ", files_list[0])
+        # get file-name list
+        files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-2)]
+        print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
+
+
+        # TODO: 把以下代码删掉，换成支持多datasets上传的代码
         uploaded_file = request.files['file']
         print(uploaded_file)
         # if user does not select file browser also
@@ -424,6 +441,8 @@ def sendNewdatasetFiles():
     # TODO: (replace the code below) get the uploaded dataset from MongoDB with _id, FileName, Size
     # because frontend cannot show the new file until it is saved into the MongoDB, and frontend cannot generate _id itself
     # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
+    #uploaded_size = session['uploaded_datasets_len']
+    print("get session", session.items())
     data = db.files.find().sort('_id',-1).limit(1)#Find the newest data to insert
     json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
@@ -908,4 +927,6 @@ def signUp():
 
 
 if __name__ == "__main__":
+    #sess = Session()
+    #sess.init_app(app)
     app.run(debug=True)

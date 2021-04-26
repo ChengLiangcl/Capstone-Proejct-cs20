@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Container, Progress, Card, CardBody, CardTitle, CardText, Button, CardColumns } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import PublishIcon from '@material-ui/icons/Publish';
 import NeedUploading from './Modal/NeedUploading';
@@ -44,12 +44,12 @@ function ConnectionUploading(props) {
         formData.append('username', selectedModel, sessionStorage.getItem('verifiedUsername'));
         formData.append('model', selectedModel);
 
-        if (selectedFiles !== undefined){
+        if (selectedFiles !== undefined) {
             for (let i = 0; i < selectedFiles.length; i++) {
                 formData.append(`file${i}`, selectedFiles[i]); // appending file
             }
         }
-        
+
         // Display the keys
         for (var key of formData.keys()) {
             console.log(key);
@@ -77,10 +77,10 @@ function ConnectionUploading(props) {
     };
 
     const handleUploadBtn = () => {
-        if (selectedModel == undefined){
+        if (selectedModel == undefined) {
             setModal(!isModalOpen);
         }
-        else{
+        else {
             uploadModel();
         }
     }
@@ -97,29 +97,31 @@ function ConnectionUploading(props) {
     return (
         <Container>
 
-            <Row>
-                <h3>Connection Uploading</h3>
-            </Row>
-
             <div>
                 {currentFile && (<Progress animated value={progress} max="100">{progress}%</Progress>)}
             </div>
 
             <Row>
-                <Col md="5">
-                    <Row>      
+                <Col md="9">
+                    <Row>
                         <label htmlFor="file-upload">
                             <input type="file" id="file-upload" ref={el} onChange={handleModelChange} />
+                            <div className="alert alert-light" role="alert">
+                                {modelMessage}
+                            </div>
                         </label>
                     </Row>
                 </Col>
 
-            </Row>
+                <Col>
+                    <Button
+                        style={{ backgroundColor: "#378CC6" }}
+                        disabled={!selectedModel}
+                        onClick={handleUploadBtn}>
+                        Upload
+                    </Button>
+                </Col>
 
-            <Row>
-                <div className="alert alert-light" role="alert">
-                    {modelMessage}
-                </div>
             </Row>
 
             {/** datasets */}
@@ -128,45 +130,38 @@ function ConnectionUploading(props) {
                     <Row>
                         <label htmlFor="file-upload">
                             <input type="file" multiple ref={el} onChange={handleDatasetChange} />
+                            <div className="alert alert-light" role="alert">
+                                {message}
+                            </div>
                         </label>
                     </Row>
                 </Col>
 
-                <Col>
-                    <button
-                        className="btn btn-success"
-                        disabled={!selectedModel}
-                        onClick={handleUploadBtn}>
-                        Upload
-                    </button>
-                </Col>
-
                 <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>
-                <ModalHeader toggle={toggleModal}>Dataset Delete</ModalHeader>
-                <ModalBody>
-                    <p>You have not selected any model. Please select one before uploading !</p>
-                    <Row>
-                        <Col>
-                            <Button onClick={handleUploadBtn}>Got it!</Button>
-                        </Col>          
-                    </Row>
-                </ModalBody>
-            </Modal>
-            </Row>
-
-            <Row>
-                <div className="alert alert-light" role="alert">
-                    {message}
-                </div>
+                    <ModalHeader toggle={toggleModal}>Dataset Delete</ModalHeader>
+                    <ModalBody>
+                        <p>You have not selected any model. Please select one before uploading !</p>
+                        <Row>
+                            <Col>
+                                <Button onClick={handleUploadBtn}>Got it!</Button>
+                            </Col>
+                        </Row>
+                    </ModalBody>
+                </Modal>
             </Row>
 
             <Card>
-                <CardTitle><h4>Last Uploading Record</h4></CardTitle>
+                <CardBody>
+                    <CardTitle>
+                        <h5 className="center">Last Uploading History</h5>
+                        <p style={{ color: "grey", fontSize: "small" }}>Notice: the file name will be automatically modified if there is a file with same name in your database</p>
+                    </CardTitle>
+                </CardBody>
                 <CardBody>
                     <CardTitle><strong>uploaded Model</strong></CardTitle>
                     <CardText>
                         <ListGroup>
-                        <ListGroupItem className="justify-content-between">{props.connectionFiles[0]}</ListGroupItem>
+                            <ListGroupItem className="justify-content-between">{props.connectionFiles[0]}</ListGroupItem>
                         </ListGroup>
                     </CardText>
 
