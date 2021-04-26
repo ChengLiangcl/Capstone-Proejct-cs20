@@ -572,13 +572,14 @@ def queryDatasets():
     UserName = input_value_username[1]
     print(input_value) # you can check the inputted word through this
     print(UserName)  # string
-
+    NameArray=[]
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
     # this is the querying result I simulate, please REPLACE it when you get the real results
     returndata=list(db.metadata.find({"UserName":UserName}))
     data= loads(dumps(returndata))
     lenth=len(data)
+    print(lenth)
     T=True
     T2=False
     if '&&' in input_value:
@@ -600,6 +601,7 @@ def queryDatasets():
                    T2=True
         if T2 is True:
          NameArray.append(data[i]['FileName'])
+         T2=False
     else:
      for i in range(lenth):
         if (input_value in data[i]['FileName']or input_value in data[i]['BriefInfo']or input_value in data[i]['Description'] or input_value in data[i]['Keywords']):
@@ -633,6 +635,9 @@ def queryDatasets():
         for element in values:
             if 'data' in element:
                 del element['data']
+        for element in values:
+            if 'uuid' in element:
+                del element['uuid']
 
         json_size = len(values)
         for i in range(len(values)):
@@ -640,6 +645,8 @@ def queryDatasets():
             if fileName in dicts:
                 values[i]["BriefInfo"] = dicts[fileName]
         values = dumps(values, indent=2)
+
+
 
         with open('./queryResultsForDatasets.json', 'w') as file:
             file.write(values)
