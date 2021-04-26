@@ -43,7 +43,7 @@ def connect_upload():
     model = request.files['model']
     model_name = request.files['model'].filename
     # save th modle into the public folder
-    # TODO: please remember to check the repeated model name
+    # please remember to check the repeated model name
     model.save(os.path.join(app.config['UPLOAD_PATH'], model_name))
     print("model: ", model)
     print("model name:", model_name)
@@ -86,7 +86,7 @@ def connect_upload():
     files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
     print("file list is: ", files_list)
 
-    # TODO: when a user only upload a model, then the file_list is []
+    # when a user only upload a model, then the file_list is []
     # please return a [""] file_name_list to the frontend
     if (len(files_list) != 0):
         # get the first file
@@ -103,9 +103,9 @@ def connect_upload():
                 flash('No selected file')
                 return redirect(request.url)
 
-        # TODO: PLEASE deal with the filename to avoid repeating name here
+        # PLEASE deal with the filename to avoid repeating name here
         # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
-        # TODO: (replace the code below) save the file to MongoDB
+        # (replace the code below) save the file to MongoDB
         for uploaded_file in files_list:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             count = 0
@@ -209,10 +209,16 @@ def connect_upload():
                     ]
                 }
                 db.metadata.insert_one(metadata)
+            
+        # TODO: to get the latest uploaded model and datasets, then return to the frontend
+        # you need to replace this to get the real uplaoded model and datasets from the mongoDB
+        with open('./temp/uploaded_model_and_datasets.json') as f:
+            uploaded_model_datasets = json.load(f)
         return json.dumps([model_name, files_name_list])
 
-    # TODO: I only want all file names get returned
-    # please returned the modified name
+    #TODO: when a user only uploaded a model, then you only need to return the latest model
+    with open('./temp/uploaded_model.json') as f:
+                uploaded_model = json.load(f)
     files_name_list = [""]
     return json.dumps([model_name, files_name_list])
 

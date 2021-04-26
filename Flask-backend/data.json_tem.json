@@ -1,7 +1,7 @@
 [
   {
     "_id": {
-      "$oid": "60842833efc5a05fd222efb4"
+      "$oid": "60863230cc7af5ecc1033513"
     },
     "FileName": "ex.dat",
     "BriefInfo": "",
@@ -10,7 +10,7 @@
   },
   {
     "_id": {
-      "$oid": "60842835efc5a05fd222efb6"
+      "$oid": "60863232cc7af5ecc1033515"
     },
     "FileName": "ex_fdy.dat",
     "BriefInfo": "",
@@ -19,29 +19,11 @@
   },
   {
     "_id": {
-      "$oid": "60842836efc5a05fd222efb8"
+      "$oid": "60863233cc7af5ecc1033517"
     },
     "FileName": "ex_fts.dat",
     "BriefInfo": "",
     "Size": "13.532KB",
-    "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "_id": {
-      "$oid": "60842838efc5a05fd222efba"
-    },
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "_id": {
-      "$oid": "608428b3efc5a05fd222efbe"
-    },
-    "FileName": "copy_of_729_ex.dat",
-    "BriefInfo": "",
-    "Size": "193.9KB",
     "UserName": "freya.mao@outlook.com"
   }
 ]
