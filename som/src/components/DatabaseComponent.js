@@ -6,6 +6,7 @@ import { Table } from 'reactstrap';
 import { IconButton, Modal, TableRow } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import ModelBinding from './Modal/BindModel';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import { Link } from 'react-router-dom';
 
@@ -94,11 +95,9 @@ class Database extends Component {
                             </IconButton>
                         </Link>
 
-                        <Link to={`/mydatabase/${fileName}`}>
-                            <IconButton aria-label="detailed data" component="span">
-                                <TableChartIcon />
-                            </IconButton>
-                        </Link>
+                        <ModelBinding modelFiles={this.props.modelFiles} datasetName={fileName}
+                            bindModel={this.props.bindModel}/>
+    
                     </Row>
                 </Container>
             );

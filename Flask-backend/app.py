@@ -899,6 +899,19 @@ def signUp():
         print('The user add sucessfully')
         return 'Add Sucessfully'
 
+@app.route('/bind-model', methods=["POST"])
+@cross_origin()
+def bind_model():
+    model_userName_datasetName = request.get_json(force=True)
+    print("binding:", model_userName_datasetName)
+    modelName = model_userName_datasetName[0]
+    userName = model_userName_datasetName[1]
+    datasetName = model_userName_datasetName[2]
+
+    #TODO: 1. fine the uuid of the model 
+    #TODO: 2. set the uuid to the dataset
+
+    return "Bind success"
 
 if __name__ == "__main__":
     #sess = Session()

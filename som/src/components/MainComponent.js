@@ -16,7 +16,7 @@ import compareProps from '../others/compareProps';
 import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
-    sendNameForDetailedData, connectUploading, clearConnectionFiles
+    sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -33,6 +33,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     connectUploading: (files, onUploadProgress) => dispatch(connectUploading(files, onUploadProgress)),
     clearConnectionFiles: () => dispatch(clearConnectionFiles()),
+    bindModel: (modelname, username, datasetname) => dispatch(bindModel(modelname, username, datasetname)),
 
     fetchDatasetFiles: (userName) => { dispatch(fetchDatasetFiles(userName)) },
     uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
@@ -132,6 +133,9 @@ class Main extends Component {
                                 deleteDataset={this.props.deleteDataset}
                                 fetchDatasetFiles={this.props.fetchDatasetFiles}
                                 queryDatasets={this.props.queryDatasets}
+
+                                modelFiles={this.props.modelFiles.modelFiles}
+                                bindModel = {this.props.bindModel}
                             />} />
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
                         <Route path="/mymodels" component={() => <SOMModel

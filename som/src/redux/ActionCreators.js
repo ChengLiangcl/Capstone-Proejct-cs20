@@ -78,6 +78,18 @@ export const addConnections = (filename) => ({
   payload: filename
 });
 
+export const bindModel = (modelname, username, datasetname) => (dispatch) => {
+  console.log("bind start");
+  return http.post('/bind-model', [modelname, username, datasetname], {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+  .then(res => {
+    console.log("this is response for model binding");
+    console.log(res); 
+  });
+};
 
 /**
  * Dataset
