@@ -228,21 +228,17 @@ Datasets
 def upload():
     if request.method == "POST":
         userName = request.files['username'].filename
-        print(userName)
-
-        if 'file' not in request.files:
-            flash("No file part")
-            return redirect(request.url)
+        print("get username: ", userName)
 
         # TODO： 这是得到多个datasets的代码
         # get files list: multiple files are stored into an list
-        files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
+        files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-1)]
         print("file list is: ", files_list)
 
         # get the first file
         print("the first file: ", files_list[0])
         # get file-name list
-        files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-2)]
+        files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-1)]
         print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
 
 

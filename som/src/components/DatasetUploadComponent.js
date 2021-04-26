@@ -14,20 +14,20 @@ function DatasetUpload(props) {
 
     // It is for get the uploaded file you selected
     const handleChange = (event) => {
-        const file = event.target.files[0]; // accessing file
-        console.log(file);
-        setFile(file); // storing file
-        uploadFile(file);
+        const files = event.target.files; // accessing file
+        setSelectedFiles(event.target.files); // storing file
+        console.log("accepted dataset: ", files);
+        uploadFile(files);
     }
 
-    const uploadFile = (file) => {
+    const uploadFile = (files) => {
         setProgress(0);
 
         const formData = new FormData();
-        formData.append('username', file, sessionStorage.getItem('verifiedUsername'));
-        if (selectedFiles !== undefined) {
-            for (let i = 0; i < selectedFiles.length; i++) {
-                formData.append(`file${i}`, selectedFiles[i]); // appending file
+        formData.append('username', files[0], sessionStorage.getItem('verifiedUsername'));
+        if (files !== undefined) {
+            for (let i = 0; i < files.length; i++) {
+                formData.append(`file${i}`, files[i]); // appending file
             }
         }
 
@@ -36,7 +36,7 @@ function DatasetUpload(props) {
             console.log(key);
         }
 
-        setCurrentFile(file);
+        setCurrentFile(files);
 
         // 'props.uploadDataset' is from Redux actionCreators, which is used to post the uploaded dataset to the backend server
         props.uploadDataset(formData, (event) => {

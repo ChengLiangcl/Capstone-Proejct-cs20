@@ -25,23 +25,5 @@
     "BriefInfo": "",
     "Size": "4.93KB",
     "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "_id": {
-      "$oid": "608667a2e91e0885280c5817"
-    },
-    "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "_id": {
-      "$oid": "608667a3e91e0885280c5819"
-    },
-    "FileName": "copy_of_526_ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "UserName": "freya.mao@outlook.com"
   }
 ]
