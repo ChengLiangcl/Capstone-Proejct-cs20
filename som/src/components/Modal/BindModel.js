@@ -39,6 +39,7 @@ function ModelBinding(props) {
                                 <Col md={7}>
                                     <Control.select model=".bindedModel" id="bindedModel" name="bindedModel"
                                         className="form-control">
+                                        <option>-----Please select a model-----</option>
                                         {props.modelFiles.map( eachModel => <option>{`${eachModel.FileName}: ${eachModel.BriefInfo}`}</option>)}
                                     </Control.select>
                                 </Col>
