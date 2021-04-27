@@ -721,7 +721,6 @@ def showAllModelFiles():
         data = []
         return json.dumps(data)
 
-
 @app.route('/upload-model', methods=["GET", "POST"])
 @cross_origin()
 def uploadModel():
@@ -925,29 +924,106 @@ def bind_model():
     modelName = model_userName_datasetName[0]
     userName = model_userName_datasetName[1]
     datasetName = model_userName_datasetName[2]
-
     #TODO: 1. fine the uuid of the model 
     #TODO: 2. set the uuid to the dataset
-
+    returndata=db.models.find_one({"UserName":userName,"FileName":modelName})
+    data=json.loads(dumps(returndata))
+    print(data["uuid"])
+    uuidofmodel=str(data["uuid"])
+    db.files.update_one({"UserName":userName,"FileName":datasetName},{"$set":{"uuid":uuidofmodel}})
     return "Bind success"
 
 @app.route('/query-models', methods=["POST"])
 @cross_origin()
 def query_model():
-    # you will recieve a inputted word by a user from the frontend
-    input_value_username = request.get_json(force=True)
-    input_value = input_value_username[0]
-    username = input_value_username[1]
-    print(input_value) # you can check the inputted word through this
-    print(username)  # string
-
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
     # this is the querying result I simulate, please REPLACE it when you get the real results
-    with open('./queryResultsForModels.json') as f:
-        queried_models = json.load(f)
+    # you will recieve a inputted word by a user from the frontend
+    input_value_username = request.get_json(force=True)
+    input_value = input_value_username[0]
+    UserName = input_value_username[1]
 
-    return json.dumps(queried_models)
+    print(input_value) # you can check the inputted word through this
+    print(UserName)  # string
+    NameArray = []
+    returndata = list(db.modelmetadata.find({"UserName": UserName}))
+    data = loads(dumps(returndata))
+    lenth = len(data)
+    print(lenth)
+    T=True
+    T2=False
+    if '&&' in input_value:
+     spstr=str(input_value).split("&&")
+     for i in range(lenth):
+        X=0
+        for element in spstr:
+         if (element in data[i]['ModelName'] or element in data[i]['Description'] ):
+            X=X+1
+        if X==len(spstr):
+         NameArray.append(data[i]['ModelName'])
+    elif '||' in input_value:
+     spstr = str(input_value).split("||")
+     for i in range(lenth):
+        for element in spstr:
+           if (element  in data[i]['ModelName'] or element  in data[i]['Description'] ):
+                   T2=True
+        if T2 is True:
+         NameArray.append(data[i]['ModelName'])
+         T2=False
+    else:
+     for i in range(lenth):
+        if (input_value in data[i]['ModelName']or input_value in data[i]['Description']):
+            NameArray.append(data[i]['ModelName'])
+    print("Test of modelquery part")
+    print(NameArray)
+    data_return = list(db.models.find({"FileName": {"$in": NameArray}, "UserName": UserName}))
+    result = db.modelmetadata.find({"UserName": UserName})
+    result = loads(dumps(result))
+    size = len(result)
+    description = list()
+    fileName = list()
+    for i in range(size):
+        description.append(result[i]['Description'])
+        fileName.append(result[i]['ModelName'])
+    dicts = {}
+    for key in fileName:
+        for value in description:
+            dicts[key] = value
+            description.remove(value)
+            break
+    print(dicts)
+    if (len(data_return) != 0):
+        json_data = dumps(data_return, indent=2)
+        with open('./queryResultsForModels.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./queryResultsForModels.json', 'r')
+        values = json.load(jsonFile)
+        for element in values:
+            if 'data' in element:
+                del element['data']
+        for element in values:
+            if 'uuid' in element:
+                del element['uuid']
+
+        json_size = len(values)
+        for i in range(len(values)):
+            fileName = str(values[i]["FileName"])
+            if fileName in dicts:
+                values[i]["BriefInfo"] = dicts[fileName]
+        values = dumps(values, indent=2)
+
+
+
+        with open('./queryResultsForModels.json', 'w') as file:
+            file.write(values)
+        return values
+    else:
+     print("The user does not have any file")
+     data = []
+    return json.dumps(data)
+
+
 
 if __name__ == "__main__":
     #sess = Session()
