@@ -46,7 +46,7 @@ export const updateUser = (userInfo) => ({
  * Connect datasets and a model
  */
 // uploading a new model file
-export const connectUploading = (files, onUploadProgress) => (dispatch) => {
+export const connectUploading = (files, onUploadProgress, username) => (dispatch) => {
   console.log("connect start");
   // post the uploaded model to the backend server
   return http.post('/connect-upload', files, {
@@ -59,8 +59,8 @@ export const connectUploading = (files, onUploadProgress) => (dispatch) => {
     console.log("this is response for connection uploading");
     console.log(res);
     dispatch(addConnections(res.data));
-    dispatch(fetchUploadedModel());
-    dispatch(fetchUploadedDataset());
+    dispatch(fetchUploadedModel(username));
+    dispatch(fetchUploadedDataset(username));
     
   });
 };
@@ -128,7 +128,7 @@ export const addDataset = (dataset) => ({
 
 
 // uploading a new dataset file
-export const uploadDataset = (dataset, onUploadProgress) => (dispatch) => {
+export const uploadDataset = (dataset, onUploadProgress, username) => (dispatch) => {
   // post the uploaded dataset to the backend server
   return http.post('/upload', dataset, {
       headers: {
@@ -141,19 +141,21 @@ export const uploadDataset = (dataset, onUploadProgress) => (dispatch) => {
           console.log(res);
       })
       .then(res => {
-          dispatch(fetchUploadedDataset());
+          dispatch(fetchUploadedDataset(username));
       })
 };
 
 // get the uploded dataset info when the uploading is done in the backend
-export const fetchUploadedDataset = () => (dispatch) => {
-  return fetch(backendUrl + 'newDataset')
-      .then(response => response.json())
-      .then(dataset => dispatch(addDataset(dataset)))
-      .then(data => {
-          console.log("this is data");
-          console.log(data);
-      });
+export const fetchUploadedDataset = (username) => (dispatch) => {
+  console.log("start add new datasets");
+  return http.post('/newDataset', JSON.stringify(username), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }})
+      .then(res => {
+        console.log(res)
+        dispatch(addDataset(res.data));
+      })
 };
 
 export const removeOneDataset = (datasetName) => ({
@@ -231,7 +233,7 @@ export const addModel = (model) => ({
 });
 
 // uploading a new model file
-export const uploadModel = (model, onUploadProgress) => (dispatch) => {
+export const uploadModel = (model, onUploadProgress, username) => (dispatch) => {
   // post the uploaded model to the backend server
   return http.post('/upload-model', model, {
     headers: {
@@ -244,19 +246,20 @@ export const uploadModel = (model, onUploadProgress) => (dispatch) => {
       console.log(res);
     })
     .then(res => {
-      dispatch(fetchUploadedModel());
+      dispatch(fetchUploadedModel(username));
     })
 };
 
 // get the uploded model info when the uploading is done in the backend
-export const fetchUploadedModel = () => (dispatch) => {
-  return fetch(backendUrl + 'newModel')
-    .then(response => response.json())
-    .then(model => dispatch(addModel(model)))
-    .then(data => {
-      console.log("this is uplaoded model");
-      console.log(data);
-    });
+export const fetchUploadedModel = (username) => (dispatch) => {
+  return http.post('/newModel', JSON.stringify(username), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }})
+    .then(model => {
+      console.log(model)
+      dispatch(addModel(model.data));
+    })
 };
 
 export const removeOneModel = (modelName) => ({

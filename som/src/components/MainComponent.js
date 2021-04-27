@@ -31,19 +31,19 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    connectUploading: (files, onUploadProgress) => dispatch(connectUploading(files, onUploadProgress)),
+    connectUploading: (files, onUploadProgress, username) => dispatch(connectUploading(files, onUploadProgress, username)),
     clearConnectionFiles: () => dispatch(clearConnectionFiles()),
     bindModel: (modelname, username, datasetname) => dispatch(bindModel(modelname, username, datasetname)),
 
     fetchDatasetFiles: (userName) => { dispatch(fetchDatasetFiles(userName)) },
-    uploadDataset: (dataset, onUploadProgress) => dispatch(uploadDataset(dataset, onUploadProgress)),
-    fetchUploadedDataset: () => { dispatch(fetchUploadedDataset()) },
+    uploadDataset: (dataset, onUploadProgress, username) => dispatch(uploadDataset(dataset, onUploadProgress, username)),
+    fetchUploadedDataset: (username) => { dispatch(fetchUploadedDataset(username)) },
     deleteDataset: (datasetName, userName) => { dispatch(deleteOneDataset(datasetName, userName)) },
     queryDatasets: (inputValue, userName) => { dispatch(queryDatasets(inputValue, userName)) },
 
     fetchModelFiles: (userName) => { dispatch(fetchModelFiles(userName)) },
-    uploadModel: (model, onUploadProgress) => dispatch(uploadModel(model, onUploadProgress)),
-    fetchUploadedModel: () => { dispatch(fetchUploadedModel()) },
+    uploadModel: (model, onUploadProgress, username) => dispatch(uploadModel(model, onUploadProgress, username)),
+    fetchUploadedModel: (username) => { dispatch(fetchUploadedModel(username)) },
     deleteModel: (name, userName) => { dispatch(deleteOneModel(name, userName)) },
     editModelDescription: (name, description, username) => { dispatch(editModelDescription(name, description, username)) },
     queryModels: (inputValue, userName) => { dispatch(queryModels(inputValue, userName))},

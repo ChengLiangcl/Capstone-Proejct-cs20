@@ -34,7 +34,7 @@ function ModelUpload(props) {
         // 'props.uploadModel' is from Redux actionCreators, which is used to post the uploaded model to the backend server
         props.uploadModel(formData, (event) => {
             setProgress(Math.round((100 * event.loaded) / event.total));
-        }).then(() => {
+        }, sessionStorage.getItem('verifiedUsername')).then(() => {
             setMessage("Uploaded successfully");
         })
         .catch(() => {

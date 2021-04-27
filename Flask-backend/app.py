@@ -409,12 +409,16 @@ def showAlldatasetFiles():
         data = []
         return json.dumps(data)
 
-@app.route('/newDataset', methods=["GET"])
+@app.route('/newDataset', methods=["POST"])
 def sendNewdatasetFiles():
     # TODO: (replace the code below) get the uploaded dataset from MongoDB with _id, FileName, Size
     # because frontend cannot show the new file until it is saved into the MongoDB, and frontend cannot generate _id itself
     # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
     #uploaded_size = session['uploaded_datasets_len']
+    username = request.get_json(force=True)
+    print("username for new datasets: ", username)
+
+
     print("get session", session.items())
     global files_size
     print("The taotal number of files: " + str(files_size))
@@ -779,11 +783,13 @@ def uploadModel():
         return json.dumps(filename)
 
 
-@app.route('/newModel', methods=["GET"])
+@app.route('/newModel', methods=["POST"])
 def sendNewModelFiles():
     # TODO: (replace the code below) get the uploaded dataset from MongoDB with _id, FileName, Size
     # because frontend cannot show the new file until it is saved into the MongoDB, and frontend cannot generate _id itself
     # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
+    username = request.get_json(force=True)
+    print("username for new model: ", username)
 
     data = db.models.find().sort('_id', -1).limit(1)  # Find the newest data to insert
     json_data = dumps(data, indent=2)
