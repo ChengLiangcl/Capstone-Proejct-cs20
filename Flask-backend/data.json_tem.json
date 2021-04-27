@@ -5,7 +5,7 @@
     },
     "uuid": "3a4f6335d2234434abfb720e18587290",
     "FileName": "Test1.cod",
-    "BriefInfo": "used for image ",
+    "BriefInfo": "this model is used for image",
     "Size": "4.229KB",
     "UserName": "123456@qq.com"
   },
@@ -15,7 +15,17 @@
     },
     "uuid": "1ee33fdba7e348caa8788c59db79546e",
     "FileName": "Test2.cod",
-    "BriefInfo": "used for video",
+    "BriefInfo": "the model is designed by myself",
+    "Size": "4.229KB",
+    "UserName": "123456@qq.com"
+  },
+  {
+    "_id": {
+      "$oid": "6088073f305147f5dbf781ad"
+    },
+    "uuid": "a23d97983e764268b488ac1db47f93bd",
+    "FileName": "Test3.cod",
+    "BriefInfo": "",
     "Size": "4.229KB",
     "UserName": "123456@qq.com"
   }

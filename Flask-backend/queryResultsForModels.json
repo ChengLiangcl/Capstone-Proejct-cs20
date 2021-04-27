@@ -1,19 +1,10 @@
 [
   {
     "_id": {
-      "$oid": "6087464d015597813b9a8d2e"
-    },
-    "FileName": "Test1.cod",
-    "BriefInfo": "used for image ",
-    "Size": "4.229KB",
-    "UserName": "123456@qq.com"
-  },
-  {
-    "_id": {
       "$oid": "60879d63487623a6eb79492b"
     },
     "FileName": "Test2.cod",
-    "BriefInfo": "used for video",
+    "BriefInfo": "the model is designed by myself",
     "Size": "4.229KB",
     "UserName": "123456@qq.com"
   }

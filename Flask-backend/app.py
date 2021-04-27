@@ -679,21 +679,6 @@ def showAllModelFiles():
     UserName = request.get_json(force=True)
     data_return = list(db.models.find({"UserName": UserName}))
     print(len(data_return))
-    print(db.models.find({"UserName": UserName}))
-    result = db.modelmetadata.find({"UserName": UserName})
-    result = loads(dumps(result))
-    size = len(result)
-    description = list()
-    fileName = list()
-    for i in range(size):
-        description.append(result[i]['Description'])
-        fileName.append(result[i]['ModelName'])
-    dicts = {}
-    for key in fileName:
-        for value in description:
-            dicts[key] = value
-            description.remove(value)
-            break
 
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
@@ -704,18 +689,11 @@ def showAllModelFiles():
         for element in values:
             if 'data' in element:
                 del element['data']
-
-        json_size = len(values)
-        for i in range(len(values)):
-            fileName = str(values[i]["FileName"])
-            if fileName in dicts:
-                values[i]["BriefInfo"] = dicts[fileName]
         values = dumps(values, indent=2)
 
         with open('./data.json_tem.json', 'w') as file:
             file.write(values)
         return values
-
     else:
         print("The user does not have any file")
         data = []
@@ -792,7 +770,6 @@ def sendNewModelFiles():
 
     data = db.models.find().sort('_id', -1).limit(1)  # Find the newest data to insert
     json_data = dumps(data, indent=2)
-
     with open('./dataNewJson.json', 'w') as file:
         file.write(json_data)
 
@@ -822,7 +799,7 @@ def deleteOneModel():
     # delete corresponding dataset
     db.models.delete_one({"UserName": userName, "FileName": modelName})
     # delete corresponding metadata in the same time
-    db.modelmetadata.delete_one({"UserName": userName, "FileName": modelName})
+    #db.modelmetadata.delete_one({"UserName": userName, "FileName": modelName})
     return modelName
 
 
@@ -832,7 +809,7 @@ def editModelDescription():
 
     data = request.get_json(force=True)
 
-    print("Here!")
+    print("This is add Model Description")
 
     print(data)
     ModelName = data["modelName"]
@@ -840,30 +817,7 @@ def editModelDescription():
     Description = data["description"]
     userName = data["userName"]
     print(userName)
-
-    record = {
-            "ModelName":ModelName,
-            "UserName":userName,
-            "Description":Description,
-    }
-    if len(loads(dumps(db.modelmetadata.find({"UserName": userName, "ModelName": ModelName})))) == 0:
-        db.modelmetadata.insert_one(record)
-
-
-    print(Description)
-
-    record = {
-        "ModelName": ModelName,
-        "UserName": userName,
-        "Description": Description,
-    }
-    if len(loads(dumps(db.modelmetadata.find({"UserName": userName, "ModelName": ModelName})))) == 0:
-
-        db.modelmetadata.insert_one(record)
-
-    else:
-        db.modelmetadata.delete_one({"UserName": userName, "ModelName": ModelName})
-        db.modelmetadata.insert_one(record)
+    db.models.update_one({"UserName":userName,"FileName":ModelName},{"$set":{"BriefInfo":Description}})
 
     return data["modelName"]
 
@@ -947,7 +901,7 @@ def query_model():
     print(input_value) # you can check the inputted word through this
     print(UserName)  # string
     NameArray = []
-    returndata = list(db.modelmetadata.find({"UserName": UserName}))
+    returndata = list(db.models.find({"UserName": UserName}))
     data = loads(dumps(returndata))
     lenth = len(data)
     print(lenth)
@@ -958,41 +912,26 @@ def query_model():
      for i in range(lenth):
         X=0
         for element in spstr:
-         if (element in data[i]['ModelName'] or element in data[i]['Description'] ):
+         if (element in data[i]['FileName'] or element in data[i]['BriefInfo'] ):
             X=X+1
         if X==len(spstr):
-         NameArray.append(data[i]['ModelName'])
+         NameArray.append(data[i]['FileName'])
     elif '||' in input_value:
      spstr = str(input_value).split("||")
      for i in range(lenth):
         for element in spstr:
-           if (element  in data[i]['ModelName'] or element  in data[i]['Description'] ):
+           if (element  in data[i]['FileName'] or element  in data[i]['BriefInfo'] ):
                    T2=True
         if T2 is True:
-         NameArray.append(data[i]['ModelName'])
+         NameArray.append(data[i]['FileName'])
          T2=False
     else:
      for i in range(lenth):
-        if (input_value in data[i]['ModelName']or input_value in data[i]['Description']):
-            NameArray.append(data[i]['ModelName'])
+        if (input_value in data[i]['FileName']or input_value in data[i]['BriefInfo']):
+            NameArray.append(data[i]['FileName'])
     print("Test of modelquery part")
     print(NameArray)
     data_return = list(db.models.find({"FileName": {"$in": NameArray}, "UserName": UserName}))
-    result = db.modelmetadata.find({"UserName": UserName})
-    result = loads(dumps(result))
-    size = len(result)
-    description = list()
-    fileName = list()
-    for i in range(size):
-        description.append(result[i]['Description'])
-        fileName.append(result[i]['ModelName'])
-    dicts = {}
-    for key in fileName:
-        for value in description:
-            dicts[key] = value
-            description.remove(value)
-            break
-    print(dicts)
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
         with open('./queryResultsForModels.json', 'w') as file:
@@ -1006,14 +945,7 @@ def query_model():
             if 'uuid' in element:
                 del element['uuid']
 
-        json_size = len(values)
-        for i in range(len(values)):
-            fileName = str(values[i]["FileName"])
-            if fileName in dicts:
-                values[i]["BriefInfo"] = dicts[fileName]
         values = dumps(values, indent=2)
-
-
 
         with open('./queryResultsForModels.json', 'w') as file:
             file.write(values)
