@@ -14,7 +14,7 @@ import random
 import pandas as pd
 import numpy as np
 import csv
-
+files_size = 0
 client = pymongo.MongoClient(
     "mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",
     ssl=True, ssl_cert_reqs='CERT_NONE')
@@ -89,6 +89,8 @@ def connect_upload():
     session['uploaded_datasets_len'] = len(files_list)
     print("len is: ", session['uploaded_datasets_len'])
     print("check seesion: ",  session.items())
+    global files_size 
+    files_size = len(files_list)
 
     # when a user only upload a model, then the file_list is []
     # please return a [""] file_name_list to the frontend
@@ -328,6 +330,7 @@ def upload():
                     "UserName":userName,
                     "data": data
                 }
+                file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
                 metadata = {
                     "uuid":uuid_combined,
@@ -349,6 +352,7 @@ def upload():
                     ]
                 }
                 db.metadata.insert_one(metadata)  
+  
 
     return json.dumps(file_name_list)
 
@@ -412,7 +416,9 @@ def sendNewdatasetFiles():
     # Here, I'll create a uploaded file JSON myself, please delete it when you finish this TODO
     #uploaded_size = session['uploaded_datasets_len']
     print("get session", session.items())
-    data = db.files.find().sort('_id',-1).limit(1)#Find the newest data to insert
+    global files_size
+    print("The taotal number of files: " + str(files_size))
+    data = db.files.find().sort('_id',-1).limit(files_size)
     json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
