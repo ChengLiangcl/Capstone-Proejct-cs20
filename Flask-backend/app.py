@@ -89,8 +89,7 @@ def connect_upload():
     session['uploaded_datasets_len'] = len(files_list)
     print("len is: ", session['uploaded_datasets_len'])
     print("check seesion: ",  session.items())
-    global files_size 
-    files_size = len(files_list)
+    
 
     # when a user only upload a model, then the file_list is []
     # please return a [""] file_name_list to the frontend
@@ -242,6 +241,8 @@ def upload():
         # get file-name list
         files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-1)]
         print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
+        global files_size 
+        files_size = len(files_name_list)
         
         for uploaded_file in files_list:
             if uploaded_file.filename == '':
@@ -422,7 +423,7 @@ def sendNewdatasetFiles():
     print("get session", session.items())
     global files_size
     print("The taotal number of files: " + str(files_size))
-    data = db.files.find().sort('_id',-1).limit(files_size)
+    data = db.files.find({"UserName":username}).sort('_id',-1).limit(files_size)
     json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
@@ -445,7 +446,6 @@ def sendNewdatasetFiles():
 def submitMetadata():
     metadata = request.get_json(force=True)
     print(metadata)
-
     metadata_dict = metadata[0]
     FileName = metadata[0]["FileName"]
     UserName = metadata[0]["UserName"]
