@@ -547,14 +547,9 @@ def getNameForDetailedData():
             metadata = json.load(f)
     #Handeling the situation when it return a empty [], change to the relevent metadata.
     if(len(metadata)==0):
-        result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
+        result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)},{'id':0,'_uuid':0})
         result = loads(dumps(result))
         metadata = result
-        for element in metadata:
-            if '_id' in element:
-                del element['_id']
-            if'_uuid' in element:
-                del element['uuid']
     print('sss')
     print(metadata)
     print('sss')
