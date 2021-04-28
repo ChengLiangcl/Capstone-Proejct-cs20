@@ -14,6 +14,7 @@ import random
 import pandas as pd
 import numpy as np
 import csv
+import time
 files_size = 0
 client = pymongo.MongoClient(
     "mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",
@@ -359,12 +360,13 @@ def upload():
 
 @app.route('/datasetFiles', methods=["POST"])
 def showAlldatasetFiles():
+    start = time.time()
     UserName = request.get_json(force=True)
     print("username get: ", UserName)
     # read datasets JSON file
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
-    data_return = list(db.files.find( {"UserName":UserName}))
+    data_return = list(db.files.find( {"UserName":UserName},{"uuid":0,"data":0}))
     result = db.metadata.find({"UserName":UserName})
     result = loads(dumps(result))
     size = len(result)
@@ -379,36 +381,23 @@ def showAlldatasetFiles():
             dicts[key] = value
             description.remove(value)
             break
-    print(dicts)
-
     if(len(data_return)!=0):
-        print("am I here")
         json_data = dumps(data_return, indent = 2)
-        with open('./data.json_tem.json', 'w') as file:
-            file.write(json_data)
-        jsonFile = open('./data.json_tem.json', 'r')
-        values = json.load(jsonFile)
-        for element in values:
-            if 'data' in element:
-                del element['data']
-            if 'uuid' in element:
-                del element['uuid']
-
+        values = json.loads(str(json_data))
         json_size = len(values)
         for i in range(len(values)):
             fileName = str(values[i]["FileName"])
             if fileName in dicts:
                 values[i]["BriefInfo"] = dicts[fileName]
         values = dumps(values, indent = 2)
-
-        with open('./data.json_tem.json', 'w') as file:
-            file.write(values)
+        end = time.time()
+        print(end - start)
         return values
-
+    
     else:
-        print("The user does not have any file")
         data = []
         return json.dumps(data)
+   
 
 @app.route('/newDataset', methods=["POST"])
 def sendNewdatasetFiles():
@@ -955,7 +944,41 @@ def query_model():
      data = []
     return json.dumps(data)
 
+@app.route('/get-bindedDatasets', methods=["POST"])
+@cross_origin()
+def query_binded_datasets():
+    modelname_username = request.get_json(force=True)
+    modelname = modelname_username[0]
+    username = modelname_username[1]
+    print("the selected model name is: ", modelname)
+    print("the user is: ", username)
 
+    # TODO: 你需要把这段代码替换掉，换成搜索后和model绑定的那些datasets
+    # 注意：我只需要三个属性： FileName, BriefInfo, UserName。 具体参考以下json文件
+    with open('./bindedDatasets.json') as f:
+        data = json.load(f)
+    return json.dumps(data)
+
+@app.route('/delete-bindeddataset', methods=["POST"])
+@cross_origin()
+def delete_binded_datasets():
+    dataset_userName = request.get_json(force=True)
+    datasetName= dataset_userName[0]
+    userName = dataset_userName[1]
+    print(userName)
+
+    # to get the selected dataset name from the frontend
+    print(datasetName) # you can check the gotten dataset name
+    print(type(datasetName))  # string
+    # TODO delete the corresponding dataset in the MongoDB based on the datasetName
+    # delete corresponding dataset
+    db.files.delete_one({"UserName": userName, "FileName": datasetName})
+    # delete corresponding metadata in the same time
+    db.metadata.delete_one({"UserName":userName, "FileName": datasetName})
+    print("Done the delete")
+    # this return must be string, which will be returned to the frontend immediately
+    # so DO NOT modify the return 'metadata_string'
+    return datasetName
 
 if __name__ == "__main__":
     #sess = Session()

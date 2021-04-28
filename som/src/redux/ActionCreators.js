@@ -91,6 +91,52 @@ export const bindModel = (modelname, username, datasetname) => (dispatch) => {
   });
 };
 
+export const addBindedDatasets = (bindedDatasets) => ({
+  type: ActionTypes.ADD_BINDDATASETS,
+  payload: bindedDatasets
+});
+
+export const bindedDatasetsLoading = () => ({
+  type: ActionTypes.BIND_LOADING
+});
+
+export const getBindedDatasets = (modelname, username) => (dispatch) => {
+  console.log("start binded datasets");
+  //dispatch(bindedDatasetsLoading(true));
+  
+  return http.post('/get-bindedDatasets', [modelname, username], {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+  .then(res => {
+    console.log("this is response for bindedDatasets");
+    console.log(res); 
+    dispatch(addBindedDatasets(res.data))
+  });
+
+};
+
+export const removeOneBindedDataset = (datasetName) => ({
+  type: ActionTypes.REMOVE_DATASET,
+  payload: datasetName
+});
+
+// pass the filename to the backend server and tell it to delete corresponding dataset
+export const deleteOneBindedDataset = (datasetName, userName) => (dispatch) => {
+  return http.post('/delete-bindeddataset', JSON.stringify([datasetName, userName]), {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }})
+      .then(res => {
+          console.log("this is response for delete binded dataset");
+          console.log(res);
+          dispatch(removeOneBindedDataset(res.data));
+          dispatch(removeOneDataset(res.data));
+      })
+      .catch((err) => console.log(err));
+};
+
 /**
  * Dataset
  */

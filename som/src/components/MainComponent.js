@@ -10,13 +10,14 @@ import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
 import ConnectionUploading from './ConnectionUploading';
-
+import BindedDatasets from './Modal/BindedDatasets';
 import compareProps from '../others/compareProps';
 
 import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
-    sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels
+    sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels, getBindedDatasets,
+    deleteOneBindedDataset
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -34,6 +35,8 @@ const mapDispatchToProps = dispatch => ({
     connectUploading: (files, onUploadProgress, username) => dispatch(connectUploading(files, onUploadProgress, username)),
     clearConnectionFiles: () => dispatch(clearConnectionFiles()),
     bindModel: (modelname, username, datasetname) => dispatch(bindModel(modelname, username, datasetname)),
+    getBindedDatasets: (modelname, username) => dispatch(getBindedDatasets(modelname, username)),
+    deleteOneBindedDataset: (datasetName, userName) => { dispatch(deleteOneBindedDataset(datasetName, userName)) },
 
     fetchDatasetFiles: (userName) => { dispatch(fetchDatasetFiles(userName)) },
     uploadDataset: (dataset, onUploadProgress, username) => dispatch(uploadDataset(dataset, onUploadProgress, username)),
@@ -70,6 +73,28 @@ class Main extends Component {
         // if the metadata itself needs to be updated, return true
         //console.log("compareMetadata: ", this.props.metadata.metadata);
         //console.log("nextMetadata: ", nextProps.metadata.metadata);
+
+        const compareBindedDatasets = (currentBindedDatasets, nextBindedDatasets) => {
+            console.log("current: ", currentBindedDatasets);
+            console.log("next: ", nextBindedDatasets)
+            if (currentBindedDatasets.length !== nextBindedDatasets.length) {
+                return true;
+            }
+            else {
+                const result = currentBindedDatasets.map((eachValue, index) => {
+                    return Object.values(eachValue).map((eachAttr, attrIndex) => {
+                        return eachAttr !== Object.values(nextBindedDatasets[index])[attrIndex] ? "update" : "noUpdate";
+                    })
+                });
+    
+                const result_final = result.map(eachResult => {
+                    return eachResult.includes("update") ? "update" : "noUpdate";
+                });
+    
+                return result_final.includes("update");
+            }
+        };
+
         if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0], this.props.modelFiles.modelFiles, nextProps.modelFiles.modelFiles)) {
             console.log("because of metadata");
             return true
@@ -83,6 +108,11 @@ class Main extends Component {
                 console.log("because of connection files");
                 return true   
             }
+            
+            // else if (compareBindedDatasets(this.props.connectionFiles.bindedDatasets, nextProps.connectionFiles.bindedDatasets)){
+            //     console.log("because of binded datasets");
+            //     return true
+            // }
             else {
                 console.log("not update");
                 return false;
@@ -114,6 +144,24 @@ class Main extends Component {
             );
         };
 
+        const ModelSelect = ({ match }) => {
+            let modelName = this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0] == undefined ? localStorage.getItem('modelname') :
+                this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0].FileName;
+            console.log("model name: ", modelName);
+            localStorage.setItem('modelname', modelName);
+
+            return (
+                <BindedDatasets modelName={this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0]}
+                  getBindedDatasets={this.props.getBindedDatasets}
+                  isBindLoading={this.props.isBindLoading}
+                  bindedDatasets = {this.props.connectionFiles.bindedDatasets}
+                  isBindLoading={this.props.connectionFiles.isLoading}
+
+                  deleteDataset={this.props.deleteOneBindedDataset}
+                  />
+            );
+        };
+
         return (
             <Row>
                 <Col className="sidebar" md="3"><Sidebar username={this.props.user.userInfo} /></Col>
@@ -139,7 +187,8 @@ class Main extends Component {
                                 bindModel = {this.props.bindModel}
                             />} />
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
-                        <Route path="/mymodels" component={() => <SOMModel
+                        <Route path="/mymodels/:modelName" component={ModelSelect} />
+                        <Route exact path="/mymodels" component={() => <SOMModel
                             modelFiles={this.props.modelFiles.modelFiles}
                             isLoading={this.props.modelFiles.isLoading}
                             errMess={this.props.modelFiles.errMess}
@@ -152,8 +201,11 @@ class Main extends Component {
                             connectUploading={this.props.connectUploading}
                             connectionFiles = {this.props.connectionFiles.connectionFiles}
                             clearConnectionFiles = {this.props.clearConnectionFiles}
+                            bindedDatasets = {this.props.connectionFiles.bindedDatasets}
+                            getBindedDatasets = {this.props.getBindedDatasets}
 
                             queryModels = {this.props.queryModels}
+                            isBindLoading={this.props.connectionFiles.isLoading}
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
                         <Redirect to="/mymodels" />

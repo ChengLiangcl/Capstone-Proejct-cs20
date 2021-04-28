@@ -14,6 +14,7 @@ import ModelBriefInfo from './ModelBriefInfo';
 import { Loading } from './LoadingComponent';
 import ConnectUploading from './Modal/ConnectionUploading'
 import SearchModel from './SearchModelComponent';
+import AskBindedDatasets from './Modal/AskBindedDatasets';
 
 
 class SOMModel extends Component {
@@ -24,6 +25,7 @@ class SOMModel extends Component {
   componentDidUpdate() {
     this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
   }
+
 
   tableHead() {
     return (
@@ -49,7 +51,11 @@ class SOMModel extends Component {
         <tbody>
           {models.map((model, index) =>
             <tr key={index}>
-              <td style={{ verticalAlign: 'middle' }}>{model.FileName}</td>
+              <Link style={{color: "black"}} to={`/mymodels/${model.FileName}`}>
+              <td style={{ verticalAlign: 'middle' }}>
+                {model.FileName}
+              </td>
+              </Link>
               <td style={{ verticalAlign: 'middle' }}>{model.BriefInfo}</td>
               <td style={{ verticalAlign: 'middle' }}>{model.Size}</td>
               <td key={"operateEachModel"}>
