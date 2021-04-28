@@ -51,10 +51,10 @@ class SOMModel extends Component {
         <tbody>
           {models.map((model, index) =>
             <tr key={index}>
-              <Link style={{color: "black"}} to={`/mymodels/${model.FileName}`}>
-              <td style={{ verticalAlign: 'middle' }}>
-                {model.FileName}
-              </td>
+              <Link style={{ color: "black" }} to={`/mymodels/${model.FileName}`}>
+                <td style={{ verticalAlign: 'middle' }}>
+                  {model.FileName}
+                </td>
               </Link>
               <td style={{ verticalAlign: 'middle' }}>{model.BriefInfo}</td>
               <td style={{ verticalAlign: 'middle' }}>{model.Size}</td>
@@ -102,7 +102,7 @@ class SOMModel extends Component {
     return (
       <Container>
         <Col className="search-box" >
-            <SearchModel queryModels={this.props.queryModels} />
+          <SearchModel queryModels={this.props.queryModels} />
         </Col>
 
         <Col>

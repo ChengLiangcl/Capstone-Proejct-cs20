@@ -109,10 +109,10 @@ class Main extends Component {
                 return true   
             }
             
-            // else if (compareBindedDatasets(this.props.connectionFiles.bindedDatasets, nextProps.connectionFiles.bindedDatasets)){
-            //     console.log("because of binded datasets");
-            //     return true
-            // }
+            else if (compareBindedDatasets(this.props.connectionFiles.bindedDatasets, nextProps.connectionFiles.bindedDatasets)){
+                console.log("because of binded datasets");
+                return true
+            }
             else {
                 console.log("not update");
                 return false;
