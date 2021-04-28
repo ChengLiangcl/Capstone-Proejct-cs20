@@ -944,11 +944,11 @@ def query_binded_datasets():
     print("the user is: ", Username)
     # TODO: 你需要把这段代码替换掉，换成搜索后和model绑定的那些datasets
     # 注意：我只需要三个属性： FileName, BriefInfo, UserName。 具体参考以下json文件
-    returndata=db.models.find_one({"UserName":Username,"FileName":modelName},{"data":0})
+    returndata=db.models.find_one({"UserName":Username,"FileName":modelName},{"data":0,"_id":0})
     data=json.loads(dumps(returndata))
     print(data["uuid"])
     uuidofmodel=str(data["uuid"])
-    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},{"data":0}))
+    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},{"data":0,"_id":0}))
     result=db.metadata.find({"UserName":Username})
     result = loads(dumps(result))
     size = len(result)
@@ -986,7 +986,7 @@ def query_binded_datasets():
          f.write(values)
         return values
     else:
-     data_return = list(db.models.find({"UserName": Username, "FileName": modelName}, {"data": 0}))
+     data_return = list(db.models.find({"UserName": Username, "FileName": modelName}, {"data":0,"_id":0}))
      value2=dumps(data_return,indent=2)
      print("The user does not have any file")
      with open('./model.json', 'w') as f:

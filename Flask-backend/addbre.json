@@ -1,8 +1,5 @@
 [
   {
-    "_id": {
-      "$oid": "608795b54e15046b42257330"
-    },
     "uuid": "a23d97983e764268b488ac1db47f93bd",
     "FileName": "ex_ndy4.dat",
     "BriefInfo": "",

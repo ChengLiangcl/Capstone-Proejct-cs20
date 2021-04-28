@@ -1,8 +1,5 @@
 [
   {
-    "_id": {
-      "$oid": "6088073f305147f5dbf781ad"
-    },
     "uuid": "a23d97983e764268b488ac1db47f93bd",
     "FileName": "Test3.cod",
     "BriefInfo": "",
@@ -10,9 +7,6 @@
     "UserName": "123456@qq.com"
   },
   {
-    "_id": {
-      "$oid": "608795b54e15046b42257330"
-    },
     "FileName": "ex_ndy4.dat",
     "BriefInfo": "",
     "Size": "4.93KB",
