@@ -938,16 +938,60 @@ def query_model():
 @cross_origin()
 def query_binded_datasets():
     modelname_username = request.get_json(force=True)
-    modelname = modelname_username[0]
-    username = modelname_username[1]
-    print("the selected model name is: ", modelname)
-    print("the user is: ", username)
-
+    modelName = modelname_username[0]
+    Username = modelname_username[1]
+    print("the selected model name is: ", modelName)
+    print("the user is: ", Username)
     # TODO: 你需要把这段代码替换掉，换成搜索后和model绑定的那些datasets
     # 注意：我只需要三个属性： FileName, BriefInfo, UserName。 具体参考以下json文件
-    with open('./bindedDatasets.json') as f:
-        data = json.load(f)
-    return json.dumps(data)
+    returndata=db.models.find_one({"UserName":Username,"FileName":modelName},{"data":0})
+    data=json.loads(dumps(returndata))
+    print(data["uuid"])
+    uuidofmodel=str(data["uuid"])
+    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},{"data":0}))
+    result=db.metadata.find({"UserName":Username})
+    result = loads(dumps(result))
+    size = len(result)
+    description = list()
+    fileName = list()
+    for i in range(size):
+        description.append(result[i]['BriefInfo'])
+        fileName.append(result[i]['FileName'])
+    dicts = {}
+    for key in fileName:
+        for value in description:
+            dicts[key] = value
+            description.remove(value)
+            break
+    print(dicts)
+
+    if (len(js) != 0):
+        json_data = dumps(js, indent=2)
+        with open('./addbre.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./addbre.json', 'r')
+        values = json.load(jsonFile)
+        for element in values:
+            if 'uuid' in element:
+                del element['uuid']
+
+        for i in range(len(values)):
+            fileName = str(values[i]["FileName"])
+            if fileName in dicts:
+                values[i]["BriefInfo"] = dicts[fileName]
+        value=list(values)
+        value.insert(0,data)
+        values = dumps(value, indent=2)
+        with open('./bindedDatasets2.json','w') as f:
+         f.write(values)
+        return values
+    else:
+     data_return = list(db.models.find({"UserName": Username, "FileName": modelName}, {"data": 0}))
+     value2=dumps(data_return,indent=2)
+     print("The user does not have any file")
+     with open('./model.json', 'w') as f:
+         f.write(value2)
+     return value2
 
 @app.route('/delete-bindeddataset', methods=["POST"])
 @cross_origin()
