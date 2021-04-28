@@ -666,22 +666,12 @@ def showAllModelFiles():
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
     UserName = request.get_json(force=True)
-    data_return = list(db.models.find({"UserName": UserName}))
+    data_return = list(db.models.find({"UserName": UserName},{"data":0}))
     print(len(data_return))
-
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./data.json_tem.json', 'w') as file:
-            file.write(json_data)
-        jsonFile = open('./data.json_tem.json', 'r')
-        values = json.load(jsonFile)
-        for element in values:
-            if 'data' in element:
-                del element['data']
+        values = json.loads(json_data)
         values = dumps(values, indent=2)
-
-        with open('./data.json_tem.json', 'w') as file:
-            file.write(values)
         return values
     else:
         print("The user does not have any file")

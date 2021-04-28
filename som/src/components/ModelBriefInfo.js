@@ -21,6 +21,7 @@ function ModelBriefInfo(props) {
     const handleYesBtn = () => {
         console.log("filename is " + props.modelName);
         props.editModelDescription(props.modelName, briefInfo, sessionStorage.getItem('verifiedUsername'));
+        props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
         //props.fetchModelFiles()
         setModal(!isModalOpen);
     }

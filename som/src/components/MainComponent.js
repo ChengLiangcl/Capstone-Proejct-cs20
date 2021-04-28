@@ -158,6 +158,8 @@ class Main extends Component {
                   isBindLoading={this.props.connectionFiles.isLoading}
 
                   deleteDataset={this.props.deleteOneBindedDataset}
+                  editModelDescription={this.props.editModelDescription}
+                  fetchModelFiles={this.props.fetchModelFiles}
                   />
             );
         };

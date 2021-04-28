@@ -5,6 +5,8 @@ import DeleteOneDataset from '../DeleteOneDataset';
 import CreateIcon from '@material-ui/icons/Create';
 import { Link } from 'react-router-dom';
 import { Loading } from '../LoadingComponent';
+import ModelBriefInfo from '../ModelBriefInfo';
+import InsertChart from '@material-ui/icons/InsertChart';
 
 function BindedDatasets(props) {
     const ModelName = localStorage.getItem('modelname') == undefined ? props.modelName : localStorage.getItem('modelname');
@@ -23,9 +25,9 @@ function BindedDatasets(props) {
 
     const tableHead = () => {
         return (
-            <thead>
+            <thead style={{backgroundColor: "lightgray", color: "black"}}>
                 <tr>
-                    <th>Model name</th>
+                    <th>File name</th>
                     <th>Description</th>
                     <th>Operation</th>
                 </tr>
@@ -44,7 +46,26 @@ function BindedDatasets(props) {
             console.log("get bindedDatasets: ", bindedDatasets);
             return (
                 <tbody>
-                    {bindedDatasets.map((dataset, index) =>
+                    <tr style={{backgroundColor: "#F2F2F2"}} key="model">
+                        <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].FileName}</td>
+                        <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].BriefInfo}</td>
+                        <td key={"operateEachDataset"}>
+                            <Container>
+                                <Row>
+                                    <ModelBriefInfo editModelDescription={props.editModelDescription}
+                                        modelName={bindedDatasets[0].FileName}
+                                        fetchModelFiles={props.fetchModelFiles} />
+
+                                    <Link to={`/visualisation/${bindedDatasets[0].FileName}`}>
+                                        <IconButton aria-label="visualisation" component="span">
+                                            <InsertChart />
+                                        </IconButton>
+                                    </Link>
+                                </Row>
+                            </Container>
+                        </td>
+                    </tr>
+                    {bindedDatasets.slice(1, bindedDatasets.length).map((dataset, index) =>
                         <tr key={index}>
                             <td style={{ verticalAlign: 'middle' }}>{dataset.FileName}</td>
                             <td style={{ verticalAlign: 'middle' }}>{dataset.BriefInfo}</td>
@@ -96,18 +117,18 @@ function BindedDatasets(props) {
         <Container>
             <Row>
                 <Breadcrumb>
-                    <BreadcrumbItem><Link to="/mymodels">My Models</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link style={{color: "grey"}}to="/mymodels">My Models</Link></BreadcrumbItem>
                     <BreadcrumbItem active>Binded datasets of {ModelName}</BreadcrumbItem>
                 </Breadcrumb>
-                <div className="col-12">
-                    <h3>Contact Us</h3>
+                <div className="col-12" style={{ paddingTop: '5%' }}>
+                    <h4 style={{color: "grey"}}>All binded datasets of {ModelName}</h4>
                     <hr />
                 </div>
             </Row>
             <Row>
                 {renderModelTable(props.bindedDatasets, false)}
             </Row>
-            
+
             {/**<Button onClick={toggleModal} style={{ backgroundColor: "transparent", border: 'none', color: "black" }}>{props.modelName}</Button>
             <Button style={{ backgroundColor: "transparent", border: 'none', color: "black" }} onClick={toggleModal}>{props.modelName}</Button>
 
