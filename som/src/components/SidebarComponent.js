@@ -46,7 +46,7 @@ function Sidebar(props){
                     <ListGroupItem action>
                         <NavLink className="nav-link" to="/mydatabase">
                             <span className="slide-icon fa fa-database"></span>
-                            &nbsp;My database
+                            &nbsp;My datasets
                         </NavLink>
                     </ListGroupItem>
 

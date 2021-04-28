@@ -12,6 +12,7 @@ export const DATASETFILES_FAILED = 'DATASETFILES_FAILED'; // means you fail to f
 export const ADD_DATASETFILES = 'ADD_DATASETFILES'; // you wanna add datasets into your Redux store
 export const UPLOAD_DATASET = 'UPLOAD_DATASET'; // add the uploaded dataset to the Redux store
 export const REMOVE_DATASET = 'REMOVE_DATASET'; // remove the selected dataset in the Redux store
+export const MODIFY_BRIFINFO = 'MODIFY_BRIFINFO';
 
 export const MODELFILES_LOADING = 'MODELFILES_LOADING'; // means the models are currently being fetched, maybe from a server
 export const MODELFILES_FAILED = 'MODELFILES_FAILED'; // means you fail to fetch model information from a server

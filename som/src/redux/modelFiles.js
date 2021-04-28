@@ -57,7 +57,7 @@ export const ModelFiles = (state = {
                 }else{
                     return item
                 }
-            })
+            });
 
             console.log("new modelFile: ", updatedModel)
             return { ...state, modelFiles: updatedModel};
