@@ -944,8 +944,19 @@ def query_binded_datasets():
     print("the user is: ", Username)
     # TODO: 你需要把这段代码替换掉，换成搜索后和model绑定的那些datasets
     # 注意：我只需要三个属性： FileName, BriefInfo, UserName。 具体参考以下json文件
-    returndata=db.models.find_one({"UserName":Username,"FileName":modelName},{"data":0,"_id":0})
+    returndata=db.models.find_one({"UserName":Username,"FileName":modelName},{"_id":0})
     data=json.loads(dumps(returndata))
+    Array=data["data"]
+    firstline=Array[0]
+    del Array[0]
+    data["data"]=Array
+    print("This is testing query")
+    Modelinfo=firstline.split(" ")
+    colunm_num=Modelinfo[0]
+    map_col=Modelinfo[2]
+    map_row=Modelinfo[3]
+    Modelinfomation={"colunm_num":int(Modelinfo[0]),"map_col":int(Modelinfo[2]),"map_row":int(Modelinfo[3])}
+    data.update({"Model_info":Modelinfomation})
     print(data["uuid"])
     uuidofmodel=str(data["uuid"])
     js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},{"data":0,"_id":0}))
@@ -986,12 +997,26 @@ def query_binded_datasets():
          f.write(values)
         return values
     else:
-     data_return = list(db.models.find({"UserName": Username, "FileName": modelName}, {"data":0,"_id":0}))
-     value2=dumps(data_return,indent=2)
-     print("The user does not have any file")
-     with open('./model.json', 'w') as f:
+        returndata = db.models.find_one({"UserName": Username, "FileName": modelName}, {"_id": 0})
+        data = json.loads(dumps(returndata))
+        Array = data["data"]
+        firstline = Array[0]
+        del Array[0]
+        data["data"] = Array
+        print("This is testing query")
+        Modelinfo = firstline.split(" ")
+        colunm_num = Modelinfo[0]
+        map_col = Modelinfo[2]
+        map_row = Modelinfo[3]
+        Modelinfomation = {"colunm_num": int(Modelinfo[0]), "map_col": int(Modelinfo[2]), "map_row": int(Modelinfo[3])}
+        data.update({"Model_info": Modelinfomation})
+        X=[]
+        X.insert(0,data)
+        value2=dumps(X,indent=2)
+        print("This model not have any datasets")
+        with open('./model.json', 'w') as f:
          f.write(value2)
-     return value2
+        return value2
 
 @app.route('/delete-bindeddataset', methods=["POST"])
 @cross_origin()

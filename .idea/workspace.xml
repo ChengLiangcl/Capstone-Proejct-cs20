@@ -7,6 +7,8 @@
       <change beforePath="$PROJECT_DIR$/Flask-backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask-backend/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Flask-backend/bindedDatasets2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Flask-backend/bindedDatasets2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Flask-backend/model.json" beforeDir="false" afterPath="$PROJECT_DIR$/Flask-backend/model.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flask-backend/queryResultsForDatasets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Flask-backend/queryResultsForDatasets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flask-backend/queryResultsForModels.json" beforeDir="false" afterPath="$PROJECT_DIR$/Flask-backend/queryResultsForModels.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +47,10 @@
       <workItem from="1619581893041" duration="3328000" />
       <workItem from="1619585238881" duration="1520000" />
       <workItem from="1619588772646" duration="116000" />
+      <workItem from="1619590657674" duration="1247000" />
+      <workItem from="1619722609614" duration="20000" />
+      <workItem from="1619749491612" duration="1984000" />
+      <workItem from="1619839034592" duration="3936000" />
     </task>
     <servers />
   </component>
