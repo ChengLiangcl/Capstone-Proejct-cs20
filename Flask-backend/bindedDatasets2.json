@@ -1,9 +1,8 @@
 [
   {
-<<<<<<< HEAD
-    "uuid": "3a4f6335d2234434abfb720e18587290",
+    "uuid": "af48be00085c44d1be5316570fc63ccc",
     "FileName": "Test1.cod",
-    "BriefInfo": "this model is used for image",
+    "BriefInfo": "This is model1",
     "Size": "4.229KB",
     "UserName": "123456@qq.com",
     "data": [
@@ -112,49 +111,24 @@
   },
   {
     "FileName": "ex_ndy.dat",
-    "BriefInfo": "which is used for AI",
+    "BriefInfo": "this is ex_ndy.dat",
     "Size": "4.93KB",
+    "Description": "this is ex_ndy.dat",
+    "Source": "this is ex_ndy.dat",
+    "Label": "No",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
     "UserName": "123456@qq.com"
   },
   {
     "FileName": "ex_ndy2.dat",
-    "BriefInfo": "which is mainly used for image processing",
+    "BriefInfo": "this is ex_ndy2.dat",
     "Size": "4.93KB",
+    "Description": "this is ex_ndy2.dat",
+    "Source": "this is ex_ndy2.dat",
+    "Label": "No",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
     "UserName": "123456@qq.com"
-  },
-  {
-    "FileName": "ex_ndy3.dat",
-    "BriefInfo": "it's just a test",
-=======
-    "uuid": "e9b4edd58abb457fb7efdf93a58b8851",
-    "FileName": "ex.cod",
-    "BriefInfo": "",
-    "Size": "4.229KB",
-    "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "",
->>>>>>> 483c7de05748865b91539f2c7c1fdd85a96e603e
-    "Size": "4.93KB",
-    "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "UserName": "freya.mao@outlook.com"
-  },
-  {
-    "FileName": "ex.dat",
-    "BriefInfo": "",
-    "Size": "193.9KB",
-    "UserName": "freya.mao@outlook.com"
   }
 ]

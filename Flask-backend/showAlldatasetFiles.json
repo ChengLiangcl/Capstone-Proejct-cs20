@@ -1,5 +1,8 @@
 [
   {
+    "_id": {
+      "$oid": "608dc4a451422045902cb8b5"
+    },
     "FileName": "ex_ndy.dat",
     "BriefInfo": "this is ex_ndy.dat",
     "Size": "4.93KB",
@@ -11,11 +14,28 @@
     "UserName": "123456@qq.com"
   },
   {
+    "_id": {
+      "$oid": "608dc4a451422045902cb8b6"
+    },
     "FileName": "ex_ndy2.dat",
     "BriefInfo": "this is ex_ndy2.dat",
     "Size": "4.93KB",
     "Description": "this is ex_ndy2.dat",
     "Source": "this is ex_ndy2.dat",
+    "Label": "No",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123456@qq.com"
+  },
+  {
+    "_id": {
+      "$oid": "608dc9dfcd05685d18714021"
+    },
+    "FileName": "ex_ndy3.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
     "Label": "No",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,

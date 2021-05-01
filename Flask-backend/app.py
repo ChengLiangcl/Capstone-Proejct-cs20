@@ -17,7 +17,7 @@ import csv
 import time
 files_size = 0
 client = pymongo.MongoClient(
-    "mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",
+    "mongodb://741917776:520569@cluster-shard-00-00.zz90r.mongodb.net:27017,cluster-shard-00-01.zz90r.mongodb.net:27017,cluster-shard-00-02.zz90r.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-kqdxs0-shard-0&authSource=admin&retryWrites=true&w=majority",
     ssl=True, ssl_cert_reqs='CERT_NONE')
 db = client.datasets
 app = Flask(__name__)
@@ -157,61 +157,48 @@ def connect_upload():
                     "uuid":uuid_combined,
                     "FileName":FileName,
                     "BriefInfo":"",
-                    "Size":size,
+                    "Size": size,
+                    "Description": "",
+                    "Source": "",
+                    "Label": lable,
+                    "Number_of_Attribute": attributes_meta,
+                    "Number_of_Instance": instance_meta,
+                    "Keywords": [],
+                    "AttrInfo": [
+
+                        {
+                            "attrName": "",
+                            "attrDescription": ""
+                        }
+                    ],
                     "UserName":userName,
                     "data": data
                 }
                 db.files.insert_one(store_schema)
-                metadata = {
-                    "uuid":uuid_combined,
-                    "FileName":FileName,
-                    "UserName":userName,
-                    "BriefInfo":"",
-                    "Description":"",
-                    "Source":"",
-                    "Label":lable,
-                    "Number_of_Attribute":attributes_meta,
-                    "Number_of_Instance":instance_meta,
-                    "Keywords":[],
-                    "AttrInfo":[
-                        {
-                            "attrName":"",
-                            "attrDescription":""
-                        }
 
-                    ]
-                }
-                db.metadata.insert_one(metadata)
             else:
                 store_schema={
                     "uuid":uuid_combined,
                     "FileName":uploaded_file.filename,
                     "BriefInfo": "",
-                    "Size":size,
+                    "Size": size,
+                    "Description": "",
+                    "Source": "",
+                    "Label": lable,
+                    "Number_of_Attribute": attributes_meta,
+                    "Number_of_Instance": instance_meta,
+                    "Keywords": [],
+                    "AttrInfo": [
+
+                        {
+                            "attrName": "",
+                            "attrDescription": ""
+                        }
+                    ],
                     "UserName":userName,
                     "data": data
                 }
                 db.files.insert_one(store_schema)
-                metadata = {
-                    "uuid":uuid_combined,
-                    "FileName":uploaded_file.filename,
-                    "UserName":userName,
-                    "BriefInfo":"",
-                    "Description":"",
-                    "Source":"",
-                    "Label":lable,
-                    "Number_of_Attribute":attributes_meta,
-                    "Number_of_Instance":instance_meta,
-                    "Keywords":[],
-                    "AttrInfo":[
-
-                        { 
-                            "attrName":"",
-                            "attrDescription":""
-                        }
-                    ]
-                }
-                db.metadata.insert_one(metadata)
             
         return json.dumps([model_name, files_name_list])
 
@@ -296,31 +283,24 @@ def upload():
                     "uuid":uuid_combined,
                     "FileName":FileName,
                     "BriefInfo":"",
-                    "Size":size,
+                    "Size": size,
+                    "Description": "",
+                    "Source": "",
+                    "Label": lable,
+                    "Number_of_Attribute": attributes_meta,
+                    "Number_of_Instance": instance_meta,
+                    "Keywords": [],
+                    "AttrInfo": [
+
+                        {
+                            "attrName": "",
+                            "attrDescription": ""
+                        }
+                    ],
                     "UserName":userName,
                     "data": data
-                }
-                db.files.insert_one(store_schema)
-                metadata = {
-                    "uuid":uuid_combined,
-                    "FileName":FileName,
-                    "UserName":userName,
-                    "BriefInfo":"",
-                    "Description":"",
-                    "Source":"",
-                    "Label":lable,
-                    "Number_of_Attribute":attributes_meta,
-                    "Number_of_Instance":instance_meta,
-                    "Keywords":[],
-                    "AttrInfo":[
-                        {
-                            "attrName":"",
-                            "attrDescription":""
-                        }
 
-                    ]
                 }
-                db.metadata.insert_one(metadata)
             else:
                 # file_name_list.append(uploaded_file.filename)
 
@@ -328,72 +308,44 @@ def upload():
                     "uuid":uuid_combined,
                     "FileName":uploaded_file.filename,
                     "BriefInfo": "",
-                    "Size":size,
+                    "Size": size,
+                    "Description": "",
+                    "Source": "",
+                    "Label": lable,
+                    "Number_of_Attribute": attributes_meta,
+                    "Number_of_Instance": instance_meta,
+                    "Keywords": [],
+                    "AttrInfo": [
+
+                        {
+                            "attrName": "",
+                            "attrDescription": ""
+                        }
+                    ],
                     "UserName":userName,
                     "data": data
                 }
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
-                metadata = {
-                    "uuid":uuid_combined,
-                    "FileName":uploaded_file.filename,
-                    "UserName":userName,
-                    "BriefInfo":"",
-                    "Description":"",
-                    "Source":"",
-                    "Label":lable,
-                    "Number_of_Attribute":attributes_meta,
-                    "Number_of_Instance":instance_meta,
-                    "Keywords":[],
-                    "AttrInfo":[
-
-                        { 
-                            "attrName":"",
-                            "attrDescription":""
-                        }
-                    ]
-                }
-                db.metadata.insert_one(metadata)  
-  
 
     return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])
 def showAlldatasetFiles():
-    start = time.time()
     UserName = request.get_json(force=True)
     print("username get: ", UserName)
     # read datasets JSON file
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
-    data_return = list(db.files.find( {"UserName":UserName},{"uuid":0,"data":0}))
-    result = db.metadata.find({"UserName":UserName})
-    result = loads(dumps(result))
-    size = len(result)
-    description = list()
-    fileName = list()
-    for i in range(size):
-        description.append(result[i]['BriefInfo'])
-        fileName.append(result[i]['FileName'])
-    dicts = {}
-    for key in fileName:
-        for value in description:
-            dicts[key] = value
-            description.remove(value)
-            break
+    data_return = list(db.files.find( {"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0}))
     if(len(data_return)!=0):
         json_data = dumps(data_return, indent = 2)
-        values = json.loads(str(json_data))
-        json_size = len(values)
-        for i in range(len(values)):
-            fileName = str(values[i]["FileName"])
-            if fileName in dicts:
-                values[i]["BriefInfo"] = dicts[fileName]
+        with open('./showAlldatasetFiles.json', 'w') as file:
+            file.write(json_data)
+        values = json.loads(json_data)
         values = dumps(values, indent = 2)
-        end = time.time()
-        print(end - start)
         return values
-    
+
     else:
         data = []
         return json.dumps(data)
@@ -408,21 +360,15 @@ def sendNewdatasetFiles():
     username = request.get_json(force=True)
     print("username for new datasets: ", username)
 
-
     print("get session", session.items())
     global files_size
     print("The taotal number of files: " + str(files_size))
-    data = db.files.find({"UserName":username}).sort('_id',-1).limit(files_size)
+    data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(files_size)
     json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
     jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
-    for element in values:
-        if 'data' in element:
-            del element['data']
-        if 'uuid' in element:
-            del element['uuid']
     values = dumps(values, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
         file.write(values)
@@ -434,8 +380,6 @@ def sendNewdatasetFiles():
 @cross_origin()
 def submitMetadata():
     metadata = request.get_json(force=True)
-    print(metadata)
-    metadata_dict = metadata[0]
     FileName = metadata[0]["FileName"]
     UserName = metadata[0]["UserName"]
     BriefInfo = metadata[0]["BriefInfo"]
@@ -443,24 +387,7 @@ def submitMetadata():
     Source = metadata[0]["Source"]
     Keywords = metadata[0]["Keywords"]
     AttrInfo = metadata[0]["AttrInfo"]
-    schema = {
-            "FileName":FileName,
-            "UserName":UserName,
-            "BriefInfo":BriefInfo,
-            "Description":Description,
-            "Source":Source,
-            "Keywords":Keywords,
-            "AttrInfo":AttrInfo
-    }
-
-    # print(metadata) # you can check the content of the matadata through this
-    # the type of the returned matadata is a python list, you can operate on it to save into the MongoDB
-    # print(type(metadata)) 
-    #Define the schema for the dataset, and store all the
-    if len(loads(dumps(db.metadata.find({"UserName":UserName,"FileName":FileName}))))==0:
-
-        # db.metadata.insert_one(schema)
-        db.metadata.update({"UserName": UserName,"FileName":FileName},
+    db.files.update_one({"UserName": UserName,"FileName":FileName},
         {"$set": {
             "BriefInfo": BriefInfo,
             "Description": Description,
@@ -469,19 +396,7 @@ def submitMetadata():
             "AttrInfo":AttrInfo
             }}
             ) 
-        
-        metadata_string = request.data
-    else:
-        db.metadata.update({"UserName": UserName,"FileName":FileName},
-        {"$set": {
-            "BriefInfo": BriefInfo,
-            "Description": Description,
-            "Source":Source,
-            "Keywords":Keywords,
-            "AttrInfo":AttrInfo
-            }}
-            ) 
-        metadata_string = request.data
+    metadata_string = request.data
 
     # TODO save the metadata into MongoDB
 
@@ -498,16 +413,12 @@ def deleteOneDataset():
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
     print(userName)
-
     # to get the selected dataset name from the frontend
     print(datasetName) # you can check the gotten dataset name
     print(type(datasetName))  # string
     # TODO delete the corresponding dataset in the MongoDB based on the datasetName
     # delete corresponding dataset
     db.files.delete_one({"UserName": userName, "FileName": datasetName})
-    # delete corresponding metadata in the same time
-    db.metadata.delete_one({"UserName":userName, "FileName": datasetName})
-    print("Done the delete")
     # this return must be string, which will be returned to the frontend immediately
     # so DO NOT modify the return 'metadata_string'
     return datasetName
@@ -521,14 +432,14 @@ def getNameForDetailedData():
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
     print(userName)
-
+    print("testing now")
     getDatasetName = False
-    result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
+    result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
     result = loads(dumps(result))
 
     if(len(result)>0):
         # TODO to get detailed_data from MongoDB
-        result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)})
+        result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
         result_detailed_data = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
         result = loads(dumps(result))
         result_detailed_data = loads(dumps(result_detailed_data))
@@ -539,21 +450,13 @@ def getNameForDetailedData():
                 del element['_id']
             if'uuid' in element:
                 del element['uuid']
-
-    else:
-        with open('./detailedData.json') as f:
-            detailed_data = json.load(f)
-        with open('./metadata.json') as f:
-            metadata = json.load(f)
     #Handeling the situation when it return a empty [], change to the relevent metadata.
     if(len(metadata)==0):
-        result = db.metadata.find({"FileName":str(datasetName),"UserName":str(userName)},{'id':0,'_uuid':0})
+        result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)},{'id':0,'_uuid':0})
         result = loads(dumps(result))
         metadata = result
-    print('sss')
-    print(metadata)
-    print('sss')
-
+        print('sss')
+        print(metadata)
     return json_util.dumps([detailed_data, metadata])
 
 # to query datasets based on the dataset name or key words
@@ -570,10 +473,9 @@ def queryDatasets():
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
     # this is the querying result I simulate, please REPLACE it when you get the real results
-    returndata=list(db.metadata.find({"UserName":UserName}))
+    returndata=list(db.files.find({"UserName":UserName},{"_id":0,"uuid":0,"data":0}))
     data= loads(dumps(returndata))
     lenth=len(data)
-    print(lenth)
     T=True
     T2=False
     if '&&' in input_value:
@@ -601,24 +503,7 @@ def queryDatasets():
         if (input_value in data[i]['FileName']or input_value in data[i]['BriefInfo']or input_value in data[i]['Description'] or input_value in data[i]['Keywords']):
             NameArray.append(data[i]['FileName'])
 
-    print("Now i am here")
-    print(NameArray)
-    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName}))
-    result=db.metadata.find({"UserName":UserName})
-    result = loads(dumps(result))
-    size = len(result)
-    description = list()
-    fileName = list()
-    for i in range(size):
-        description.append(result[i]['BriefInfo'])
-        fileName.append(result[i]['FileName'])
-    dicts = {}
-    for key in fileName:
-        for value in description:
-            dicts[key] = value
-            description.remove(value)
-            break
-    print(dicts)
+    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName},{"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0}))
 
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
@@ -626,22 +511,7 @@ def queryDatasets():
             file.write(json_data)
         jsonFile = open('./queryResultsForDatasets.json', 'r')
         values = json.load(jsonFile)
-        for element in values:
-            if 'data' in element:
-                del element['data']
-        for element in values:
-            if 'uuid' in element:
-                del element['uuid']
-
-        json_size = len(values)
-        for i in range(len(values)):
-            fileName = str(values[i]["FileName"])
-            if fileName in dicts:
-                values[i]["BriefInfo"] = dicts[fileName]
         values = dumps(values, indent=2)
-
-
-
         with open('./queryResultsForDatasets.json', 'w') as file:
             file.write(values)
         return values
@@ -772,8 +642,6 @@ def deleteOneModel():
 
     # delete corresponding dataset
     db.models.delete_one({"UserName": userName, "FileName": modelName})
-    # delete corresponding metadata in the same time
-    #db.modelmetadata.delete_one({"UserName": userName, "FileName": modelName})
     return modelName
 
 
@@ -875,7 +743,7 @@ def query_model():
     print(input_value) # you can check the inputted word through this
     print(UserName)  # string
     NameArray = []
-    returndata = list(db.models.find({"UserName": UserName}))
+    returndata = list(db.models.find({"UserName": UserName},{"_id":0}))
     data = loads(dumps(returndata))
     lenth = len(data)
     print(lenth)
@@ -905,20 +773,13 @@ def query_model():
             NameArray.append(data[i]['FileName'])
     print("Test of modelquery part")
     print(NameArray)
-    data_return = list(db.models.find({"FileName": {"$in": NameArray}, "UserName": UserName}))
+    data_return = list(db.models.find({"FileName": {"$in": NameArray}, "UserName": UserName},{"_id":0,"data":0,"uuid":0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
         with open('./queryResultsForModels.json', 'w') as file:
             file.write(json_data)
         jsonFile = open('./queryResultsForModels.json', 'r')
         values = json.load(jsonFile)
-        for element in values:
-            if 'data' in element:
-                del element['data']
-        for element in values:
-            if 'uuid' in element:
-                del element['uuid']
-
         values = dumps(values, indent=2)
 
         with open('./queryResultsForModels.json', 'w') as file:
@@ -954,37 +815,14 @@ def query_binded_datasets():
     data.update({"Model_info":Modelinfomation})
     print(data["uuid"])
     uuidofmodel=str(data["uuid"])
-    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},{"data":0,"_id":0}))
-    result=db.metadata.find({"UserName":Username})
-    result = loads(dumps(result))
-    size = len(result)
-    description = list()
-    fileName = list()
-    for i in range(size):
-        description.append(result[i]['BriefInfo'])
-        fileName.append(result[i]['FileName'])
-    dicts = {}
-    for key in fileName:
-        for value in description:
-            dicts[key] = value
-            description.remove(value)
-            break
-    print(dicts)
+    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},{"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0}))
 
     if (len(js) != 0):
         json_data = dumps(js, indent=2)
-        with open('./addbre.json', 'w') as file:
+        with open('./correspondingdatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./addbre.json', 'r')
+        jsonFile = open('./correspondingdatasets.json', 'r')
         values = json.load(jsonFile)
-        for element in values:
-            if 'uuid' in element:
-                del element['uuid']
-
-        for i in range(len(values)):
-            fileName = str(values[i]["FileName"])
-            if fileName in dicts:
-                values[i]["BriefInfo"] = dicts[fileName]
         value=list(values)
         value.insert(0,data)
         values = dumps(value, indent=2)
@@ -1009,7 +847,7 @@ def query_binded_datasets():
         X.insert(0,data)
         value2=dumps(X,indent=2)
         print("This model not have any datasets")
-        with open('./model.json', 'w') as f:
+        with open('./bindedDatasets2.json','w') as f:
          f.write(value2)
         return value2
 
@@ -1027,8 +865,6 @@ def delete_binded_datasets():
     # TODO delete the corresponding dataset in the MongoDB based on the datasetName
     # delete corresponding dataset
     db.files.delete_one({"UserName": userName, "FileName": datasetName})
-    # delete corresponding metadata in the same time
-    db.metadata.delete_one({"UserName":userName, "FileName": datasetName})
     print("Done the delete")
     # this return must be string, which will be returned to the frontend immediately
     # so DO NOT modify the return 'metadata_string'
