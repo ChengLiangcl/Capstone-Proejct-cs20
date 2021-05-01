@@ -85,7 +85,7 @@ function MetadataForm(props) {
         props.submitMetadata(fixedValue);
         alert(`Current State is:  ${JSON.stringify(fixedValue)}`);
         //props.resetMetadata();
-        props.fetchDatasetFiles();
+        //props.fetchDatasetFiles();
     };
 
     const TagInputs = (tags) => {

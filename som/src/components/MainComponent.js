@@ -44,7 +44,7 @@ const mapDispatchToProps = dispatch => ({
     deleteDataset: (datasetName, userName) => { dispatch(deleteOneDataset(datasetName, userName)) },
     queryDatasets: (inputValue, userName) => { dispatch(queryDatasets(inputValue, userName)) },
 
-    fetchModelFiles: (userName) => { dispatch(fetchModelFiles(userName)) },
+    fetchModelFiles: (userName, isLoading) => { dispatch(fetchModelFiles(userName, isLoading)) },
     uploadModel: (model, onUploadProgress, username) => dispatch(uploadModel(model, onUploadProgress, username)),
     fetchUploadedModel: (username) => { dispatch(fetchUploadedModel(username)) },
     deleteModel: (name, userName) => { dispatch(deleteOneModel(name, userName)) },
@@ -75,8 +75,8 @@ class Main extends Component {
         //console.log("nextMetadata: ", nextProps.metadata.metadata);
 
         const compareBindedDatasets = (currentBindedDatasets, nextBindedDatasets) => {
-            console.log("current: ", currentBindedDatasets);
-            console.log("next: ", nextBindedDatasets)
+            //console.log("current: ", currentBindedDatasets);
+            //console.log("next: ", nextBindedDatasets)
             if (currentBindedDatasets.length !== nextBindedDatasets.length) {
                 return true;
             }
@@ -98,9 +98,9 @@ class Main extends Component {
         if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0], this.props.modelFiles.modelFiles, nextProps.modelFiles.modelFiles)) {
             console.log("because of metadata");
             return true
-        }
+        } 
         else {
-            if (this.props.datasetFiles.datasetFiles !== nextProps.datasetFiles.datasetFiles) {
+            if (compareBindedDatasets(this.props.datasetFiles.datasetFiles, nextProps.datasetFiles.datasetFiles)) {
                 console.log("because of dataset files");
                 return true;
             }

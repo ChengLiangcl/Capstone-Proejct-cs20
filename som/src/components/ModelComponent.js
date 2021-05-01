@@ -112,7 +112,7 @@ class SOMModel extends Component {
         </Col>
 
         <Col className="database">
-          {this.renderModelTable(this.props.modelFiles, this.props.isLoading)}
+          {this.renderModelTable(this.props.modelFiles, false)}
         </Col>
 
       </Container>

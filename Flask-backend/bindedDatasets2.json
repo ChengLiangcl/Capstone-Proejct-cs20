@@ -1,5 +1,6 @@
 [
   {
+<<<<<<< HEAD
     "uuid": "3a4f6335d2234434abfb720e18587290",
     "FileName": "Test1.cod",
     "BriefInfo": "this model is used for image",
@@ -124,7 +125,36 @@
   {
     "FileName": "ex_ndy3.dat",
     "BriefInfo": "it's just a test",
+=======
+    "uuid": "e9b4edd58abb457fb7efdf93a58b8851",
+    "FileName": "ex.cod",
+    "BriefInfo": "",
+    "Size": "4.229KB",
+    "UserName": "freya.mao@outlook.com"
+  },
+  {
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "",
+>>>>>>> 483c7de05748865b91539f2c7c1fdd85a96e603e
     "Size": "4.93KB",
-    "UserName": "123456@qq.com"
+    "UserName": "freya.mao@outlook.com"
+  },
+  {
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "UserName": "freya.mao@outlook.com"
+  },
+  {
+    "FileName": "ex_fdy.dat",
+    "BriefInfo": "",
+    "Size": "4.796KB",
+    "UserName": "freya.mao@outlook.com"
+  },
+  {
+    "FileName": "ex.dat",
+    "BriefInfo": "",
+    "Size": "193.9KB",
+    "UserName": "freya.mao@outlook.com"
   }
 ]

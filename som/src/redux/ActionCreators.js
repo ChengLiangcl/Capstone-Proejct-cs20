@@ -143,7 +143,7 @@ export const deleteOneBindedDataset = (datasetName, userName) => (dispatch) => {
 // fetch datasets from the backend server
 export const fetchDatasetFiles = (userName) => (dispatch) => {
 
-  dispatch(datasetFilesLoading(true));
+  //dispatch(datasetFilesLoading(true));
 
   return http.post('/datasetFiles', JSON.stringify(userName), {
     headers: {
@@ -242,11 +242,11 @@ export const queryDatasets = (inputValue, userName) => (dispatch) => {
  * Models
  */
 // fetch models from the backend server
-export const fetchModelFiles = (userName) => (dispatch) => {
+export const fetchModelFiles = (userName, isLoading=true) => (dispatch) => {
   // test
   // return dispatch(addModelFiles(MODELFILES))
-
-  dispatch(modelFilesLoading(true));
+  console.log("check loading: ", isLoading);
+  dispatch(modelFilesLoading(isLoading));
 
   return http.post('/modelFiles', JSON.stringify(userName), {
     headers: {
@@ -410,9 +410,19 @@ export const metadataLoading = () => ({
           console.log(res.data);
           dispatch(addDetailedData(res.data[0]));
           dispatch(addMetadata(res.data[1]));
+
+          const datasetName = res.data[1][0].FileName;
+          const briefInfo = res.data[1][0].BriefInfo;
+          const briefInfo_datasetName = [datasetName, briefInfo];
+          dispatch(modifyBriefInfo(briefInfo_datasetName));
       })
       .catch((err) => console.log(err));
 }
+
+export const modifyBriefInfo = (briefInfo_datasetName) => ({
+  type: ActionTypes.MODIFY_BRIFINFO,
+  payload: briefInfo_datasetName
+});
 
 export const addDetailedData = (detaileddata) => ({
   type: ActionTypes.ADD_DETAILEDDATA,
