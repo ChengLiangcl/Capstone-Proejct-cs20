@@ -480,7 +480,7 @@ def queryDatasets():
         if (input_value in data[i]['FileName']or input_value in data[i]['BriefInfo']or input_value in data[i]['Description'] or input_value in data[i]['Keywords']):
             NameArray.append(data[i]['FileName'])
 
-    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName},{"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0}))
+    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0}))
 
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
