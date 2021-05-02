@@ -412,10 +412,6 @@ def deleteOneDataset():
     dataset_userName = request.get_json(force=True)
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
-    print(userName)
-    # to get the selected dataset name from the frontend
-    print(datasetName) # you can check the gotten dataset name
-    print(type(datasetName))  # string
     # TODO delete the corresponding dataset in the MongoDB based on the datasetName
     # delete corresponding dataset
     db.files.delete_one({"UserName": userName, "FileName": datasetName})
@@ -431,32 +427,15 @@ def getNameForDetailedData():
     dataset_userName = request.get_json(force=True)
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
-    print(userName)
-    print("testing now")
-    getDatasetName = False
     result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
     result = loads(dumps(result))
 
     if(len(result)>0):
         # TODO to get detailed_data from MongoDB
-        result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
-        result_detailed_data = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
-        result = loads(dumps(result))
-        result_detailed_data = loads(dumps(result_detailed_data))
-        metadata = result
-        detailed_data = result_detailed_data[0]['data']
-        for element in metadata:
-            if '_id' in element:
-                del element['_id']
-            if'uuid' in element:
-                del element['uuid']
-    #Handeling the situation when it return a empty [], change to the relevent metadata.
-    if(len(metadata)==0):
-        result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)},{'id':0,'_uuid':0})
+        result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)},{"_id":0,"uuid":0})
         result = loads(dumps(result))
         metadata = result
-        print('sss')
-        print(metadata)
+        detailed_data = metadata[0]['data']
     return json_util.dumps([detailed_data, metadata])
 
 # to query datasets based on the dataset name or key words
@@ -467,8 +446,6 @@ def queryDatasets():
     input_value_username = request.get_json(force=True)
     input_value = input_value_username[0]
     UserName = input_value_username[1]
-    print(input_value) # you can check the inputted word through this
-    print(UserName)  # string
     NameArray=[]
     # TODO you need to query the corresponding datasets from MongoDB
     # the input value may be the dataset name, or may be key words
