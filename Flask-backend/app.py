@@ -15,9 +15,10 @@ import pandas as pd
 import numpy as np
 import csv
 import time
+import re
 files_size = 0
 client = pymongo.MongoClient(
-    "mongodb://741917776:520569@cluster-shard-00-00.zz90r.mongodb.net:27017,cluster-shard-00-01.zz90r.mongodb.net:27017,cluster-shard-00-02.zz90r.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-kqdxs0-shard-0&authSource=admin&retryWrites=true&w=majority",
+    "mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",
     ssl=True, ssl_cert_reqs='CERT_NONE')
 db = client.datasets
 app = Flask(__name__)
@@ -57,10 +58,12 @@ def connect_upload():
     output = open(os.path.join(app.config['UPLOAD_PATH'], model_name),'r')
     data = output.readlines()
     output.close()
-  
-    if len(list(db.models.find({"UserName":userName,"FileName":model_name})))>0:
+    
+    
+    if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
+        name_size = len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))
         print('duplicated')
-        model_name = "copy_of_" + str(random.randint(100,999)) + "_" + model_name
+        model_name =  model_name +'-' + 'copy' + '('+ str(name_size) + ')'
         store_schema = {
             "uuid":uuid_combined,
             "FileName": model_name,
@@ -151,8 +154,12 @@ def connect_upload():
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
-            if len(list(db.files.find({"UserName":userName,"FileName":uploaded_file.filename})))>0:
-                FileName = "copy_of_" + str(random.randint(100,999)) + "_" +  uploaded_file.filename
+            print('ssss')
+            print(uploaded_file.filename)
+            print('ssssss')
+            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
+                name_size = len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))
+                FileName=  uploaded_file.filename  +'-' + 'copy' + '('+ str(name_size) + ')'
                 store_schema={
                     "uuid":uuid_combined,
                     "FileName":FileName,
@@ -199,6 +206,7 @@ def connect_upload():
                     "data": data
                 }
                 db.files.insert_one(store_schema)
+        print( files_name_list)
             
         return json.dumps([model_name, files_name_list])
 
