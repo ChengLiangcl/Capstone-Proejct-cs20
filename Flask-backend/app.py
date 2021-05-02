@@ -591,19 +591,19 @@ def sendNewModelFiles():
 
     data = db.models.find().sort('_id', -1).limit(1)  # Find the newest data to insert
     json_data = dumps(data, indent=2)
-    with open('./dataNewJson.json', 'w') as file:
+    with open('./modeldataNewJson.json', 'w') as file:
         file.write(json_data)
 
-    jsonFile = open('./dataNewJson.json', 'r')
+    jsonFile = open('./modeldataNewJson.json', 'r')
     values = json.load(jsonFile)
     for element in values:
         if 'data' in element:
             del element['data']
             break
     values = dumps(values, indent=2)
-    with open('./dataNewJson.json', 'w') as file:
+    with open('./modeldataNewJson.json', 'w') as file:
         file.write(values)
-    jsonFile = open('./dataNewJson.json', 'r')
+    jsonFile = open('./modeldataNewJson.json', 'r')
     values = json.load(jsonFile)
 
     return json.dumps(values)
