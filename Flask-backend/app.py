@@ -474,7 +474,7 @@ def queryDatasets():
              contain = True
              break
          if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower()
-                 or element.lower() in data[i]['Description'].lower() or contain):
+                 or element.lower() in data[i]['Description'].lower() or element.lower() in data[i]['Source'].lower() or contain  ):
             X=X+1
         if X==len(spstr):
          NameArray.append(data[i]['FileName'])
@@ -488,7 +488,7 @@ def queryDatasets():
                  contain = True
                  break
            if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower()
-                   or element.lower() in data[i]['Description'].lower() or contain):
+                   or element.lower() in data[i]['Description'].lower() or element.lower() in data[i]['Source'].lower() or contain):
                    T2=True
         if T2 is True:
          NameArray.append(data[i]['FileName'])
@@ -501,7 +501,7 @@ def queryDatasets():
           contain=True
           break
         if (input_value.lower() in data[i]['FileName'].lower() or input_value.lower() in data[i]['BriefInfo'].lower()
-                or input_value.lower() in data[i]['Description'].lower() or contain):
+                or input_value.lower() in data[i]['Description'].lower() or input_value.lower() in data[i]['Source'].lower() or contain):
             NameArray.append(data[i]['FileName'])
 
     data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0}))
@@ -817,7 +817,10 @@ def query_binded_datasets():
     data.update({"Model_info":Modelinfomation})
     print(data["uuid"])
     uuidofmodel=str(data["uuid"])
-    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},{"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0}))
+    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},
+                          {"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0,
+                           "Description":0,"Source":0,"Label":0,
+                           "Number_of_Attribute":0,"Number_of_Instance":0}))
 
     if (len(js) != 0):
         json_data = dumps(js, indent=2)

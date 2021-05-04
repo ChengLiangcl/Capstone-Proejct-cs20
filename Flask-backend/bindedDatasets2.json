@@ -113,33 +113,18 @@
     "FileName": "ex_ndy.dat",
     "BriefInfo": "this is ex_ndy.dat",
     "Size": "4.93KB",
-    "Description": "this is ex_ndy.dat",
-    "Source": "this is ex_ndy.dat",
-    "Label": "No",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
     "UserName": "123456@qq.com"
   },
   {
     "FileName": "ex_ndy2.dat",
-    "BriefInfo": "",
+    "BriefInfo": "this is ex_ndy2.dat",
     "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Label": "No",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
     "UserName": "123456@qq.com"
   },
   {
     "FileName": "ex_ndy3.dat",
-    "BriefInfo": "",
+    "BriefInfo": "this is ex_ndy3.dat",
     "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Label": "No",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
     "UserName": "123456@qq.com"
   }
 ]
