@@ -1,8 +1,8 @@
 [
   {
-    "uuid": "af48be00085c44d1be5316570fc63ccc",
+    "uuid": "4325b6c49f1043a4845991d2829e99e8",
     "FileName": "Test1.cod",
-    "BriefInfo": "This is model1",
+    "BriefInfo": "",
     "Size": "4.229KB",
     "UserName": "123456@qq.com",
     "data": [
@@ -104,9 +104,9 @@
       "46.6649 57.0576 -0.0563481 -0.395202 402.7 \n"
     ],
     "Model_info": {
-      "colunm_num": 5,
-      "map_col": 12,
-      "map_row": 8
+      "vectorDim": 5,
+      "xDim": 12,
+      "yDim": 8
     }
   },
   {
@@ -122,10 +122,21 @@
   },
   {
     "FileName": "ex_ndy2.dat",
-    "BriefInfo": "this is ex_ndy2.dat",
+    "BriefInfo": "",
     "Size": "4.93KB",
-    "Description": "this is ex_ndy2.dat",
-    "Source": "this is ex_ndy2.dat",
+    "Description": "",
+    "Source": "",
+    "Label": "No",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123456@qq.com"
+  },
+  {
+    "FileName": "ex_ndy3.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
     "Label": "No",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,

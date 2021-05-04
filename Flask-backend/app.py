@@ -796,7 +796,7 @@ def query_binded_datasets():
     colunm_num=Modelinfo[0]
     map_col=Modelinfo[2]
     map_row=Modelinfo[3]
-    Modelinfomation={"colunm_num":int(Modelinfo[0]),"map_col":int(Modelinfo[2]),"map_row":int(Modelinfo[3])}
+    Modelinfomation={"vectorDim":int(Modelinfo[0]),"xDim":int(Modelinfo[2]),"yDim":int(Modelinfo[3])}
     data.update({"Model_info":Modelinfomation})
     print(data["uuid"])
     uuidofmodel=str(data["uuid"])
