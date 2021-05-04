@@ -1,13 +1,27 @@
 [
   {
     "_id": {
-      "$oid": "608dc4a451422045902cb8b6"
+      "$oid": "6090d81eb9cda016f315b3ac"
     },
     "FileName": "ex_ndy2.dat",
     "BriefInfo": "this is ex_ndy2.dat",
     "Size": "4.93KB",
     "Description": "this is ex_ndy2.dat",
     "Source": "this is ex_ndy2.dat",
+    "Label": "No",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123456@qq.com"
+  },
+  {
+    "_id": {
+      "$oid": "6090d81eb9cda016f315b3ad"
+    },
+    "FileName": "ex_ndy3.dat",
+    "BriefInfo": "this is ex_ndy3.dat",
+    "Size": "4.93KB",
+    "Description": "it is used for AI",
+    "Source": "AI",
     "Label": "No",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,

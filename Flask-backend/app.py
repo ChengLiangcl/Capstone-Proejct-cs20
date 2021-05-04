@@ -468,8 +468,13 @@ def queryDatasets():
      for i in range(lenth):
         X=0
         for element in spstr:
-         if (element in data[i]['FileName'] or element in data[i]['BriefInfo'] or element in data[i][
-             'Description'] or element in data[i]['Keywords']):
+         contain = False
+         for x in data[i]['Keywords']:
+            if element.lower() in str(x).lower():
+             contain = True
+             break
+         if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower()
+                 or element.lower() in data[i]['Description'].lower() or contain):
             X=X+1
         if X==len(spstr):
          NameArray.append(data[i]['FileName'])
@@ -477,19 +482,31 @@ def queryDatasets():
      spstr = str(input_value).split("||")
      for i in range(lenth):
         for element in spstr:
-           if (element  in data[i]['FileName'] or element  in data[i]['BriefInfo'] or element  in data[i][
-             'Description'] or element  in data[i]['Keywords']):
+           contain = False
+           for x in data[i]['Keywords']:
+                if element.lower() in str(x).lower():
+                 contain = True
+                 break
+           if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower()
+                   or element.lower() in data[i]['Description'].lower() or contain):
                    T2=True
         if T2 is True:
          NameArray.append(data[i]['FileName'])
          T2=False
     else:
      for i in range(lenth):
-        if (input_value in data[i]['FileName']or input_value in data[i]['BriefInfo']or input_value in data[i]['Description'] or input_value in data[i]['Keywords']):
+        contain=False
+        for x in data[i]['Keywords']:
+         if input_value.lower() in str(x).lower():
+          contain=True
+          break
+        if (input_value.lower() in data[i]['FileName'].lower() or input_value.lower() in data[i]['BriefInfo'].lower()
+                or input_value.lower() in data[i]['Description'].lower() or contain):
             NameArray.append(data[i]['FileName'])
 
     data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0}))
 
+    print(NameArray)
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
         with open('./queryResultsForDatasets.json', 'w') as file:
@@ -739,7 +756,7 @@ def query_model():
      for i in range(lenth):
         X=0
         for element in spstr:
-         if (element in data[i]['FileName'] or element in data[i]['BriefInfo'] ):
+         if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower() ):
             X=X+1
         if X==len(spstr):
          NameArray.append(data[i]['FileName'])
@@ -747,14 +764,14 @@ def query_model():
      spstr = str(input_value).split("||")
      for i in range(lenth):
         for element in spstr:
-           if (element  in data[i]['FileName'] or element  in data[i]['BriefInfo'] ):
+           if (element.lower()  in data[i]['FileName'].lower() or element.lower()  in data[i]['BriefInfo'].lower() ):
                    T2=True
         if T2 is True:
          NameArray.append(data[i]['FileName'])
          T2=False
     else:
      for i in range(lenth):
-        if (input_value in data[i]['FileName']or input_value in data[i]['BriefInfo']):
+        if (input_value.lower() in data[i]['FileName'].lower()or input_value.lower() in data[i]['BriefInfo'].lower()):
             NameArray.append(data[i]['FileName'])
     print("Test of modelquery part")
     print(NameArray)
