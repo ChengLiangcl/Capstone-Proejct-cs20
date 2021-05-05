@@ -346,10 +346,32 @@ def showAlldatasetFiles():
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
     data_return = list(db.files.find( {"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0}))
+    model_uuid = list(db.files.find( {"UserName":UserName},{"uuid":1,"_id":0}))
+    model_name = list()
+  
+    # print(model_uuid[0].get('uuid'))
+    for i in model_uuid:
+        models = list(db.models.find( {"uuid":i.get('uuid')},{'FileName':1,'_id':0}))
+        
+        if(len(models)==0):
+            model_name.append('')
+        else:
+            model_name.append(models[0])
+        
+    print(model_name)
+    print(model_name)
+
+   
     if(len(data_return)!=0):
+        for i in range (len(data_return)):
+            data_return[i]['ModelName'] = model_name[i].get('FileName')
+
+           
         json_data = dumps(data_return, indent = 2)
+   
         with open('./showAlldatasetFiles.json', 'w') as file:
             file.write(json_data)
+       
         values = json.loads(json_data)
         values = dumps(values, indent = 2)
         return values
