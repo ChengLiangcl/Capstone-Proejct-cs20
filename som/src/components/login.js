@@ -153,7 +153,13 @@ const Login = ({ handleChange, ...props }) => {
                 </Link>
           </Typography>
         </div>
-
+        <div style={button}>
+          <Typography> forget password?
+            <Link onClick={() => props.history.push('/password')}>
+              click here!
+            </Link>
+          </Typography>
+        </div>
       </Paper>
       <Modal isOpen={isModalOpen} centered={true}>
         <ModalHeader>warning!</ModalHeader>

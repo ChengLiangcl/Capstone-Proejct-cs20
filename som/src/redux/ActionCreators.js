@@ -33,7 +33,15 @@ export const signUp = (data,cb) => (dispatch) => {
       "Content-Type": "multipart/form-data",
     }}).then(res => {
       cb(res.data)
-
+  })
+    .catch((err) => console.log(err));
+}
+export const passwordChange = (data,cb) => (dispatch) => {
+  return http.post('/passwordChange', JSON.stringify(data), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }}).then(res => {
+      cb(res.data)
   })
     .catch((err) => console.log(err));
 }

@@ -11,6 +11,7 @@ import Visualisation from "./components/VisualisationComponent";
 import Login from "./components/LoginComponent";
 import Signup from "./components/Signup";
 import {Col} from "reactstrap";
+import ForgetPasswordComponent from "./components/ForgetPasswordComponent";
 
 const store = ConfigureStore();
 
@@ -21,6 +22,7 @@ class App extends Component{
       <Provider store={store}>
         <BrowserRouter>
         <Switch>
+            <Route path="/password" component={ForgetPasswordComponent}/>
             <Route path="/login" component={Login}/>
             <Route path="/" component={()=><div className="APP">
               <Main/>
