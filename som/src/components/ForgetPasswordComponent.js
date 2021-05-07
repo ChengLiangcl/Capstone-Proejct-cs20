@@ -79,7 +79,7 @@ const ForgetPassword = ({handleChange, ...props}) => {
     <Grid>
       <Paper elevation={10} style={paperStyle}>
         <div style={myStyle}> SOM</div>
-        <h3>Password change</h3>
+        <h3>reset password</h3>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
           {(props) => (
             <Form>
