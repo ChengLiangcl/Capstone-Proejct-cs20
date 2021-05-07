@@ -1,7 +1,7 @@
 [
   {
     "_id": {
-      "$oid": "608e9cc557aae02c671b597d"
+      "$oid": "6094d37f416f36abd6c57b0c"
     },
     "FileName": "ex_fts.dat",
     "BriefInfo": "",
@@ -12,11 +12,41 @@
     "Number_of_Attribute": 6,
     "Number_of_Instance": 246,
     "UserName": "110@gmail.com",
-    "ModelName": "ex.cod-copy(4)"
+    "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "608e9cc657aae02c671b597e"
+      "$oid": "6094d444adc4edf676fc8d0d"
+    },
+    "FileName": "ex.dat",
+    "BriefInfo": "",
+    "Size": "193.9KB",
+    "Description": "",
+    "Source": "",
+    "Label": "No",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 3840,
+    "UserName": "110@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "6094d69aeed6955b17bf6104"
+    },
+    "FileName": "copy(1)_ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Label": "Yes",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "110@gmail.com",
+    "ModelName": "copy(4)_ex.cod"
+  },
+  {
+    "_id": {
+      "$oid": "6094d69beed6955b17bf6105"
     },
     "FileName": "ex_ndy.dat",
     "BriefInfo": "",
@@ -27,66 +57,21 @@
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
     "UserName": "110@gmail.com",
-    "ModelName": "ex.cod-copy(4)"
+    "ModelName": "copy(4)_ex.cod"
   },
   {
     "_id": {
-      "$oid": "608e9e0a7954ee760132e4da"
+      "$oid": "6094d69eeed6955b17bf6106"
     },
-    "FileName": "ex_fts.dat-copy(1)",
+    "FileName": "copy(1)_ex.dat",
     "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Label": "Yes",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "110@gmail.com",
-    "ModelName": "ex.cod-copy(7)"
-  },
-  {
-    "_id": {
-      "$oid": "608e9e0b7954ee760132e4db"
-    },
-    "FileName": "ex_ndy.dat-copy(1)",
-    "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "193.9KB",
     "Description": "",
     "Source": "",
     "Label": "No",
     "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
+    "Number_of_Instance": 3840,
     "UserName": "110@gmail.com",
-    "ModelName": "ex.cod-copy(7)"
-  },
-  {
-    "_id": {
-      "$oid": "608e9e3be2d0b5b2c616a0ad"
-    },
-    "FileName": "ex_fts.dat-copy(2)",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Label": "Yes",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "110@gmail.com",
-    "ModelName": "ex.cod-copy(8)"
-  },
-  {
-    "_id": {
-      "$oid": "608e9e3ce2d0b5b2c616a0ae"
-    },
-    "FileName": "ex_ndy.dat-copy(2)",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Label": "No",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "110@gmail.com",
-    "ModelName": "ex.cod-copy(8)"
+    "ModelName": "copy(4)_ex.cod"
   }
 ]
