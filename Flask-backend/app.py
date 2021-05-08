@@ -61,19 +61,16 @@ def connect_upload():
     
     
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
-        name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
-        name_size = name_size[len(name_size)-1].get('copy') + 1
-        print(name_size)
+        name_size = len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))
         print('duplicated')
-        model_name =  'copy' + '('+ str(name_size) + ')' + '_' + model_name 
+        model_name =  model_name +'-' + 'copy' + '('+ str(name_size) + ')'
         store_schema = {
             "uuid":uuid_combined,
             "FileName": model_name,
             "BriefInfo": "",
             "Size": size,
             "UserName": userName,
-            "data": data,
-            "copy" : name_size
+            "data": data
         }
         db.models.insert_one(store_schema)
     else:
@@ -83,8 +80,7 @@ def connect_upload():
             "BriefInfo": "",
             "Size": size,
             "UserName": userName,
-            "data": data,
-            "copy":0
+            "data": data
         }
         db.models.insert_one(store_schema)
    
@@ -162,9 +158,8 @@ def connect_upload():
             print(uploaded_file.filename)
             print('ssssss')
             if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
-                name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))           
-                name_size = name_size[len(name_size)-1].get('copy') + 1
-                FileName=  'copy' + '('+ str(name_size) + ')' + '_' + uploaded_file.filename 
+                name_size = len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))
+                FileName=  uploaded_file.filename  +'-' + 'copy' + '('+ str(name_size) + ')'
                 store_schema={
                     "uuid":uuid_combined,
                     "FileName":FileName,
@@ -184,8 +179,7 @@ def connect_upload():
                         }
                     ],
                     "UserName":userName,
-                    "data": data,
-                    "copy":name_size
+                    "data": data
                 }
                 db.files.insert_one(store_schema)
 
@@ -209,8 +203,7 @@ def connect_upload():
                         }
                     ],
                     "UserName":userName,
-                    "data": data,
-                    "copy":0
+                    "data": data
                 }
                 db.files.insert_one(store_schema)
         print( files_name_list)
@@ -291,16 +284,8 @@ def upload():
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
-            print(len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}}))))
-            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
-                name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))  
-                # print(name_size[0].get('copy'))   
-                copy_size = name_size[len(name_size)-1].get('copy')+1
-                print(copy_size)
-                print('----do here')
-                 
-                FileName=  'copy' + '('+ str(copy_size) + ')' + '_' + uploaded_file.filename 
-
+            if len(list(db.files.find({"UserName":userName,"FileName":uploaded_file.filename})))>0:
+                FileName = "copy_of_" + str(random.randint(100,999)) + "_" +  uploaded_file.filename
                 file_name_list.append(FileName)
                 store_schema={
                     "uuid":uuid_combined,
@@ -321,11 +306,9 @@ def upload():
                         }
                     ],
                     "UserName":userName,
-                    "data": data,
-                    "copy":copy_size
+                    "data": data
 
                 }
-                db.files.insert_one(store_schema)
             else:
                 # file_name_list.append(uploaded_file.filename)
 
@@ -348,8 +331,7 @@ def upload():
                         }
                     ],
                     "UserName":userName,
-                    "data": data,
-                    "copy":0
+                    "data": data
                 }
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
@@ -363,39 +345,11 @@ def showAlldatasetFiles():
     # read datasets JSON file
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
-    data_return = list(db.files.find( {"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0,"copy":0}))
-    model_uuid = list(db.files.find( {"UserName":UserName},{"uuid":1,"_id":0}))
-    model_name = list()
-  
-    # print(model_uuid[0].get('uuid'))
-    for i in model_uuid:
-        models = list(db.models.find( {"uuid":i.get('uuid')},{'FileName':1,'_id':0}))
-        
-        if(len(models)==0):
-            model_name.append('')
-        else:
-            model_name.append(models[0])
-    print('TEST-----------')
-    print(model_name[2])
-    print('TEST-----------')
-
-
-   
+    data_return = list(db.files.find( {"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0}))
     if(len(data_return)!=0):
-        for i in range (len(data_return)):
-            if(model_name[i]!=""):
-                data_return[i]['ModelName'] = model_name[i].get('FileName')
-            else:
-                data_return[i]['ModelName'] = ""
-
-            
-
-          
         json_data = dumps(data_return, indent = 2)
-   
         with open('./showAlldatasetFiles.json', 'w') as file:
             file.write(json_data)
-       
         values = json.loads(json_data)
         values = dumps(values, indent = 2)
         return values
@@ -417,7 +371,7 @@ def sendNewdatasetFiles():
     print("get session", session.items())
     global files_size
     print("The taotal number of files: " + str(files_size))
-    data = db.files.find({"UserName":username},{"data":0,"uuid":0,"copy":0}).sort('_id',-1).limit(files_size)
+    data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(files_size)
     json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
@@ -746,15 +700,17 @@ def signUp():
     data = request.get_json(force=True)
     user = {
         "_id": uuid.uuid4().hex,
-        "name": request.get_json(force=True)['name'],
+        
         "password": request.get_json(force=True)['password'],
-        "UserName": request.get_json(force=True)['email']
+        "UserName": request.get_json(force=True)['email'],
+        "question": request.get_json(force=True)['question'],
+        "answer": request.get_json(force=True)['answer'],
     }
     user['password'] = pbkdf2_sha256.encrypt(user['password'])
     print(data)
     if db.user.find_one({"UserName": user['UserName']}):
-        print('email already exist')
-        return 'Email already exist'
+        print('username already exist')
+        return 'username already exist'
     else:
         db.user.insert_one(user)
         print('The user add sucessfully')
@@ -920,6 +876,21 @@ def delete_binded_datasets():
     # this return must be string, which will be returned to the frontend immediately
     # so DO NOT modify the return 'metadata_string'
     return datasetName
+
+
+@app.route('/passwordChange', methods=["POST"])
+@cross_origin()
+def passwordChange():
+    data = request.get_json(force=True)
+    print(data)
+    success=True
+    if success:
+        print('change sucessfully')
+        return 'change sucessfully'
+
+    else:
+        return 'Answers do not match'
+
 
 if __name__ == "__main__":
     #sess = Session()
