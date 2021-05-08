@@ -700,7 +700,6 @@ def signUp():
     data = request.get_json(force=True)
     user = {
         "_id": uuid.uuid4().hex,
-        
         "password": request.get_json(force=True)['password'],
         "UserName": request.get_json(force=True)['email'],
         "question": request.get_json(force=True)['question'],
@@ -884,12 +883,27 @@ def passwordChange():
     data = request.get_json(force=True)
     print(data)
     success=True
-    if success:
-        print('change sucessfully')
-        return 'change sucessfully'
+    question = request.get_json(force=True)['question']
+    answer = request.get_json(force=True)['answer']
+    user = request.get_json(force=True)['username']
+    password = request.get_json(force=True)['password']
+
+    db.user.find({})
+    if db.user.find({"UserName":user}):
+        user_list = list(db.user.find({"UserName":user},{"question":1,"answer":1}))
+        print(user_list[0].get('question'))
+        if(user_list[0].get('question')==question and user_list[0].get('answer')==answer):
+            password = pbkdf2_sha256.encrypt(password)
+            db.user.update_one({"UserName":user},{ "$set": { "password": password } })
+            
+            return 'change sucessfully'
+        else:
+            return "Update Failed, the question or answer does not match"
+
 
     else:
-        return 'Answers do not match'
+        return "UserName deos not exist"
+        # return 'Answers do not match'
 
 
 if __name__ == "__main__":
