@@ -889,19 +889,21 @@ def passwordChange():
     password = request.get_json(force=True)['password']
 
     db.user.find({})
-    if db.user.find({"UserName":user}):
+    if len(list(db.user.find({"UserName":user})))>0:
         user_list = list(db.user.find({"UserName":user},{"question":1,"answer":1}))
         print(user_list[0].get('question'))
         if(user_list[0].get('question')==question and user_list[0].get('answer')==answer):
             password = pbkdf2_sha256.encrypt(password)
             db.user.update_one({"UserName":user},{ "$set": { "password": password } })
-            
+            print("change sucessfully")
             return 'change sucessfully'
         else:
+            print("Update Failed,the question or answer does not match")
             return "Update Failed, the question or answer does not match"
 
 
     else:
+        print('The user does not exist')
         return "UserName deos not exist"
         # return 'Answers do not match'
 
