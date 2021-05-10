@@ -1,13 +1,13 @@
 [
   {
     "_id": {
-      "$oid": "6094d699eed6955b17bf6103"
+      "$oid": "609880781115ec8fcf467e81"
     },
-    "uuid": "3c0ef1e5d54c4f11a11314278a5a8cc1",
-    "FileName": "copy(4)_ex.cod",
+    "uuid": "eeb578223ca04b90b010952f57824ec5",
+    "FileName": "ex.cod",
     "BriefInfo": "",
     "Size": "4.229KB",
     "UserName": "110@gmail.com",
-    "copy": 4
+    "copy": 0
   }
 ]
