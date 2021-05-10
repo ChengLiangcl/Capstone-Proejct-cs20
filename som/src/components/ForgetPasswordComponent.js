@@ -11,7 +11,7 @@ import {
   passwordChange
 } from '../redux/ActionCreators';
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {Col, Modal, ModalBody, ModalHeader, Row} from "reactstrap";
@@ -23,8 +23,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  passwordChange: (data) => {
-    dispatch(passwordChange(data))
+  passwordChange: (data,cb) => {
+    dispatch(passwordChange(data,cb))
   },
 });
 
@@ -67,11 +67,11 @@ const ForgetPassword = ({handleChange, ...props}) => {
     setModal(!isModalOpen);
   };
   const onSubmit = (values) => {
-    setModal(true)
     console.log(values);
     props.passwordChange(values,(res)=>{
       console.log(res);
       setModalContent(res.toString())
+      setModal(true)
     });
   }
 
@@ -157,23 +157,25 @@ const ForgetPassword = ({handleChange, ...props}) => {
                 <Button type="submit" variant="contained" color="primary" fullWidth>
                   Submit
                 </Button>
+                <Link to={'/login'}> <Button type="submit" variant="contained" color="primary" fullWidth>
+                  Back to login
+                </Button></Link>
               </div>
             </Form>
           )}
 
-        
+
 
         </Formik>
         <Modal isOpen={isModalOpen} centered={true}>
-            <ModalBody>
-              <p>{modalContent}</p>
-              
-              <Row>
-                <Col>
-                  <Button onClick={handlenNoBtn}>Ok</Button>
-                </Col>
-              </Row>
-            </ModalBody>
+          <ModalBody>
+            <p>{modalContent}</p>
+            <Row>
+              <Col>
+                <Button onClick={handlenNoBtn}>Ok</Button>
+              </Col>
+            </Row>
+          </ModalBody>
       </Modal>
       </Paper>
     </Grid>
