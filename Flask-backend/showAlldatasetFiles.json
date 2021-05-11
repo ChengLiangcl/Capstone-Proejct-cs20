@@ -1,21 +1,7 @@
 [
   {
     "_id": {
-      "$oid": "6099eccb6e863b464a0a488d"
-    },
-    "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "123@gmail.com",
-    "ModelName": "copy(1)_ex.cod"
-  },
-  {
-    "_id": {
-      "$oid": "6099eccc6e863b464a0a488e"
+      "$oid": "6099f67ff15cfd1413cb8519"
     },
     "FileName": "ex_ndy.dat",
     "BriefInfo": "",
@@ -24,7 +10,21 @@
     "Source": "",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
-    "UserName": "123@gmail.com",
-    "ModelName": "copy(1)_ex.cod"
+    "UserName": "123456@qq.com",
+    "ModelName": "Test1.cod"
+  },
+  {
+    "_id": {
+      "$oid": "6099f67ff15cfd1413cb851a"
+    },
+    "FileName": "ex_ndy2.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123456@qq.com",
+    "ModelName": "Test1.cod"
   }
 ]

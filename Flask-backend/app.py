@@ -33,7 +33,7 @@ Datasets and model upload
 @cross_origin()
 def connect_upload():
     index=0
-
+    outputerrors = ""
     # get username
     userName = request.files['username'].filename
     print("connect username: ", userName)
@@ -58,17 +58,28 @@ def connect_upload():
     output = open(os.path.join(app.config['UPLOAD_PATH'], model_name),'r')
     data = output.readlines()
     output.close()
-    
+    # file name checking
+    split_name = model_name.split(".")
+    modelsuffix = split_name[len(split_name)-1]
+
+    if  modelsuffix!= "cod":
+        Array = ["Fail to upload model: ",model_name," is invalid model format, please use upload model like XXX.cod. Stop dataset check\n"]
+        outputerrors = outputerrors.join(Array)
+        print(outputerrors)
+        return outputerrors
     
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
         name_size = name_size[len(name_size)-1].get('copy') + 1
         print(name_size)
         print('duplicated')
-        model_name =  'copy' + '('+ str(name_size) + ')' + '_' + model_name 
+        newmodel_name =  'copy' + '('+ str(name_size) + ')' + '_' + model_name
+        Array = ["System have successfully add model ",model_name," ,because already exist the same model name, system automatically change to ",newmodel_name,"\n"]
+        outputerrors =outputerrors.join(Array)
+        print(outputerrors)
         store_schema = {
             "uuid":uuid_combined,
-            "FileName": model_name,
+            "FileName": newmodel_name,
             "BriefInfo": "",
             "Size": size,
             "UserName": userName,
@@ -77,6 +88,9 @@ def connect_upload():
         }
         db.models.insert_one(store_schema)
     else:
+        Array = ["System have successfully add model ", model_name,"\n"]
+        outputerrors = outputerrors.join(Array)
+        print(outputerrors)
         store_schema = {
             "uuid":uuid_combined,
             "FileName": model_name,
@@ -122,6 +136,7 @@ def connect_upload():
         # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
         # (replace the code below) save the file to MongoDB
         for uploaded_file in files_list:
+            noproblem = True
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
             # to get the number at the first line
@@ -134,7 +149,20 @@ def connect_upload():
 
             columnNames = [''] * size
             attributes_meta = size
-        
+            # file name checking
+            dataset_name = uploaded_file.filename
+            split_name = dataset_name.split(".")
+            modelsuffix = split_name[len(split_name) - 1]
+
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                Array = ["Fail to upload dataset: ", dataset_name,
+                         " is invalid dataset format, please use upload dataset like XXX.dat/XXX.txt/XXX.csv/XXX.xlsx\n"]
+                outputerrors = outputerrors+"".join(Array)
+                noproblem = False
+                print("-----------")
+                print(outputerrors)
+                continue
+
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
@@ -157,10 +185,14 @@ def connect_upload():
             print('ssss')
             print(uploaded_file.filename)
             print('ssssss')
-            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
+            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0 and noproblem:
                 name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))           
                 name_size = name_size[len(name_size)-1].get('copy') + 1
-                FileName=  'copy' + '('+ str(name_size) + ')' + '_' + uploaded_file.filename 
+                FileName=  'copy' + '('+ str(name_size) + ')' + '_' + uploaded_file.filename
+                Array = ["System have successfully add dataset ", uploaded_file.filename,
+                         " ,because already exist the same dataset name, system automatically change to ", FileName,
+                         "\n"]
+                outputerrors = outputerrors + "".join(Array)
                 store_schema={
                     "uuid":uuid_combined,
                     "FileName":FileName,
@@ -184,7 +216,9 @@ def connect_upload():
                 }
                 db.files.insert_one(store_schema)
 
-            else:
+            elif noproblem:
+                Array = ["System have successfully add dataset ", uploaded_file.filename,"\n"]
+                outputerrors = outputerrors + "".join(Array)
                 store_schema={
                     "uuid":uuid_combined,
                     "FileName":uploaded_file.filename,
@@ -208,7 +242,8 @@ def connect_upload():
                 }
                 db.files.insert_one(store_schema)
         print( files_name_list)
-            
+        print("final output")
+        print(outputerrors)
         return json.dumps([model_name, files_name_list])
 
     files_name_list = [""]
@@ -476,59 +511,81 @@ def queryDatasets():
     input_value_username = request.get_json(force=True)
     input_value = input_value_username[0]
     UserName = input_value_username[1]
-    NameArray=[]
-    # TODO you need to query the corresponding datasets from MongoDB
-    # the input value may be the dataset name, or may be key words
-    # this is the querying result I simulate, please REPLACE it when you get the real results
-    returndata=list(db.files.find({"UserName":UserName},{"_id":0,"uuid":0,"data":0}))
-    data= loads(dumps(returndata))
-    lenth=len(data)
-    T=True
-    T2=False
+    onesearch = [] #one search result
+    List = [] # two-dimensional array
     if '&&' in input_value:
-     spstr=str(input_value).split("&&")
-     for i in range(lenth):
-        X=0
-        for element in spstr:
-         contain = False
-         for x in data[i]['Keywords']:
-            if element.lower() in str(x).lower():
-             contain = True
-             break
-         if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower()
-                 or element.lower() in data[i]['Description'].lower() or element.lower() in data[i]['Source'].lower() or contain  ):
-            X=X+1
-        if X==len(spstr):
-         NameArray.append(data[i]['FileName'])
+     inputarray = str(input_value).split("&&")
+     for element in inputarray:
+      data_return=list(db.files.find({"$and":[{"UserName": UserName},
+    {"$or":[{"BriefInfo":{ "$regex":element,"$options":"$i"}},
+    {"Label":{ "$regex":element,"$options":"$i"}},
+    {"FileName":{ "$regex":element,"$options":"$i"}},
+    {"Description":{ "$regex":element,"$options":"$i"}},
+    {"Source":{ "$regex":element,"$options":"$i"}},
+    {"Keywords":{"$regex":element,"$options":"$i"}},
+    {"AttrInfo":{ "$regex":element,"$options":"$i"}}]}]},{"_id":0}))
+      data = loads(dumps(data_return))
+      lenth = len(data)
+      for i in range(lenth):
+       onesearch.append(data[i]['FileName'])
+      List.append(onesearch)
+      onesearch = []
+     print("XXXXX")
+     print(List)
+     if len(List) > 1:
+      result = List[0]
+      for i in range(1,len(List)):
+       result = list(set(result).intersection(set(List[i])))
+       print(result)
+     elif len(List) == 1:
+         result = List[0]
+     else:
+         result = []
+
     elif '||' in input_value:
-     spstr = str(input_value).split("||")
-     for i in range(lenth):
-        for element in spstr:
-           contain = False
-           for x in data[i]['Keywords']:
-                if element.lower() in str(x).lower():
-                 contain = True
-                 break
-           if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower()
-                   or element.lower() in data[i]['Description'].lower() or element.lower() in data[i]['Source'].lower() or contain):
-                   T2=True
-        if T2 is True:
-         NameArray.append(data[i]['FileName'])
-         T2=False
+        inputarray = str(input_value).split("||")
+        for element in inputarray:
+            data_return = list(db.files.find({"$and": [{"UserName": UserName},
+            {"$or": [{"BriefInfo": {"$regex": element, "$options": "$i"}},
+            {"Label": {"$regex": element, "$options": "$i"}},
+            {"FileName": {"$regex": element, "$options": "$i"}},
+            {"Description": {"$regex": element, "$options": "$i"}},
+            {"Source": {"$regex": element, "$options": "$i"}},
+            {"Keywords": {"$regex": element, "$options": "$i"}},
+            {"AttrInfo": {"$regex": element, "$options": "$i"}}]}]},{"_id": 0}))
+            data = loads(dumps(data_return))
+            lenth = len(data)
+            for i in range(lenth):
+             onesearch.append(data[i]['FileName'])
+            List.append(onesearch)
+            onesearch = []
+        print("XXXXX")
+        print(List)
+        result = List[0]
+        for onerow in List:
+         result = list(set(result).union(set(onerow)))
+         print(result)
+
     else:
-     for i in range(lenth):
-        contain=False
-        for x in data[i]['Keywords']:
-         if input_value.lower() in str(x).lower():
-          contain=True
-          break
-        if (input_value.lower() in data[i]['FileName'].lower() or input_value.lower() in data[i]['BriefInfo'].lower()
-                or input_value.lower() in data[i]['Description'].lower() or input_value.lower() in data[i]['Source'].lower() or contain):
-            NameArray.append(data[i]['FileName'])
+        data_return = list(db.files.find({"$and": [{"UserName": UserName},
+         {"$or": [{"BriefInfo": {"$regex": input_value, "$options": "$i"}},
+         {"Label": {"$regex": input_value, "$options": "$i"}},
+         {"FileName": {"$regex": input_value, "$options": "$i"}},
+         {"Description": {"$regex": input_value, "$options": "$i"}},
+         {"Source": {"$regex": input_value, "$options": "$i"}},
+         {"Keywords": {"$regex": input_value, "$options": "$i"}},
+         {"AttrInfo": {"$regex": input_value, "$options": "$i"}}]}]},
+                                         {"_id": 0}))
+        data = loads(dumps(data_return))
+        lenth = len(data)
+        result = []
+        for i in range(lenth):
+         result.append(data[i]['FileName'])
 
-    data_return=list(db.files.find({"FileName":{"$in":NameArray},"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0}))
+    print("-----------")
+    print(result)
 
-    print(NameArray)
+    data_return = list(db.files.find({"UserName": UserName,"FileName":{"$in":result}},{"_id":0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
         with open('./queryResultsForDatasets.json', 'w') as file:
@@ -757,48 +814,69 @@ def bind_model():
 @app.route('/query-models', methods=["POST"])
 @cross_origin()
 def query_model():
-    # TODO you need to query the corresponding datasets from MongoDB
-    # the input value may be the dataset name, or may be key words
-    # this is the querying result I simulate, please REPLACE it when you get the real results
     # you will recieve a inputted word by a user from the frontend
     input_value_username = request.get_json(force=True)
     input_value = input_value_username[0]
     UserName = input_value_username[1]
-
-    print(input_value) # you can check the inputted word through this
-    print(UserName)  # string
-    NameArray = []
-    returndata = list(db.models.find({"UserName": UserName},{"_id":0}))
-    data = loads(dumps(returndata))
-    lenth = len(data)
-    print(lenth)
-    T=True
-    T2=False
+    onesearch = []  # one search result
+    List = []  # two-dimensional array
     if '&&' in input_value:
-     spstr=str(input_value).split("&&")
-     for i in range(lenth):
-        X=0
-        for element in spstr:
-         if (element.lower() in data[i]['FileName'].lower() or element.lower() in data[i]['BriefInfo'].lower() ):
-            X=X+1
-        if X==len(spstr):
-         NameArray.append(data[i]['FileName'])
+        inputarray = str(input_value).split("&&")
+        for element in inputarray:
+            data_return = list(db.models.find({"$and": [{"UserName": UserName},
+            {"$or": [{"BriefInfo": {"$regex": element, "$options": "$i"}},
+            {"FileName": {"$regex": element, "$options": "$i"}}]}]},{"_id": 0}))
+            data = loads(dumps(data_return))
+            lenth = len(data)
+            for i in range(lenth):
+                onesearch.append(data[i]['FileName'])
+            List.append(onesearch)
+            onesearch = []
+        print("XXXXX")
+        print(List)
+        if len(List) > 1:
+            result = List[0]
+            for i in range(1, len(List)):
+                result = list(set(result).intersection(set(List[i])))
+                print(result)
+        elif len(List) == 1:
+            result = List[0]
+        else:
+            result = []
+
     elif '||' in input_value:
-     spstr = str(input_value).split("||")
-     for i in range(lenth):
-        for element in spstr:
-           if (element.lower()  in data[i]['FileName'].lower() or element.lower()  in data[i]['BriefInfo'].lower() ):
-                   T2=True
-        if T2 is True:
-         NameArray.append(data[i]['FileName'])
-         T2=False
+        inputarray = str(input_value).split("||")
+        for element in inputarray:
+            data_return = list(db.models.find({"$and": [{"UserName": UserName},
+            {"$or": [{"BriefInfo": {"$regex": element, "$options": "$i"}},
+            {"FileName": {"$regex": element,"$options": "$i"}}]}]}, {"_id": 0}))
+            data = loads(dumps(data_return))
+            lenth = len(data)
+            for i in range(lenth):
+                onesearch.append(data[i]['FileName'])
+            List.append(onesearch)
+            onesearch = []
+        print("XXXXX")
+        print(List)
+        result = List[0]
+        for onerow in List:
+            result = list(set(result).union(set(onerow)))
+            print(result)
+
     else:
-     for i in range(lenth):
-        if (input_value.lower() in data[i]['FileName'].lower()or input_value.lower() in data[i]['BriefInfo'].lower()):
-            NameArray.append(data[i]['FileName'])
-    print("Test of modelquery part")
-    print(NameArray)
-    data_return = list(db.models.find({"FileName": {"$in": NameArray}, "UserName": UserName},{"_id":0,"data":0,"uuid":0}))
+        data_return = list(db.models.find({"$and": [{"UserName": UserName},
+        {"$or": [{"BriefInfo": {"$regex": input_value, "$options": "$i"}},
+        {"FileName": {"$regex": input_value, "$options": "$i"}}]}]},{"_id": 0}))
+        data = loads(dumps(data_return))
+        lenth = len(data)
+        result = []
+        for i in range(lenth):
+            result.append(data[i]['FileName'])
+
+    print("-----------")
+    print(result)
+
+    data_return = list(db.models.find({"UserName": UserName, "FileName": {"$in": result}}, {"_id": 0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
         with open('./queryResultsForModels.json', 'w') as file:
@@ -806,13 +884,12 @@ def query_model():
         jsonFile = open('./queryResultsForModels.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-
         with open('./queryResultsForModels.json', 'w') as file:
             file.write(values)
         return values
     else:
-     print("The user does not have any file")
-     data = []
+        print("The user does not have any file")
+        data = []
     return json.dumps(data)
 
 @app.route('/get-bindedDatasets', methods=["POST"])

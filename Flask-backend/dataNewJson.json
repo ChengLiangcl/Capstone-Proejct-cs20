@@ -1,30 +1,9 @@
 [
   {
     "_id": {
-      "$oid": "6099eda059d6ef8040351107"
+      "$oid": "6099f67ff15cfd1413cb851a"
     },
-    "FileName": "ex.dat",
-    "BriefInfo": "",
-    "Size": "193.9KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 3840,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "123@gmail.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "6099eda059d6ef8040351106"
-    },
-    "FileName": "copy(1)_ex_ndy.dat",
+    "FileName": "ex_ndy2.dat",
     "BriefInfo": "",
     "Size": "4.93KB",
     "Description": "",
@@ -38,20 +17,20 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123@gmail.com",
-    "copy": 1
+    "UserName": "123456@qq.com",
+    "copy": 0
   },
   {
     "_id": {
-      "$oid": "6099ed9f59d6ef8040351105"
+      "$oid": "6099f67ff15cfd1413cb8519"
     },
-    "FileName": "copy(1)_ex_fts.dat",
+    "FileName": "ex_ndy.dat",
     "BriefInfo": "",
-    "Size": "13.532KB",
+    "Size": "4.93KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
     "Keywords": [],
     "AttrInfo": [
       {
@@ -59,7 +38,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123@gmail.com",
-    "copy": 1
+    "UserName": "123456@qq.com",
+    "copy": 0
   }
 ]
