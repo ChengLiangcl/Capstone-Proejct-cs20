@@ -29,20 +29,6 @@
   },
   {
     "_id": {
-      "$oid": "6099e963014337cb9d60dc53"
-    },
-    "FileName": "ex.dat",
-    "BriefInfo": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    "Size": "193.9KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 3840,
-    "UserName": "17888813173@163.com",
-    "ModelName": "ex.cod"
-  },
-  {
-    "_id": {
       "$oid": "6099e998014337cb9d60dc55"
     },
     "FileName": "copy(1)_ex_fdy.dat",
