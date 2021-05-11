@@ -132,14 +132,8 @@ def connect_upload():
 
             columnNames = [''] * size
             attributes_meta = size
-            if int(first_num) < size:
-                lable = "Yes"
-            elif int(first_num) == size:
-                lable = "No"
-            else:
-                lable = "Error"
+        
             for i in range(size):
-
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
             path_str = './public/' + str(index) + '.'+'dat'
@@ -172,7 +166,6 @@ def connect_upload():
                     "Size": size,
                     "Description": "",
                     "Source": "",
-                    "Label": lable,
                     "Number_of_Attribute": attributes_meta,
                     "Number_of_Instance": instance_meta,
                     "Keywords": [],
@@ -197,7 +190,6 @@ def connect_upload():
                     "Size": size,
                     "Description": "",
                     "Source": "",
-                    "Label": lable,
                     "Number_of_Attribute": attributes_meta,
                     "Number_of_Instance": instance_meta,
                     "Keywords": [],
@@ -264,13 +256,6 @@ def upload():
 
             columnNames = [''] * size
             attributes_meta = size
-            
-            if int(first_num) < size:
-                lable = "Yes"
-            elif int(first_num) == size:
-                lable = "No"
-            else:
-                lable = "Error"
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
@@ -308,7 +293,6 @@ def upload():
                     "Size": size,
                     "Description": "",
                     "Source": "",
-                    "Label": lable,
                     "Number_of_Attribute": attributes_meta,
                     "Number_of_Instance": instance_meta,
                     "Keywords": [],
@@ -335,7 +319,6 @@ def upload():
                     "Size": size,
                     "Description": "",
                     "Source": "",
-                    "Label": lable,
                     "Number_of_Attribute": attributes_meta,
                     "Number_of_Instance": instance_meta,
                     "Keywords": [],
@@ -420,6 +403,7 @@ def sendNewdatasetFiles():
         file.write(values)
     jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
+    print(values)
     return json.dumps(values)
 
 @app.route('/submit-metadata', methods=["POST"])
@@ -858,7 +842,7 @@ def query_binded_datasets():
     uuidofmodel=str(data["uuid"])
     js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},
                           {"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0,
-                           "Description":0,"Source":0,"Label":0,
+                           "Description":0,"Source":0,
                            "Number_of_Attribute":0,"Number_of_Instance":0}))
 
     if (len(js) != 0):
