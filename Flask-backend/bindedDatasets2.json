@@ -1,7 +1,7 @@
 [
   {
-    "uuid": "4325b6c49f1043a4845991d2829e99e8",
-    "FileName": "Test1.cod",
+    "uuid": "13672fdb3b1b49a296652570351a37f1",
+    "FileName": "Test2.cod",
     "BriefInfo": "",
     "Size": "4.229KB",
     "UserName": "123456@qq.com",
@@ -103,28 +103,11 @@
       "45.4543 55.2803 0.264083 -0.00898778 402.922 \n",
       "46.6649 57.0576 -0.0563481 -0.395202 402.7 \n"
     ],
+    "copy": 0,
     "Model_info": {
-      "vectorDim": 5,
-      "xDim": 12,
-      "yDim": 8
+      "colunm_num": 5,
+      "map_col": 12,
+      "map_row": 8
     }
-  },
-  {
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "this is ex_ndy.dat",
-    "Size": "4.93KB",
-    "UserName": "123456@qq.com"
-  },
-  {
-    "FileName": "ex_ndy2.dat",
-    "BriefInfo": "this is ex_ndy2.dat",
-    "Size": "4.93KB",
-    "UserName": "123456@qq.com"
-  },
-  {
-    "FileName": "ex_ndy3.dat",
-    "BriefInfo": "this is ex_ndy3.dat",
-    "Size": "4.93KB",
-    "UserName": "123456@qq.com"
   }
 ]

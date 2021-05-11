@@ -17,6 +17,7 @@ import csv
 import time
 import re
 files_size = 0
+file_num = 0
 client = pymongo.MongoClient(
     "mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",
     ssl=True, ssl_cert_reqs='CERT_NONE')
@@ -113,7 +114,8 @@ def connect_upload():
 
     # when a user only upload a model, then the file_list is []
     # please return a [""] file_name_list to the frontend
-    if (len(files_list) != 0):
+    try:
+     if (len(files_list) != 0):
         # get the first file
         print("the first file: ", files_list[0])
         # get file-name list
@@ -133,17 +135,17 @@ def connect_upload():
         # PLEASE deal with the filename to avoid repeating name here
         # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
         # (replace the code below) save the file to MongoDB
-    A = []
-    B = []
-    for element in files_list:
-     if element.filename[len(element.filename)-3:len(element.filename)] in ["dat","txt","csv","xlsx"]:
-         A.append(element)
-     else:
-         B.append(element)
-    A = A + B
-    print("------------")
-    print(A)
-    for uploaded_file in A:
+        A = []
+        B = []
+        for element in files_list:
+         if element.filename[len(element.filename)-3:len(element.filename)] in ["dat","txt","csv","xlsx"]:
+          A.append(element)
+         else:
+          B.append(element)
+        A = A + B
+        print("------------")
+        print(A)
+        for uploaded_file in A:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             Noproblem = False
            # to get the column number
@@ -159,7 +161,7 @@ def connect_upload():
             modelsuffix = split_name[len(split_name) - 1]
             print("EXCEPTION")
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                continue
+                raise Exception
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -234,11 +236,12 @@ def connect_upload():
                     "copy":0
                 }
                 db.files.insert_one(store_schema)
-
-    return json.dumps([model_name, files_name_list])
-
-    files_name_list = [""]
-    return json.dumps([model_name, files_name_list])
+    finally:
+        if(len(files_list) != 0):
+         return json.dumps([model_name, files_name_list])
+        else:
+          files_name_list = [""]
+          return json.dumps([model_name, files_name_list])
 
 '''
 Datasets
@@ -249,7 +252,8 @@ def upload():
     file_name_list = list()
     index = 0
     uuid_combined = uuid.uuid4().hex
-    if request.method == "POST":
+    try:
+     if request.method == "POST":
         userName = request.files['username'].filename
         print("get username: ", userName)
 
@@ -270,13 +274,19 @@ def upload():
             if uploaded_file.filename == '':
                 flash('No selected file')
                 return redirect(request.url)
-
-        for uploaded_file in files_list:
+        A = []
+        B = []
+        for element in files_list:
+            if element.filename[len(element.filename) - 3:len(element.filename)] in ["dat", "txt", "csv", "xlsx"]:
+                A.append(element)
+            else:
+                B.append(element)
+        A = A + B
+        print("------------")
+        print(A)
+        for uploaded_file in A:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
-            # to get the number at the first line
-            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            first_num = [line.rstrip() for line in f.readlines()[0]][0]
 
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
@@ -284,6 +294,14 @@ def upload():
 
             columnNames = [''] * size
             attributes_meta = size
+            # file name checking
+            dataset_name = uploaded_file.filename
+            split_name = dataset_name.split(".")
+            modelsuffix = split_name[len(split_name) - 1]
+            print("EXCEPTION")
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                raise Exception
+
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
@@ -310,9 +328,6 @@ def upload():
                 name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))  
                 # print(name_size[0].get('copy'))   
                 copy_size = name_size[len(name_size)-1].get('copy')+1
-                print(copy_size)
-                print('----do here')
-                 
                 FileName=  'copy' + '('+ str(copy_size) + ')' + '_' + uploaded_file.filename 
 
                 file_name_list.append(FileName)
@@ -338,6 +353,8 @@ def upload():
                     "copy":copy_size
 
                 }
+                global file_num
+                file_num = file_num + 1
                 db.files.insert_one(store_schema)
             else:
                 # file_name_list.append(uploaded_file.filename)
@@ -363,10 +380,11 @@ def upload():
                     "data": data,
                     "copy":0
                 }
+                file_num = file_num + 1
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
-
-    return json.dumps(file_name_list)
+    finally:
+     return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])
 def showAlldatasetFiles():
@@ -421,8 +439,10 @@ def sendNewdatasetFiles():
 
     print("get session", session.items())
     global files_size
+    global file_num
     print('-----------------------------')
     print(files_size)
+    print(file_num)
     print('-----------------------------')
     print("The taotal number of files: " + str(files_size))
     data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(files_size)
@@ -432,6 +452,7 @@ def sendNewdatasetFiles():
     jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
     # print(values)
+
     return json.dumps(values)
 
 @app.route('/submit-metadata', methods=["POST"])

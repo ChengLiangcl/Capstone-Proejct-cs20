@@ -1,49 +1,7 @@
 [
   {
     "_id": {
-      "$oid": "609a925a6609b43e49b33919"
-    },
-    "FileName": "ex_ndy4.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "123456@qq.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "609a92596609b43e49b33918"
-    },
-    "FileName": "ex_ndy3.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "123456@qq.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "609a92596609b43e49b33917"
+      "$oid": "609aacd79de0d8b4bf5e0dc1"
     },
     "FileName": "copy(1)_ex_ndy2.dat",
     "BriefInfo": "",
@@ -64,7 +22,7 @@
   },
   {
     "_id": {
-      "$oid": "609a92586609b43e49b33916"
+      "$oid": "609aacd69de0d8b4bf5e0dc0"
     },
     "FileName": "copy(1)_ex_ndy.dat",
     "BriefInfo": "",
