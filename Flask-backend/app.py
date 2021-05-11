@@ -111,6 +111,8 @@ def connect_upload():
         # check if the post request has the file part
         # if user does not select file browser also
         # submit an empty part without filename
+        global files_size 
+        files_size = len(files_list)
         for uploaded_file in files_list:
             if uploaded_file.filename == '':
                 flash('No selected file')
@@ -391,6 +393,9 @@ def sendNewdatasetFiles():
 
     print("get session", session.items())
     global files_size
+    print('-----------------------------')
+    print(files_size)
+    print('-----------------------------')
     print("The taotal number of files: " + str(files_size))
     data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(files_size)
     json_data = dumps(data, indent = 2)
@@ -398,12 +403,7 @@ def sendNewdatasetFiles():
                 file.write(json_data)
     jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
-    values = dumps(values, indent = 2)
-    with open('./dataNewJson.json', 'w') as file:
-        file.write(values)
-    jsonFile = open('./dataNewJson.json', 'r')
-    values = json.load(jsonFile)
-    print(values)
+    # print(values)
     return json.dumps(values)
 
 @app.route('/submit-metadata', methods=["POST"])

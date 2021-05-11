@@ -1,7 +1,7 @@
 [
   {
     "_id": {
-      "$oid": "6099da384b6c909998c06896"
+      "$oid": "6099eda059d6ef8040351107"
     },
     "FileName": "ex.dat",
     "BriefInfo": "",
@@ -22,9 +22,9 @@
   },
   {
     "_id": {
-      "$oid": "6099da374b6c909998c06895"
+      "$oid": "6099eda059d6ef8040351106"
     },
-    "FileName": "copy(4)_ex_ndy.dat",
+    "FileName": "copy(1)_ex_ndy.dat",
     "BriefInfo": "",
     "Size": "4.93KB",
     "Description": "",
@@ -39,13 +39,13 @@
       }
     ],
     "UserName": "123@gmail.com",
-    "copy": 4
+    "copy": 1
   },
   {
     "_id": {
-      "$oid": "6099da364b6c909998c06894"
+      "$oid": "6099ed9f59d6ef8040351105"
     },
-    "FileName": "copy(4)_ex_fts.dat",
+    "FileName": "copy(1)_ex_fts.dat",
     "BriefInfo": "",
     "Size": "13.532KB",
     "Description": "",
@@ -60,6 +60,6 @@
       }
     ],
     "UserName": "123@gmail.com",
-    "copy": 4
+    "copy": 1
   }
 ]
