@@ -1,23 +1,13 @@
 [
   {
     "_id": {
-<<<<<<< HEAD
-      "$oid": "609a141966ea9d8053d5827c"
+      "$oid": "609a64dc1f8bfae5c21b492f"
     },
-    "uuid": "13672fdb3b1b49a296652570351a37f1",
-    "FileName": "Test2.cod",
-    "BriefInfo": "",
-    "Size": "4.229KB",
-    "UserName": "123456@qq.com",
-=======
-      "$oid": "6099f072a9f916189bb81d83"
-    },
-    "uuid": "e8e123bdf213451c8c9282fa1ad0b2f3",
-    "FileName": "animal.cod",
+    "uuid": "9ec527c944ea48c8a71d25eb1e7d2d3d",
+    "FileName": "copy(1)_animal.cod",
     "BriefInfo": "",
     "Size": "16.517KB",
     "UserName": "17888813173@163.com",
->>>>>>> 82291dc863be3baa882dad7b4f96076559b3d218
-    "copy": 0
+    "copy": 1
   }
 ]

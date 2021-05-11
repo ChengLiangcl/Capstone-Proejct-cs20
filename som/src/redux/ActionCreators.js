@@ -65,13 +65,19 @@ export const connectUploading = (files, onUploadProgress, username) => (dispatch
   })
   .then(res => {
     console.log("this is response for connection uploading");
-    console.log(res);
-    dispatch(addConnections(res.data));
+    console.log(res.data);
+    dispatch(addConnections(res.data[0]));
+    dispatch(updateUploadingStatus(res.data[1]))
     dispatch(fetchUploadedModel(username));
     dispatch(fetchUploadedDataset(username));
     
   });
 };
+
+export const updateUploadingStatus = (status) => ({
+  type: ActionTypes.UPDATE_UPLOADINGSTATUS,
+  payload: status
+});
 
 export const clearConnectionFiles = () => (dispatch)=> {
   dispatch(clearConnections());

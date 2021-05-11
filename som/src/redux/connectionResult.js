@@ -4,6 +4,7 @@ export const ConnectionFiles = (state = {
     isLoading: true,
     errMess: null,
     connectionFiles: ["this is for a uploaded model", ["this is for uploaded datasets"]],
+    uploadingStatus: ["", ""],
     bindedDatasets: []
 }, action) => {
     switch (action.type) {
@@ -14,6 +15,9 @@ export const ConnectionFiles = (state = {
             var files = action.payload; // get the uploaded dataset
             console.log("did i get the connected files? ", action.payload)
             return { ...state, connectionFiles: action.payload };
+        
+        case ActionTypes.UPDATE_UPLOADINGSTATUS:
+            return { ...state, uploadingStatus: action.payload };
 
         case ActionTypes.CLEAR_CONNECTIONS:
             const connectionFiles = ["", [""]]

@@ -18,17 +18,36 @@ function ConnectionUploading(props) {
 
     const el = useRef(); // accesing input element
 
+    const validModalFormat = "cod";
+    const validDatasetFormat = ["dat", "txt", "csv", "xlsx"];
+    const [model_message, setModelFail] = useState("");
+    const [dataset_message, setDatasetFail] = useState("");
 
     // It is for get the uploaded file you selected
     const handleModelChange = (event) => {
-        const file = event.target.files; // accessing file
-        console.log(file.name);
+        const file = event.target.files[0]; // accessing file
+        console.log("accepted model: ", file.name);
+        const acceptedModelArray = file.name.split(".");
+        const modelExtension = acceptedModelArray.slice(acceptedModelArray.length-1, acceptedModelArray.length)[0]
+        if (modelExtension === validModalFormat){
+            setModelFail("Uploaded successfully");
+        } else {
+            setModelFail("Could not upload the model. Please check your model format!");
+        }
         setSelectedModel(event.target.files[0]); // storing file
         //setFileInfos(file.name)
     }
 
     const handleDatasetChange = (event) => {
         const files = event.target.files
+        let datasetMessage = '';
+        for (let file of files){
+            const acceptedDatasetArray = file.name.split(".");
+            const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length-1, acceptedDatasetArray.length)[0];
+            let message = validDatasetFormat.includes(datasetExtension) ? `${file.name} uploaded successfully! \n` : `Could not upload ${file.name}. \n`;
+            datasetMessage += message;
+        }
+        setDatasetFail(datasetMessage);
         setSelectedFiles(event.target.files); // storing file
         console.log("accepted dataset: ", files);
         //setFileInfos(file.name)
@@ -71,8 +90,13 @@ function ConnectionUploading(props) {
             })
             .catch(() => {
                 setProgress(0);
-                setModelMessage("Could not upload the model!");
-                setMessage("Could not upload the datasets!");
+                console.log(`model message: ${model_message}, dataset message: ${dataset_message}`)
+                setModelMessage(model_message);
+                if (model_message === "Could not upload the model. Please check your model format!"){
+                    setMessage("datasets are not allowed to be uploaded while model uploading fails");
+                }else{
+                    setMessage(dataset_message);
+                }
             });
     };
 
@@ -154,7 +178,7 @@ function ConnectionUploading(props) {
                 <CardBody>
                     <CardTitle>
                         <h5 className="center">Last Uploading History</h5>
-                        <p style={{ color: "grey", fontSize: "small" }}>Notice: the file name will be automatically modified if there is a file with same name in your database</p>
+                        <p style={{ color: "grey", fontSize: "small" }}>Notice: the file name will be automatically modified if there is a file with the same name in your database</p>
                     </CardTitle>
                 </CardBody>
                 <CardBody>

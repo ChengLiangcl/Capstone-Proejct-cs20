@@ -12,6 +12,9 @@ function DatasetUpload(props) {
     const [message, setMessage] = useState("Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)");
     const el = useRef(); // accesing input element
 
+    const validModalFormat = "cod";
+    const validDatasetFormat = ["dat", "txt", "csv", "xlsx"];
+
     // It is for get the uploaded file you selected
     const handleChange = (event) => {
         const files = event.target.files; // accessing file

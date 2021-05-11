@@ -172,6 +172,7 @@ class Main extends Component {
                         <Route path="/uploading" component={() => 
                             <ConnectionUploading connectUploading={this.props.connectUploading}
                                 connectionFiles = {this.props.connectionFiles.connectionFiles}
+                                uploadingStatus = {this.props.connectionFiles.uploadingStatus}
                                 clearConnectionFiles = {this.props.clearConnectionFiles}
                             />}/>
 

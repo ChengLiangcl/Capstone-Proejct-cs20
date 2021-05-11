@@ -140,7 +140,7 @@ class Database extends Component {
                 </Col>
 
                 <Col className="database">
-                    {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess)}
+                    {this.renderDatasetTable(this.props.datasetFiles, false, this.props.errMess)}
                 </Col>
             </Container>
         );
