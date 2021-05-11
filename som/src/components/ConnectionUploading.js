@@ -10,8 +10,8 @@ function ConnectionUploading(props) {
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0);
-    const [modelMessage, setModelMessage] = useState("Please upload your model");
-    const [message, setMessage] = useState("Please upload your datasets");
+    const [modelMessage, setModelMessage] = useState("Please upload your model. (only accept .cod)");
+    const [message, setMessage] = useState("Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)");
 
     const [fileInfo, setFileInfos] = useState("");
     const [isModalOpen, setModal] = useState(false);

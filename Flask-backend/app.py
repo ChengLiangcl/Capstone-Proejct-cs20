@@ -63,7 +63,7 @@ def connect_upload():
     modelsuffix = split_name[len(split_name)-1]
 
     if  modelsuffix!= "cod":
-        Array = ["Fail to upload model: ",model_name," is invalid model format, please use upload model like XXX.cod. Stop dataset check\n"]
+        Array = ["Fail to upload the model: ",model_name," is invalid model format, please select a valid model. Stop dataset check\n"]
         outputerrors = outputerrors.join(Array)
         print(outputerrors)
         return outputerrors
@@ -74,7 +74,7 @@ def connect_upload():
         print(name_size)
         print('duplicated')
         newmodel_name =  'copy' + '('+ str(name_size) + ')' + '_' + model_name
-        Array = ["System have successfully add model ",model_name," ,because already exist the same model name, system automatically change to ",newmodel_name,"\n"]
+        Array = ["Successfully uploaded the model ",model_name,"\n"]
         outputerrors =outputerrors.join(Array)
         print(outputerrors)
         store_schema = {
@@ -88,7 +88,7 @@ def connect_upload():
         }
         db.models.insert_one(store_schema)
     else:
-        Array = ["System have successfully add model ", model_name,"\n"]
+        Array = ["Successfully uploaded the model ", model_name,"\n"]
         outputerrors = outputerrors.join(Array)
         print(outputerrors)
         store_schema = {
@@ -156,7 +156,7 @@ def connect_upload():
 
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
                 Array = ["Fail to upload dataset: ", dataset_name,
-                         " is invalid dataset format, please use upload dataset like XXX.dat/XXX.txt/XXX.csv/XXX.xlsx\n"]
+                         " is invalid dataset format, please upload valid format of datasets\n"]
                 outputerrors = outputerrors+"".join(Array)
                 noproblem = False
                 print("-----------")
@@ -189,9 +189,7 @@ def connect_upload():
                 name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))           
                 name_size = name_size[len(name_size)-1].get('copy') + 1
                 FileName=  'copy' + '('+ str(name_size) + ')' + '_' + uploaded_file.filename
-                Array = ["System have successfully add dataset ", uploaded_file.filename,
-                         " ,because already exist the same dataset name, system automatically change to ", FileName,
-                         "\n"]
+                Array = ["Successfully uploaded dataset ", uploaded_file.filename, "\n"]
                 outputerrors = outputerrors + "".join(Array)
                 store_schema={
                     "uuid":uuid_combined,
@@ -217,7 +215,7 @@ def connect_upload():
                 db.files.insert_one(store_schema)
 
             elif noproblem:
-                Array = ["System have successfully add dataset ", uploaded_file.filename,"\n"]
+                Array = ["Successfully add dataset ", uploaded_file.filename,"\n"]
                 outputerrors = outputerrors + "".join(Array)
                 store_schema={
                     "uuid":uuid_combined,

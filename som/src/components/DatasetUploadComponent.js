@@ -9,7 +9,7 @@ function DatasetUpload(props) {
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0); // tracking the status of uploading
-    const [message, setMessage] = useState("Please upload your dataset");
+    const [message, setMessage] = useState("Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)");
     const el = useRef(); // accesing input element
 
     // It is for get the uploaded file you selected
