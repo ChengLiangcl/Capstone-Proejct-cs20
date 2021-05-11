@@ -35,6 +35,9 @@ function ModelBinding(props) {
                     <LocalForm onSubmit={(values) => handleSubmit(values)}>
                         <Col className="form-group">
                             <Row>
+                                <Label md={10} style={{color: "grey"}}>Current binded model: {props.bindedModelName == "" ? "no binded model" : props.bindedModelName}</Label>
+                            </Row>
+                            <Row style={{paddingTop: '2%'}}>
                                 <Label md={4}>Select a model:</Label>
                                 <Col md={7}>
                                     <Control.select model=".bindedModel" id="bindedModel" name="bindedModel"

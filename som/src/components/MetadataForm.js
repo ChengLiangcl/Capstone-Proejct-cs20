@@ -63,7 +63,7 @@ function MetadataForm(props) {
     const [tags, setTags] = useState([]);
     const [attr, setAttr] = useState(AttrLen);
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
     const classes = useStyles();
     const theme = useTheme();
 
@@ -83,7 +83,8 @@ function MetadataForm(props) {
 
         // 'props.submitMetadata' is from Redux actionCreators, which is used to post the metadata to the backend server
         props.submitMetadata(fixedValue);
-        alert(`Current State is:  ${JSON.stringify(fixedValue)}`);
+        //alert(`Current State is:  ${JSON.stringify(fixedValue)}`);
+        alert(`Submit successfully!`);
         //props.resetMetadata();
         //props.fetchDatasetFiles();
     };

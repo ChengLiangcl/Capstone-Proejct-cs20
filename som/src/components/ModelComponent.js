@@ -31,10 +31,10 @@ class SOMModel extends Component {
     return (
       <thead>
         <tr>
-          <th>Model name</th>
-          <th>Description</th>
-          <th>Size(KB)</th>
-          <th>Operation</th>
+          <th width="10%">Model name</th>
+          <th width="18%">Description</th>
+          <th width="8%">Size(KB)</th>
+          <th width="10%">Operation</th>
         </tr>
       </thead>
     );
@@ -90,7 +90,7 @@ class SOMModel extends Component {
       );
     } else {
       return (
-        <Table hover>
+        <Table hover style={{tableLayout: 'fixed', wordWrap: 'break-word'}}>
           {this.tableHead()}
           {this.tableBody(models)}
         </Table>

@@ -33,7 +33,7 @@ function ModelBriefInfo(props) {
             </IconButton>
 
             <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>
-                <ModalHeader toggle={toggleModal}>Model Delete</ModalHeader>
+                <ModalHeader toggle={toggleModal}>Model Description</ModalHeader>
                 <ModalBody>
                     <Row style={{paddingLeft: '2%', paddingRight: '2%'}}>
                         <Input placeholder={'Model description'} ref={el} value={briefInfo} onChange={event => setBriefInfo(event.target.value)} />

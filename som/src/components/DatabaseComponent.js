@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { InputGroup, InputGroupText, InputGroupAddon, Input } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
-import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { IconButton, Modal, TableRow } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -19,9 +18,12 @@ import SearchFile from './searchFileComponent';
 class Database extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isShown: false
+        };
     }
 
-    componentDidUpdate (){
+    componentDidUpdate() {
         this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
     }
 
@@ -32,10 +34,10 @@ class Database extends Component {
             return (
                 <thead>
                     <tr>
-                        <th>File name</th>
-                        <th>Description</th>
-                        <th>Size</th>
-                        <th>Operation</th>
+                        <th width="10%">File name</th>
+                        <th width="18%">Description</th>
+                        <th width="8%">Size</th>
+                        <th width="10%">Operation</th>
                     </tr>
                 </thead>
             );
@@ -60,8 +62,10 @@ class Database extends Component {
                 <tbody>
                     {datasets.map((eachDataset, index) =>
                         <tr key={index}>
-                            {Object.values(eachDataset).slice(1, 4).map(eachValue => <td key={Object.values(eachValue)[0]}>{eachValue}</td>)}
-                            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName)}</td>
+                            <td key={'dataset name'}>{eachDataset.FileName}</td>
+                            <td key={'dataset briefInfo'}>{eachDataset.BriefInfo}</td>
+                            <td key={'dataset size'}>{eachDataset.Size}</td>
+                            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName, eachDataset.ModelName)}</td>
                         </tr>
                     )}
                 </tbody>
@@ -71,7 +75,7 @@ class Database extends Component {
     }
 
     //showOperate: bool. the delete button and the create button will be disable
-    operateDataset(showOperate, fileName) {
+    operateDataset(showOperate, fileName, bindModelName) {
         /** 
         if (icons === "add only") {
             return (
@@ -96,8 +100,7 @@ class Database extends Component {
                         </Link>
 
                         <ModelBinding modelFiles={this.props.modelFiles} datasetName={fileName}
-                            bindModel={this.props.bindModel}/>
-    
+                            bindModel={this.props.bindModel} bindedModelName={bindModelName}/>
                     </Row>
                 </Container>
             );
@@ -117,7 +120,7 @@ class Database extends Component {
         }
         else {
             return (
-                <Table hover>
+                <Table hover style={{tableLayout: 'fixed', wordWrap: 'break-word'}}>
                     {this.tableHead(datasets)}
                     {this.tableBody(datasets)}
                 </Table>
@@ -129,11 +132,11 @@ class Database extends Component {
         return (
             <Container>
                 <Col className="search-box" >
-                    <SearchFile queryDatasets={this.props.queryDatasets}/>
+                    <SearchFile queryDatasets={this.props.queryDatasets} />
                 </Col>
 
                 <Col>
-                    <DatasetUpload uploadDataset={this.props.uploadDataset}/>
+                    <DatasetUpload uploadDataset={this.props.uploadDataset} />
                 </Col>
 
                 <Col className="database">

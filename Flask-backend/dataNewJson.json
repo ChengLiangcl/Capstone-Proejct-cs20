@@ -1,6 +1,7 @@
 [
   {
     "_id": {
+<<<<<<< HEAD
       "$oid": "6099f67ff15cfd1413cb851a"
     },
     "FileName": "ex_ndy2.dat",
@@ -24,6 +25,10 @@
     "_id": {
       "$oid": "6099f67ff15cfd1413cb8519"
     },
+=======
+      "$oid": "6099f620a9f916189bb81d85"
+    },
+>>>>>>> 82291dc863be3baa882dad7b4f96076559b3d218
     "FileName": "ex_ndy.dat",
     "BriefInfo": "",
     "Size": "4.93KB",
@@ -38,7 +43,11 @@
         "attrDescription": ""
       }
     ],
+<<<<<<< HEAD
     "UserName": "123456@qq.com",
+=======
+    "UserName": "17888813173@163.com",
+>>>>>>> 82291dc863be3baa882dad7b4f96076559b3d218
     "copy": 0
   }
 ]
