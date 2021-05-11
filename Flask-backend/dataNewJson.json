@@ -1,32 +1,11 @@
 [
   {
     "_id": {
-      "$oid": "609a50ddd92dea352ea326d7"
+      "$oid": "609a925a6609b43e49b33919"
     },
-    "FileName": "ex.dat",
+    "FileName": "ex_ndy4.dat",
     "BriefInfo": "",
-    "Size": "193.9KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 3840,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "17888813173@163.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "609a50dcd92dea352ea326d6"
-    },
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
+    "Size": "4.93KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
@@ -38,7 +17,112 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "17888813173@163.com",
+    "UserName": "123456@qq.com",
+    "copy": 0
+  },
+  {
+    "_id": {
+      "$oid": "609a92596609b43e49b33918"
+    },
+    "FileName": "ex_ndy3.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123456@qq.com",
+    "copy": 0
+  },
+  {
+    "_id": {
+      "$oid": "609a92596609b43e49b33917"
+    },
+    "FileName": "copy(1)_ex_ndy2.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123456@qq.com",
+    "copy": 1
+  },
+  {
+    "_id": {
+      "$oid": "609a92586609b43e49b33916"
+    },
+    "FileName": "copy(1)_ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123456@qq.com",
+    "copy": 1
+  },
+  {
+    "_id": {
+      "$oid": "6099f67ff15cfd1413cb851a"
+    },
+    "FileName": "ex_ndy2.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123456@qq.com",
+    "copy": 0
+  },
+  {
+    "_id": {
+      "$oid": "6099f67ff15cfd1413cb8519"
+    },
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123456@qq.com",
     "copy": 0
   }
 ]

@@ -63,10 +63,8 @@ def connect_upload():
     modelsuffix = split_name[len(split_name)-1]
 
     if  modelsuffix!= "cod":
-        Array = ["Fail to upload model: ",model_name," is invalid model format, please use upload model like XXX.cod. Stop dataset check\n"]
-        outputerrors = outputerrors.join(Array)
-        print(outputerrors)
-        return outputerrors
+        print("find Exception")
+        raise Exception
     
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
@@ -135,15 +133,21 @@ def connect_upload():
         # PLEASE deal with the filename to avoid repeating name here
         # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
         # (replace the code below) save the file to MongoDB
-        for uploaded_file in files_list:
-            noproblem = True
+    A = []
+    B = []
+    for element in files_list:
+     if element.filename[len(element.filename)-3:len(element.filename)] in ["dat","txt","csv","xlsx"]:
+         A.append(element)
+     else:
+         B.append(element)
+    A = A + B
+    print("------------")
+    print(A)
+    for uploaded_file in A:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            Noproblem = False
+           # to get the column number
 
-            # to get the number at the first line
-            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            first_num = [line.rstrip() for line in f.readlines()[0]][0]
-
-            # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
 
@@ -153,14 +157,8 @@ def connect_upload():
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
-
+            print("EXCEPTION")
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                Array = ["Fail to upload dataset: ", dataset_name,
-                         " is invalid dataset format, please use upload dataset like XXX.dat/XXX.txt/XXX.csv/XXX.xlsx\n"]
-                outputerrors = outputerrors+"".join(Array)
-                noproblem = False
-                print("-----------")
-                print(outputerrors)
                 continue
 
             for i in range(size):
@@ -182,16 +180,12 @@ def connect_upload():
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
-            print('ssss')
-            print(uploaded_file.filename)
-            print('ssssss')
-            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0 and noproblem:
+            Noproblem = True
+
+            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0 and Noproblem:
                 name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))           
                 name_size = name_size[len(name_size)-1].get('copy') + 1
                 FileName=  'copy' + '('+ str(name_size) + ')' + '_' + uploaded_file.filename
-                Array = ["System have successfully add dataset ", uploaded_file.filename,
-                         " ,because already exist the same dataset name, system automatically change to ", FileName,
-                         "\n"]
                 outputerrors = outputerrors + "".join(Array)
                 store_schema={
                     "uuid":uuid_combined,
@@ -216,9 +210,8 @@ def connect_upload():
                 }
                 db.files.insert_one(store_schema)
 
-            elif noproblem:
-                Array = ["System have successfully add dataset ", uploaded_file.filename,"\n"]
-                outputerrors = outputerrors + "".join(Array)
+            elif Noproblem :
+
                 store_schema={
                     "uuid":uuid_combined,
                     "FileName":uploaded_file.filename,
@@ -241,10 +234,8 @@ def connect_upload():
                     "copy":0
                 }
                 db.files.insert_one(store_schema)
-        print( files_name_list)
-        print("final output")
-        print(outputerrors)
-        return json.dumps([model_name, files_name_list])
+
+    return json.dumps([model_name, files_name_list])
 
     files_name_list = [""]
     return json.dumps([model_name, files_name_list])
@@ -308,6 +299,8 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
+            print("-----------")
+            print(uploaded_file.filename)
             data = pd.read_csv(path_str)
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
