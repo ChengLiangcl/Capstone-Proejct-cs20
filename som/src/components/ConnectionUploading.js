@@ -7,7 +7,7 @@ import NeedUploading from './Modal/NeedUploading';
 
 function ConnectionUploading(props) {
     const MODEL_REMIND = "Please upload your model. (only accept .cod)";
-    const DATASET_REMIND = "Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)"
+    const DATASET_REMIND = "Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)";
     const [selectedModel, setSelectedModel] = useState(undefined);
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
@@ -35,7 +35,7 @@ function ConnectionUploading(props) {
             if (modelExtension === validModalFormat) {
                 setModelFail("Uploaded successfully");
             } else {
-                setModelFail("Could not upload the model. Please check your model format!");
+                setModelFail("Could not upload the model. Please check your model format or the content!");
             }
             setSelectedModel(event.target.files[0]); // storing file
             //setFileInfos(file.name)
@@ -79,7 +79,6 @@ function ConnectionUploading(props) {
         }
 
         console.log("selected file:", selectedFiles);
-
         setCurrentFile(selectedFiles);
 
         // 'props.uploadModel' is from Redux actionCreators, which is used to post the uploaded model to the backend server
@@ -94,9 +93,10 @@ function ConnectionUploading(props) {
             })
             .catch(() => {
                 setProgress(0);
+                console.log("dataset 111111: ", dataset_message);
                 console.log(`model message: ${model_message}, dataset message: ${dataset_message}`)
                 setModelMessage(model_message);
-                if (model_message === "Could not upload the model. Please check your model format!") {
+                if (model_message === "Could not upload the model. Please check your model format or the content!") {
                     setMessage("datasets are not allowed to be uploaded while model uploading fails");
                 } else {
                     setMessage(dataset_message);

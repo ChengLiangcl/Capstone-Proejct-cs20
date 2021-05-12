@@ -10,6 +10,7 @@ import TableChartIcon from '@material-ui/icons/TableChart';
 import { Link } from 'react-router-dom';
 
 import DatasetUpload from './DatasetUploadComponent';
+import DatasetUploading from './Modal/DatasetUploading';
 import DeleteOneDataset from './DeleteOneDataset';
 import { Loading } from './LoadingComponent';
 import MetadataForm from './MetadataForm';
@@ -136,7 +137,7 @@ class Database extends Component {
                 </Col>
 
                 <Col>
-                    <DatasetUpload uploadDataset={this.props.uploadDataset} fetchDatasetFiles={this.props.fetchDatasetFiles}/>
+                    <DatasetUploading uploadDataset={this.props.uploadDataset} fetchDatasetFiles={this.props.fetchDatasetFiles}/>
                 </Col>
 
                 <Col className="database">

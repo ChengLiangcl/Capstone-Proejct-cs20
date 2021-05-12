@@ -1,11 +1,11 @@
 [
   {
     "_id": {
-      "$oid": "609b3ff22d8ea975bcabd453"
+      "$oid": "609b61fc2d8ea975bcabd464"
     },
-    "FileName": "ex_ndy.dat",
+    "FileName": "ex_fdy.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "4.796KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
@@ -15,21 +15,7 @@
   },
   {
     "_id": {
-      "$oid": "609b3ff22d8ea975bcabd454"
-    },
-    "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "17888813173@163.com",
-    "ModelName": "ex.cod"
-  },
-  {
-    "_id": {
-      "$oid": "609b458c2d8ea975bcabd45d"
+      "$oid": "609b61fc2d8ea975bcabd465"
     },
     "FileName": "ex.dat",
     "BriefInfo": "",
@@ -39,13 +25,27 @@
     "Number_of_Attribute": 5,
     "Number_of_Instance": 3840,
     "UserName": "17888813173@163.com",
+    "ModelName": "ex.cod"
+  },
+  {
+    "_id": {
+      "$oid": "609b70912d8ea975bcabd480"
+    },
+    "FileName": "animal.txt",
+    "BriefInfo": "",
+    "Size": "0.626KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 17,
+    "Number_of_Instance": 16,
+    "UserName": "17888813173@163.com",
     "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "609b458d2d8ea975bcabd45e"
+      "$oid": "609b70f22d8ea975bcabd483"
     },
-    "FileName": "animal.txt",
+    "FileName": "copy(1)_animal.txt",
     "BriefInfo": "",
     "Size": "0.626KB",
     "Description": "",

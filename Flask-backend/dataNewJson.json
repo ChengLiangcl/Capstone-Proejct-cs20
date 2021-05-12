@@ -1,15 +1,15 @@
 [
   {
     "_id": {
-      "$oid": "609b45a12d8ea975bcabd45f"
+      "$oid": "609b713b2d8ea975bcabd489"
     },
-    "FileName": "animal.txt",
+    "FileName": "ex.dat",
     "BriefInfo": "",
-    "Size": "0.626KB",
+    "Size": "193.9KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 17,
-    "Number_of_Instance": 16,
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 3840,
     "Keywords": [],
     "AttrInfo": [
       {
@@ -22,7 +22,28 @@
   },
   {
     "_id": {
-      "$oid": "609b3ff22d8ea975bcabd454"
+      "$oid": "609b713a2d8ea975bcabd488"
+    },
+    "FileName": "ex_fdy.dat",
+    "BriefInfo": "",
+    "Size": "4.796KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "17888813173@163.com",
+    "copy": 0
+  },
+  {
+    "_id": {
+      "$oid": "609b713a2d8ea975bcabd487"
     },
     "FileName": "ex_fts.dat",
     "BriefInfo": "",
@@ -31,27 +52,6 @@
     "Source": "",
     "Number_of_Attribute": 6,
     "Number_of_Instance": 246,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "17888813173@163.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "609b3ff22d8ea975bcabd453"
-    },
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
     "Keywords": [],
     "AttrInfo": [
       {
