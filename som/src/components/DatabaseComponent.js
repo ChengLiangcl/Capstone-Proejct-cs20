@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import DatasetUpload from './DatasetUploadComponent';
 import DatasetUploading from './Modal/DatasetUploading';
 import DeleteOneDataset from './DeleteOneDataset';
+import DownloadFile from '../components/Modal/downloadFile';
 import { Loading } from './LoadingComponent';
 import MetadataForm from './MetadataForm';
 import SearchFile from './searchFileComponent';
@@ -38,7 +39,7 @@ class Database extends Component {
                         <th width="10%">File name</th>
                         <th width="18%">Description</th>
                         <th width="8%">Size</th>
-                        <th width="10%">Operation</th>
+                        <th width="14%">Operation</th>
                     </tr>
                 </thead>
             );
@@ -96,12 +97,14 @@ class Database extends Component {
 
                         <Link to={`/metadata-form/${fileName}`}>
                             <IconButton aria-label="create matadata" component="span">
-                                <CreateIcon />
+                                <CreateIcon/>
                             </IconButton>
                         </Link>
 
                         <ModelBinding modelFiles={this.props.modelFiles} datasetName={fileName}
                             bindModel={this.props.bindModel} bindedModelName={bindModelName}/>
+                        
+                        <DownloadFile/>
                     </Row>
                 </Container>
             );

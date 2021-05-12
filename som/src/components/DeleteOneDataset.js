@@ -26,7 +26,7 @@ function DeleteOneDataset(props) {
     return (
         <div>
             <IconButton aria-label="delete a dataset" component="span">
-                <DeleteIcon onClick={toggleModal} />
+                <DeleteIcon onClick={toggleModal}/>
             </IconButton>
 
             <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>
