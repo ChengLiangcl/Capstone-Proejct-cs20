@@ -114,8 +114,8 @@ def connect_upload():
 
     # when a user only upload a model, then the file_list is []
     # please return a [""] file_name_list to the frontend
-    try:
-     if (len(files_list) != 0):
+
+    if (len(files_list) != 0):
         # get the first file
         print("the first file: ", files_list[0])
         # get file-name list
@@ -125,7 +125,8 @@ def connect_upload():
         # check if the post request has the file part
         # if user does not select file browser also
         # submit an empty part without filename
-        global files_size 
+        global files_size
+        global file_num
         files_size = len(files_list)
         for uploaded_file in files_list:
             if uploaded_file.filename == '':
@@ -210,6 +211,7 @@ def connect_upload():
                     "data": data,
                     "copy":name_size
                 }
+
                 db.files.insert_one(store_schema)
 
             elif Noproblem :
@@ -236,12 +238,13 @@ def connect_upload():
                     "copy":0
                 }
                 db.files.insert_one(store_schema)
-    finally:
-        if(len(files_list) != 0):
-         return json.dumps([model_name, files_name_list])
-        else:
-          files_name_list = [""]
-          return json.dumps([model_name, files_name_list])
+            file_num = file_num + 1
+            print("XXXX----")
+            print(file_num)
+        return json.dumps([model_name, files_name_list])
+
+    files_name_list = [""]
+    return json.dumps([model_name, files_name_list])
 
 '''
 Datasets
@@ -252,8 +255,7 @@ def upload():
     file_name_list = list()
     index = 0
     uuid_combined = uuid.uuid4().hex
-    try:
-     if request.method == "POST":
+    if request.method == "POST":
         userName = request.files['username'].filename
         print("get username: ", userName)
 
@@ -300,6 +302,7 @@ def upload():
             modelsuffix = split_name[len(split_name) - 1]
             print("EXCEPTION")
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                print("XXXXX")
                 raise Exception
 
             for i in range(size):
@@ -383,8 +386,7 @@ def upload():
                 file_num = file_num + 1
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
-    finally:
-     return json.dumps(file_name_list)
+
 
 @app.route('/datasetFiles', methods=["POST"])
 def showAlldatasetFiles():
@@ -445,14 +447,14 @@ def sendNewdatasetFiles():
     print(file_num)
     print('-----------------------------')
     print("The taotal number of files: " + str(files_size))
-    data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(files_size)
+    data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(file_num)
     json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
     jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
     # print(values)
-
+    file_num = file_num - file_num
     return json.dumps(values)
 
 @app.route('/submit-metadata', methods=["POST"])
