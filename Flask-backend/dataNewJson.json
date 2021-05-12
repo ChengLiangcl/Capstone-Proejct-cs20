@@ -1,57 +1,15 @@
 [
   {
     "_id": {
-      "$oid": "609b713b2d8ea975bcabd489"
+      "$oid": "609bc34bb495ac6cb1f151dd"
     },
-    "FileName": "ex.dat",
+    "FileName": "tableconvert_csv_u8rcad.csv",
     "BriefInfo": "",
-    "Size": "193.9KB",
+    "Size": "3.872KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 3840,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "17888813173@163.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "609b713a2d8ea975bcabd488"
-    },
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "17888813173@163.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "609b713a2d8ea975bcabd487"
-    },
-    "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
+    "Number_of_Attribute": 1,
+    "Number_of_Instance": 150,
     "Keywords": [],
     "AttrInfo": [
       {

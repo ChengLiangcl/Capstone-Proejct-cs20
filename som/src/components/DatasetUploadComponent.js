@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import { IconButton, Modal } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import { Row, Col, Container, Progress, Button } from 'reactstrap';
@@ -18,16 +18,50 @@ function DatasetUpload(props) {
     const handleDatasetChange = (event) => {
         const files = event.target.files; // accessing file
         let datasetMessage = '';
+
         for (let file of files) {
+            let message = '';
+
             const acceptedDatasetArray = file.name.split(".");
             const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length - 1, acceptedDatasetArray.length)[0];
-            let message = validDatasetFormat.includes(datasetExtension) ? `# ${file.name} uploaded successfully!  ` : `# Could not upload ${file.name}.  `;
-            datasetMessage += message;
-        }
-        
-        setDatasetFail(datasetMessage);
+            if (validDatasetFormat.includes(datasetExtension)) {
+                let reader = new FileReader();
+                console.log("file name: ", file.name);
+                reader.onloadend = () => {
+                    let lines = reader.result.split('\n');
+                    try {
+                        let line_check = parseFloat(lines[1].split(',')[0]);
+                        message = Number.isNaN(line_check) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                        datasetMessage += message;
+                        setDatasetFail(datasetMessage);
+                    }
+                    catch (e) {
+                        message = `# Could not upload ${file.name}. `;
+                        datasetMessage += message;
+                        setDatasetFail(datasetMessage);
+                    }
+                };
 
-        setSelectedFiles(event.target.files); // storing file
+                reader.onerror = () => {
+                    message = `# Could not upload ${file.name}. `;
+                    datasetMessage += message;
+                    setDatasetFail(datasetMessage);
+                };
+
+                reader.readAsText(file);
+            }
+            else {
+                message = `# Could not upload ${file.name}. `;
+                datasetMessage += message;
+                setDatasetFail(datasetMessage);
+            }
+
+            // const acceptedDatasetArray = file.name.split(".");
+            // const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length - 1, acceptedDatasetArray.length)[0];
+            // let message = validDatasetFormat.includes(datasetExtension) ? `# ${file.name} uploaded successfully!  ` : `# Could not upload ${file.name}.  `;
+
+        }
+        setSelectedFiles(files); // storing file
     }
 
     const handleUploadBtn = () => {
@@ -58,13 +92,13 @@ function DatasetUpload(props) {
         props.uploadDataset(formData, (event) => {
             setProgress(Math.round((100 * event.loaded) / event.total));
         }, sessionStorage.getItem('verifiedUsername'))
-        .then((response) => {
-            setMessage("Uploaded successfully");
-        })
-        .catch(() => {
-            setProgress(0);
-            setMessage(dataset_message);
-        });
+            .then((response) => {
+                setMessage("Uploaded successfully");
+            })
+            .catch(() => {
+                setProgress(0);
+                setMessage(dataset_message);
+            });
     };
 
     return (
@@ -80,7 +114,9 @@ function DatasetUpload(props) {
                         <label htmlFor="file-upload">
                             <input type="file" multiple ref={el} onChange={handleDatasetChange} />
                             <div className="alert alert-light" role="alert">
-                                {message !== "Uploaded successfully" && message !== DATASET_REMIND ? <div style={{ color: 'red' }}>{message}</div> : message}
+                                {message.split("#").map(eachMessage =>
+                                    <p>{eachMessage.includes("successfully") || eachMessage === DATASET_REMIND ? eachMessage : <div style={{ color: 'red' }}>{eachMessage}</div>}</p>
+                                )}
                             </div>
                         </label>
                     </Row>
