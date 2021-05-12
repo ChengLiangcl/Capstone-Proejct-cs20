@@ -269,7 +269,8 @@ def upload():
         # get file-name list
         files_name_list = [secure_filename(request.files['file'+str(i)].filename) for i in range(0, len(request.files)-1)]
         print("file name list ", files_name_list) # ['ex.dat', 'ex_fdy.dat', 'ex_fts.dat']
-        global files_size 
+        global files_size
+        global file_num
         files_size = len(files_name_list)
         
         for uploaded_file in files_list:
@@ -356,8 +357,8 @@ def upload():
                     "copy":copy_size
 
                 }
-                global file_num
-                file_num = file_num + 1
+
+
                 db.files.insert_one(store_schema)
             else:
                 # file_name_list.append(uploaded_file.filename)
@@ -383,10 +384,13 @@ def upload():
                     "data": data,
                     "copy":0
                 }
-                file_num = file_num + 1
+
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
-
+            file_num = file_num + 1
+            print("XXXX----")
+            print(file_num)
+    return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])
 def showAlldatasetFiles():
