@@ -200,6 +200,7 @@ class Main extends Component {
                             deleteModel={this.props.deleteModel}
                             editModelDescription={this.props.editModelDescription}
                             fetchModelFiles={this.props.fetchModelFiles}
+                            fetchDatasetFiles={this.props.fetchDatasetFiles}
 
                             connectUploading={this.props.connectUploading}
                             connectionFiles = {this.props.connectionFiles.connectionFiles}

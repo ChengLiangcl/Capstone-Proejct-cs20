@@ -136,11 +136,11 @@ class Database extends Component {
                 </Col>
 
                 <Col>
-                    <DatasetUpload uploadDataset={this.props.uploadDataset} />
+                    <DatasetUpload uploadDataset={this.props.uploadDataset} fetchDatasetFiles={this.props.fetchDatasetFiles}/>
                 </Col>
 
                 <Col className="database">
-                    {this.renderDatasetTable(this.props.datasetFiles, false, this.props.errMess)}
+                    {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess)}
                 </Col>
             </Container>
         );

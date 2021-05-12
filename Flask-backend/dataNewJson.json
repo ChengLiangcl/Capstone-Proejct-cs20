@@ -1,15 +1,15 @@
 [
   {
     "_id": {
-      "$oid": "609b35e7a1adf9b89c0d200f"
+      "$oid": "609b45a12d8ea975bcabd45f"
     },
-    "FileName": "ex_ndy3.dat",
+    "FileName": "animal.txt",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "0.626KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
+    "Number_of_Attribute": 17,
+    "Number_of_Instance": 16,
     "Keywords": [],
     "AttrInfo": [
       {
@@ -17,20 +17,20 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123456@qq.com",
+    "UserName": "17888813173@163.com",
     "copy": 0
   },
   {
     "_id": {
-      "$oid": "609b35e7a1adf9b89c0d200e"
+      "$oid": "609b3ff22d8ea975bcabd454"
     },
-    "FileName": "copy(1)_ex_ndy2.dat",
+    "FileName": "ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.532KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
     "Keywords": [],
     "AttrInfo": [
       {
@@ -38,14 +38,14 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123456@qq.com",
-    "copy": 1
+    "UserName": "17888813173@163.com",
+    "copy": 0
   },
   {
     "_id": {
-      "$oid": "609b35e6a1adf9b89c0d200d"
+      "$oid": "609b3ff22d8ea975bcabd453"
     },
-    "FileName": "copy(1)_ex_ndy.dat",
+    "FileName": "ex_ndy.dat",
     "BriefInfo": "",
     "Size": "4.93KB",
     "Description": "",
@@ -59,7 +59,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123456@qq.com",
-    "copy": 1
+    "UserName": "17888813173@163.com",
+    "copy": 0
   }
 ]

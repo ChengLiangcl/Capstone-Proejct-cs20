@@ -66,8 +66,7 @@ export const connectUploading = (files, onUploadProgress, username) => (dispatch
   .then(res => {
     console.log("this is response for connection uploading");
     console.log(res.data);
-    dispatch(addConnections(res.data[0]));
-    dispatch(updateUploadingStatus(res.data[1]))
+    dispatch(addConnections(res.data));
     dispatch(fetchUploadedModel(username));
     dispatch(fetchUploadedDataset(username));
     

@@ -6,12 +6,14 @@ import PublishIcon from '@material-ui/icons/Publish';
 import NeedUploading from './Modal/NeedUploading';
 
 function ConnectionUploading(props) {
+    const MODEL_REMIND = "Please upload your model. (only accept .cod)";
+    const DATASET_REMIND = "Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)"
     const [selectedModel, setSelectedModel] = useState(undefined);
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0);
-    const [modelMessage, setModelMessage] = useState("Please upload your model. (only accept .cod)");
-    const [message, setMessage] = useState("Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)");
+    const [modelMessage, setModelMessage] = useState(MODEL_REMIND);
+    const [message, setMessage] = useState(DATASET_REMIND);
 
     const [fileInfo, setFileInfos] = useState("");
     const [isModalOpen, setModal] = useState(false);
@@ -27,23 +29,25 @@ function ConnectionUploading(props) {
     const handleModelChange = (event) => {
         const file = event.target.files[0]; // accessing file
         console.log("accepted model: ", file.name);
-        const acceptedModelArray = file.name.split(".");
-        const modelExtension = acceptedModelArray.slice(acceptedModelArray.length-1, acceptedModelArray.length)[0]
-        if (modelExtension === validModalFormat){
-            setModelFail("Uploaded successfully");
-        } else {
-            setModelFail("Could not upload the model. Please check your model format!");
+        if (file.name !== null || file.name !== undefined || file.name.length !== 0) {
+            const acceptedModelArray = file.name.split(".");
+            const modelExtension = acceptedModelArray.slice(acceptedModelArray.length - 1, acceptedModelArray.length)[0]
+            if (modelExtension === validModalFormat) {
+                setModelFail("Uploaded successfully");
+            } else {
+                setModelFail("Could not upload the model. Please check your model format!");
+            }
+            setSelectedModel(event.target.files[0]); // storing file
+            //setFileInfos(file.name)
         }
-        setSelectedModel(event.target.files[0]); // storing file
-        //setFileInfos(file.name)
     }
 
     const handleDatasetChange = (event) => {
         const files = event.target.files
         let datasetMessage = '';
-        for (let file of files){
+        for (let file of files) {
             const acceptedDatasetArray = file.name.split(".");
-            const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length-1, acceptedDatasetArray.length)[0];
+            const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length - 1, acceptedDatasetArray.length)[0];
             let message = validDatasetFormat.includes(datasetExtension) ? `${file.name} uploaded successfully! \n` : `Could not upload ${file.name}. \n`;
             datasetMessage += message;
         }
@@ -92,9 +96,9 @@ function ConnectionUploading(props) {
                 setProgress(0);
                 console.log(`model message: ${model_message}, dataset message: ${dataset_message}`)
                 setModelMessage(model_message);
-                if (model_message === "Could not upload the model. Please check your model format!"){
+                if (model_message === "Could not upload the model. Please check your model format!") {
                     setMessage("datasets are not allowed to be uploaded while model uploading fails");
-                }else{
+                } else {
                     setMessage(dataset_message);
                 }
             });
@@ -131,7 +135,7 @@ function ConnectionUploading(props) {
                         <label htmlFor="file-upload">
                             <input type="file" id="file-upload" ref={el} onChange={handleModelChange} />
                             <div className="alert alert-light" role="alert">
-                                {modelMessage}
+                                {(modelMessage !== MODEL_REMIND && modelMessage !== "Uploaded successfully") ? <div style={{ color: 'red' }}>{modelMessage}</div> : modelMessage}
                             </div>
                         </label>
                     </Row>
@@ -155,7 +159,7 @@ function ConnectionUploading(props) {
                         <label htmlFor="file-upload">
                             <input type="file" multiple ref={el} onChange={handleDatasetChange} />
                             <div className="alert alert-light" role="alert">
-                                {message}
+                                {message !== "Uploaded successfully" && message !== DATASET_REMIND ? <div style={{ color: 'red' }}>{message}</div> : message}
                             </div>
                         </label>
                     </Row>

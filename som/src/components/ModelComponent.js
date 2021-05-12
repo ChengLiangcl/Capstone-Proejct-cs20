@@ -108,7 +108,9 @@ class SOMModel extends Component {
         <Col>
           <ConnectUploading connectUploading={this.props.connectUploading}
             connectionFiles={this.props.connectionFiles}
-            clearConnectionFiles={this.props.clearConnectionFiles} />
+            clearConnectionFiles={this.props.clearConnectionFiles} 
+            fetchModelFiles = {this.props.fetchModelFiles}
+            fetchDatasetFiles={this.props.fetchDatasetFiles}/>
         </Col>
 
         <Col className="database">

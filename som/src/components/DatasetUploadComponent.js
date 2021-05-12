@@ -5,19 +5,29 @@ import PublishIcon from '@material-ui/icons/Publish';
 import { Row, Col, Container, Progress } from 'reactstrap';
 
 function DatasetUpload(props) {
+    const DATASET_REMIND = "Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)"
     const [dfile, setFile] = useState(''); // storing the uploaded file
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0); // tracking the status of uploading
-    const [message, setMessage] = useState("Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)");
+    const [message, setMessage] = useState(DATASET_REMIND);
     const el = useRef(); // accesing input element
 
-    const validModalFormat = "cod";
     const validDatasetFormat = ["dat", "txt", "csv", "xlsx"];
+    const [dataset_message, setDatasetFail] = useState("1");
 
     // It is for get the uploaded file you selected
     const handleChange = (event) => {
         const files = event.target.files; // accessing file
+        let datasetMessage = '';
+        for (let file of files) {
+            const acceptedDatasetArray = file.name.split(".");
+            const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length - 1, acceptedDatasetArray.length)[0];
+            let message = validDatasetFormat.includes(datasetExtension) ? `# ${file.name} uploaded successfully! ` : `# Could not upload ${file.name}. `;
+            datasetMessage += message;
+        }
+        console.log("hahahaha: ", datasetMessage)
+        setDatasetFail(datasetMessage);
         setSelectedFiles(event.target.files); // storing file
         console.log("accepted dataset: ", files);
         uploadFile(files);
@@ -25,7 +35,7 @@ function DatasetUpload(props) {
 
     const uploadFile = (files) => {
         setProgress(0);
-
+        console.log("hahahaha3: ", dataset_message)
         const formData = new FormData();
         formData.append('username', files[0], sessionStorage.getItem('verifiedUsername'));
         if (files !== undefined) {
@@ -50,7 +60,9 @@ function DatasetUpload(props) {
         })
         .catch(() => {
             setProgress(0);
-            setMessage("Could not upload the file!");
+            console.log("hahahaha2: ", dataset_message)
+            setMessage("Could not upload the files. Please check their formats!");
+            props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
         });
     };
 
@@ -69,7 +81,7 @@ function DatasetUpload(props) {
 
                 <div>
                     <div className="alert alert-light" role="alert">
-                        {message}
+                        {message !== "Uploaded successfully" && message !== DATASET_REMIND ? <div style={{ color: 'red' }}>{message}</div> : message}
                     </div>
                 </div>
             </Row>

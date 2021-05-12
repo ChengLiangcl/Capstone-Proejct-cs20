@@ -11,6 +11,12 @@ function ConnectUploading(props) {
         setModal(!isModalOpen);
     };
 
+    const closeModal = () => {
+        setModal(!isModalOpen);
+        props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
+        props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
+    }
+
     // while a user chooses not to delete a dataset
     const handlenNoBtn = () => {
         setModal(!isModalOpen);
@@ -24,8 +30,8 @@ function ConnectUploading(props) {
 
             <p style={{color: "grey"}}>Please upload your model and datasets here</p>
 
-            <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>
-                <ModalHeader toggle={toggleModal}>Upload your model and datasets</ModalHeader>
+            <Modal isOpen={isModalOpen} centered={true}>
+                <ModalHeader toggle={closeModal}>Upload your model and datasets</ModalHeader>
                 <ModalBody>
                     <ConnectionUploading connectUploading={props.connectUploading}
                             connectionFiles = {props.connectionFiles}
