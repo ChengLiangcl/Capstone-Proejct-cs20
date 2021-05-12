@@ -33,6 +33,13 @@ function Sidebar(props){
                             Visualisation
                             </NavLink>
                     </ListGroupItem>
+
+                    <ListGroupItem action>
+                        <NavLink className="nav-link" to="/alldataset">
+                            <span className="slide-icon fa fa-area-chart"></span>
+                                 Alldataset
+                            </NavLink>
+                    </ListGroupItem>
                            
                 </ListGroup>
             </div>

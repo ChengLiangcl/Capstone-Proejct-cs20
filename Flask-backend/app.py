@@ -189,7 +189,7 @@ def upload():
 
 
 @app.route('/datasetFiles', methods=["GET", "POST"])
-def showAlldatasetFiles():
+def showMyDatasets():
     if request.method == "GET":
         # read datasets JSON file
         # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
@@ -476,6 +476,45 @@ def queryDatasets():
      print("The user does not have any file")
      data = []
     return json.dumps(data)
+
+@app.route('/alldatasetFiles', methods=["GET"])
+def showAlldatasetFiles():
+    if request.method == "GET":
+        # read datasets JSON file
+        # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
+        # TODO: return a empty [] to me if there is no file in the MongoDB
+        with open('./all_datasets.json') as f:
+            data = json.load(f)
+        #print(data)
+    return json.dumps(data)
+
+@app.route('/detailedData-name', methods=["POST"])
+@cross_origin()
+def showDetailedData():
+
+    # 1. you get the selected dataset name from the frontend, so that you know which dataset you will extract detailed data from
+    dataset_userName = request.get_json(force=True)
+    datasetName= dataset_userName[0]
+    userName = dataset_userName[1]
+    session['tem_file'] = datasetName
+    print(dataset_userName) # you can check the dataset name through this
+
+    dataset_userName = True
+    if(dataset_userName):
+        # TODO to get detailed_data from MongoDB
+        with open('./detailedData.json') as f:
+            detailed_data = json.load(f)
+        print(detailed_data)
+
+        # TODO to get meta_data from MongoDB
+        with open('./metadata.json') as f:
+            metadata = json.load(f)
+        print(metadata)
+    else:
+        detailed_data = []
+
+    return json.dumps([detailed_data, metadata])
+
 
 
 

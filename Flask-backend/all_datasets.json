@@ -1,0 +1,170 @@
+[
+    {
+      "_id": {
+        "$oid": "60924053a30653d596e6083d"
+      },
+      "FileName": "animal.txt-copy(1)",
+      "BriefInfo": "",
+      "Size": "0.626KB",
+      "Description": "",
+      "Source": "",
+      "Label": "Yes",
+      "Number_of_Attribute": 17,
+      "Number_of_Instance": 16,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "17888813173@163.com"
+    },
+    {
+      "_id": {
+        "$oid": "60924020a30653d596e6083b"
+      },
+      "FileName": "animal.txt",
+      "BriefInfo": "",
+      "Size": "0.626KB",
+      "Description": "",
+      "Source": "",
+      "Label": "Yes",
+      "Number_of_Attribute": 17,
+      "Number_of_Instance": 16,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "17888813173@163.com"
+    },
+    {
+      "_id": {
+        "$oid": "609221f0a30653d596e60839"
+      },
+      "FileName": "ex_fts.dat-copy(1)",
+      "BriefInfo": "",
+      "Size": "13.532KB",
+      "Description": "",
+      "Source": "",
+      "Label": "Yes",
+      "Number_of_Attribute": 6,
+      "Number_of_Instance": 246,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "17888813173@163.com"
+    },
+    {
+      "_id": {
+        "$oid": "609221efa30653d596e60838"
+      },
+      "FileName": "ex_ndy.dat-copy(1)",
+      "BriefInfo": "",
+      "Size": "4.93KB",
+      "Description": "",
+      "Source": "",
+      "Label": "No",
+      "Number_of_Attribute": 5,
+      "Number_of_Instance": 96,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "username2"
+    },
+    {
+      "_id": {
+        "$oid": "608fddb1d692d310a8f27e88"
+      },
+      "FileName": "ex.dat",
+      "BriefInfo": "brief description for  ex.dat",
+      "Size": "193.9KB",
+      "Description": "",
+      "Source": "",
+      "Label": "No",
+      "Number_of_Attribute": 5,
+      "Number_of_Instance": 3840,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "username2"
+    },
+    {
+      "_id": {
+        "$oid": "608fdd95d692d310a8f27e87"
+      },
+      "FileName": "ex_fdy.dat",
+      "BriefInfo": "brief description for ex_fdy.dat",
+      "Size": "4.796KB",
+      "Description": "",
+      "Source": "",
+      "Label": "No",
+      "Number_of_Attribute": 5,
+      "Number_of_Instance": 96,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "username2"
+    },
+    {
+      "_id": {
+        "$oid": "608fdd95d692d310a8f27e86"
+      },
+      "FileName": "ex_fts.dat",
+      "BriefInfo": "brief description for ex_fts.dat",
+      "Size": "13.532KB",
+      "Description": "",
+      "Source": "",
+      "Label": "Yes",
+      "Number_of_Attribute": 6,
+      "Number_of_Instance": 246,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "username3"
+    },
+    {
+      "_id": {
+        "$oid": "608fdd94d692d310a8f27e85"
+      },
+      "FileName": "ex_ndy.dat",
+      "BriefInfo": "brief description for ex_ndy.dat",
+      "Size": "4.93KB",
+      "Description": "",
+      "Source": "",
+      "Label": "No",
+      "Number_of_Attribute": 5,
+      "Number_of_Instance": 96,
+      "Keywords": [],
+      "AttrInfo": [
+        {
+          "attrName": "",
+          "attrDescription": ""
+        }
+      ],
+      "UserName": "username3"
+    }
+  ]
