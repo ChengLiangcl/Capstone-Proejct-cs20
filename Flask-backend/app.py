@@ -138,18 +138,57 @@ def connect_upload():
         # (replace the code below) save the file to MongoDB
         A = []
         B = []
-        for element in files_list:
-         if element.filename[len(element.filename)-3:len(element.filename)] in ["dat","txt","csv","xlsx"]:
-          A.append(element)
+
+        for uploaded_file in files_list:
+         try:
+            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+
+           # to get the column number
+
+            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+
+            columnNames = [''] * size
+            attributes_meta = size
+            # file name checking
+            dataset_name = uploaded_file.filename
+            split_name = dataset_name.split(".")
+            modelsuffix = split_name[len(split_name) - 1]
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                raise Exception
+
+            for i in range(size):
+                columnNames[i] = "Coloumn" + " " + str(i)
+            record = 0
+            path_str = './public/' + str(index) + '.'+'dat'
+            with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
+                with open(path_str,'w') as f1:
+                    f1.write(','.join(columnNames)+"\n")
+                    next(f) # skip the first line of the dataset
+                    for line in f:
+                        lines =str(line)
+                        lines = lines.split(" ")
+                        f1.write(','.join(lines))
+                        record = record + 1
+            instance_meta = record
+            index = index + 1
+            data = pd.read_csv(path_str)
+            data = data.to_dict('records')
+            size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            size = str(size/1000) + "KB"
+
+         except Exception as e:
+            B.append(uploaded_file)
          else:
-          B.append(element)
+            A.append(uploaded_file)
+
         A = A + B
         print("------------")
         print(A)
         for uploaded_file in A:
-            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-            Noproblem = False
-           # to get the column number
+            #uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            print(uploaded_file.filename)
+            # to get the column number
 
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
@@ -183,9 +222,9 @@ def connect_upload():
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
-            Noproblem = True
 
-            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0 and Noproblem:
+
+            if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
                 name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))           
                 name_size = name_size[len(name_size)-1].get('copy') + 1
                 FileName=  'copy' + '('+ str(name_size) + ')' + '_' + uploaded_file.filename
@@ -214,7 +253,7 @@ def connect_upload():
 
                 db.files.insert_one(store_schema)
 
-            elif Noproblem :
+            else:
 
                 store_schema={
                     "uuid":uuid_combined,
@@ -279,16 +318,53 @@ def upload():
                 return redirect(request.url)
         A = []
         B = []
-        for element in files_list:
-            if element.filename[len(element.filename) - 3:len(element.filename)] in ["dat", "txt", "csv", "xlsx"]:
-                A.append(element)
-            else:
-                B.append(element)
+        for uploaded_file in files_list:
+         try:
+            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+
+           # to get the column number
+
+            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+
+            columnNames = [''] * size
+            attributes_meta = size
+            # file name checking
+            dataset_name = uploaded_file.filename
+            split_name = dataset_name.split(".")
+            modelsuffix = split_name[len(split_name) - 1]
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                raise Exception
+
+            for i in range(size):
+                columnNames[i] = "Coloumn" + " " + str(i)
+            record = 0
+            path_str = './public/' + str(index) + '.'+'dat'
+            with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
+                with open(path_str,'w') as f1:
+                    f1.write(','.join(columnNames)+"\n")
+                    next(f) # skip the first line of the dataset
+                    for line in f:
+                        lines =str(line)
+                        lines = lines.split(" ")
+                        f1.write(','.join(lines))
+                        record = record + 1
+            instance_meta = record
+            index = index + 1
+            data = pd.read_csv(path_str)
+            data = data.to_dict('records')
+            size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            size = str(size/1000) + "KB"
+
+         except Exception as e:
+            B.append(uploaded_file)
+         else:
+            A.append(uploaded_file)
         A = A + B
         print("------------")
         print(A)
         for uploaded_file in A:
-            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+            #uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
 
             # to get the column number

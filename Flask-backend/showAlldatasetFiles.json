@@ -1,21 +1,35 @@
 [
   {
     "_id": {
-      "$oid": "609bf5c0b495ac6cb1f15213"
+      "$oid": "609b64dbc1c75478f2485c8a"
     },
     "FileName": "ex_ndy.dat",
-    "BriefInfo": "",
+    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
     "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
+    "Description": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
+    "Source": "1",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "animal.cod"
+    "UserName": "123456@qq.com",
+    "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "609bf5deb495ac6cb1f15214"
+      "$oid": "609b64ddc1c75478f2485c8c"
+    },
+    "FileName": "ex_ndy3.dat",
+    "BriefInfo": "Build high-performance mobile and web applications that scale to process millions of user requests per second with millisecond latency",
+    "Size": "4.93KB",
+    "Description": "ex_ndy3.dat",
+    "Source": "3",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123456@qq.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "609c84836e8ac7b5638e3c28"
     },
     "FileName": "copy(1)_ex_ndy.dat",
     "BriefInfo": "",
@@ -24,35 +38,35 @@
     "Source": "",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
+    "UserName": "123456@qq.com",
     "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "609bf5dfb495ac6cb1f15215"
+      "$oid": "609c84846e8ac7b5638e3c29"
     },
-    "FileName": "ex_fts.dat",
+    "FileName": "ex_ndy2.dat",
     "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "609bf5e0b495ac6cb1f15216"
-    },
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
+    "Size": "4.93KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
+    "UserName": "123456@qq.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "609c84856e8ac7b5638e3c2a"
+    },
+    "FileName": "copy(1)_ex_ndy3.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123456@qq.com",
     "ModelName": ""
   }
 ]
