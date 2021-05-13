@@ -11,37 +11,40 @@ export const login = (data) => (dispatch) => {
   return http.post('/login', JSON.stringify(data), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }})
+    }
+  })
     .then(res => {
       //console.log(data.username); 
-      if(res.data === data.username){
+      if (res.data === data.username) {
         sessionStorage.setItem('verifiedUsername', res.data);
         dispatch(updateUser(res.data));// success
       }
-      else{
+      else {
         dispatch(updateUser(res));
       }
-      
+
     })
     .catch((err) => console.log(err));
 
 }
-export const signUp = (data,cb) => (dispatch) => {
+export const signUp = (data, cb) => (dispatch) => {
 
   return http.post('/sign-up', JSON.stringify(data), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }}).then(res => {
-      cb(res.data)
+    }
+  }).then(res => {
+    cb(res.data)
   })
     .catch((err) => console.log(err));
 }
-export const passwordChange = (data,cb) => (dispatch) => {
+export const passwordChange = (data, cb) => (dispatch) => {
   return http.post('/passwordChange', JSON.stringify(data), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }}).then(res => {
-      cb(res.data)
+    }
+  }).then(res => {
+    cb(res.data)
   })
     .catch((err) => console.log(err));
 }
@@ -63,14 +66,14 @@ export const connectUploading = (files, onUploadProgress, username) => (dispatch
     },
     onUploadProgress,
   })
-  .then(res => {
-    console.log("this is response for connection uploading");
-    console.log(res.data);
-    dispatch(addConnections(res.data));
-    dispatch(fetchUploadedModel(username));
-    dispatch(fetchUploadedDataset(username));
-    
-  });
+    .then(res => {
+      console.log("this is response for connection uploading");
+      console.log(res.data);
+      dispatch(addConnections(res.data));
+      dispatch(fetchUploadedModel(username));
+      dispatch(fetchUploadedDataset(username));
+
+    });
 };
 
 export const updateUploadingStatus = (status) => ({
@@ -78,7 +81,7 @@ export const updateUploadingStatus = (status) => ({
   payload: status
 });
 
-export const clearConnectionFiles = () => (dispatch)=> {
+export const clearConnectionFiles = () => (dispatch) => {
   dispatch(clearConnections());
 }
 
@@ -98,10 +101,10 @@ export const bindModel = (modelname, username, datasetname) => (dispatch) => {
       "Content-Type": "multipart/form-data",
     }
   })
-  .then(res => {
-    console.log("this is response for model binding");
-    console.log(res); 
-  });
+    .then(res => {
+      console.log("this is response for model binding");
+      console.log(res);
+    });
 };
 
 export const addBindedDatasets = (bindedDatasets) => ({
@@ -116,17 +119,17 @@ export const bindedDatasetsLoading = () => ({
 export const getBindedDatasets = (modelname, username) => (dispatch) => {
   console.log("start binded datasets");
   //dispatch(bindedDatasetsLoading(true));
-  
+
   return http.post('/get-bindedDatasets', [modelname, username], {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
-  .then(res => {
-    console.log("this is response for bindedDatasets");
-    console.log(res); 
-    dispatch(addBindedDatasets(res.data))
-  });
+    .then(res => {
+      console.log("this is response for bindedDatasets");
+      console.log(res);
+      dispatch(addBindedDatasets(res.data))
+    });
 
 };
 
@@ -138,16 +141,17 @@ export const removeOneBindedDataset = (datasetName) => ({
 // pass the filename to the backend server and tell it to delete corresponding dataset
 export const deleteOneBindedDataset = (datasetName, userName) => (dispatch) => {
   return http.post('/delete-bindeddataset', JSON.stringify([datasetName, userName]), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-          console.log("this is response for delete binded dataset");
-          console.log(res);
-          dispatch(removeOneBindedDataset(res.data));
-          dispatch(removeOneDataset(res.data));
-      })
-      .catch((err) => console.log(err));
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for delete binded dataset");
+      console.log(res);
+      dispatch(removeOneBindedDataset(res.data));
+      dispatch(removeOneDataset(res.data));
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
@@ -161,9 +165,10 @@ export const fetchDatasetFiles = (userName) => (dispatch) => {
   return http.post('/datasetFiles', JSON.stringify(userName), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }}) // backend address: Localhost: 5000/datasetFiles
-      .then(res => dispatch(addDatasetFiles(res.data))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
-      .catch((err) => console.log(err));
+    }
+  }) // backend address: Localhost: 5000/datasetFiles
+    .then(res => dispatch(addDatasetFiles(res.data))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
+    .catch((err) => console.log(err));
 }
 
 export const datasetFilesLoading = () => ({
@@ -190,18 +195,18 @@ export const addDataset = (dataset) => ({
 export const uploadDataset = (dataset, onUploadProgress, username) => (dispatch) => {
   // post the uploaded dataset to the backend server
   return http.post('/upload', dataset, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      onUploadProgress,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onUploadProgress,
+  })
+    .then(res => {
+      console.log("this is response for uploading dataset");
+      console.log(res);
     })
-      .then(res => {
-          console.log("this is response for uploading dataset");
-          console.log(res);
-      })
-      .then(res => {
-          dispatch(fetchUploadedDataset(username));
-      })
+    .then(res => {
+      dispatch(fetchUploadedDataset(username));
+    })
 };
 
 // get the uploded dataset info when the uploading is done in the backend
@@ -210,11 +215,12 @@ export const fetchUploadedDataset = (username) => (dispatch) => {
   return http.post('/newDataset', JSON.stringify(username), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }})
-      .then(res => {
-        console.log(res)
-        dispatch(addDataset(res.data));
-      })
+    }
+  })
+    .then(res => {
+      console.log(res)
+      dispatch(addDataset(res.data));
+    })
 };
 
 export const removeOneDataset = (datasetName) => ({
@@ -225,29 +231,52 @@ export const removeOneDataset = (datasetName) => ({
 // pass the filename to the backend server and tell it to delete corresponding dataset
 export const deleteOneDataset = (datasetName, userName) => (dispatch) => {
   return http.post('/delete-dataset', JSON.stringify([datasetName, userName]), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-          console.log("this is response for delete dataset");
-          console.log(res);
-          dispatch(removeOneDataset(res.data));
-      })
-      .catch((err) => console.log(err));
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for delete dataset");
+      console.log(res);
+      dispatch(removeOneDataset(res.data));
+    })
+    .catch((err) => console.log(err));
 };
 
 //query datasets
 export const queryDatasets = (inputValue, userName) => (dispatch) => {
   return http.post('/query-datasets', JSON.stringify([inputValue, userName]), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-          console.log("this is response for querying datasets");
-          console.log(res.data);
-          dispatch(addDatasetFiles(res.data))
-      })
-      .catch((err) => console.log(err));
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for querying datasets");
+      console.log(res.data);
+      dispatch(addDatasetFiles(res.data))
+    })
+    .catch((err) => console.log(err));
+};
+
+export const downloadFile = (datasetName, downloadName, downloadType, username) => (dispatch) => {
+  console.log("start downloading");
+  return http.post('/downloader', [datasetName, username, downloadType], {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for downloading dataset");
+      console.log(res);
+      const element = document.createElement('a');
+      const file = new Blob([res.data]);
+
+      element.href = URL.createObjectURL(file);
+      element.download = downloadName;
+      document.body.appendChild(element);
+      element.click();
+    })
+
 };
 
 
@@ -255,7 +284,7 @@ export const queryDatasets = (inputValue, userName) => (dispatch) => {
  * Models
  */
 // fetch models from the backend server
-export const fetchModelFiles = (userName, isLoading=true) => (dispatch) => {
+export const fetchModelFiles = (userName, isLoading = true) => (dispatch) => {
   // test
   // return dispatch(addModelFiles(MODELFILES))
   console.log("check loading: ", isLoading);
@@ -264,7 +293,8 @@ export const fetchModelFiles = (userName, isLoading=true) => (dispatch) => {
   return http.post('/modelFiles', JSON.stringify(userName), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }}) // backend address: Localhost: 5000/modelFiles
+    }
+  }) // backend address: Localhost: 5000/modelFiles
     .then(res => {
       console.log(res)
       dispatch(addModelFiles(res.data))
@@ -314,7 +344,8 @@ export const fetchUploadedModel = (username) => (dispatch) => {
   return http.post('/newModel', JSON.stringify(username), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }})
+    }
+  })
     .then(model => {
       console.log(model)
       dispatch(addModel(model.data));
@@ -326,9 +357,9 @@ export const removeOneModel = (modelName) => ({
   payload: modelName
 });
 
-export const editOneModelDescription = (modelName,description) => ({
+export const editOneModelDescription = (modelName, description) => ({
   type: ActionTypes.EDIT_MODEL_DESCRIPTION,
-  payload: {modelName,description}
+  payload: { modelName, description }
 });
 
 // pass the filename to the backend server and tell it to delete corresponding model
@@ -337,7 +368,8 @@ export const deleteOneModel = (modelName, userName) => (dispatch) => {
   return http.post('/delete-model', JSON.stringify([modelName, userName]), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }})
+    }
+  })
     .then(res => {
       console.log("this is response for delete model");
       console.log(res);
@@ -348,10 +380,11 @@ export const deleteOneModel = (modelName, userName) => (dispatch) => {
 
 export const editModelDescription = (modelName, description, userName) => (dispatch) => {
   console.log("edit user name: ", userName)
-  return http.post('/edit-model-desc', JSON.stringify({modelName, description, userName}), {
+  return http.post('/edit-model-desc', JSON.stringify({ modelName, description, userName }), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }})
+    }
+  })
     .then(res => {
       console.log("this is response for edit model");
       console.log(res);
@@ -364,15 +397,16 @@ export const editModelDescription = (modelName, description, userName) => (dispa
 export const queryModels = (inputValue, userName) => (dispatch) => {
   console.log("start query models");
   return http.post('/query-models', JSON.stringify([inputValue, userName]), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-          console.log("this is response for querying models");
-          console.log(res.data);
-          dispatch(addModelFiles(res.data))
-      })
-      .catch((err) => console.log(err));
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for querying models");
+      console.log(res.data);
+      dispatch(addModelFiles(res.data))
+    })
+    .catch((err) => console.log(err));
 };
 
 
@@ -383,15 +417,16 @@ export const queryModels = (inputValue, userName) => (dispatch) => {
 // submit metadata of a dataset
 export const submitMetadata = (metadata) => (dispatch) => {
   return http.post('/submit-metadata', JSON.stringify(metadata), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-          console.log("this is response for metadata");
-          console.log(res);
-          dispatch(addMetadata(res.data));
-      })
-      .catch((err) => console.log(err));
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for metadata");
+      console.log(res);
+      dispatch(addMetadata(res.data));
+    })
+    .catch((err) => console.log(err));
 };
 
 export const addMetadata = (metadata) => ({
@@ -411,25 +446,26 @@ export const metadataLoading = () => ({
 /**
  * Detailed data
  */
- export const sendNameForDetailedData = (datasetName, userName) => (dispatch) => {
+export const sendNameForDetailedData = (datasetName, userName) => (dispatch) => {
   console.log("start detailed loading");
 
   return http.post('/detailedData-name', JSON.stringify([datasetName, userName]), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-          console.log("this is response for detailed data");
-          console.log(res.data);
-          dispatch(addDetailedData(res.data[0]));
-          dispatch(addMetadata(res.data[1]));
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for detailed data");
+      console.log(res.data);
+      dispatch(addDetailedData(res.data[0]));
+      dispatch(addMetadata(res.data[1]));
 
-          const datasetName = res.data[1][0].FileName;
-          const briefInfo = res.data[1][0].BriefInfo;
-          const briefInfo_datasetName = [datasetName, briefInfo];
-          dispatch(modifyBriefInfo(briefInfo_datasetName));
-      })
-      .catch((err) => console.log(err));
+      const datasetName = res.data[1][0].FileName;
+      const briefInfo = res.data[1][0].BriefInfo;
+      const briefInfo_datasetName = [datasetName, briefInfo];
+      dispatch(modifyBriefInfo(briefInfo_datasetName));
+    })
+    .catch((err) => console.log(err));
 }
 
 export const modifyBriefInfo = (briefInfo_datasetName) => ({

@@ -97,12 +97,6 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
                                 <td>Number of attributes:</td>
                                 <td>{metadata.Number_of_Attribute}</td>
                             </tr>
-    
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Whether the dataset contains labels:</td>
-                                <td>{metadata.Label}</td>
-                            </tr>
 
                             <tr>
                                 <th scope="row">6</th>

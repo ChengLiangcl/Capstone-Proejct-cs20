@@ -16,6 +16,8 @@ import numpy as np
 import csv
 import time
 import re
+import xlrd
+import openpyxl
 files_size = 0
 file_num = 0
 client = pymongo.MongoClient(
@@ -697,6 +699,31 @@ def queryDatasets():
      data = []
     return json.dumps(data)
 
+# to query datasets based on the dataset name or key words
+@app.route('/downloader', methods=["POST"])
+@cross_origin()
+def downloadFile():
+    # get dataset name that needs to be downloaded and username
+    dataset_userName = request.get_json(force=True)
+    datasetName= dataset_userName[0]
+    userName = dataset_userName[1]
+    downloadType= dataset_userName[2]
+    print("downloaded dataset name： %s, username: %s, dowloadType: %s" %(datasetName, userName, downloadType))
+
+    # deal with data based on the download type here
+
+    # read file
+    # text format
+    if downloadType == '.txt' or downloadType == '.dat':
+        with open('./download/ex_fdy.dat') as f:
+            content = f.read()
+    #  csv
+    elif downloadType == '.csv':
+        with open('./download/breast-cancer-wisconsin.csv') as file:
+            content = file.read()
+    
+    print(content)
+    return content
 
 '''
 Models

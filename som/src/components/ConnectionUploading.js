@@ -31,7 +31,7 @@ function ConnectionUploading(props) {
         reader.onloadend = () => {
             let lines = reader.result.split('\n');
             try {
-                let line_check = parseFloat(lines[1].split(',')[0]);
+                let line_check = parseFloat(lines[0].split(',')[0]);
                 message = Number.isNaN(line_check) ? `Could not upload ${file.name}.#` : `${file.name} uploaded successfully!#`;
                 reminder += message;
                 console.log("check reminder: ", reminder);
@@ -87,7 +87,7 @@ function ConnectionUploading(props) {
                 reader.onloadend = () => {
                     let lines = reader.result.split('\n');
                     try {
-                        let line_check = parseFloat(lines[1].split(',')[0]);
+                        let line_check = parseFloat(lines[0].split(',')[0]);
                         message = Number.isNaN(line_check) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
                         datasetMessage += message;
                         setDatasetFail(datasetMessage);

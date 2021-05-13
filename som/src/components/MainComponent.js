@@ -17,7 +17,7 @@ import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
     sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels, getBindedDatasets,
-    deleteOneBindedDataset
+    deleteOneBindedDataset, downloadFile
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -43,6 +43,8 @@ const mapDispatchToProps = dispatch => ({
     fetchUploadedDataset: (username) => { dispatch(fetchUploadedDataset(username)) },
     deleteDataset: (datasetName, userName) => { dispatch(deleteOneDataset(datasetName, userName)) },
     queryDatasets: (inputValue, userName) => { dispatch(queryDatasets(inputValue, userName)) },
+
+    downloadFile: (datasetName, downloadName, downloadType, username) => {dispatch(downloadFile(datasetName, downloadName, downloadType, username))},
 
     fetchModelFiles: (userName, isLoading) => { dispatch(fetchModelFiles(userName, isLoading)) },
     uploadModel: (model, onUploadProgress, username) => dispatch(uploadModel(model, onUploadProgress, username)),
@@ -188,6 +190,8 @@ class Main extends Component {
 
                                 modelFiles={this.props.modelFiles.modelFiles}
                                 bindModel = {this.props.bindModel}
+
+                                downloadFile = {this.props.downloadFile}
                             />} />
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
                         <Route path="/mymodels/:modelName" component={ModelSelect} />

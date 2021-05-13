@@ -104,7 +104,7 @@ class Database extends Component {
                         <ModelBinding modelFiles={this.props.modelFiles} datasetName={fileName}
                             bindModel={this.props.bindModel} bindedModelName={bindModelName}/>
                         
-                        <DownloadFile/>
+                        <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName}/>
                     </Row>
                 </Container>
             );
