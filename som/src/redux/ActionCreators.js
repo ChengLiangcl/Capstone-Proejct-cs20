@@ -33,9 +33,46 @@ export const addDatasetFiles = (datasetFiles) => ({
 });
 
 export const addDataset = (dataset) => ({
-    type: ActionTypes.UPLOAD_DATASET,
-    payload: dataset
+  type: ActionTypes.UPLOAD_DATASET,
+  payload: dataset
 });
+
+export const queryAllDatasets = (inputValue) => (dispatch) => {
+  return http.post('/detailedData-name', JSON.stringify(inputValue), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }})
+    .then(res => {
+      console.log("this is response for querying datasets");
+      console.log(res.data);
+      dispatch(addAllDatasetFiles(res.data))
+    })
+    .catch((err) => console.log(err));
+};
+export const fetchAllDatasetFiles = () => (dispatch) => {
+
+  dispatch(allDatasetFilesLoading(true));
+  return fetch(backendUrl + 'alldatasetFiles') // backend address: Localhost: 5000/datasetFiles
+    .then(response => response.json()) // when the promise resolved, we convert the incoming response into JSON by calling response.json
+    .then(datasetFiles => dispatch(addAllDatasetFiles(datasetFiles))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
+    .then(data => console.log(data));
+}
+
+export const allDatasetFilesLoading = () => ({
+  type: ActionTypes.ALL_DATASETFILES_LOADING
+});
+
+export const allDatasetFilesFailed = (errmess) => ({
+  type: ActionTypes.ALL_DATASETFILES_FAILED,
+  payload: errmess
+});
+
+export const addAllDatasetFiles = (datasetFiles) => ({
+    type: ActionTypes.ADD_ALL_DATASETFILES,
+    payload: datasetFiles
+});
+
+
 
 // uploading a new dataset file
 export const uploadDataset = (dataset, onUploadProgress) => (dispatch) => {
@@ -162,3 +199,4 @@ export const queryDatasets = (inputValue) => (dispatch) => {
         })
         .catch((err) => console.log(err));
 };
+

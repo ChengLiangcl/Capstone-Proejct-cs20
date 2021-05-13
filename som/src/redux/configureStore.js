@@ -1,6 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import { createForms } from 'react-redux-form';
 import { DatasetFiles } from './datasetFiles';
+import { AllDatasetFiles } from './allDatasetFiles';
 import { DetailedData } from './detailedData';
 import { Metadata } from './metadata';
 import {IntialMetadata} from './metadataForm'
@@ -11,6 +12,7 @@ export const ConfigureStore = () => {
     const store = createStore(
         combineReducers({
             datasetFiles: DatasetFiles,
+            allDatasetFiles: AllDatasetFiles,
             detailedData: DetailedData,
             metadata: Metadata,
             ...createForms({

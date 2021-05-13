@@ -485,7 +485,7 @@ def showAlldatasetFiles():
         # TODO: return a empty [] to me if there is no file in the MongoDB
         with open('./all_datasets.json') as f:
             data = json.load(f)
-        #print(data)
+        print(data)
     return json.dumps(data)
 
 @app.route('/detailedData-name', methods=["POST"])
@@ -509,7 +509,7 @@ def showDetailedData():
         # TODO to get meta_data from MongoDB
         with open('./metadata.json') as f:
             metadata = json.load(f)
-        print(metadata)
+        #print(metadata)
     else:
         detailed_data = []
 
