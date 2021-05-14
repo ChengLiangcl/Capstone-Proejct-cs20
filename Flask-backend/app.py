@@ -138,6 +138,8 @@ def connect_upload():
         # PLEASE deal with the filename to avoid repeating name here
         # file_ext = os.path.splitext(filename)[1] # get extenson of a file, like .csv
         # (replace the code below) save the file to MongoDB
+
+        # initial two Array to A store valid file name B store invalid file
         A = []
         B = []
 
@@ -145,7 +147,7 @@ def connect_upload():
          try:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
-           # to get the column number
+            # to get the column number
 
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
@@ -156,7 +158,9 @@ def connect_upload():
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
+
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                # if name is not include, throw an exception
                 raise Exception
 
             for i in range(size):
@@ -174,22 +178,16 @@ def connect_upload():
                         record = record + 1
             instance_meta = record
             index = index + 1
-            data = pd.read_csv(path_str)
-            data = data.to_dict('records')
-            size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-            size = str(size/1000) + "KB"
 
          except Exception as e:
+            # catch exception, store it in B array
             B.append(uploaded_file)
          else:
+            # if no exception, store it in A array
             A.append(uploaded_file)
 
-        A = A + B
-        print("------------")
-        print(A)
+        A = A + B # Merge two array
         for uploaded_file in A:
-            #uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-            print(uploaded_file.filename)
             # to get the column number
 
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
@@ -280,8 +278,6 @@ def connect_upload():
                 }
                 db.files.insert_one(store_schema)
             file_num = file_num + 1
-            print("XXXX----")
-            print(file_num)
         return json.dumps([model_name, files_name_list])
 
     files_name_list = [""]
@@ -351,23 +347,14 @@ def upload():
                         lines = lines.split(" ")
                         f1.write(','.join(lines))
                         record = record + 1
-            instance_meta = record
             index = index + 1
-            data = pd.read_csv(path_str)
-            data = data.to_dict('records')
-            size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-            size = str(size/1000) + "KB"
-
          except Exception as e:
             B.append(uploaded_file)
          else:
             A.append(uploaded_file)
         A = A + B
-        print("------------")
-        print(A)
-        for uploaded_file in A:
-            #uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
+        for uploaded_file in A:
 
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
@@ -381,7 +368,6 @@ def upload():
             modelsuffix = split_name[len(split_name) - 1]
             print("EXCEPTION")
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                print("XXXXX")
                 raise Exception
 
             for i in range(size):
@@ -399,16 +385,13 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
-            print("-----------")
-            print(uploaded_file.filename)
             data = pd.read_csv(path_str)
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
             print(len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}}))))
             if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
-                name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))  
-                # print(name_size[0].get('copy'))   
+                name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))
                 copy_size = name_size[len(name_size)-1].get('copy')+1
                 FileName=  'copy' + '('+ str(copy_size) + ')' + '_' + uploaded_file.filename 
 
@@ -439,7 +422,6 @@ def upload():
 
                 db.files.insert_one(store_schema)
             else:
-                # file_name_list.append(uploaded_file.filename)
 
                 store_schema={
                     "uuid":uuid_combined,
@@ -466,8 +448,6 @@ def upload():
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
             file_num = file_num + 1
-            print("XXXX----")
-            print(file_num)
     return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])
