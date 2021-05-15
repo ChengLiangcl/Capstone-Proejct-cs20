@@ -16,8 +16,8 @@ import numpy as np
 import csv
 import time
 import re
-import xlrd
-import openpyxl
+# import xlrd
+# import openpyxl
 files_size = 0
 file_num = 0
 client = pymongo.MongoClient(
@@ -150,6 +150,8 @@ def connect_upload():
             # to get the column number
 
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            if(f.readline().strip().split(' ')[1].isdigit()==False):
+                raise Exception('Erro! Can not upload that file')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
 
             columnNames = [''] * size
@@ -181,6 +183,7 @@ def connect_upload():
 
          except Exception as e:
             # catch exception, store it in B array
+            print(e)
             B.append(uploaded_file)
          else:
             # if no exception, store it in A array
@@ -321,6 +324,8 @@ def upload():
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
            # to get the column number
+            if(f.readline().strip().split(' ')[1].isdigit()==False):
+                raise Exception('Erro! Can not upload that file')
 
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
@@ -349,6 +354,7 @@ def upload():
                         record = record + 1
             index = index + 1
          except Exception as e:
+            print(e)
             B.append(uploaded_file)
          else:
             A.append(uploaded_file)
@@ -677,7 +683,7 @@ def queryDatasets():
     else:
      print("The user does not have any file")
      data = []
-    return json.dumps(data)
+    return json.dumps(loads(dumps(data)))
 
 # to query datasets based on the dataset name or key words
 @app.route('/downloader', methods=["POST"])
@@ -689,17 +695,42 @@ def downloadFile():
     userName = dataset_userName[1]
     downloadType= dataset_userName[2]
     print("downloaded dataset name： %s, username: %s, dowloadType: %s" %(datasetName, userName, downloadType))
+    data = db.files.find({"UserName":userName,"FileName":datasetName},{"_id":0,"data":1})
+    # data_list = list()
+    result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)},{"_id":0,"uuid":0})
+    result = loads(dumps(result))
+    metadata = result
+    data = metadata[0]['data']
+   
+    # data = dumps(data, indent=2)
+    # data=list(data)
+    # for i in data:
+    # print(data)
+    data_list = list()
+    size = len(data[0])
 
+    print(size)
+    for i in data:
+        tem = list()
+        for j in range(size):
+            key = 'Coloumn ' + str(j)
+            tem.append(i.get(key))
+        data_list.append(tem)
+    # print(data_list)
+
+    data_list =  np.asarray(data_list)
+    df = pd.DataFrame(data_list)
+    df.to_csv('./download/tem_data.csv', sep = ' ',index=False)
     # deal with data based on the download type here
 
     # read file
     # text format
     if downloadType == '.txt' or downloadType == '.dat':
-        with open('./download/ex_fdy.dat') as f:
+        with open('./download/tem_data.csv') as f:
             content = f.read()
     #  csv
     elif downloadType == '.csv':
-        with open('./download/breast-cancer-wisconsin.csv') as file:
+        with open('./download/tem_data.csv') as file:
             content = file.read()
     
     print(content)

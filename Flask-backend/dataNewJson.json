@@ -1,7 +1,7 @@
 [
   {
     "_id": {
-      "$oid": "609c8f0b33ddbb4e1d499b9d"
+      "$oid": "609fa734f2320b3fac8c1c95"
     },
     "FileName": "result.dat",
     "BriefInfo": "",
@@ -17,49 +17,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "17888813173@163.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "609bf5deb495ac6cb1f15214"
-    },
-    "FileName": "copy(1)_ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "17888813173@163.com",
-    "copy": 1
-  },
-  {
-    "_id": {
-      "$oid": "609bf5c0b495ac6cb1f15213"
-    },
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "17888813173@163.com",
+    "UserName": "123@gmail.com",
     "copy": 0
   }
 ]

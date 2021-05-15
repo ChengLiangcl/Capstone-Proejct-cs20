@@ -1,86 +1,72 @@
 [
   {
     "_id": {
-      "$oid": "609b64dbc1c75478f2485c8a"
+      "$oid": "609f9a07be61db7300079d80"
     },
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
-    "Size": "4.93KB",
-    "Description": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
-    "Source": "1",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123456@qq.com",
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
     "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "609b64ddc1c75478f2485c8c"
+      "$oid": "609fa269dc152291981d8a89"
     },
-    "FileName": "ex_ndy3.dat",
-    "BriefInfo": "Build high-performance mobile and web applications that scale to process millions of user requests per second with millisecond latency",
-    "Size": "4.93KB",
-    "Description": "ex_ndy3.dat",
-    "Source": "3",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123456@qq.com",
+    "FileName": "ex_fts.txt",
+    "BriefInfo": "",
+    "Size": "13.42KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
     "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "609e298db4ce6b8483c5481a"
+      "$oid": "609fa57df24663a2b4377639"
     },
-    "FileName": "copy(1)_ex_ndy.dat",
+    "FileName": "copy(1)_ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.532KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123456@qq.com",
-    "ModelName": "Test2.cod"
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": "copy(3)_ex.cod"
   },
   {
     "_id": {
-      "$oid": "609e298db4ce6b8483c5481b"
+      "$oid": "609fa5b6301c257294010904"
     },
-    "FileName": "ex_ndy2.dat",
+    "FileName": "copy(2)_ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.532KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123456@qq.com",
-    "ModelName": "Test2.cod"
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": "copy(4)_ex.cod"
   },
   {
     "_id": {
-      "$oid": "609e298eb4ce6b8483c5481c"
+      "$oid": "609fa5eb301c257294010906"
     },
-    "FileName": "copy(1)_ex_ndy3.dat",
+    "FileName": "copy(1)_ex_fts.csv",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.42KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123456@qq.com",
-    "ModelName": "Test2.cod"
-  },
-  {
-    "_id": {
-      "$oid": "609e298eb4ce6b8483c5481d"
-    },
-    "FileName": "ex_ndy4.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123456@qq.com",
-    "ModelName": "Test2.cod"
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": "copy(5)_ex.cod"
   }
 ]
