@@ -496,7 +496,7 @@ def showAlldatasetFiles():
         
     return json.dumps(data)
 
-@app.route('/detailedData-name', methods=["POST"])
+@app.route('/detailedData', methods=["POST"])
 @cross_origin()
 def showDetailedData():
 
@@ -504,8 +504,9 @@ def showDetailedData():
     # you can check the dataset name through this
 
     dataset_userName = request.get_json(force=True)
-    datasetName= dataset_userName[0]
-    userName = dataset_userName[1]
+    print(dataset_userName)
+    datasetName= dataset_userName["datasetName"]
+    userName = dataset_userName["userName"]
     result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
     result = loads(dumps(result))
 

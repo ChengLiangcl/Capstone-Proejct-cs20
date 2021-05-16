@@ -42,8 +42,8 @@ const mapDispatchToProps = dispatch => ({
   submitMetadata: (metadata) => {
     dispatch(submitMetadata(metadata))
   },
-  sendNameForDetailedData: (datasetName) => {
-    dispatch(sendNameForDetailedData(datasetName))
+  sendNameForDetailedData: (datasetName,userName) => {
+    dispatch(sendNameForDetailedData(datasetName,userName))
   },
   queryDatasets: (inputValue) => {
     dispatch(queryDatasets(inputValue))

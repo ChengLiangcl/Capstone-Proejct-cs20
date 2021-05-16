@@ -156,9 +156,21 @@ export const metadataLoading = () => ({
 /**
  * Detailed data
  */
-export const sendNameForDetailedData = (datasetName) => (dispatch) => {
+export const sendNameForDetailedData = (datasetName,userName) => (dispatch) => {
     console.log("start detailed loading");
-
+    if(userName){
+      return http.post('/detailedData', JSON.stringify({datasetName,userName}), {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }})
+        .then(res => {
+          console.log("this is response for detailed data");
+          console.log(res.data);
+          dispatch(addDetailedData(res.data[0]));
+          dispatch(addMetadata(res.data[1]));
+        })
+        .catch((err) => console.log(err));
+    }
     return http.post('/detailedData-name', JSON.stringify(datasetName), {
         headers: {
           "Content-Type": "multipart/form-data",

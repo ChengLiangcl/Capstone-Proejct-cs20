@@ -58,8 +58,10 @@ class AllDataset extends Component {
         <tbody>
         {datasets.map((eachDataset, index) =>
           <tr key={index}>
-            {Object.values(eachDataset).slice(1, 4).map(eachValue => <td key={Object.values(eachValue)[0]}>{eachValue}</td>)}
-            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName)}</td>
+            <td key={'name'}>{eachDataset.FileName}</td>
+            <td key={'Description'}>{eachDataset.Description}</td>
+            <td key={'Username'}>{eachDataset.UserName}</td>
+            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName,eachDataset.UserName)}</td>
           </tr>
         )}
         </tbody>
@@ -69,7 +71,7 @@ class AllDataset extends Component {
   }
 
   //showOperate: bool. the delete button and the create button will be disable
-  operateDataset(showOperate, fileName) {
+  operateDataset(showOperate, fileName,userName) {
     /**
      if (icons === "add only") {
             return (
@@ -84,7 +86,7 @@ class AllDataset extends Component {
       return (
         <Container>
           <Row>
-            <Link to={`/mydatabase/${fileName}`}>
+            <Link to={`/mydatabase/${fileName}?userName=${userName}&fileName=${fileName}`}>
               <IconButton aria-label="detailed data" component="span">
                 <TableChartIcon />
               </IconButton>
