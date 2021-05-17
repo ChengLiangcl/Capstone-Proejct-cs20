@@ -3,6 +3,7 @@ import { createForms } from 'react-redux-form';
 import { DatasetFiles } from './datasetFiles';
 import { ModelFiles } from './modelFiles';
 import { DetailedData } from './detailedData';
+import { AllDatasetFiles } from './allDatasetFiles';
 import { Metadata } from './metadata';
 import { User } from './user';
 import { ConnectionFiles } from './connectionResult';
@@ -17,6 +18,7 @@ export const ConfigureStore = () => {
             modelFiles: ModelFiles,
             detailedData: DetailedData,
             metadata: Metadata,
+            allDatasetFiles: AllDatasetFiles,
             connectionFiles: ConnectionFiles
         }),
         // applyMiddleware can return store enhancer

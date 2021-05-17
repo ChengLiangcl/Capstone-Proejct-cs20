@@ -2,6 +2,7 @@ import React, { Component, useEffect, useRef, useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { Loading } from './LoadingComponent';
+import qs from 'querystring';
 import {emptyMetadata} from '../redux/metadataEmpty';
 
 const RenderDetailedData = React.memo(({ detailedData, isLoading, errMess }) => {
@@ -132,8 +133,12 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
 
 const DetailedDataset = React.memo((props) => {
     //const FileName = localStorage.getItem('datasetname-detaileddata');
+    const query = qs.parse(window.location.search.split('?')[1]||'')
+    const FileName = query.fileName||localStorage.getItem('datasetname-detaileddata');
     console.log("local get file name: ", props.selectedDataset);
-    
+    useEffect(() => {
+        props.sendNameForDetailedData(FileName,query.userName);
+    });
     
     //useEffect(() => {
         //props.sendNameForDetailedData(props.selectedDataset, sessionStorage.getItem('verifiedUsername'));

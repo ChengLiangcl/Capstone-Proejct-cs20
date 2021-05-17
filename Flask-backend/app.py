@@ -457,7 +457,7 @@ def upload():
     return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])
-def showAlldatasetFiles():
+def showMyDatasets():
     UserName = request.get_json(force=True)
     print("username get: ", UserName)
     # read datasets JSON file
@@ -1139,6 +1139,48 @@ def passwordChange():
         print('The user does not exist')
         return "UserName deos not exist"
         # return 'Answers do not match'
+
+@app.route('/alldatasetFiles', methods=["GET"])
+def showAlldatasetFiles():
+    if request.method == "GET":
+        # read datasets JSON file
+        # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
+        # TODO: return a empty [] to me if there is no file in the MongoDB
+        # with open('./all_datasets.json') as f:
+        #     data = json.load(f)
+        datas = db.files.find({},{'FileName':1,'Description':1,'UserName':1,'_id':0}).sort("UserName", 1)
+        datas = dumps(datas, indent = 2)
+        print(datas)
+        with open('./all_datasets.json','w') as f:
+            f.write(datas)
+        with open('./all_datasets.json','r') as f:
+            data = json.load(f)
+     
+        
+    return json.dumps(data)
+
+@app.route('/detailedData', methods=["POST"])
+@cross_origin()
+def showDetailedData():
+
+    # 1. you get the selected dataset name from the frontend, so that you know which dataset you will extract detailed data from
+    # you can check the dataset name through this
+
+    dataset_userName = request.get_json(force=True)
+    print(dataset_userName)
+    datasetName= dataset_userName["datasetName"]
+    userName = dataset_userName["userName"]
+    result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
+    result = loads(dumps(result))
+
+    if(len(result)>0):
+        # TODO to get detailed_data from MongoDB
+        result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)},{"_id":0,"uuid":0})
+        result = loads(dumps(result))
+        metadata = result
+        detailed_data = metadata[0]['data']
+    return json_util.dumps([detailed_data, metadata])
+
 
 
 if __name__ == "__main__":

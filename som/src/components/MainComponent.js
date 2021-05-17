@@ -11,13 +11,15 @@ import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
 import ConnectionUploading from './ConnectionUploading';
 import BindedDatasets from './Modal/BindedDatasets';
+import AllDataset from './AlldatasetsComponent';
 import compareProps from '../others/compareProps';
 
 import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
     sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels, getBindedDatasets,
-    deleteOneBindedDataset, downloadFile
+    deleteOneBindedDataset, downloadFile,
+    fetchAllDatasetFiles,queryAllDatasets
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -27,6 +29,7 @@ const mapStateToProps = state => {
         datasetFiles: state.datasetFiles,
         modelFiles: state.modelFiles,
         detailedData: state.detailedData,
+        allDatasetFiles: state.allDatasetFiles,
         connectionFiles: state.connectionFiles
     }
 }
@@ -52,7 +55,12 @@ const mapDispatchToProps = dispatch => ({
     deleteModel: (name, userName) => { dispatch(deleteOneModel(name, userName)) },
     editModelDescription: (name, description, username) => { dispatch(editModelDescription(name, description, username)) },
     queryModels: (inputValue, userName) => { dispatch(queryModels(inputValue, userName))},
-
+    fetchAllDatasetFiles: (inputValue) => {
+        dispatch(fetchAllDatasetFiles(inputValue))
+      },
+      queryAllDatasets: (inputValue) => {
+        dispatch(queryAllDatasets(inputValue))
+      },
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
     sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName)) }
 });
@@ -123,6 +131,25 @@ class Main extends Component {
     }
 
     render() {
+        const DatasetWithName = ({match}) => {
+            let selectedDataset = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-detaileddata') :
+              this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
+            localStorage.setItem('datasetname-detaileddata', selectedDataset);
+            console.log("detaileddata for name: ", selectedDataset);
+      
+            return (
+              <DetailedDataset
+                selectedDataset={this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0]}
+                sendNameForDetailedData={this.props.sendNameForDetailedData}
+                detailedData={this.props.detailedData.detailedData}
+                isLoading_detailedData={this.props.detailedData.isLoading}
+                errMess_detailedData={this.props.detailedData.errMess}
+      
+                metadata={this.props.metadata.metadata[0]}
+                isLoading_metadata={this.props.metadata.isLoading}
+                errMess_metadata={this.props.metadata.errMess}/>
+            );
+          };
 
         const DatasetSelect = ({ match }) => {
             let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-metadata') :
@@ -193,6 +220,7 @@ class Main extends Component {
 
                                 downloadFile = {this.props.downloadFile}
                             />} />
+                        <Route path='/mydatabase/:datasetName' component={DatasetWithName}/>
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
                         <Route path="/mymodels/:modelName" component={ModelSelect} />
                         <Route exact path="/mymodels" component={() => <SOMModel
@@ -216,6 +244,13 @@ class Main extends Component {
                             isBindLoading={this.props.connectionFiles.isLoading}
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
+                        <Route exact path="/alldataset" component={() =>
+                        <AllDataset datasetFiles={this.props.allDatasetFiles.datasetFiles}
+                           isLoading={this.props.allDatasetFiles.isLoading}
+                           errMess={this.props.allDatasetFiles.errMess}
+                           fetchDatasetFiles={this.props.fetchAllDatasetFiles}
+                           queryDatasets={this.props.queryAllDatasets}
+                        />}/>
                         <Redirect to="/mymodels" />
                     </Switch>
                 </Col>
