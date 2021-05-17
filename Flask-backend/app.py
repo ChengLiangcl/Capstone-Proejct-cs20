@@ -1128,8 +1128,8 @@ def passwordChange():
         if(user_list[0].get('question')==question and user_list[0].get('answer')==answer):
             password = pbkdf2_sha256.encrypt(password)
             db.user.update_one({"UserName":user},{ "$set": { "password": password } })
-            print("change sucessfully")
-            return 'change sucessfully'
+            print("change successfully")
+            return 'change successfully'
         else:
             print("Update Failed,the question or answer does not match")
             return "Update Failed, the question or answer does not match"
