@@ -59,7 +59,7 @@ function Sidebar(props){
                     </ListGroupItem>
                     <ListGroupItem action>
                         <NavLink className="nav-link" to="/alldataset">
-                            <span className="slide-icon fa fa-area-chart"></span>
+                            <span className="slide-icon fa fa-clone"></span>
                                  Alldataset
                             </NavLink>
                     </ListGroupItem>

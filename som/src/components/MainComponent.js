@@ -76,6 +76,7 @@ class Main extends Component {
     componentDidMount() {
         this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
         this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
+        this.props.fetchAllDatasetFiles(sessionStorage.getItem('verifiedUsername'));
     }
 
     shouldComponentUpdate(nextProps, nextState) {
