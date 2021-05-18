@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import DownloadFile from '../components/Modal/downloadFile';
 import SearchAllDatasets from './SearchAllDatasets';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 class AllDataset extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class AllDataset extends Component {
   tableHead(datasets) {
     if (datasets !== undefined) {
       return (
-        <thead style={{backgroundColor: '#FFE399', color: "black"}}>
+        <thead style={{ backgroundColor: '#FFE399', color: "black" }}>
           <tr>
             <th width="12%">File name</th>
             <th width="20%">Description</th>
@@ -75,14 +76,14 @@ class AllDataset extends Component {
               </IconButton>
             </Link>
 
-            <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName} userName={userName}/>
+            <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName} userName={userName} />
           </Row>
         </Container>
       );
     }
   }
 
-  renderDatasetTable(datasets, isLoading, errMess) {
+  renderDatasetTable(datasets, isLoading, errMess, isQuery) {
     if (isLoading) {
       return (
         <Loading />
@@ -91,6 +92,17 @@ class AllDataset extends Component {
     else if (errMess) {
       return (
         <h4>{errMess}</h4>
+      );
+    }
+    else if (isQuery) {
+      return (
+        <div>
+          <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+            {this.tableHead(datasets)}
+            {this.tableBody(datasets)}
+          </Table>
+          <p style={{ color: '#378CC6', fontSize: '12px' }}>Query result: {datasets.length} datasets are found</p>
+        </div>
       );
     }
     else {
@@ -106,12 +118,22 @@ class AllDataset extends Component {
   render() {
     return (
       <Container>
-        <Col className="search-box" >
-          <SearchAllDatasets queryDatasets={this.props.queryDatasets}/>
+        <Col>
+          <Row>
+            <div>
+              <IconButton aria-label="visualisation" component="span">
+                <ArrowBackIcon onClick={() => this.props.fetchDatasetFiles()} />
+              </IconButton>
+            </div>
+
+            <Col className="search-box" >
+              <SearchAllDatasets queryAllDatasets={this.props.queryAllDatasets} />
+            </Col>
+          </Row>
         </Col>
 
         <Col className="database">
-          {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess)}
+          {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess, this.props.isQuery)}
         </Col>
       </Container>
     );

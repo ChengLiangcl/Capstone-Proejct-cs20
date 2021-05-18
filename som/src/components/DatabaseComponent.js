@@ -26,25 +26,26 @@ import { purple } from '@material-ui/core/colors';
 
 const AllDatasetSwitch = withStyles({
     switchBase: {
-      color: '#FFF1CC',
-      '&$checked': {
-        color: '#FFD466',
-      },
-      '&$checked + $track': {
-        backgroundColor: '#FFD466',
-      },
+        color: '#FFF1CC',
+        '&$checked': {
+            color: '#FFD466',
+        },
+        '&$checked + $track': {
+            backgroundColor: '#FFD466',
+        },
     },
     checked: {},
     track: {},
-  })(Switch);
+})(Switch);
 
 class Database extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isShown: false,
-            checkAllDatasets: false
+            checkAllDatasets: this.props.isAllQuery === true ? true : false
         };
+        console.log("hhhh", JSON.stringify(this.props.isAllQuery))
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -53,9 +54,11 @@ class Database extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.isQuery) {
+        if (this.props.isQuery || this.props.isAllQuery) {
             this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
-        } 
+            this.props.fetchAllDatasetFiles();
+        }
+        
     }
 
     // to create a flexible table head, where the number of columns depends on the attributes in the datafile.
@@ -117,14 +120,14 @@ class Database extends Component {
 
                         <Link to={`/metadata-form/${fileName}`}>
                             <IconButton aria-label="create matadata" component="span">
-                                <CreateIcon/>
+                                <CreateIcon />
                             </IconButton>
                         </Link>
 
                         <ModelBinding modelFiles={this.props.modelFiles} datasetName={fileName}
-                            bindModel={this.props.bindModel} bindedModelName={bindModelName}/>
-                        
-                        <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName} userName={userName}/>
+                            bindModel={this.props.bindModel} bindedModelName={bindModelName} />
+
+                        <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName} userName={userName} />
                     </Row>
                 </Container>
             );
@@ -255,61 +258,65 @@ class Database extends Component {
 
     render() {
         console.log("switch state: ", this.state.checkAllDatasets)
-        if (this.state.checkAllDatasets){
+        console.log("check query datasets: ", this.props.isAllQuery)
+        if (this.state.checkAllDatasets) {
             return (
                 <Container>
-                  <Col className="search-box" >
-                    <SearchAllDatasets queryDatasets={this.props.queryDatasets}/>
-                  </Col>
+                    <Col className="search-box" >
+                        <SearchAllDatasets queryAllDatasets={this.props.queryAllDatasets} />
+                    </Col>
 
-                  <Col>
-                    <Row>
-                        <Col md="9">
-                        </Col>
-                        <Col md="3">
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={<AllDatasetSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} color="primary" name="checkAllDatasets" />}
-                                    label="All datasets"
-                                />
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                </Col>
-          
-                  <Col className="database">
-                    {this.renderAllDatasetTable(this.props.allDatasetFiles, this.props.isAllLoading, this.props.allErrMess)}
-                  </Col>
+                    <Col>
+                        <Row>
+                            <Col md="9">
+                            </Col>
+                            <Col md="3">
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={<AllDatasetSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} color="primary" name="checkAllDatasets" />}
+                                        label="All datasets"
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </Col>
+
+                    <Col className="database">
+                        {this.renderAllDatasetTable(this.props.allDatasetFiles, this.props.isAllLoading, this.props.allErrMess, this.props.isAllQuery)}
+                    </Col>
                 </Container>
-              );
+            );
         }
-        return (
-            <Container>
-                <Col className="search-box" >
-                    <SearchFile queryDatasets={this.props.queryDatasets} />
-                </Col>
+        else {
+            return (
+                <Container>
+                    <Col className="search-box" >
+                        <SearchFile queryDatasets={this.props.queryDatasets} />
+                    </Col>
 
-                <Col>
-                    <Row>
-                        <Col md="9">
-                            <DatasetUploading uploadDataset={this.props.uploadDataset} fetchDatasetFiles={this.props.fetchDatasetFiles} />
-                        </Col>
-                        <Col md="3">
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={<AllDatasetSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} color="warning" name="checkAllDatasets" />}
-                                    label="All datasets"
-                                />
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                </Col>
+                    <Col>
+                        <Row>
+                            <Col md="9">
+                                <DatasetUploading uploadDataset={this.props.uploadDataset} fetchDatasetFiles={this.props.fetchDatasetFiles} />
+                            </Col>
+                            <Col md="3">
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={<AllDatasetSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} name="checkAllDatasets" />}
+                                        label="All datasets"
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </Col>
 
-                <Col className="database">
-                    {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess, this.props.isQuery)}
-                </Col>
-            </Container>
-        );
+                    <Col className="database">
+                        {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess, this.props.isQuery)}
+                    </Col>
+                </Container>
+            );
+        }
+
     }
 }
 

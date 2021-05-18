@@ -1308,6 +1308,42 @@ def showAllModels():
             print("Does not have any file")
             data = []
             return json.dumps(data)
+
+# to query datasets based on the dataset name or key words
+@app.route('/query-all-datasets', methods=["POST"])
+@cross_origin()
+def queryAllDatasets():
+
+    # you will recieve a inputted word by a user from the frontend
+    input_value = request.get_json(force=True)
+    print(input_value) # you can check the inputted word through this
+    print(type(input_value))  # string
+
+    # TODO you need to query the corresponding datasets from MongoDB
+    # the input value may be the dataset name, or may be key words
+    # this is the querying result I simulate, please REPLACE it when you get the real results
+    with open('./queryResultsForAllDatasets.json') as f:
+        queried_datasets = json.load(f)
+
+    return json.dumps(queried_datasets)
+
+# to query datasets based on the dataset name or key words
+@app.route('/query-all-models', methods=["POST"])
+@cross_origin()
+def queryAllModels():
+    # you will recieve a inputted word by a user from the frontend
+    print("helllooo")
+    input_value = request.get_json(force=True)
+    print(input_value) # you can check the inputted word through this
+    print(type(input_value))  # string
+
+    # TODO you need to query the corresponding datasets from MongoDB
+    # the input value may be the dataset name, or may be key words
+    # this is the querying result I simulate, please REPLACE it when you get the real results
+    with open('./queryResultsForAllModels.json') as f:
+        queried_models = json.load(f)
+
+    return json.dumps(queried_models)
             
 
 if __name__ == "__main__":

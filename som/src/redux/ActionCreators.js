@@ -189,16 +189,21 @@ export const addDataset = (dataset) => ({
 });
 
 //show all dataset
+export const checkQueryALLDatasets = (datasetFiles) => ({
+  type: ActionTypes.QUERY_ALL_DATASETFILES,
+  payload: datasetFiles
+});
+
 export const queryAllDatasets = (inputValue) => (dispatch) => {
-  return http.post('/detailedData', JSON.stringify(inputValue), {
+  return http.post('/query-all-datasets', JSON.stringify(inputValue), {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log("this is response for querying datasets");
+      console.log("this is response for querying all datasets");
       console.log(res.data);
-      dispatch(addAllDatasetFiles(res.data))
+      dispatch(checkQueryALLDatasets(res.data))
     })
     .catch((err) => console.log(err));
 };
@@ -442,6 +447,26 @@ export const editModelDescription = (modelName, description, userName) => (dispa
       console.log("this is response for edit model");
       console.log(res);
       dispatch(editOneModelDescription(modelName, description));
+    })
+    .catch((err) => console.log(err));
+};
+
+export const checkQueryALLModels = (models) => ({
+  type: ActionTypes.QUERY_ALL_MODELS,
+  payload: models
+});
+
+export const queryAllModels = (inputValue) => (dispatch) => {
+  console.log("start query all models");
+  return http.post('/query-all-models', JSON.stringify(inputValue), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for querying all models");
+      console.log(res.data);
+      dispatch(checkQueryALLModels(res.data))
     })
     .catch((err) => console.log(err));
 };

@@ -40,19 +40,5 @@
     "Number_of_Instance": 96,
     "UserName": "17888813173@163.com",
     "ModelName": "ex.cod"
-  },
-  {
-    "_id": {
-      "$oid": "60a33bdd72b42fbdcfde1820"
-    },
-    "FileName": "result.dat",
-    "BriefInfo": "",
-    "Size": "2.095KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 48,
-    "UserName": "17888813173@163.com",
-    "ModelName": "copy(1)_animal.cod"
   }
 ]

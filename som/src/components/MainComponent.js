@@ -22,7 +22,7 @@ import {
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
     sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels, getBindedDatasets,
     deleteOneBindedDataset, downloadFile, getUMatrixDatasets, cleanUmatrixDatasets,
-    fetchAllDatasetFiles, queryAllDatasets, fetchAllModels
+    fetchAllDatasetFiles, queryAllDatasets, fetchAllModels, queryAllModels
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -64,6 +64,7 @@ const mapDispatchToProps = dispatch => ({
     queryAllDatasets: (inputValue) => { dispatch(queryAllDatasets(inputValue)) },
 
     fetchAllModels: () => { dispatch(fetchAllModels()) },
+    queryAllModels: (inputValue) => { dispatch(queryAllModels(inputValue))},
 
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
     sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName)) },
@@ -158,6 +159,14 @@ class Main extends Component {
 
         if (compareDatasets(this.props.datasetFiles.datasetFiles, nextProps.datasetFiles.datasetFiles)) {
             console.log("because of dataset files");
+            return true;
+        }
+        else if (compareDatasets(this.props.allDatasetFiles.datasetFiles, nextProps.allDatasetFiles.datasetFiles)){
+            console.log("because of all dataset files");
+            return true;
+        }
+        else if (compareDatasets(this.props.allModels.modelFiles, nextProps.allModels.modelFiles)){
+            console.log("because of all model files");
             return true;
         }
         else {
@@ -321,6 +330,7 @@ class Main extends Component {
                                 allDatasetFiles={this.props.allDatasetFiles.datasetFiles}
                                 isAllLoading={this.props.allDatasetFiles.isLoading}
                                 allErrMess={this.props.allDatasetFiles.errMess}
+                                isAllQuery={this.props.allDatasetFiles.isQuery}
                                 fetchAllDatasetFiles={this.props.fetchAllDatasetFiles}
                                 queryAllDatasets={this.props.queryAllDatasets}
                             />} />
@@ -350,19 +360,24 @@ class Main extends Component {
 
                             fetchAllModels={this.props.fetchAllModels}
                             allModels={this.props.allModels.modelFiles}
+                            isAllQuery={this.props.allModels.isQuery}
+                            queryAllModels={this.props.queryAllModels}
                         />} />
                         <Route path="/allmodels/:modelName" component={AllModelSelect} />
                         <Route exact path="/allmodels" component={() => <AllModel
                             fetchAllModels={this.props.fetchAllModels}
                             allModels={this.props.allModels.modelFiles}
+                            queryAllModels={this.props.queryAllModels}
+                            isAllQuery={this.props.allModels.isQuery}
                         />} />
 
                         <Route exact path="/alldataset" component={() =>
                             <AllDataset datasetFiles={this.props.allDatasetFiles.datasetFiles}
                                 isLoading={this.props.allDatasetFiles.isLoading}
                                 errMess={this.props.allDatasetFiles.errMess}
+                                isQuery={this.props.allDatasetFiles.isQuery}
                                 fetchDatasetFiles={this.props.fetchAllDatasetFiles}
-                                queryDatasets={this.props.queryAllDatasets}
+                                queryAllDatasets={this.props.queryAllDatasets}
                             />} />
                         
                         <Route exact path="/visualisation" component={() => <Visualisation

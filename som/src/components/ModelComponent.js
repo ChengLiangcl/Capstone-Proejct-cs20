@@ -42,7 +42,7 @@ class SOMModel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkAllModels: false
+      checkAllModels: this.props.isAllQuery? true : false
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -52,8 +52,9 @@ class SOMModel extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.isQuery) {
+    if (this.props.isQuery || this.props.isAllQuery) {
       this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
+      this.props.fetchAllModels();
     }
 
   }
@@ -192,12 +193,24 @@ class SOMModel extends Component {
     }
   }
 
-  renderAllModelTable(models = [], isLoading) {
+  renderAllModelTable(models = [], isLoading, isQuery) {
     if (isLoading) {
       return (
         <Loading />
       );
-    } else {
+    }
+    else if (isQuery){
+      return(
+        <div>
+          <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+            {this.allTableHead()}
+            {this.allTableBody(models)}
+          </Table>
+          <p style={{ color: '#378CC6', fontSize: '12px' }}>Query result: {models.length} models are found</p>
+        </div>
+      );
+    }
+    else {
       return (
         <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
           {this.allTableHead()}
@@ -213,7 +226,7 @@ class SOMModel extends Component {
       return (
         <Container>
           <Col className="search-box" >
-            <SearchAllModel queryModels={this.props.queryModels} />
+            <SearchAllModel queryAllModels={this.props.queryAllModels} />
           </Col>
 
           <Col>
@@ -232,7 +245,7 @@ class SOMModel extends Component {
           </Col>
 
           <Col className="database">
-            {this.renderAllModelTable(this.props.allModels, false)}
+            {this.renderAllModelTable(this.props.allModels, false, this.props.isAllQuery)}
           </Col>
 
         </Container>

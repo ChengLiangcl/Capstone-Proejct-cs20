@@ -15,7 +15,7 @@ function SearchAllModel(props) {
 
     const handleClick = () => {
         console.log("the current input value: ", inputValue);
-        props.queryModels(inputValue, sessionStorage.getItem('verifiedUsername'));
+        props.queryAllModels(inputValue);
     };
 
     return (

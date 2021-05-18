@@ -7,6 +7,7 @@ import InsertChart from '@material-ui/icons/InsertChart';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import SearchAllModel from './SearchAllModels';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 class AllModel extends Component {
@@ -15,13 +16,16 @@ class AllModel extends Component {
   }
 
   componentDidUpdate() {
-    this.props.fetchAllModels();
+    if (this.props.isAllQuery) {
+      console.log("please refresh")
+      this.props.fetchAllModels();
+    }
   }
 
 
   tableHead() {
     return (
-      <thead style={{backgroundColor: '#FFE399', color: "black"}}>
+      <thead style={{ backgroundColor: '#FFE399', color: "black" }}>
         <tr>
           <th width="10%">Model name</th>
           <th width="18%">Description</th>
@@ -68,14 +72,26 @@ class AllModel extends Component {
     }
   }
 
-  renderModelTable(models = [], isLoading) {
+  renderModelTable(models = [], isLoading, isQuery) {
     if (isLoading) {
       return (
         <Loading />
       );
-    } else {
+    }
+    else if (isQuery) {
       return (
-        <Table hover style={{tableLayout: 'fixed', wordWrap: 'break-word'}}>
+        <div>
+          <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+            {this.tableHead()}
+            {this.tableBody(models)}
+          </Table>
+          <p style={{ color: '#378CC6', fontSize: '12px' }}>Query result: {models.length} models are found</p>
+        </div>
+      );
+    }
+    else {
+      return (
+        <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
           {this.tableHead()}
           {this.tableBody(models)}
         </Table>
@@ -84,14 +100,25 @@ class AllModel extends Component {
   }
 
   render() {
+    console.log("model query: ", this.props.isAllQuery)
     return (
       <Container>
-        <Col className="search-box" >
-          <SearchAllModel queryModels={this.props.queryModels} />
+        <Col>
+          <Row>
+            <div>
+              <IconButton aria-label="visualisation" component="span">
+                <ArrowBackIcon onClick={() => this.props.fetchAllModels()} />
+              </IconButton>
+            </div>
+
+            <Col className="search-box" >
+              <SearchAllModel queryAllModels={this.props.queryAllModels} />
+            </Col>
+          </Row>
         </Col>
 
         <Col className="database">
-          {this.renderModelTable(this.props.allModels, false)}
+          {this.renderModelTable(this.props.allModels, false, this.props.isAllQuery)}
         </Col>
 
       </Container>
