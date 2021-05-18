@@ -588,7 +588,7 @@ export const cleanUmatrixDatasets = () => (dispatch) => {
 }
 
 export const getUMatrixDatasets = (modelname, username) => (dispatch) => {
-  console.log("start binded datasets");
+  console.log("start umatrix datasets");
   //dispatch(bindedDatasetsLoading(true));
 
   return http.post('/get-umatrixDatasets', [modelname, username], {

@@ -12,6 +12,7 @@ import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
 import ConnectionUploading from './ConnectionUploading';
 import BindedDatasets from './Modal/BindedDatasets';
+import AllBindedDatasets from './Modal/AllBindedDataset';
 import AllDataset from './AlldatasetsComponent';
 import AllModel from './AllModelsComponents';
 import compareProps from '../others/compareProps';
@@ -250,6 +251,28 @@ class Main extends Component {
             );
         };
 
+        const AllModelSelect = ({ match }) => {
+            let modelName = this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0] == undefined ? localStorage.getItem('modelname') :
+                this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0].FileName;
+            console.log("model name: ", modelName);
+            localStorage.setItem('modelname', modelName);
+
+            return (
+                <AllBindedDatasets modelName={this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0]}
+                    userName = {match.params.userName}
+                    getBindedDatasets={this.props.getBindedDatasets}
+                    isBindLoading={this.props.isBindLoading}
+                    bindedDatasets={this.props.connectionFiles.bindedDatasets}
+                    isBindLoading={this.props.connectionFiles.isLoading}
+
+                    deleteDataset={this.props.deleteOneBindedDataset}
+                    editModelDescription={this.props.editModelDescription}
+                    fetchModelFiles={this.props.fetchModelFiles}
+                />
+            );
+        };
+
+
         const UmatrixModelSelect = ({ match }) => {
             let umatrixModelName = this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0] == undefined ? localStorage.getItem('modelname') :
                 this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0].FileName;
@@ -327,8 +350,8 @@ class Main extends Component {
                             fetchAllModels={this.props.fetchAllModels}
                             allModels={this.props.allModels.modelFiles}
                         />} />
-
-                        <Route path="/allmodels" component={() => <AllModel
+                        <Route path="/allmodels/:modelName" component={AllModelSelect} />
+                        <Route exact path="/allmodels" component={() => <AllModel
                             fetchAllModels={this.props.fetchAllModels}
                             allModels={this.props.allModels.modelFiles}
                         />} />

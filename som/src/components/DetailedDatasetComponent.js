@@ -135,7 +135,7 @@ const RenderMetadata = ({ metadata, isLoading, errMess, fileName }) => {
 const DetailedDataset = (props) => {
     //const FileName = localStorage.getItem('datasetname-detaileddata');
     const query = qs.parse(window.location.search.split('?')[1] || '')
-    const FileName = query.fileName || localStorage.getItem('datasetname-detaileddata');
+    const FileName = query.fileName;
     console.log("local get file name: ", FileName);
     console.log("local get user name: ", query.userName);
 

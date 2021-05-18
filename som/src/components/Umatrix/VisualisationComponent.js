@@ -171,7 +171,7 @@ function SingleVisualisation(props) {
 
                             <CardBody>
                                 <CardTitle><strong>Datasets:</strong></CardTitle>
-                                {props.umatrixDatasets.length > 1 && props.umatrixDatasets.slice(1, props.umatrixDatasets.length - 1).map(dataset =>
+                                {props.umatrixDatasets.length > 1 && props.umatrixDatasets.slice(1, props.umatrixDatasets.length).map(dataset =>
                                     <CardText>
                                         {dataset.FileName} <br />
                                         <small className="text-muted">{dataset.BriefInfo}</small>

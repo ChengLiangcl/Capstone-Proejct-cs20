@@ -1063,8 +1063,8 @@ def query_binded_datasets():
     modelname_username = request.get_json(force=True)
     modelName = modelname_username[0]
     Username = modelname_username[1]
-    print("the selected model name is: ", modelName)
-    print("the user is: ", Username)
+    print("query model name is: ", modelName)
+    print("query user is: ", Username)
     # TODO: 你需要把这段代码替换掉，换成搜索后和model绑定的那些datasets
     # 注意：我只需要三个属性： FileName, BriefInfo, UserName。 具体参考以下json文件
     returndata=db.models.find_one({"UserName":Username,"FileName":modelName},{"_id":0})

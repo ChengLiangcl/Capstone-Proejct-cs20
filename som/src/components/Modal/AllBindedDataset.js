@@ -7,10 +7,16 @@ import { Link } from 'react-router-dom';
 import { Loading } from '../LoadingComponent';
 import ModelBriefInfo from '../ModelBriefInfo';
 import InsertChart from '@material-ui/icons/InsertChart';
+import qs from 'querystring';
 
-function BindedDatasets(props) {
-    const ModelName = localStorage.getItem('modelname') == undefined ? props.modelName : localStorage.getItem('modelname');
-    console.log("local get model name: ", ModelName);
+function AllBindedDatasets(props) {
+    // const ModelName = localStorage.getItem('modelname') == undefined ? props.modelName : localStorage.getItem('modelname');
+    // console.log("local get model name: ", ModelName);
+    const query = qs.parse(window.location.search.split('?')[1] || '')
+    const modelName = query.fileName;
+    const userName = query.userName;
+    console.log("local get model name: ", modelName);
+    console.log("local get user name: ", userName);
 
     const [isModalOpen, setModal] = useState(false);
 
@@ -29,6 +35,7 @@ function BindedDatasets(props) {
                 <tr>
                     <th>File name</th>
                     <th>Description</th>
+                    <th>User name</th>
                     <th>Operation</th>
                 </tr>
             </thead>
@@ -49,13 +56,10 @@ function BindedDatasets(props) {
                     <tr style={{backgroundColor: "#F2F2F2"}} key="model">
                         <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].FileName}</td>
                         <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].BriefInfo}</td>
+                        <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].UserName}</td>
                         <td key={"operateEachDataset"}>
                             <Container>
                                 <Row>
-                                    <ModelBriefInfo editModelDescription={props.editModelDescription}
-                                        modelName={bindedDatasets[0].FileName}
-                                        fetchModelFiles={props.fetchModelFiles} />
-
                                     <Link to={`/visualisation/${bindedDatasets[0].FileName}`}>
                                         <IconButton aria-label="visualisation" component="span">
                                             <InsertChart />
@@ -69,12 +73,10 @@ function BindedDatasets(props) {
                         <tr key={index}>
                             <td style={{ verticalAlign: 'middle' }}>{dataset.FileName}</td>
                             <td style={{ verticalAlign: 'middle' }}>{dataset.BriefInfo}</td>
+                            <td style={{ verticalAlign: 'middle' }}>{dataset.UserName}</td>
                             <td key={"operateEachDataset"}>
                                 <Container>
                                     <Row>
-                                        <DeleteOneDataset deleteDataset={props.deleteDataset}
-                                            deletedFileName={dataset.FileName} />
-
                                         <Link to={`/metadata-form/${dataset.FileName}`}>
                                             <IconButton aria-label="create matadata" component="span">
                                                 <CreateIcon />
@@ -107,21 +109,22 @@ function BindedDatasets(props) {
         }
     }
 
+
     useEffect(() => {
         // fetch the existing metadata first
-        console.log("start refreshing binded datasets", props.bindedDatasets);
-        props.getBindedDatasets(ModelName, sessionStorage.getItem('verifiedUsername'));
+        //console.log("start refreshing all binded datasets", props.bindedDatasets);
+        props.getBindedDatasets(modelName, query.userName);
     }, [props.bindedDatasets]);
 
     return (
         <Container>
             <Row>
                 <Breadcrumb>
-                    <BreadcrumbItem><Link style={{color: "grey"}}to="/mymodels">My Models</Link></BreadcrumbItem>
-                    <BreadcrumbItem active>Binded datasets of {ModelName}</BreadcrumbItem>
+                    <BreadcrumbItem><Link style={{color: "grey"}}to="/allmodels">All Models</Link></BreadcrumbItem>
+                    <BreadcrumbItem active>Binded datasets of {modelName}</BreadcrumbItem>
                 </Breadcrumb>
                 <div className="col-12" style={{ paddingTop: '5%' }}>
-                    <h4 style={{color: "grey"}}>All binded datasets of {ModelName}</h4>
+                    <h4 style={{color: "grey"}}>All binded datasets of {modelName}</h4>
                     <hr />
                 </div>
             </Row>
@@ -133,4 +136,4 @@ function BindedDatasets(props) {
     );
 }
 
-export default BindedDatasets;
+export default AllBindedDatasets;

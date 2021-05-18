@@ -119,10 +119,10 @@ class SOMModel extends Component {
     return (
       <thead style={{ backgroundColor: '#FFE399', color: "black" }}>
         <tr>
-          <th width="10%">Model name</th>
-          <th width="18%">Description</th>
-          <th width="8%">User name</th>
-          <th width="10%">Operation</th>
+          <th width="12%">Model name</th>
+          <th width="20%">Description</th>
+          <th width="12%">User name</th>
+          <th width="8%">Operation</th>
         </tr>
       </thead>
     );
@@ -139,7 +139,7 @@ class SOMModel extends Component {
         <tbody>
           {models.map((model, index) =>
             <tr key={index}>
-              <Link style={{ color: "black" }} to={`/mymodels/${model.FileName}`}>
+              <Link style={{ color: "black" }} to={`/allmodels/${model.FileName}?userName=${model.UserName}&fileName=${model.FileName}`}>
                 <td style={{ verticalAlign: 'middle' }}>
                   {model.FileName}
                 </td>
@@ -223,7 +223,7 @@ class SOMModel extends Component {
               <Col md="3">
                 <FormGroup>
                   <FormControlLabel
-                    control={<AllModelSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} color="primary" name="checkAllModels" />}
+                    control={<AllModelSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} name="checkAllModels" />}
                     label="All models"
                   />
                 </FormGroup>
@@ -257,7 +257,7 @@ class SOMModel extends Component {
               <Col md="3">
                 <FormGroup>
                   <FormControlLabel
-                    control={<AllModelSwitch checked={this.state.checkAllModels} onChange={this.handleChange} name="checkAllModels" />}
+                    control={<AllModelSwitch onChange={this.handleChange} name="checkAllModels" />}
                     label="All models"
                   />
                 </FormGroup>

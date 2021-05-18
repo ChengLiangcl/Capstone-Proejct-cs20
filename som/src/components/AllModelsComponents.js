@@ -43,7 +43,7 @@ class AllModel extends Component {
         <tbody>
           {models.map((model, index) =>
             <tr key={index}>
-              <Link style={{ color: "black" }} to={`/mymodels/${model.FileName}`}>
+              <Link style={{ color: "black" }} to={`/allmodels/${model.FileName}?userName=${model.UserName}&fileName=${model.FileName}`}>
                 <td style={{ verticalAlign: 'middle' }}>
                   {model.FileName}
                 </td>
