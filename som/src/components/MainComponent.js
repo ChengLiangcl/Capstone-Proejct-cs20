@@ -6,6 +6,7 @@ import { actions } from 'react-redux-form';
 import Sidebar from './SidebarComponent';
 import Database from './DatabaseComponent';
 import Visualisation from './VisualisationComponent';
+import SingleVisualisation from './Umatrix/VisualisationComponent';
 import SOMModel from './ModelComponent';
 import DetailedDataset from './DetailedDatasetComponent';
 import MetadataForm from './MetadataForm';
@@ -19,7 +20,7 @@ import {
     fetchDatasetFiles, uploadDataset, fetchUploadedDataset, submitMetadata, deleteOneDataset, queryDatasets,
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
     sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels, getBindedDatasets,
-    deleteOneBindedDataset, downloadFile,
+    deleteOneBindedDataset, downloadFile, getUMatrixDatasets, cleanUmatrixDatasets,
     fetchAllDatasetFiles, queryAllDatasets, fetchAllModels
 } from '../redux/ActionCreators';
 
@@ -64,7 +65,10 @@ const mapDispatchToProps = dispatch => ({
     fetchAllModels: () => { dispatch(fetchAllModels()) },
 
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
-    sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName)) }
+    sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName)) },
+
+    getUMatrixDatasets: (modelname, username) => dispatch(getUMatrixDatasets(modelname, username)),
+    cleanUmatrixDatasets: () => { dispatch(cleanUmatrixDatasets()) },
 });
 
 class Main extends Component {
@@ -95,6 +99,35 @@ class Main extends Component {
                 return true;
             }
             else {
+                const result = currentBindedDatasets.map((eachFile, index) => {
+                    return Object.entries(eachFile).map((keyValue, valueIndex) => {
+                        if (keyValue[0] === "BriefInfo") {
+                            //console.log("currentBrifInfo: ", keyValue[1]);
+                            //console.log("nextBinded dataset: ", nextBindedDatasets[index].BriefInfo);
+                            return keyValue[1] !== nextBindedDatasets[index].BriefInfo ? "update" : "noUpdate"
+                        }
+                        else {
+                            return "noUpdate"
+                        }
+                    })
+                });
+
+                console.log("binded dataset: ", result);
+                const result_final = result.map(eachResult => {
+                    return eachResult.includes("update") ? "update" : "noUpdate";
+                });
+
+                return result_final.includes("update");
+            }
+        };
+
+        const compareDatasets = (currentBindedDatasets, nextBindedDatasets) => {
+            //console.log("current: ", currentBindedDatasets);
+            //console.log("next: ", nextBindedDatasets)
+            if (currentBindedDatasets.length !== nextBindedDatasets.length) {
+                return true;
+            }
+            else {
                 const result = currentBindedDatasets.map((eachValue, index) => {
                     return Object.values(eachValue).map((eachAttr, attrIndex) => {
                         return eachAttr !== Object.values(nextBindedDatasets[index])[attrIndex] ? "update" : "noUpdate";
@@ -109,22 +142,42 @@ class Main extends Component {
             }
         };
 
-        if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0], this.props.modelFiles.modelFiles, nextProps.modelFiles.modelFiles)) {
-            console.log("because of metadata");
-            return true
+        const compareUmatrixDatasets = (currentDatasets, nextDatasets) => {
+            if (currentDatasets == undefined) {
+                return nextDatasets !== undefined ? true : false;
+            }
+            else if (currentDatasets.length !== 0 && nextDatasets.length !== 0) {
+                console.log("current umatrix length: ", currentDatasets);
+                return currentDatasets[0].FileName !== nextDatasets[0].FileName ? true : false;
+            }
+            else {
+                return nextDatasets.length !== 0 ? true : false
+            }
+        };
+
+        if (compareDatasets(this.props.datasetFiles.datasetFiles, nextProps.datasetFiles.datasetFiles)) {
+            console.log("because of dataset files");
+            return true;
         }
         else {
-            if (compareBindedDatasets(this.props.datasetFiles.datasetFiles, nextProps.datasetFiles.datasetFiles)) {
-                console.log("because of dataset files");
-                return true;
-            }
-            else if (this.props.connectionFiles.connectionFiles[0] !== nextProps.connectionFiles.connectionFiles[0]) {
+            console.log("current umatrix datasets: ", this.props.connectionFiles.umatrixDatasets[0]);
+            console.log("next umatrix datasets: ", nextProps.connectionFiles.umatrixDatasets[0]);
+            if (this.props.connectionFiles.connectionFiles[0] !== nextProps.connectionFiles.connectionFiles[0]) {
                 console.log("because of connection files");
                 return true
             }
 
             else if (compareBindedDatasets(this.props.connectionFiles.bindedDatasets, nextProps.connectionFiles.bindedDatasets)) {
                 console.log("because of binded datasets");
+                return true
+            }
+
+            else if (compareUmatrixDatasets(this.props.connectionFiles.umatrixDatasets, nextProps.connectionFiles.umatrixDatasets)) {
+                console.log("because of umatrix datasets");
+                return true
+            }
+            else if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0], this.props.modelFiles.modelFiles, nextProps.modelFiles.modelFiles)) {
+                console.log("because of metadata");
                 return true
             }
             else {
@@ -197,6 +250,22 @@ class Main extends Component {
             );
         };
 
+        const UmatrixModelSelect = ({ match }) => {
+            let umatrixModelName = this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0] == undefined ? localStorage.getItem('modelname') :
+                this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0].FileName;
+            console.log("umatrix model name: ", umatrixModelName);
+
+            return (
+                <SingleVisualisation umatrixModelName={this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0]}
+                    getUMatrixDatasets={this.props.getUMatrixDatasets}
+                    umatrixDatasets={this.props.connectionFiles.umatrixDatasets}
+                    cleanUmatrixDatasets={this.props.cleanUmatrixDatasets}
+                    modelFiles={this.props.modelFiles.modelFiles}
+                />
+            );
+
+        };
+
         return (
             <Row>
                 <Col className="sidebar" md="3"><Sidebar username={this.props.user.userInfo} /></Col>
@@ -258,7 +327,6 @@ class Main extends Component {
                             fetchAllModels={this.props.fetchAllModels}
                             allModels={this.props.allModels.modelFiles}
                         />} />
-                        <Route path="/visualisation" component={Visualisation} />
 
                         <Route path="/allmodels" component={() => <AllModel
                             fetchAllModels={this.props.fetchAllModels}
@@ -272,6 +340,13 @@ class Main extends Component {
                                 fetchDatasetFiles={this.props.fetchAllDatasetFiles}
                                 queryDatasets={this.props.queryAllDatasets}
                             />} />
+                        
+                        <Route exact path="/visualisation" component={() => <Visualisation
+                            modelFiles={this.props.modelFiles.modelFiles}
+                        />} />
+
+                        <Route path="/visualisation/:modelName" component={UmatrixModelSelect} />
+
                         <Redirect to="/mymodels" />
                     </Switch>
                 </Col>

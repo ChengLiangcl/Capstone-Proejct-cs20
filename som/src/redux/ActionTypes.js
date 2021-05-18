@@ -1,6 +1,8 @@
 export const LOGIN = 'LOGIN';
 export const SIGN_UP = 'SIGN_UP';
 
+export const ADD_UMATRIXDATASETS = 'ADD_UMATRIXDATASETS';
+
 export const ADD_CONNECTIONS = 'ADD_CONNECTIONS'; // add connection files into the redux store
 export const CLEAR_CONNECTIONS = "CLEAR_CONNECTIONS";
 export const ADD_BINDDATASETS = 'ADD_BINDDATASETS';

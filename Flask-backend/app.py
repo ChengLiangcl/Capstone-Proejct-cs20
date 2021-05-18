@@ -1084,7 +1084,7 @@ def query_binded_datasets():
     uuidofmodel=str(data["uuid"])
     js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},
                           {"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0,
-                           "Description":0,"Source":0,
+                           "Description":0,"Source":0,"Label":0,
                            "Number_of_Attribute":0,"Number_of_Instance":0}))
 
     if (len(js) != 0):
@@ -1111,7 +1111,71 @@ def query_binded_datasets():
         colunm_num = Modelinfo[0]
         map_col = Modelinfo[2]
         map_row = Modelinfo[3]
-        Modelinfomation = {"colunm_num": int(Modelinfo[0]), "map_col": int(Modelinfo[2]), "map_row": int(Modelinfo[3])}
+        Modelinfomation={"vectorDim":int(Modelinfo[0]),"xDim":int(Modelinfo[2]),"yDim":int(Modelinfo[3])}
+        data.update({"Model_info": Modelinfomation})
+        X=[]
+        X.insert(0,data)
+        value2=dumps(X,indent=2)
+        print("This model not have any datasets")
+        with open('./bindedDatasets2.json','w') as f:
+         f.write(value2)
+        return value2
+
+@app.route('/get-umatrixDatasets', methods=["POST"])
+@cross_origin()
+def query_umatrix_datasets():
+    modelname_username = request.get_json(force=True)
+    modelName = modelname_username[0]
+    Username = modelname_username[1]
+    print("the selected model name is: ", modelName)
+    print("the user is: ", Username)
+    # TODO: 你需要把这段代码替换掉，换成搜索后和model绑定的那些datasets
+    # 注意：我只需要三个属性： FileName, BriefInfo, UserName。 具体参考以下json文件
+    returndata=db.models.find_one({"UserName":Username,"FileName":modelName},{"_id":0})
+    data=json.loads(dumps(returndata))
+    Array=data["data"]
+    firstline=Array[0]
+    del Array[0]
+    data["data"]=Array
+    print("This is testing query")
+    Modelinfo=firstline.split(" ")
+    colunm_num=Modelinfo[0]
+    map_col=Modelinfo[2]
+    map_row=Modelinfo[3]
+    Modelinfomation={"vectorDim":int(Modelinfo[0]),"xDim":int(Modelinfo[2]),"yDim":int(Modelinfo[3])}
+    data.update({"Model_info":Modelinfomation})
+    print(data["uuid"])
+    uuidofmodel=str(data["uuid"])
+    js=list(db.files.find({"UserName":Username,"uuid":uuidofmodel},
+                          {"AttrInfo":0,"_id":0,"Keywords":0,"uuid":0,"data":0,
+                           "Description":0,"Source":0,"Label":0,
+                           "Number_of_Attribute":0,"Number_of_Instance":0}))
+
+    if (len(js) != 0):
+        json_data = dumps(js, indent=2)
+        with open('./correspondingdatasets.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./correspondingdatasets.json', 'r')
+        values = json.load(jsonFile)
+        value=list(values)
+        value.insert(0,data)
+        values = dumps(value, indent=2)
+        with open('./bindedDatasets2.json','w') as f:
+         f.write(values)
+        return values
+    else:
+        returndata = db.models.find_one({"UserName": Username, "FileName": modelName}, {"_id": 0})
+        data = json.loads(dumps(returndata))
+        Array = data["data"]
+        firstline = Array[0]
+        del Array[0]
+        data["data"] = Array
+        print("This is testing query")
+        Modelinfo = firstline.split(" ")
+        colunm_num = Modelinfo[0]
+        map_col = Modelinfo[2]
+        map_row = Modelinfo[3]
+        Modelinfomation={"vectorDim":int(Modelinfo[0]),"xDim":int(Modelinfo[2]),"yDim":int(Modelinfo[3])}
         data.update({"Model_info": Modelinfomation})
         X=[]
         X.insert(0,data)

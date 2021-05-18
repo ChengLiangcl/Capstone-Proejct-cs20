@@ -147,6 +147,7 @@ class SOMModel extends Component {
               <td style={{ verticalAlign: 'middle' }}>{model.BriefInfo}</td>
               <td style={{ verticalAlign: 'middle' }}>{model.UserName}</td>
               <td key={"operateEachModel"}>
+
                 <Container>
                   <Row>
                     <Link to={`/visualisation/${model.FileName}`}>

@@ -142,10 +142,23 @@ label{
 }
 
 .title{
-  flex-grow: 1,
+  flex-grow: 1;
+  color: #378CC6
 }
 
 .hide{
   display: 'none',
 }
 
+.umatrix-nav{
+  display: flex;
+  justify-content: center; /* y-axis */
+  align-items: center; /* x-axis */
+  height: 10vh;
+  background-color: bisque;
+}
+ 
+.umatrix{
+  height: 90vh;
+  overflow: auto;
+}

@@ -5,7 +5,8 @@ export const ConnectionFiles = (state = {
     errMess: null,
     connectionFiles: ["this is for a uploaded model", ["this is for uploaded datasets"]],
     uploadingStatus: ["", ""],
-    bindedDatasets: []
+    bindedDatasets: [],
+    umatrixDatasets: []
 }, action) => {
     switch (action.type) {
         // when a user upload a dataset, we will first send the dataset to the server,
@@ -15,7 +16,11 @@ export const ConnectionFiles = (state = {
             var files = action.payload; // get the uploaded dataset
             console.log("did i get the connected files? ", action.payload)
             return { ...state, connectionFiles: action.payload };
-        
+
+        case ActionTypes.ADD_UMATRIXDATASETS:
+            console.log("did i get the umatrix datasets? ", action.payload)
+            return { ...state, isLoading: false, umatrixDatasets: action.payload };
+
         case ActionTypes.UPDATE_UPLOADINGSTATUS:
             return { ...state, uploadingStatus: action.payload };
 

@@ -1,6 +1,4 @@
 import * as ActionTypes from './ActionTypes';
-import { DATASETFILES } from '../database/datasetFiles';
-import { MODELFILES } from '../database/modelFiles';
 import { backendUrl } from '../server/backendUrl';
 import http from "../server/baseUrl";
 import baseUrl from '../server/baseUrl';
@@ -195,7 +193,8 @@ export const queryAllDatasets = (inputValue) => (dispatch) => {
   return http.post('/detailedData', JSON.stringify(inputValue), {
     headers: {
       "Content-Type": "multipart/form-data",
-    }})
+    }
+  })
     .then(res => {
       console.log("this is response for querying datasets");
       console.log(res.data);
@@ -223,8 +222,8 @@ export const allDatasetFilesFailed = (errmess) => ({
 });
 
 export const addAllDatasetFiles = (datasetFiles) => ({
-    type: ActionTypes.ADD_ALL_DATASETFILES,
-    payload: datasetFiles
+  type: ActionTypes.ADD_ALL_DATASETFILES,
+  payload: datasetFiles
 });
 
 
@@ -574,6 +573,36 @@ export const detailedAllDataLoading = () => ({
   type: ActionTypes.ALLDETAILEDDATA_LOADING
 });
 
+/**
+ * UMatrix
+ */
+
+export const addUmatrixDatasets = (UmatrixDatasets) => ({
+  type: ActionTypes.ADD_UMATRIXDATASETS,
+  payload: UmatrixDatasets
+});
+
+export const cleanUmatrixDatasets = () => (dispatch) => {
+  console.log("start clean umatrix");
+  dispatch(addUmatrixDatasets([]))
+}
+
+export const getUMatrixDatasets = (modelname, username) => (dispatch) => {
+  console.log("start binded datasets");
+  //dispatch(bindedDatasetsLoading(true));
+
+  return http.post('/get-umatrixDatasets', [modelname, username], {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.log("this is response for bindedDatasets");
+      console.log(res);
+      dispatch(addUmatrixDatasets(res.data))
+    });
+
+};
 
 
 

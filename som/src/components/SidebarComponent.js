@@ -49,13 +49,6 @@ function Sidebar(props){
                             &nbsp;My datasets
                         </NavLink>
                     </ListGroupItem>
-
-                    <ListGroupItem action>
-                        <NavLink className="nav-link" to="/allmodels">
-                            <span className="slide-icon fa fa-clone"></span>
-                                 All Models
-                            </NavLink>
-                    </ListGroupItem>
                       
                     <ListGroupItem action>
                         <NavLink className="nav-link" to="/visualisation">
