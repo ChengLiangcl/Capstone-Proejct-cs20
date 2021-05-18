@@ -906,7 +906,6 @@ def login():
     # else:
     #     return ""
 
-
 @app.route('/sign-up', methods=["POST"])
 @cross_origin()
 def signUp():
@@ -927,6 +926,36 @@ def signUp():
         db.user.insert_one(user)
         print('The user add sucessfully')
         return 'Add Sucessfully'
+
+@app.route('/passwordChange', methods=["POST"])
+@cross_origin()
+def passwordChange():
+    data = request.get_json(force=True)
+    print(data)
+    success=True
+    question = request.get_json(force=True)['question']
+    answer = request.get_json(force=True)['answer']
+    user = request.get_json(force=True)['username']
+    password = request.get_json(force=True)['password']
+
+    db.user.find({})
+    if len(list(db.user.find({"UserName":user})))>0:
+        user_list = list(db.user.find({"UserName":user},{"question":1,"answer":1}))
+        print(user_list[0].get('question'))
+        if(user_list[0].get('question')==question and user_list[0].get('answer')==answer):
+            password = pbkdf2_sha256.encrypt(password)
+            db.user.update_one({"UserName":user},{ "$set": { "password": password } })
+            print("change successfully")
+            return 'change successfully'
+        else:
+            print("Update Failed,the question or answer does not match")
+            return "Update Failed, the question or answer does not match"
+
+    else:
+        print('The user does not exist')
+        return "UserName deos not exist"
+        # return 'Answers do not match'
+
 
 @app.route('/bind-model', methods=["POST"])
 @cross_origin()
@@ -1110,36 +1139,6 @@ def delete_binded_datasets():
     return datasetName
 
 
-@app.route('/passwordChange', methods=["POST"])
-@cross_origin()
-def passwordChange():
-    data = request.get_json(force=True)
-    print(data)
-    success=True
-    question = request.get_json(force=True)['question']
-    answer = request.get_json(force=True)['answer']
-    user = request.get_json(force=True)['username']
-    password = request.get_json(force=True)['password']
-
-    db.user.find({})
-    if len(list(db.user.find({"UserName":user})))>0:
-        user_list = list(db.user.find({"UserName":user},{"question":1,"answer":1}))
-        print(user_list[0].get('question'))
-        if(user_list[0].get('question')==question and user_list[0].get('answer')==answer):
-            password = pbkdf2_sha256.encrypt(password)
-            db.user.update_one({"UserName":user},{ "$set": { "password": password } })
-            print("change successfully")
-            return 'change successfully'
-        else:
-            print("Update Failed,the question or answer does not match")
-            return "Update Failed, the question or answer does not match"
-
-
-    else:
-        print('The user does not exist')
-        return "UserName deos not exist"
-        # return 'Answers do not match'
-
 @app.route('/alldatasetFiles', methods=["GET"])
 def showAlldatasetFiles():
     if request.method == "GET":
@@ -1158,29 +1157,6 @@ def showAlldatasetFiles():
      
         
     return json.dumps(data)
-
-@app.route('/detailedData', methods=["POST"])
-@cross_origin()
-def showDetailedData():
-
-    # 1. you get the selected dataset name from the frontend, so that you know which dataset you will extract detailed data from
-    # you can check the dataset name through this
-
-    dataset_userName = request.get_json(force=True)
-    print(dataset_userName)
-    datasetName= dataset_userName["datasetName"]
-    userName = dataset_userName["userName"]
-    result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
-    result = loads(dumps(result))
-
-    if(len(result)>0):
-        # TODO to get detailed_data from MongoDB
-        result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)},{"_id":0,"uuid":0})
-        result = loads(dumps(result))
-        metadata = result
-        detailed_data = metadata[0]['data']
-    return json_util.dumps([detailed_data, metadata])
-
 
 
 if __name__ == "__main__":

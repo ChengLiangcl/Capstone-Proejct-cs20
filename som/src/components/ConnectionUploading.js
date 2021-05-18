@@ -31,7 +31,7 @@ function ConnectionUploading(props) {
         reader.onloadend = () => {
             let lines = reader.result.split('\n');
             try {
-                let line_check = parseFloat(lines[0].split(',')[0]);
+                let line_check = parseFloat(lines[0].split(' ')[0]);
                 message = Number.isNaN(line_check) ? `Could not upload ${file.name}.#` : `${file.name} uploaded successfully!#`;
                 reminder += message;
                 console.log("check reminder: ", reminder);
@@ -86,11 +86,46 @@ function ConnectionUploading(props) {
                 console.log("file name: ", file.name);
                 reader.onloadend = () => {
                     let lines = reader.result.split('\n');
+                    console.log("check lines: ", lines);
                     try {
-                        let line_check = parseFloat(lines[0].split(',')[0]);
-                        message = Number.isNaN(line_check) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
-                        datasetMessage += message;
-                        setDatasetFail(datasetMessage);
+
+                        if (datasetExtension === "txt" || datasetExtension == "dat") {
+                            const firstRow = lines[0].trim().split(" ");
+                            console.log("first row: ", firstRow);
+                            console.log("first row: ", firstRow.length);
+
+                            if (firstRow.length === 1) {
+                                console.log("firs row len 1");
+                                let line_check = parseFloat(firstRow[0]);
+                                message = Number.isNaN(line_check) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                                datasetMessage += message;
+                                setDatasetFail(datasetMessage);
+                            }
+                            else {
+                                console.log("firs row len not 1");
+                                message = `# Could not upload ${file.name}. `;
+                                datasetMessage += message;
+                                setDatasetFail(datasetMessage);
+                            }
+                        }
+                        else {
+                            const firstRow = lines[0].trim().split(" ");
+                            const secondRow = lines[1].trim().split(" ");
+
+                            if (firstRow.length !== secondRow.length) {
+                                message = `# Could not upload ${file.name}. `;
+                                datasetMessage += message;
+                                setDatasetFail(datasetMessage);
+                            }
+                            else {
+                                const checkLine = secondRow.slice(0, secondRow.length - 1).map(elem => Number.isNaN(parseFloat(elem)) ? "noUpdate" : "update");
+                                message = checkLine.includes("noUpdate") ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                                datasetMessage += message;
+                                setDatasetFail(datasetMessage);
+                            }
+                        }
+
+
                     }
                     catch (e) {
                         message = `# Could not upload ${file.name}. `;

@@ -7,12 +7,11 @@ export const emptyMetadata = [
             "Source": "",
             "Number_of_Instance": "",
             "Number_of_Attribute": "",
-            "Label": "",
             "Keywords": [],
             "AttrInfo": [
                     {
-                            "attrName": "",
-                            "attrDescription": ""
+                        "attrName": "",
+                        "attrDescription": ""
                     }
             ]
     }

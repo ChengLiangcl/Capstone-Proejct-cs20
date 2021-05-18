@@ -19,7 +19,7 @@ import {
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
     sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels, getBindedDatasets,
     deleteOneBindedDataset, downloadFile,
-    fetchAllDatasetFiles,queryAllDatasets
+    fetchAllDatasetFiles, queryAllDatasets
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -55,14 +55,10 @@ const mapDispatchToProps = dispatch => ({
     deleteModel: (name, userName) => { dispatch(deleteOneModel(name, userName)) },
     editModelDescription: (name, description, username) => { dispatch(editModelDescription(name, description, username)) },
     queryModels: (inputValue, userName) => { dispatch(queryModels(inputValue, userName))},
-    fetchAllDatasetFiles: (inputValue) => {
-        dispatch(fetchAllDatasetFiles(inputValue))
-      },
-      queryAllDatasets: (inputValue) => {
-        dispatch(queryAllDatasets(inputValue))
-      },
+    fetchAllDatasetFiles: () => {dispatch(fetchAllDatasetFiles())},
+    queryAllDatasets: (inputValue) => {dispatch(queryAllDatasets(inputValue))},
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
-    sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName)) }
+    sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName))}
 });
 
 class Main extends Component {
@@ -76,7 +72,7 @@ class Main extends Component {
     componentDidMount() {
         this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
         this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
-        this.props.fetchAllDatasetFiles(sessionStorage.getItem('verifiedUsername'));
+        this.props.fetchAllDatasetFiles();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -135,8 +131,8 @@ class Main extends Component {
         const DatasetWithName = ({match}) => {
             let selectedDataset = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-detaileddata') :
               this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
-            localStorage.setItem('datasetname-detaileddata', selectedDataset);
-            console.log("detaileddata for name: ", selectedDataset);
+            //localStorage.setItem('datasetname-detaileddata', selectedDataset);
+            //console.log("detaileddata for name: ", selectedDataset);
       
             return (
               <DetailedDataset
@@ -221,7 +217,7 @@ class Main extends Component {
 
                                 downloadFile = {this.props.downloadFile}
                             />} />
-                        <Route path='/mydatabase/:datasetName' component={DatasetWithName}/>
+                        <Route path='/alldataset/:datasetName' component={DatasetWithName}/>
                         <Route path="/metadata-form/:datasetName" component={DatasetSelect} />
                         <Route path="/mymodels/:modelName" component={ModelSelect} />
                         <Route exact path="/mymodels" component={() => <SOMModel
@@ -245,6 +241,9 @@ class Main extends Component {
                             isBindLoading={this.props.connectionFiles.isLoading}
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
+
+                        <Route path="/allmodels" component={Visualisation} />
+
                         <Route exact path="/alldataset" component={() =>
                         <AllDataset datasetFiles={this.props.allDatasetFiles.datasetFiles}
                            isLoading={this.props.allDatasetFiles.isLoading}

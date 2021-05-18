@@ -40,11 +40,6 @@
     "UserName": "123456@qq.com"
   },
   {
-    "FileName": "copy(1)_1.dat",
-    "Description": "",
-    "UserName": "123456@qq.com"
-  },
-  {
     "FileName": "ex_fts.dat",
     "Description": "",
     "UserName": "123@gmail.com"
@@ -90,22 +85,17 @@
     "UserName": "17888813173@163.com"
   },
   {
-    "FileName": "result.dat",
-    "Description": "",
-    "UserName": "17888813173@163.com"
-  },
-  {
-    "FileName": "copy(1)_result.dat",
-    "Description": "",
-    "UserName": "17888813173@163.com"
-  },
-  {
     "FileName": "copy(2)_ex_ndy.dat",
     "Description": "",
     "UserName": "17888813173@163.com"
   },
   {
     "FileName": "ex_fts.dat",
+    "Description": "",
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "animal.txt",
     "Description": "",
     "UserName": "17888813173@163.com"
   }

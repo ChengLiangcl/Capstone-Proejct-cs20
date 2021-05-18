@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import { InputGroup, InputGroupText, InputGroupAddon, Input } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
-import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { IconButton, Modal, TableRow } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CreateIcon from '@material-ui/icons/Create';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import { Link } from 'react-router-dom';
 
-import DatasetUpload from './DatasetUploadComponent';
-import DeleteOneDataset from './DeleteOneDataset';
 import { Loading } from './LoadingComponent';
-import MetadataForm from './MetadataForm';
-import SearchFile from './searchFileComponent';
+import DownloadFile from '../components/Modal/downloadFile';
+import SearchAllDatasets from './SearchAllDatasets';
 
 class AllDataset extends Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidUpdate (){
+  componentDidUpdate() {
     this.props.fetchDatasetFiles();
   }
 
@@ -29,13 +23,13 @@ class AllDataset extends Component {
   tableHead(datasets) {
     if (datasets !== undefined) {
       return (
-        <thead>
-        <tr>
-          <th>File name</th>
-          <th>Description</th>
-          <th>Username</th>
-          <th>Operation</th>
-        </tr>
+        <thead style={{backgroundColor: '#FFE399', color: "black"}}>
+          <tr>
+            <th width="12%">File name</th>
+            <th width="20%">Description</th>
+            <th width="12%">User name</th>
+            <th width="8%">Operation</th>
+          </tr>
         </thead>
       );
     }
@@ -56,14 +50,14 @@ class AllDataset extends Component {
     else { // where are dataset stored in the database
       return (
         <tbody>
-        {datasets.map((eachDataset, index) =>
-          <tr key={index}>
-            <td key={'name'}>{eachDataset.FileName}</td>
-            <td key={'Description'}>{eachDataset.Description}</td>
-            <td key={'Username'}>{eachDataset.UserName}</td>
-            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName,eachDataset.UserName)}</td>
-          </tr>
-        )}
+          {datasets.map((eachDataset, index) =>
+            <tr key={index}>
+              <td key={'name'}>{eachDataset.FileName}</td>
+              <td key={'Description'}>{eachDataset.Description}</td>
+              <td key={'Username'}>{eachDataset.UserName}</td>
+              <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName, eachDataset.UserName)}</td>
+            </tr>
+          )}
         </tbody>
       );
     }
@@ -71,7 +65,7 @@ class AllDataset extends Component {
   }
 
   //showOperate: bool. the delete button and the create button will be disable
-  operateDataset(showOperate, fileName,userName) {
+  operateDataset(showOperate, fileName, userName) {
     /**
      if (icons === "add only") {
             return (
@@ -86,11 +80,13 @@ class AllDataset extends Component {
       return (
         <Container>
           <Row>
-            <Link to={`/mydatabase/${fileName}?userName=${userName}&fileName=${fileName}`}>
+            <Link to={`/alldataset/${fileName}?userName=${userName}&fileName=${fileName}`}>
               <IconButton aria-label="detailed data" component="span">
                 <TableChartIcon />
               </IconButton>
             </Link>
+
+            <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName} userName={userName}/>
           </Row>
         </Container>
       );
@@ -110,7 +106,7 @@ class AllDataset extends Component {
     }
     else {
       return (
-        <Table hover>
+        <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
           {this.tableHead(datasets)}
           {this.tableBody(datasets)}
         </Table>
@@ -122,7 +118,7 @@ class AllDataset extends Component {
     return (
       <Container>
         <Col className="search-box" >
-          <SearchFile queryDatasets={this.props.queryDatasets}/>
+          <SearchAllDatasets queryDatasets={this.props.queryDatasets}/>
         </Col>
 
         <Col className="database">

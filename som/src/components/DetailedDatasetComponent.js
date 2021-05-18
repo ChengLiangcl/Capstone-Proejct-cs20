@@ -5,7 +5,7 @@ import { Loading } from './LoadingComponent';
 import qs from 'querystring';
 import {emptyMetadata} from '../redux/metadataEmpty';
 
-const RenderDetailedData = React.memo(({ detailedData, isLoading, errMess }) => {
+const RenderDetailedData = ({ detailedData, isLoading, errMess }) => {
     // pass the datasetName to the backend server
 
     if (isLoading) {
@@ -25,7 +25,7 @@ const RenderDetailedData = React.memo(({ detailedData, isLoading, errMess }) => 
         console.log("colname is " + colName);
         return (
             <Table striped>
-                <thead>
+                <thead style={{backgroundColor: '#FFE399', color: "black"}}>
                     <tr key="tbhead">
                         {colName.map(col =>
                             <th key={col}>{col}</th>
@@ -46,11 +46,12 @@ const RenderDetailedData = React.memo(({ detailedData, isLoading, errMess }) => 
             </Table>
         );
     }
-}, true);
+};
 
-const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) => {
+const RenderMetadata = ({ metadata, isLoading, errMess, fileName }) => {
     console.log("check metadata");
     console.log(JSON.stringify(metadata));
+    console.log("check filename: ", fileName)
     if (isLoading) {
         return (
             <Loading />
@@ -66,7 +67,7 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
             <Container>
                 <Row>
                     <Table size="sm">
-                        <thead>
+                        <thead style={{backgroundColor: '#FFE399', color: "black"}}>
                             <tr>
                                 <th>#</th>
                                 <th>Metadata: {fileName}</th>
@@ -102,7 +103,7 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
                             <tr>
                                 <th scope="row">6</th>
                                 <td>Keywords:</td>
-                                <td>{JSON.stringify(metadata.Keywords)}</td>
+                                <td>{metadata.Keywords.length === 0 ? "" : JSON.stringify(metadata.Keywords)}</td>
                             </tr>
                         </tbody>
                     </Table>
@@ -110,7 +111,7 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
     
                 <Row>
                     <Table size="sm">
-                        <thead>
+                        <thead style={{backgroundColor: '#FFE399', color: "black"}}>
                             <tr>
                                 <th>Attributes</th>
                                 <th>Description</th>
@@ -128,16 +129,17 @@ const RenderMetadata = React.memo(({ metadata, isLoading, errMess, fileName }) =
             </Container>
         );
     }
-}, true);
+};
    
 
-const DetailedDataset = React.memo((props) => {
+const DetailedDataset = (props) => {
     //const FileName = localStorage.getItem('datasetname-detaileddata');
     const query = qs.parse(window.location.search.split('?')[1]||'')
     const FileName = query.fileName||localStorage.getItem('datasetname-detaileddata');
-    console.log("local get file name: ", props.selectedDataset);
+    console.log("local get file name: ", FileName);
+
     useEffect(() => {
-        props.sendNameForDetailedData(FileName,query.userName);
+        props.sendNameForDetailedData(FileName, query.userName);
     });
     
     //useEffect(() => {
@@ -149,7 +151,7 @@ const DetailedDataset = React.memo((props) => {
             <Col className="detailed-metadata" >
                 <Col>
                     <RenderMetadata metadata={props.metadata} isLoading={props.isLoading_metadata} errMess={props.errMess_metadata}
-                        fileName={props.selectedDataset} />
+                        fileName={FileName} />
                 </Col>
             </Col>
 
@@ -158,6 +160,6 @@ const DetailedDataset = React.memo((props) => {
             </Col>
         </Container>
     );
-}, true);
+};
 
 export default DetailedDataset;

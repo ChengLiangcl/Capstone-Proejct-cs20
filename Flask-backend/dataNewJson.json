@@ -1,15 +1,15 @@
 [
   {
     "_id": {
-      "$oid": "609fa734f2320b3fac8c1c95"
+      "$oid": "60a3302d7b00cb109d6c9391"
     },
-    "FileName": "result.dat",
+    "FileName": "animal.txt",
     "BriefInfo": "",
-    "Size": "2.095KB",
+    "Size": "0.626KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 48,
+    "Number_of_Attribute": 17,
+    "Number_of_Instance": 16,
     "Keywords": [],
     "AttrInfo": [
       {
@@ -17,7 +17,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123@gmail.com",
+    "UserName": "17888813173@163.com",
     "copy": 0
   }
 ]

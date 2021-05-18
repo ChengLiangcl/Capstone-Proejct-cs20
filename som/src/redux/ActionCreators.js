@@ -203,6 +203,7 @@ export const queryAllDatasets = (inputValue) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
+
 export const fetchAllDatasetFiles = () => (dispatch) => {
 
   dispatch(allDatasetFilesLoading(true));
@@ -470,6 +471,11 @@ export const addMetadata = (metadata) => ({
   payload: metadata
 });
 
+export const addAllMetadata = (metadata) => ({
+  type: ActionTypes.ADD_ALLMETADATA,
+  payload: metadata
+});
+
 export const metadataFailed = (errmess) => ({
   type: ActionTypes.METADATA_FAILED,
   payload: errmess
@@ -479,25 +485,20 @@ export const metadataLoading = () => ({
   type: ActionTypes.METADATA_LOADING
 });
 
+export const allMetadataFailed = (errmess) => ({
+  type: ActionTypes.ALLMETADATA_FAILED,
+  payload: errmess
+});
+
+export const allMetadataLoading = () => ({
+  type: ActionTypes.ALLMETADATA_LOADING
+});
+
 /**
  * Detailed data
  */
 export const sendNameForDetailedData = (datasetName, userName) => (dispatch) => {
   console.log("start detailed loading");
-  if(userName){
-    return http.post('/detailedData', JSON.stringify({datasetName,userName}), {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }})
-      .then(res => {
-        console.log("this is response for detailed data");
-        console.log(res.data);
-        dispatch(addDetailedData(res.data[0]));
-        dispatch(addMetadata(res.data[1]));
-      })
-      .catch((err) => console.log(err));
-  }
-
   return http.post('/detailedData-name', JSON.stringify([datasetName, userName]), {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -534,6 +535,21 @@ export const detailedDataFailed = (errmess) => ({
 
 export const detailedDataLoading = () => ({
   type: ActionTypes.DETAILEDDATA_LOADING
+});
+
+
+export const addAllDetailedData = (detaileddata) => ({
+  type: ActionTypes.ADD_ALLDETAILEDDATA,
+  payload: detaileddata
+});
+
+export const detailedAllDataFailed = (errmess) => ({
+  type: ActionTypes.ALLDETAILEDDATA_FAILED,
+  payload: errmess
+});
+
+export const detailedAllDataLoading = () => ({
+  type: ActionTypes.ALLDETAILEDDATA_LOADING
 });
 
 

@@ -27,6 +27,7 @@ function SearchModel(props) {
                 </InputGroupAddon>
             </InputGroup>
         </Col>
+ 
     );
 }
 
