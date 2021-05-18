@@ -2,13 +2,17 @@ import * as ActionTypes from './ActionTypes';
 
 export const DatasetFiles = (state = {
     isLoading: true,
+    isQuery: false,
     errMess: null,
     datasetFiles: []
 }, action) => {
     switch (action.type) {
         case ActionTypes.ADD_DATASETFILES:
             console.log("I wanna check dataset file");
-            return { ...state, isLoading: false, errMess: null, datasetFiles: action.payload };
+            return { ...state, isLoading: false, errMess: null, isQuery: false, datasetFiles: action.payload };
+
+        case ActionTypes.QUERY_DATASETFILES:
+            return { ...state, isLoading: false, errMess: null, isQuery: true, datasetFiles: action.payload };
 
         case ActionTypes.DATASETFILES_LOADING:
             return { ...state, isLoading: true, errMess: null, datasetFiles: [] }
@@ -47,19 +51,19 @@ export const DatasetFiles = (state = {
             var briefInfo_datasetName = action.payload; // to get the new briefInfo
             var briefInfo = briefInfo_datasetName[1];
             var datasetName = briefInfo_datasetName[0];
-            
+
             const updatedDataset = state.datasetFiles.map(item => {
-                if(item.FileName===datasetName){
-                    item.BriefInfo=briefInfo
+                if (item.FileName === datasetName) {
+                    item.BriefInfo = briefInfo
                     console.log("get item: ", item);
                     return item
-                }else{
+                } else {
                     return item
                 }
             });
 
             console.log("new updatedDatasets: ", updatedDataset)
-            return { ...state, datasetFiles: updatedDataset};
+            return { ...state, datasetFiles: updatedDataset };
 
 
         default:

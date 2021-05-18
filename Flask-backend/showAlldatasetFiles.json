@@ -4,7 +4,7 @@
       "$oid": "609bf5c0b495ac6cb1f15213"
     },
     "FileName": "ex_ndy.dat",
-    "BriefInfo": "",
+    "BriefInfo": "new briefInfo",
     "Size": "4.93KB",
     "Description": "",
     "Source": "",
@@ -43,30 +43,16 @@
   },
   {
     "_id": {
-      "$oid": "609e48c7277e87548cb44927"
+      "$oid": "60a33bdd72b42fbdcfde1820"
     },
-    "FileName": "ex_fts.dat",
+    "FileName": "result.dat",
     "BriefInfo": "",
-    "Size": "13.532KB",
+    "Size": "2.095KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 48,
     "UserName": "17888813173@163.com",
-    "ModelName": "ex.cod"
-  },
-  {
-    "_id": {
-      "$oid": "60a3302d7b00cb109d6c9391"
-    },
-    "FileName": "animal.txt",
-    "BriefInfo": "",
-    "Size": "0.626KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 17,
-    "Number_of_Instance": 16,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
+    "ModelName": "copy(1)_animal.cod"
   }
 ]

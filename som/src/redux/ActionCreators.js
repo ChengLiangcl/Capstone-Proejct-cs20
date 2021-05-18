@@ -281,6 +281,11 @@ export const deleteOneDataset = (datasetName, userName) => (dispatch) => {
 };
 
 //query datasets
+export const checkQueryDatasets = (datasetFiles) => ({
+  type: ActionTypes.QUERY_DATASETFILES,
+  payload: datasetFiles
+});
+
 export const queryDatasets = (inputValue, userName) => (dispatch) => {
   return http.post('/query-datasets', JSON.stringify([inputValue, userName]), {
     headers: {
@@ -290,7 +295,7 @@ export const queryDatasets = (inputValue, userName) => (dispatch) => {
     .then(res => {
       console.log("this is response for querying datasets");
       console.log(res.data);
-      dispatch(addDatasetFiles(res.data))
+      dispatch(checkQueryDatasets(res.data))
     })
     .catch((err) => console.log(err));
 };

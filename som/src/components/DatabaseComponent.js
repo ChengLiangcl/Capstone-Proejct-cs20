@@ -16,17 +16,67 @@ import DownloadFile from '../components/Modal/downloadFile';
 import { Loading } from './LoadingComponent';
 import MetadataForm from './MetadataForm';
 import SearchFile from './searchFileComponent';
+import SearchAllDatasets from './SearchAllDatasets';
+
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { withStyles } from '@material-ui/core/styles';
+import { purple } from '@material-ui/core/colors';
+
+const AllDatasetSwitch = withStyles({
+    switchBase: {
+      color: '#FFF1CC',
+      '&$checked': {
+        color: '#FFD466',
+      },
+      '&$checked + $track': {
+        backgroundColor: '#FFD466',
+      },
+    },
+    checked: {},
+    track: {},
+  })(Switch);
 
 class Database extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isShown: false
+            isShown: false,
+            checkAllDatasets: false
         };
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState(state => ({ ...state, [event.target.name]: event.target.checked }));
+    }
+
+    compareDatasets(currentBindedDatasets, nextBindedDatasets){
+        console.log("current: ", currentBindedDatasets);
+        console.log("next: ", nextBindedDatasets)
+        if (currentBindedDatasets.length !== nextBindedDatasets.length) {
+            return true;
+        }
+        else {
+            const result = currentBindedDatasets.map((eachValue, index) => {
+                return Object.values(eachValue).map((eachAttr, attrIndex) => {
+                    return eachAttr !== Object.values(nextBindedDatasets[index])[attrIndex] ? "update" : "noUpdate";
+                })
+            });
+
+            const result_final = result.map(eachResult => {
+                return eachResult.includes("update") ? "update" : "noUpdate";
+            });
+
+            return result_final.includes("update");
+        }
     }
 
     componentDidUpdate() {
-        this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
+        if (this.props.isQuery) {
+            this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
+        } 
     }
 
     // to create a flexible table head, where the number of columns depends on the attributes in the datafile.
@@ -78,16 +128,6 @@ class Database extends Component {
 
     //showOperate: bool. the delete button and the create button will be disable
     operateDataset(showOperate, fileName, bindModelName, userName) {
-        /** 
-        if (icons === "add only") {
-            return (
-                <Container>
-                    <Row>
-                        <DatasetUpload addDataset={this.props.datasetfile} />
-                    </Row>
-                </Container>
-            );
-        }*/
         if (showOperate) {
             return (
                 <Container>
@@ -109,9 +149,24 @@ class Database extends Component {
                 </Container>
             );
         }
+        else {
+            return (
+                <Container>
+                    <Row>
+                        <Link to={`/alldataset/${fileName}?userName=${userName}&fileName=${fileName}`}>
+                            <IconButton aria-label="detailed data" component="span">
+                                <TableChartIcon />
+                            </IconButton>
+                        </Link>
+
+                        <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName} userName={userName} />
+                    </Row>
+                </Container>
+            );
+        }
     }
 
-    renderDatasetTable(datasets, isLoading, errMess) {
+    renderDatasetTable(datasets, isLoading, errMess, isQuery) {
         if (isLoading) {
             return (
                 <Loading />
@@ -122,9 +177,20 @@ class Database extends Component {
                 <h4>{errMess}</h4>
             );
         }
+        else if (isQuery) {
+            return (
+                <div>
+                    <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+                        {this.tableHead(datasets)}
+                        {this.tableBody(datasets)}
+                    </Table>
+                    <p style={{ color: '#378CC6', fontSize: '12px' }}>Query result: {datasets.length} datasets are found</p>
+                </div>
+            );
+        }
         else {
             return (
-                <Table hover style={{tableLayout: 'fixed', wordWrap: 'break-word'}}>
+                <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
                     {this.tableHead(datasets)}
                     {this.tableBody(datasets)}
                 </Table>
@@ -132,7 +198,111 @@ class Database extends Component {
         }
     }
 
+    allTableHead(datasets) {
+        if (datasets !== undefined) {
+            return (
+                <thead style={{ backgroundColor: '#FFE399', color: "black" }}>
+                    <tr>
+                        <th width="12%">File name</th>
+                        <th width="20%">Description</th>
+                        <th width="12%">User name</th>
+                        <th width="8%">Operation</th>
+                    </tr>
+                </thead>
+            );
+        }
+
+        return (
+            <div>The table for storing uploaded datasets does not exist</div>
+        );
+    }
+
+    allTableBody(datasets) {
+        // when there is no uploaded dataset in the database
+        if (datasets.length === 0) {
+            return (
+                <tbody />
+            );
+        }
+        else { // where are dataset stored in the database
+            return (
+                <tbody>
+                    {datasets.map((eachDataset, index) =>
+                        <tr key={index}>
+                            <td key={'name'}>{eachDataset.FileName}</td>
+                            <td key={'Description'}>{eachDataset.Description}</td>
+                            <td key={'Username'}>{eachDataset.UserName}</td>
+                            <td key={"operateEachDataset"}>{this.operateDataset(false, eachDataset.FileName, eachDataset.UserName)}</td>
+                        </tr>
+                    )}
+                </tbody>
+            );
+        }
+
+    }
+
+    renderAllDatasetTable(datasets, isLoading, errMess, isQuery) {
+        if (isLoading) {
+            return (
+                <Loading />
+            );
+        }
+        else if (errMess) {
+            return (
+                <h4>{errMess}</h4>
+            );
+        }
+        else if (isQuery) {
+            return (
+                <div>
+                    <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+                        {this.allTableHead(datasets)}
+                        {this.allTableBody(datasets)}
+                    </Table>
+                    <p style={{ color: '#378CC6', fontSize: '12px' }}>Query result: {datasets.length} datasets are found</p>
+                </div>
+            );
+        }
+        else {
+            return (
+                <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+                    {this.allTableHead(datasets)}
+                    {this.allTableBody(datasets)}
+                </Table>
+            );
+        }
+    }
+
     render() {
+        console.log("switch state: ", this.state.checkAllDatasets)
+        if (this.state.checkAllDatasets){
+            return (
+                <Container>
+                  <Col className="search-box" >
+                    <SearchAllDatasets queryDatasets={this.props.queryDatasets}/>
+                  </Col>
+
+                  <Col>
+                    <Row>
+                        <Col md="9">
+                        </Col>
+                        <Col md="3">
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={<AllDatasetSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} color="primary" name="checkAllDatasets" />}
+                                    label="All datasets"
+                                />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                </Col>
+          
+                  <Col className="database">
+                    {this.renderAllDatasetTable(this.props.allDatasetFiles, this.props.isAllLoading, this.props.allErrMess)}
+                  </Col>
+                </Container>
+              );
+        }
         return (
             <Container>
                 <Col className="search-box" >
@@ -140,11 +310,23 @@ class Database extends Component {
                 </Col>
 
                 <Col>
-                    <DatasetUploading uploadDataset={this.props.uploadDataset} fetchDatasetFiles={this.props.fetchDatasetFiles}/>
+                    <Row>
+                        <Col md="9">
+                            <DatasetUploading uploadDataset={this.props.uploadDataset} fetchDatasetFiles={this.props.fetchDatasetFiles} />
+                        </Col>
+                        <Col md="3">
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={<AllDatasetSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} color="warning" name="checkAllDatasets" />}
+                                    label="All datasets"
+                                />
+                            </FormGroup>
+                        </Col>
+                    </Row>
                 </Col>
 
                 <Col className="database">
-                    {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess)}
+                    {this.renderDatasetTable(this.props.datasetFiles, this.props.isLoading, this.props.errMess, this.props.isQuery)}
                 </Col>
             </Container>
         );

@@ -11,6 +11,7 @@ export const UPDATE_UPLOADINGSTATUS = 'UPDATE_UPLOADINGSTATUS';
 export const DATASETFILES_LOADING = 'DATASETFILES_LOADING'; // means the datasets are currently being fetched, maybe from a server
 export const DATASETFILES_FAILED = 'DATASETFILES_FAILED'; // means you fail to fetch dataset information from a server
 export const ADD_DATASETFILES = 'ADD_DATASETFILES'; // you wanna add datasets into your Redux store
+export const QUERY_DATASETFILES = 'QUERY_DATASETFILES';
 export const UPLOAD_DATASET = 'UPLOAD_DATASET'; // add the uploaded dataset to the Redux store
 export const REMOVE_DATASET = 'REMOVE_DATASET'; // remove the selected dataset in the Redux store
 export const MODIFY_BRIFINFO = 'MODIFY_BRIFINFO';

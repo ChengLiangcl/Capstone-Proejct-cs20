@@ -39,7 +39,6 @@ class AllDataset extends Component {
     );
   }
 
-  //TODO: may change if the design of the database is changed
   tableBody(datasets) {
     // when there is no uploaded dataset in the database
     if (datasets.length === 0) {
