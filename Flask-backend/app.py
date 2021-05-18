@@ -164,6 +164,8 @@ def connect_upload():
             elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
                 print('cool')
                 sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+            else:
+                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
             
             columnNames = [''] * sizes
             attributes_meta = sizes
@@ -350,6 +352,9 @@ def upload():
             elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
                 print('cool')
                 sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+            else:
+                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+
             
             columnNames = [''] * sizes
             attributes_meta = sizes
