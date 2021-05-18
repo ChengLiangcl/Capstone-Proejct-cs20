@@ -43,7 +43,6 @@ def connect_upload():
     print("-------------------------------------")
     print("get file: ", request.files)
     print("-------------------------------------")
-   
     #get model
     model = request.files['model']
     model_name = request.files['model'].filename
@@ -60,10 +59,21 @@ def connect_upload():
     size = str(size/1000) + "KB"
     output = open(os.path.join(app.config['UPLOAD_PATH'], model_name),'r')
     data = output.readlines()
+    count = 0
+    for i in data:
+        count = count +1
+        if(count==1):
+            if(len(i.split(' '))==1):
+                2/0
+        break
+
+
+        
     output.close()
     # file name checking
     split_name = model_name.split(".")
     modelsuffix = split_name[len(split_name)-1]
+    
 
     if  modelsuffix!= "cod":
         print("find Exception")
@@ -844,6 +854,16 @@ def uploadModel():
         f = open(newf)
         lines = f.readlines()
         # copy the content in lines to new list named data
+        count =0
+        for i in lines:
+            count = count+1
+            if(count ==1):
+                tem = i.split(' ')[1]
+                print('------')
+                print(tem)
+                print('guichuang')
+            
+            
         data = lines
         Array = filename.split('.', 1)
         filename = Array[0] + ".cod"

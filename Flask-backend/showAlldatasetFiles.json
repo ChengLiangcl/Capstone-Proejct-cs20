@@ -26,19 +26,5 @@
     "Number_of_Instance": 246,
     "UserName": "123@gmail.com",
     "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60a3c6e4e1566b41cf7afb91"
-    },
-    "FileName": "ex_fts (10).csv",
-    "BriefInfo": "",
-    "Size": "13.667KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "123@gmail.com",
-    "ModelName": ""
   }
 ]
