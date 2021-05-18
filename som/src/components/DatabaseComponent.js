@@ -52,27 +52,6 @@ class Database extends Component {
         this.setState(state => ({ ...state, [event.target.name]: event.target.checked }));
     }
 
-    compareDatasets(currentBindedDatasets, nextBindedDatasets){
-        console.log("current: ", currentBindedDatasets);
-        console.log("next: ", nextBindedDatasets)
-        if (currentBindedDatasets.length !== nextBindedDatasets.length) {
-            return true;
-        }
-        else {
-            const result = currentBindedDatasets.map((eachValue, index) => {
-                return Object.values(eachValue).map((eachAttr, attrIndex) => {
-                    return eachAttr !== Object.values(nextBindedDatasets[index])[attrIndex] ? "update" : "noUpdate";
-                })
-            });
-
-            const result_final = result.map(eachResult => {
-                return eachResult.includes("update") ? "update" : "noUpdate";
-            });
-
-            return result_final.includes("update");
-        }
-    }
-
     componentDidUpdate() {
         if (this.props.isQuery) {
             this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
@@ -128,6 +107,7 @@ class Database extends Component {
 
     //showOperate: bool. the delete button and the create button will be disable
     operateDataset(showOperate, fileName, bindModelName, userName) {
+        console.log("dataset comp: ", userName);
         if (showOperate) {
             return (
                 <Container>
@@ -232,7 +212,7 @@ class Database extends Component {
                             <td key={'name'}>{eachDataset.FileName}</td>
                             <td key={'Description'}>{eachDataset.Description}</td>
                             <td key={'Username'}>{eachDataset.UserName}</td>
-                            <td key={"operateEachDataset"}>{this.operateDataset(false, eachDataset.FileName, eachDataset.UserName)}</td>
+                            <td key={"operateEachDataset"}>{this.operateDataset(false, eachDataset.FileName, " ", eachDataset.UserName)}</td>
                         </tr>
                     )}
                 </tbody>

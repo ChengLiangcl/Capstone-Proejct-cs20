@@ -2,13 +2,17 @@ import * as ActionTypes from './ActionTypes';
 
 export const ModelFiles = (state = {
     isLoading: true,
+    isQuery: false,
     errMess: null,
     modelFiles: []
 }, action) => {
     switch (action.type) {
         case ActionTypes.ADD_MODELFILES:
             console.log("I wanna check model file");
-            return { ...state, isLoading: false, errMess: null, modelFiles: action.payload };
+            return { ...state, isLoading: false, errMess: null, isQuery: false, modelFiles: action.payload };
+
+        case ActionTypes.QUERY_MODELFILES:
+            return { ...state, isLoading: false, errMess: null, isQuery: true, modelFiles: action.payload };
 
         case ActionTypes.MODELFILES_LOADING:
             return { ...state, isLoading: true, errMess: null, modelFiles: [] }
@@ -18,7 +22,7 @@ export const ModelFiles = (state = {
 
         case ActionTypes.UPLOAD_MODEL:
             var model = action.payload; // get the uploaded model
-            return { ...state, modelFiles: [...state.modelFiles,...model] };
+            return { ...state, modelFiles: [...state.modelFiles, ...model] };
 
         case ActionTypes.REMOVE_MODEL:
             console.log("start delete");
@@ -38,29 +42,29 @@ export const ModelFiles = (state = {
                 ...state.modelFiles.slice(deletedIndex + 1, state.modelFiles.length)];
 
             return { ...state, modelFiles: newModel };
-            
+
         case ActionTypes.EDIT_MODEL_DESCRIPTION:
             console.log("start edit");
-            var {modelName,description} = action.payload;
+            var { modelName, description } = action.payload;
             console.log("my modelname:", modelName);
             console.log("my description:", description)
-            state.modelFiles.forEach(item=>{
-              if(item.FileName===modelName){
-                item.BriefInfo=description
-              }
+            state.modelFiles.forEach(item => {
+                if (item.FileName === modelName) {
+                    item.BriefInfo = description
+                }
             })
 
             const updatedModel = state.modelFiles.map(item => {
-                if(item.FileName===modelName){
-                    item.BriefInfo=description
+                if (item.FileName === modelName) {
+                    item.BriefInfo = description
                     return item
-                }else{
+                } else {
                     return item
                 }
             });
 
             console.log("new modelFile: ", updatedModel)
-            return { ...state, modelFiles: updatedModel};
+            return { ...state, modelFiles: updatedModel };
 
         default:
             return state;

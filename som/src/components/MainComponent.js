@@ -238,6 +238,7 @@ class Main extends Component {
                             modelFiles={this.props.modelFiles.modelFiles}
                             isLoading={this.props.modelFiles.isLoading}
                             errMess={this.props.modelFiles.errMess}
+                            isQuery={this.props.modelFiles.isQuery}
                             uploadModel={this.props.uploadModel}
                             fetchUploadedModel={this.props.fetchUploadedModel}
                             deleteModel={this.props.deleteModel}
@@ -253,6 +254,9 @@ class Main extends Component {
 
                             queryModels={this.props.queryModels}
                             isBindLoading={this.props.connectionFiles.isLoading}
+
+                            fetchAllModels={this.props.fetchAllModels}
+                            allModels={this.props.allModels.modelFiles}
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
 

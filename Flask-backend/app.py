@@ -576,6 +576,8 @@ def getNameForDetailedData():
     dataset_userName = request.get_json(force=True)
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
+    print("detailed data: ", datasetName)
+    print("detailed data: ", userName)
     result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)})
     result = loads(dumps(result))
 

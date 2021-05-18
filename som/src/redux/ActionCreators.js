@@ -341,8 +341,8 @@ export const addAllModels = (models) => ({
 export const fetchModelFiles = (userName, isLoading = true) => (dispatch) => {
   // test
   // return dispatch(addModelFiles(MODELFILES))
-  console.log("check loading: ", isLoading);
-  dispatch(modelFilesLoading(isLoading));
+  //console.log("check loading: ", isLoading);
+  //dispatch(modelFilesLoading(isLoading));
 
   return http.post('/modelFiles', JSON.stringify(userName), {
     headers: {
@@ -448,6 +448,11 @@ export const editModelDescription = (modelName, description, userName) => (dispa
 };
 
 //query datasets
+export const checkQueryModels = (models) => ({
+  type: ActionTypes.QUERY_MODELFILES,
+  payload: models
+});
+
 export const queryModels = (inputValue, userName) => (dispatch) => {
   console.log("start query models");
   return http.post('/query-models', JSON.stringify([inputValue, userName]), {
@@ -458,7 +463,7 @@ export const queryModels = (inputValue, userName) => (dispatch) => {
     .then(res => {
       console.log("this is response for querying models");
       console.log(res.data);
-      dispatch(addModelFiles(res.data))
+      dispatch(checkQueryModels(res.data))
     })
     .catch((err) => console.log(err));
 };

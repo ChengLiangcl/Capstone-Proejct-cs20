@@ -25,6 +25,7 @@ export const ADD_ALL_MODELS = 'ADD_ALL_MODELS';
 export const MODELFILES_LOADING = 'MODELFILES_LOADING'; // means the models are currently being fetched, maybe from a server
 export const MODELFILES_FAILED = 'MODELFILES_FAILED'; // means you fail to fetch model information from a server
 export const ADD_MODELFILES = 'ADD_MODELFILES'; // you wanna add models into your Redux store
+export const QUERY_MODELFILES = 'QUERY_MODELFILES';
 export const UPLOAD_MODEL = 'UPLOAD_MODEL'; // add the uploaded model to the Redux store
 export const REMOVE_MODEL = 'REMOVE_MODEL'; // remove the selected model in the Redux store
 export const EDIT_MODEL_DESCRIPTION = 'EDIT_MODEL_DESCRIPTION';

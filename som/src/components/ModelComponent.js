@@ -14,16 +14,48 @@ import ModelBriefInfo from './ModelBriefInfo';
 import { Loading } from './LoadingComponent';
 import ConnectUploading from './Modal/ConnectionUploading'
 import SearchModel from './SearchModelComponent';
-import AskBindedDatasets from './Modal/AskBindedDatasets';
+import SearchAllModel from './SearchAllModels';
+
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { withStyles } from '@material-ui/core/styles';
+import { purple } from '@material-ui/core/colors';
+
+const AllModelSwitch = withStyles({
+  switchBase: {
+    color: '#FFF1CC',
+    '&$checked': {
+      color: '#FFD466',
+    },
+    '&$checked + $track': {
+      backgroundColor: '#FFD466',
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 
 
 class SOMModel extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      checkAllModels: false
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState(state => ({ ...state, [event.target.name]: event.target.checked }));
   }
 
   componentDidUpdate() {
-    this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
+    if (this.props.isQuery) {
+      this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
+    }
+
   }
 
 
@@ -83,14 +115,75 @@ class SOMModel extends Component {
     }
   }
 
-  renderModelTable(models = [], isLoading) {
+  allTableHead() {
+    return (
+      <thead style={{ backgroundColor: '#FFE399', color: "black" }}>
+        <tr>
+          <th width="10%">Model name</th>
+          <th width="18%">Description</th>
+          <th width="8%">User name</th>
+          <th width="10%">Operation</th>
+        </tr>
+      </thead>
+    );
+  }
+
+  allTableBody(models) {
+    if (models.length === 0) {
+      return (
+        <tbody />
+      );
+    }
+    else {
+      return (
+        <tbody>
+          {models.map((model, index) =>
+            <tr key={index}>
+              <Link style={{ color: "black" }} to={`/mymodels/${model.FileName}`}>
+                <td style={{ verticalAlign: 'middle' }}>
+                  {model.FileName}
+                </td>
+              </Link>
+              <td style={{ verticalAlign: 'middle' }}>{model.BriefInfo}</td>
+              <td style={{ verticalAlign: 'middle' }}>{model.UserName}</td>
+              <td key={"operateEachModel"}>
+                <Container>
+                  <Row>
+                    <Link to={`/visualisation/${model.FileName}`}>
+                      <IconButton aria-label="visualisation" component="span">
+                        <InsertChart />
+                      </IconButton>
+                    </Link>
+                  </Row>
+                </Container>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      );
+    }
+  }
+
+  renderModelTable(models = [], isLoading, isQuery) {
     if (isLoading) {
       return (
         <Loading />
       );
-    } else {
+    }
+    else if (isQuery) {
       return (
-        <Table hover style={{tableLayout: 'fixed', wordWrap: 'break-word'}}>
+        <div>
+          <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+            {this.tableHead()}
+            {this.tableBody(models)}
+          </Table>
+          <p style={{ color: '#378CC6', fontSize: '12px' }}>Query result: {models.length} models are found</p>
+        </div>
+      );
+    }
+    else {
+      return (
+        <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
           {this.tableHead()}
           {this.tableBody(models)}
         </Table>
@@ -98,27 +191,86 @@ class SOMModel extends Component {
     }
   }
 
+  renderAllModelTable(models = [], isLoading) {
+    if (isLoading) {
+      return (
+        <Loading />
+      );
+    } else {
+      return (
+        <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+          {this.allTableHead()}
+          {this.allTableBody(models)}
+        </Table>
+      );
+    }
+  }
+
   render() {
-    return (
-      <Container>
-        <Col className="search-box" >
-          <SearchModel queryModels={this.props.queryModels} />
-        </Col>
+    console.log("switch state: ", this.state.checkAllModels);
+    if (this.state.checkAllModels) {
+      return (
+        <Container>
+          <Col className="search-box" >
+            <SearchAllModel queryModels={this.props.queryModels} />
+          </Col>
 
-        <Col>
-          <ConnectUploading connectUploading={this.props.connectUploading}
-            connectionFiles={this.props.connectionFiles}
-            clearConnectionFiles={this.props.clearConnectionFiles} 
-            fetchModelFiles = {this.props.fetchModelFiles}
-            fetchDatasetFiles={this.props.fetchDatasetFiles}/>
-        </Col>
+          <Col>
+            <Row>
+              <Col md="9">
+              </Col>
+              <Col md="3">
+                <FormGroup>
+                  <FormControlLabel
+                    control={<AllModelSwitch checked={this.state.checkAllDatasets} onChange={this.handleChange} color="primary" name="checkAllModels" />}
+                    label="All models"
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+          </Col>
 
-        <Col className="database">
-          {this.renderModelTable(this.props.modelFiles, false)}
-        </Col>
+          <Col className="database">
+            {this.renderAllModelTable(this.props.allModels, false)}
+          </Col>
 
-      </Container>
-    );
+        </Container>
+      );
+    }
+    else {
+      return (
+        <Container>
+          <Col className="search-box" >
+            <SearchModel queryModels={this.props.queryModels} />
+          </Col>
+
+          <Col>
+            <Row>
+              <Col md="9">
+                <ConnectUploading connectUploading={this.props.connectUploading}
+                  connectionFiles={this.props.connectionFiles}
+                  clearConnectionFiles={this.props.clearConnectionFiles}
+                  fetchModelFiles={this.props.fetchModelFiles}
+                  fetchDatasetFiles={this.props.fetchDatasetFiles} />
+              </Col>
+              <Col md="3">
+                <FormGroup>
+                  <FormControlLabel
+                    control={<AllModelSwitch checked={this.state.checkAllModels} onChange={this.handleChange} name="checkAllModels" />}
+                    label="All models"
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+          </Col>
+
+          <Col className="database">
+            {this.renderModelTable(this.props.modelFiles, false, this.props.isQuery)}
+          </Col>
+
+        </Container>
+      );
+    }
   }
 }
 
