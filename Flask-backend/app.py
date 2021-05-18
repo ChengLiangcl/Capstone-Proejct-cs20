@@ -67,7 +67,7 @@ def connect_upload():
 
     if  modelsuffix!= "cod":
         print("find Exception")
-        raise Exception
+        raise ValueError
     
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
@@ -150,12 +150,24 @@ def connect_upload():
             # to get the column number
 
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            if(f.readline().strip().split(' ')[1].isdigit()==False):
-                raise Exception('Erro! Can not upload that file')
-            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
-
-            columnNames = [''] * size
-            attributes_meta = size
+            first_line = f.readline()
+            if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
+                print('INTRO')
+                print(first_line.strip().split(' ')[1])
+                if(first_line.strip().split(' ')[1].isdigit()==False):
+                    2/0
+                sizes = len(first_line.strip().split(' '))
+            elif(',' in first_line):
+                sizes = len(f.readline().split(','))
+                print('do here mother fucker')
+                print(sizes)
+            elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
+                print('cool')
+                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+            
+            columnNames = [''] * sizes
+            attributes_meta = sizes
+            
             # file name checking
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
@@ -163,14 +175,14 @@ def connect_upload():
 
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
                 # if name is not include, throw an exception
-                raise Exception
+                raise ValueError
 
-            for i in range(size):
+            for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
-            path_str = './public/' + str(index) + '.'+'dat'
+            path_str_first = './public/' + str(index) + '.'+'dat'
             with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
-                with open(path_str,'w') as f1:
+                with open(path_str_first,'w') as f1:
                     f1.write(','.join(columnNames)+"\n")
                     next(f) # skip the first line of the dataset
                     for line in f:
@@ -181,7 +193,7 @@ def connect_upload():
             instance_meta = record
             index = index + 1
 
-         except Exception as e:
+         except ValueError as e:
             # catch exception, store it in B array
             print(e)
             B.append(uploaded_file)
@@ -196,15 +208,15 @@ def connect_upload():
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
 
-            columnNames = [''] * size
-            attributes_meta = size
+            columnNames = [''] * sizes
+            attributes_meta = sizes
             # file name checking
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
             print("EXCEPTION")
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                raise Exception
+                raise ValueError
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -322,29 +334,39 @@ def upload():
         for uploaded_file in files_list:
          try:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-
            # to get the column number
-            if(f.readline().strip().split(' ')[1].isdigit()==False):
-                raise Exception('Erro! Can not upload that file')
-
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
-
-            columnNames = [''] * size
-            attributes_meta = size
+            first_line = f.readline()
+            if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
+                print('INTRO')
+                print(first_line.strip().split(' ')[1])
+                if(first_line.strip().split(' ')[1].isdigit()==False):
+                    2/0
+                sizes = len(first_line.strip().split(' '))
+            elif(',' in first_line):
+                sizes = len(f.readline().split(','))
+                print('do here mother fucker')
+                print(sizes)
+            elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
+                print('cool')
+                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+            
+            columnNames = [''] * sizes
+            attributes_meta = sizes
             # file name checking
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                raise Exception
+                raise ValueError
 
-            for i in range(size):
+            for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
+            print(columnNames)
             record = 0
-            path_str = './public/' + str(index) + '.'+'dat'
+            path_str_first = './public/' + str(index) + '.'+'dat'
             with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
-                with open(path_str,'w') as f1:
+                with open(path_str_first,'w') as f1:
                     f1.write(','.join(columnNames)+"\n")
                     next(f) # skip the first line of the dataset
                     for line in f:
@@ -353,7 +375,7 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             index = index + 1
-         except Exception as e:
+         except ValueError as e:
             print(e)
             B.append(uploaded_file)
          else:
@@ -365,16 +387,15 @@ def upload():
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
-
-            columnNames = [''] * size
-            attributes_meta = size
+            columnNames = [''] * sizes
+            attributes_meta = sizes
             # file name checking
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
             print("EXCEPTION")
             if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                raise Exception
+                raise ValueError
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -391,7 +412,8 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
-            data = pd.read_csv(path_str)
+            data = pd.read_csv(path_str_first)
+           
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
@@ -698,16 +720,12 @@ def downloadFile():
     downloadType= dataset_userName[2]
     print("downloaded dataset name： %s, username: %s, dowloadType: %s" %(datasetName, userName, downloadType))
     data = db.files.find({"UserName":userName,"FileName":datasetName},{"_id":0,"data":1})
-    # data_list = list()
     result = db.files.find({"FileName":str(datasetName),"UserName":str(userName)},{"_id":0,"uuid":0})
     result = loads(dumps(result))
     metadata = result
     data = metadata[0]['data']
    
-    # data = dumps(data, indent=2)
-    # data=list(data)
-    # for i in data:
-    # print(data)
+    
     data_list = list()
     size = len(data[0])
 
@@ -732,8 +750,30 @@ def downloadFile():
             content = f.read()
     #  csv
     elif downloadType == '.csv':
-        with open('./download/tem_data.csv') as file:
-            content = file.read()
+        f = open('./download/tem_data.csv')
+        first_line = f.readline().replace('\n','')
+        lines = f.readlines()
+        header = first_line.split(' ')
+        print(header)
+        format_result = list()
+        for i in lines:
+            i = i.replace('\n','')
+            tem_list = i.split(' ')
+            row_result = {header[i]: tem_list[i] for i in range(len(header))}
+            format_result.append(row_result)
+        import csv
+        class CsvTextBuilder(object):
+            def __init__(self):
+                self.csv_string = []
+
+            def write(self, row):
+                self.csv_string.append(row)
+        csvfile = CsvTextBuilder()
+        fieldnames = header
+        writer = csv.DictWriter(csvfile, fieldnames)
+        writer.writeheader()
+        writer.writerows(format_result)
+        content = ''.join(csvfile.csv_string)
     
     print(content)
     return content
@@ -1229,10 +1269,21 @@ def showAllModels():
         # read datasets JSON file
         # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
         # TODO: return a empty [] to me if there is no file in the MongoDB
-        with open('./all_model.json') as f:
-            data = json.load(f)
-        #print(data)
-    return json.dumps(data)
+       
+      
+        data_return = list(db.models.find({},{'data':0}).sort("UserName", 1))
+
+        if (len(data_return) != 0):
+            json_data = dumps(data_return, indent=2)
+            values = json.loads(json_data)
+            values = dumps(values, indent=2)
+            print(values)
+            return values
+        else:
+            print("Does not have any file")
+            data = []
+            return json.dumps(data)
+            
 
 if __name__ == "__main__":
     #sess = Session()

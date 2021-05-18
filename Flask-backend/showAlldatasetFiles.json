@@ -1,58 +1,44 @@
 [
   {
     "_id": {
-      "$oid": "609bf5c0b495ac6cb1f15213"
+      "$oid": "609f9a07be61db7300079d80"
     },
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "new briefInfo",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "animal.cod"
-  },
-  {
-    "_id": {
-      "$oid": "609bf5deb495ac6cb1f15214"
-    },
-    "FileName": "copy(1)_ex_ndy.dat",
+    "FileName": "ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.532KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
     "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "609e48c6277e87548cb44926"
+      "$oid": "60a3b71f642564a369be21cf"
     },
-    "FileName": "copy(2)_ex_ndy.dat",
+    "FileName": "ex_fts (7).csv",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.667KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "ex.cod"
+    "Number_of_Attribute": 1,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "60a33bdd72b42fbdcfde1820"
+      "$oid": "60a3bbbcace2a4689642b864"
     },
-    "FileName": "result.dat",
+    "FileName": "ex_fts (1).txt",
     "BriefInfo": "",
-    "Size": "2.095KB",
+    "Size": "13.42KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 48,
-    "UserName": "17888813173@163.com",
-    "ModelName": "copy(1)_animal.cod"
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
-    "uuid": "c8fe83df214741a8829467f21e4d4fd6",
-    "FileName": "copy(6)_ex.cod",
+    "uuid": "420a39d2f2644b9bbc9cc88a79b7f691",
+    "FileName": "copy(2)_ex.cod",
     "BriefInfo": "",
     "Size": "4.229KB",
     "UserName": "123@gmail.com",
@@ -103,18 +103,11 @@
       "45.4543 55.2803 0.264083 -0.00898778 402.922 \n",
       "46.6649 57.0576 -0.0563481 -0.395202 402.7 \n"
     ],
-    "copy": 6,
+    "copy": 2,
     "Model_info": {
       "vectorDim": 5,
       "xDim": 12,
       "yDim": 8
     }
-  },
-  {
-    "FileName": "result.dat",
-    "BriefInfo": "",
-    "Size": "2.095KB",
-    "UserName": "123@gmail.com",
-    "copy": 0
   }
 ]

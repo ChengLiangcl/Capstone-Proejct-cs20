@@ -1,15 +1,15 @@
 [
   {
     "_id": {
-      "$oid": "60a3302d7b00cb109d6c9391"
+      "$oid": "60a3bdaff1a0759cd553740f"
     },
-    "FileName": "animal.txt",
+    "FileName": "ex_fts (8).csv",
     "BriefInfo": "",
-    "Size": "0.626KB",
+    "Size": "13.667KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 17,
-    "Number_of_Instance": 16,
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
     "Keywords": [],
     "AttrInfo": [
       {
@@ -17,7 +17,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "17888813173@163.com",
+    "UserName": "123@gmail.com",
     "copy": 0
   }
 ]
