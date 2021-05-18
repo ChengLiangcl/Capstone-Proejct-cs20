@@ -741,7 +741,7 @@ Models
 '''
 @app.route('/modelFiles', methods=["POST"])
 @cross_origin()
-def showAllModelFiles():
+def showMyModelFiles():
     # read datasets JSON file
     # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
     # TODO: return a empty [] to me if there is no file in the MongoDB
@@ -1154,10 +1154,19 @@ def showAlldatasetFiles():
             f.write(datas)
         with open('./all_datasets.json','r') as f:
             data = json.load(f)
-     
         
     return json.dumps(data)
 
+@app.route('/allmodels', methods=["GET", "POST"])
+def showAllModels():
+    if request.method == "GET":
+        # read datasets JSON file
+        # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
+        # TODO: return a empty [] to me if there is no file in the MongoDB
+        with open('./all_model.json') as f:
+            data = json.load(f)
+        #print(data)
+    return json.dumps(data)
 
 if __name__ == "__main__":
     #sess = Session()

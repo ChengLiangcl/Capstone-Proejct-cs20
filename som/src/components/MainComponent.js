@@ -12,6 +12,7 @@ import MetadataForm from './MetadataForm';
 import ConnectionUploading from './ConnectionUploading';
 import BindedDatasets from './Modal/BindedDatasets';
 import AllDataset from './AlldatasetsComponent';
+import AllModel from './AllModelsComponents';
 import compareProps from '../others/compareProps';
 
 import {
@@ -19,7 +20,7 @@ import {
     fetchModelFiles, uploadModel, fetchUploadedModel, deleteOneModel, editModelDescription,
     sendNameForDetailedData, connectUploading, clearConnectionFiles, bindModel, queryModels, getBindedDatasets,
     deleteOneBindedDataset, downloadFile,
-    fetchAllDatasetFiles, queryAllDatasets
+    fetchAllDatasetFiles, queryAllDatasets, fetchAllModels
 } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
@@ -30,6 +31,7 @@ const mapStateToProps = state => {
         modelFiles: state.modelFiles,
         detailedData: state.detailedData,
         allDatasetFiles: state.allDatasetFiles,
+        allModels: state.allModels,
         connectionFiles: state.connectionFiles
     }
 }
@@ -55,8 +57,12 @@ const mapDispatchToProps = dispatch => ({
     deleteModel: (name, userName) => { dispatch(deleteOneModel(name, userName)) },
     editModelDescription: (name, description, username) => { dispatch(editModelDescription(name, description, username)) },
     queryModels: (inputValue, userName) => { dispatch(queryModels(inputValue, userName))},
+
     fetchAllDatasetFiles: () => {dispatch(fetchAllDatasetFiles())},
     queryAllDatasets: (inputValue) => {dispatch(queryAllDatasets(inputValue))},
+
+    fetchAllModels: () => {dispatch(fetchAllModels())},
+
     submitMetadata: (metadata) => { dispatch(submitMetadata(metadata)) },
     sendNameForDetailedData: (datasetName, userName) => { dispatch(sendNameForDetailedData(datasetName, userName))}
 });
@@ -73,6 +79,7 @@ class Main extends Component {
         this.props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'));
         this.props.fetchDatasetFiles(sessionStorage.getItem('verifiedUsername'));
         this.props.fetchAllDatasetFiles();
+        this.props.fetchAllModels();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -242,7 +249,10 @@ class Main extends Component {
                         />} />
                         <Route path="/visualisation" component={Visualisation} />
 
-                        <Route path="/allmodels" component={Visualisation} />
+                        <Route path="/allmodels" component={() => <AllModel
+                            fetchAllModels = {this.props.fetchAllModels}
+                            allModels = {this.props.allModels.modelFiles}
+                        />}/>
 
                         <Route exact path="/alldataset" component={() =>
                         <AllDataset datasetFiles={this.props.allDatasetFiles.datasetFiles}

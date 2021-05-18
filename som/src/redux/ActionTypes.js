@@ -14,9 +14,12 @@ export const ADD_DATASETFILES = 'ADD_DATASETFILES'; // you wanna add datasets in
 export const UPLOAD_DATASET = 'UPLOAD_DATASET'; // add the uploaded dataset to the Redux store
 export const REMOVE_DATASET = 'REMOVE_DATASET'; // remove the selected dataset in the Redux store
 export const MODIFY_BRIFINFO = 'MODIFY_BRIFINFO';
+
 export const ADD_ALL_DATASETFILES = 'ADD_ALL_DATASETFILES';
 export const ALL_DATASETFILES_LOADING = 'ALL_DATASETFILES_LOADING';
 export const ALL_DATASETFILES_FAILED = 'ALL_DATASETFILES_FAILED';//show all dataset
+
+export const ADD_ALL_MODELS = 'ADD_ALL_MODELS';
 
 export const MODELFILES_LOADING = 'MODELFILES_LOADING'; // means the models are currently being fetched, maybe from a server
 export const MODELFILES_FAILED = 'MODELFILES_FAILED'; // means you fail to fetch model information from a server

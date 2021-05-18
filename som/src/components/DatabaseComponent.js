@@ -67,7 +67,7 @@ class Database extends Component {
                             <td key={'dataset name'}>{eachDataset.FileName}</td>
                             <td key={'dataset briefInfo'}>{eachDataset.BriefInfo}</td>
                             <td key={'dataset size'}>{eachDataset.Size}</td>
-                            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName, eachDataset.ModelName)}</td>
+                            <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName, eachDataset.ModelName, eachDataset.UserName)}</td>
                         </tr>
                     )}
                 </tbody>
@@ -77,7 +77,7 @@ class Database extends Component {
     }
 
     //showOperate: bool. the delete button and the create button will be disable
-    operateDataset(showOperate, fileName, bindModelName) {
+    operateDataset(showOperate, fileName, bindModelName, userName) {
         /** 
         if (icons === "add only") {
             return (
@@ -104,7 +104,7 @@ class Database extends Component {
                         <ModelBinding modelFiles={this.props.modelFiles} datasetName={fileName}
                             bindModel={this.props.bindModel} bindedModelName={bindModelName}/>
                         
-                        <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName}/>
+                        <DownloadFile downloadFile={this.props.downloadFile} datasetName={fileName} userName={userName}/>
                     </Row>
                 </Container>
             );

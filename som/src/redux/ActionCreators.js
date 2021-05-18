@@ -321,6 +321,18 @@ export const downloadFile = (datasetName, downloadName, downloadType, username) 
  * Models
  */
 // fetch models from the backend server
+export const fetchAllModels = () => (dispatch) => {
+  return fetch(backendUrl + 'allmodels') // backend address: Localhost: 5000/datasetFiles
+    .then(response => response.json()) // when the promise resolved, we convert the incoming response into JSON by calling response.json
+    .then(models => dispatch(addAllModels(models))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
+    .then(data => console.log(data));
+}
+
+export const addAllModels = (models) => ({
+  type: ActionTypes.ADD_ALL_MODELS,
+  payload: models
+});
+
 export const fetchModelFiles = (userName, isLoading = true) => (dispatch) => {
   // test
   // return dispatch(addModelFiles(MODELFILES))

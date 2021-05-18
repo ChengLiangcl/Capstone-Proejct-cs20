@@ -57,9 +57,7 @@ function DownloadFile(props) {
     };
 
     const downloading = (datasetName, downloadName, downloadType) => {
-        props.downloadFile(datasetName, downloadName, downloadType,
-            sessionStorage.getItem('verifiedUsername')
-        )
+        props.downloadFile(datasetName, downloadName, downloadType, props.userName)
     };
 
 

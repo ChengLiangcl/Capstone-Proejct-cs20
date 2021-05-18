@@ -7,6 +7,7 @@ import { AllDatasetFiles } from './allDatasetFiles';
 import { Metadata } from './metadata';
 import { User } from './user';
 import { ConnectionFiles } from './connectionResult';
+import { AllModelFiles } from './allModels';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
@@ -19,6 +20,7 @@ export const ConfigureStore = () => {
             detailedData: DetailedData,
             metadata: Metadata,
             allDatasetFiles: AllDatasetFiles,
+            allModels: AllModelFiles,
             connectionFiles: ConnectionFiles
         }),
         // applyMiddleware can return store enhancer
