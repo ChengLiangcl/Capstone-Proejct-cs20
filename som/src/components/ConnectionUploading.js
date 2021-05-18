@@ -31,11 +31,21 @@ function ConnectionUploading(props) {
         reader.onloadend = () => {
             let lines = reader.result.split('\n');
             try {
-                let line_check = parseFloat(lines[0].split(' ')[0]);
-                message = Number.isNaN(line_check) ? `Could not upload ${file.name}.#` : `${file.name} uploaded successfully!#`;
-                reminder += message;
-                console.log("check reminder: ", reminder);
-                setFail(reminder);
+                const firstRow = lines[0].trim().split(" ");
+
+                if (firstRow.length > 2) {
+                    let line_check = parseFloat(firstRow[0]);
+                    message = Number.isNaN(line_check) ? `Could not upload ${file.name}.#` : `${file.name} uploaded successfully!#`;
+                    reminder += message;
+                    console.log("check reminder: ", reminder);
+                    setFail(reminder);
+                }
+                else {
+                    message = `# Could not upload ${file.name}.#`;
+                    reminder += message;
+                    setFail(reminder);
+                }
+
             }
             catch (e) {
                 message = `# Could not upload ${file.name}.#`;

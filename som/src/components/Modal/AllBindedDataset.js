@@ -5,7 +5,8 @@ import DeleteOneDataset from '../DeleteOneDataset';
 import CreateIcon from '@material-ui/icons/Create';
 import { Link } from 'react-router-dom';
 import { Loading } from '../LoadingComponent';
-import ModelBriefInfo from '../ModelBriefInfo';
+import TableChartIcon from '@material-ui/icons/TableChart';
+import DownloadFile from './downloadFile';
 import InsertChart from '@material-ui/icons/InsertChart';
 import qs from 'querystring';
 
@@ -31,7 +32,7 @@ function AllBindedDatasets(props) {
 
     const tableHead = () => {
         return (
-            <thead style={{backgroundColor: "lightgray", color: "black"}}>
+            <thead style={{ backgroundColor: "lightgray", color: "black" }}>
                 <tr>
                     <th>File name</th>
                     <th>Description</th>
@@ -53,7 +54,7 @@ function AllBindedDatasets(props) {
             console.log("get bindedDatasets: ", bindedDatasets);
             return (
                 <tbody>
-                    <tr style={{backgroundColor: "#F2F2F2"}} key="model">
+                    <tr style={{ backgroundColor: "#F2F2F2" }} key="model">
                         <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].FileName}</td>
                         <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].BriefInfo}</td>
                         <td style={{ verticalAlign: 'middle' }}>{bindedDatasets[0].UserName}</td>
@@ -77,11 +78,13 @@ function AllBindedDatasets(props) {
                             <td key={"operateEachDataset"}>
                                 <Container>
                                     <Row>
-                                        <Link to={`/metadata-form/${dataset.FileName}`}>
-                                            <IconButton aria-label="create matadata" component="span">
-                                                <CreateIcon />
+                                        <Link to={`/alldataset/${dataset.FileName}?userName=${dataset.UserName}&fileName=${dataset.FileName}`}>
+                                            <IconButton aria-label="detailed data" component="span">
+                                                <TableChartIcon />
                                             </IconButton>
                                         </Link>
+
+                                        <DownloadFile downloadFile={props.downloadFile} datasetName={dataset.FileName} userName={dataset.UserName} />
                                     </Row>
                                 </Container>
                             </td>
@@ -120,11 +123,11 @@ function AllBindedDatasets(props) {
         <Container>
             <Row>
                 <Breadcrumb>
-                    <BreadcrumbItem><Link style={{color: "grey"}}to="/allmodels">All Models</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link style={{ color: "grey" }} to="/allmodels">All Models</Link></BreadcrumbItem>
                     <BreadcrumbItem active>Binded datasets of {modelName}</BreadcrumbItem>
                 </Breadcrumb>
                 <div className="col-12" style={{ paddingTop: '5%' }}>
-                    <h4 style={{color: "grey"}}>All binded datasets of {modelName}</h4>
+                    <h4 style={{ color: "grey" }}>All binded datasets of {modelName}</h4>
                     <hr />
                 </div>
             </Row>

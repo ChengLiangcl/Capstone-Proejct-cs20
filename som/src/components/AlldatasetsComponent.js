@@ -65,16 +65,6 @@ class AllDataset extends Component {
 
   //showOperate: bool. the delete button and the create button will be disable
   operateDataset(showOperate, fileName, userName) {
-    /**
-     if (icons === "add only") {
-            return (
-                <Container>
-                    <Row>
-                        <DatasetUpload addDataset={this.props.datasetfile} />
-                    </Row>
-                </Container>
-            );
-        }*/
     if (showOperate) {
       return (
         <Container>

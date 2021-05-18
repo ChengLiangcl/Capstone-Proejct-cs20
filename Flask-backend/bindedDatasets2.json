@@ -1,10 +1,10 @@
 [
   {
-    "uuid": "420a39d2f2644b9bbc9cc88a79b7f691",
-    "FileName": "copy(2)_ex.cod",
+    "uuid": "96fb0227497a48e7b7d6f12d3db0a87f",
+    "FileName": "Test2.cod",
     "BriefInfo": "",
     "Size": "4.229KB",
-    "UserName": "123@gmail.com",
+    "UserName": "123456@qq.com",
     "data": [
       "3.25253 8.24155 -14.1466 -13.1775 405.378 \n",
       "5.8447 10.7367 -13.1117 -12.565 405.38 \n",
@@ -103,11 +103,25 @@
       "45.4543 55.2803 0.264083 -0.00898778 402.922 \n",
       "46.6649 57.0576 -0.0563481 -0.395202 402.7 \n"
     ],
-    "copy": 2,
+    "copy": 0,
     "Model_info": {
       "vectorDim": 5,
       "xDim": 12,
       "yDim": 8
     }
+  },
+  {
+    "FileName": "copy(2)_ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "UserName": "123456@qq.com",
+    "copy": 2
+  },
+  {
+    "FileName": "copy(1)_ex_ndy2.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "UserName": "123456@qq.com",
+    "copy": 1
   }
 ]

@@ -268,6 +268,7 @@ class Main extends Component {
                     deleteDataset={this.props.deleteOneBindedDataset}
                     editModelDescription={this.props.editModelDescription}
                     fetchModelFiles={this.props.fetchModelFiles}
+                    downloadFile={this.props.downloadFile}
                 />
             );
         };

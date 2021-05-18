@@ -1,9 +1,16 @@
 [
   {
-    "FileName": "result.dat",
+    "FileName": "copy(2)_ex_ndy.dat",
     "BriefInfo": "",
-    "Size": "2.095KB",
-    "UserName": "123@gmail.com",
-    "copy": 0
+    "Size": "4.93KB",
+    "UserName": "123456@qq.com",
+    "copy": 2
+  },
+  {
+    "FileName": "copy(1)_ex_ndy2.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "UserName": "123456@qq.com",
+    "copy": 1
   }
 ]
