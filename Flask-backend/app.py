@@ -1318,14 +1318,115 @@ def queryAllDatasets():
     input_value = request.get_json(force=True)
     print(input_value) # you can check the inputted word through this
     print(type(input_value))  # string
+    onesearch = []  # one search result
+    onesearch2 = []
+    List = []  # two-dimensional array
+    List2 = []
+    if '&&' in input_value:
+        inputarray = str(input_value).split("&&")
+        for element in inputarray:
+            data_return = list(db.files.find({"$and": [
+                                                       {"$or": [{"BriefInfo": {"$regex": element, "$options": "$i"}},
+                                                                {"Label": {"$regex": element, "$options": "$i"}},
+                                                                {"FileName": {"$regex": element, "$options": "$i"}},
+                                                                {"Description": {"$regex": element, "$options": "$i"}},
+                                                                {"Source": {"$regex": element, "$options": "$i"}},
+                                                                {"Keywords": {"$regex": element, "$options": "$i"}},
+                                                                {"AttrInfo": {"$regex": element, "$options": "$i"}}]}]},
+                                             {"_id": 0}))
+            data = loads(dumps(data_return))
+            lenth = len(data)
+            for i in range(lenth):
+                onesearch.append(data[i]['FileName'])
+                onesearch2.append(data[i]['UserName'])
+            List.append(onesearch)
+            List2.append(onesearch2)
+            onesearch = []
+            onesearch2 = []
+        print("XXXXX")
+        print(List)
+        if len(List) > 1:
+            result = List[0]
+            result2 = []
+            for i in range(1, len(List)):
+                result = list(set(result).intersection(set(List[i])))
+                result2 += List2[i]
+                print(result)
 
-    # TODO you need to query the corresponding datasets from MongoDB
-    # the input value may be the dataset name, or may be key words
-    # this is the querying result I simulate, please REPLACE it when you get the real results
-    with open('./queryResultsForAllDatasets.json') as f:
-        queried_datasets = json.load(f)
+        elif len(List) == 1:
+            result = List[0]
+            result2 = List2[0]
+        else:
+            result = []
 
-    return json.dumps(queried_datasets)
+    elif '||' in input_value:
+        inputarray = str(input_value).split("||")
+        for element in inputarray:
+            data_return = list(db.files.find({"$and": [
+                                                       {"$or": [{"BriefInfo": {"$regex": element, "$options": "$i"}},
+                                                                {"Label": {"$regex": element, "$options": "$i"}},
+                                                                {"FileName": {"$regex": element, "$options": "$i"}},
+                                                                {"Description": {"$regex": element, "$options": "$i"}},
+                                                                {"Source": {"$regex": element, "$options": "$i"}},
+                                                                {"Keywords": {"$regex": element, "$options": "$i"}},
+                                                                {"AttrInfo": {"$regex": element, "$options": "$i"}}]}]},
+                                             {"_id": 0}))
+            data = loads(dumps(data_return))
+            lenth = len(data)
+            for i in range(lenth):
+                onesearch.append(data[i]['FileName'])
+                onesearch2.append(data[i]['UserName'])
+            List.append(onesearch)
+            List2.append(onesearch2)
+            onesearch = []
+            onesearch2 = []
+        print("XXXXX")
+        print(List)
+        result = List[0]
+        result2 = List2[0]
+        for onerow in List:
+            result = list(set(result).union(set(onerow)))
+            print(result)
+        for onerow in List2:
+            result2 = list(set(result2).union(set(onerow)))
+            print(result2)
+    else:
+        data_return = list(db.files.find({"$and": [
+                                                   {"$or": [{"BriefInfo": {"$regex": input_value, "$options": "$i"}},
+                                                            {"Label": {"$regex": input_value, "$options": "$i"}},
+                                                            {"FileName": {"$regex": input_value, "$options": "$i"}},
+                                                            {"Description": {"$regex": input_value, "$options": "$i"}},
+                                                            {"Source": {"$regex": input_value, "$options": "$i"}},
+                                                            {"Keywords": {"$regex": input_value, "$options": "$i"}},
+                                                            {"AttrInfo": {"$regex": input_value, "$options": "$i"}}]}]},
+                                         {"_id": 0}))
+        data = loads(dumps(data_return))
+        lenth = len(data)
+        result = []
+        result2 = []
+        for i in range(lenth):
+            result.append(data[i]['FileName'])
+            result2.append(data[i]['UserName'])
+
+    print("-----------")
+    print(result)
+    print(result2)
+    data_return = list(db.files.find({"UserName":{"$in": result2}, "FileName": {"$in": result}}, {"_id": 0}))
+    if (len(data_return) != 0):
+        json_data = dumps(data_return, indent=2)
+        with open('./queryResultsForALLDatasets.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./queryResultsForALLDatasets.json', 'r')
+        values = json.load(jsonFile)
+        values = dumps(values, indent=2)
+        with open('./queryResultsForALLDatasets.json', 'w') as file:
+            file.write(values)
+        return values
+    else:
+        print("The user does not have any file")
+        data = []
+    return json.dumps(loads(dumps(data)))
+
 
 # to query datasets based on the dataset name or key words
 @app.route('/query-all-models', methods=["POST"])
@@ -1336,15 +1437,95 @@ def queryAllModels():
     input_value = request.get_json(force=True)
     print(input_value) # you can check the inputted word through this
     print(type(input_value))  # string
+    onesearch = []  # one search result
+    onesearch2 = []
+    List = []  # two-dimensional array
+    List2 = []
+    if '&&' in input_value:
+        inputarray = str(input_value).split("&&")
+        for element in inputarray:
+            data_return = list(db.models.find({"$and": [
+            {"$or": [{"BriefInfo": {"$regex": element, "$options": "$i"}},
+            {"FileName": {"$regex": element, "$options": "$i"}}]}]},{"_id": 0}))
+            data = loads(dumps(data_return))
+            lenth = len(data)
+            for i in range(lenth):
+                onesearch.append(data[i]['FileName'])
+                onesearch2.append(data[i]['UserName'])
+            List.append(onesearch)
+            List2.append(onesearch2)
+            onesearch = []
+            onesearch2 = []
+        print("XXXXX")
+        print(List)
+        if len(List) > 1:
+            result = List[0]
+            result2 = []
+            for i in range(1, len(List)):
+                result = list(set(result).intersection(set(List[i])))
+                result2 += List2[i]
+                print(result)
+        elif len(List) == 1:
+            result = List[0]
+            result2 = List2[0]
+        else:
+            result = []
 
-    # TODO you need to query the corresponding datasets from MongoDB
-    # the input value may be the dataset name, or may be key words
-    # this is the querying result I simulate, please REPLACE it when you get the real results
-    with open('./queryResultsForAllModels.json') as f:
-        queried_models = json.load(f)
+    elif '||' in input_value:
+        inputarray = str(input_value).split("||")
+        for element in inputarray:
+            data_return = list(db.models.find({"$and": [
+            {"$or": [{"BriefInfo": {"$regex": element, "$options": "$i"}},
+            {"FileName": {"$regex": element,"$options": "$i"}}]}]}, {"_id": 0}))
+            data = loads(dumps(data_return))
+            lenth = len(data)
+            for i in range(lenth):
+                onesearch.append(data[i]['FileName'])
+                onesearch2.append(data[i]['UserName'])
+            List.append(onesearch)
+            List2.append(onesearch2)
+            onesearch = []
+            onesearch2 = []
+        print("XXXXX")
+        print(List)
+        result = List[0]
+        result2 = List2[0]
+        for onerow in List:
+            result = list(set(result).union(set(onerow)))
+            print(result)
+        for onerow in List2:
+            result2 = list(set(result2).union(set(onerow)))
+            print(result2)
+    else:
+        data_return = list(db.models.find({"$and": [
+        {"$or": [{"BriefInfo": {"$regex": input_value, "$options": "$i"}},
+        {"FileName": {"$regex": input_value, "$options": "$i"}}]}]},{"_id": 0}))
+        data = loads(dumps(data_return))
+        lenth = len(data)
+        result = []
+        result2 = []
+        for i in range(lenth):
+            result.append(data[i]['FileName'])
+            result2.append(data[i]['UserName'])
+    print("-----------")
+    print(result)
+    print(result2)
+    data_return = list(db.models.find({"UserName": {"$in": result2}, "FileName": {"$in": result}}, {"_id": 0}))
+    if (len(data_return) != 0):
+        json_data = dumps(data_return, indent=2)
+        with open('./queryResultsForALLModels.json', 'w') as file:
+            file.write(json_data)
+        jsonFile = open('./queryResultsForALLModels.json', 'r')
+        values = json.load(jsonFile)
+        values = dumps(values, indent=2)
+        with open('./queryResultsForALLModels.json', 'w') as file:
+            file.write(values)
+        return values
+    else:
+        print("The user does not have any file")
+        data = []
+    return json.dumps(data)
 
-    return json.dumps(queried_models)
-            
 
 if __name__ == "__main__":
     #sess = Session()

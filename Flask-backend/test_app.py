@@ -24,6 +24,7 @@ class Testapp(unittest.TestCase):
         response = requests.post(url=url, data=json.dumps(data2))
         self.assertEqual(response.text, "Invalid login credentials")
 
+
     def test_sign(self):
         print('test sign')
         url = "http://localhost:5000/sign-up"
