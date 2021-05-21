@@ -1,0 +1,72 @@
+[
+  {
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
+    "UserName": "123456@qq.com"
+  },
+  {
+    "FileName": "ex_ndy3.dat",
+    "BriefInfo": "Build high-performance mobile and web applications that scale to process millions of user requests per second with millisecond latency",
+    "UserName": "123456@qq.com"
+  },
+  {
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "ex_fts (2).txt",
+    "BriefInfo": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "ex_fts (3).txt",
+    "BriefInfo": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "ex_fts (1).dat",
+    "BriefInfo": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "copy(1)_ex_fts.dat",
+    "BriefInfo": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "new briefInfo",
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "copy(1)_ex_ndy.dat",
+    "BriefInfo": "",
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "copy(2)_ex_ndy.dat",
+    "BriefInfo": "",
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "copy(1)_ex_ndy.txt",
+    "BriefInfo": "",
+    "UserName": "jwan"
+  },
+  {
+    "FileName": "ex_ndy.csv",
+    "BriefInfo": "",
+    "UserName": "jwan"
+  },
+  {
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "UserName": "jwan"
+  },
+  {
+    "FileName": "copy(1)_ex_ndy.csv",
+    "BriefInfo": "",
+    "UserName": "jwan"
+  }
+]
