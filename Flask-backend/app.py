@@ -760,9 +760,24 @@ def downloadFile():
 
     # read file
     # text format
-    if downloadType == '.txt' or downloadType == '.dat':
+    if downloadType == '.txt':
         with open('./download/tem_data.csv') as f:
             content = f.read()
+    elif downloadType == '.dat':
+        with open('./download/tem_data.csv') as f:
+            lines = f.readlines()
+        lines[0] = str(size) + '\n'
+        print('----------')
+        print(lines[0])
+        print('-------------')
+        with open("./download/tem_data.txt", "w") as f:
+            f.writelines(lines)
+        with open('./download/tem_data.txt') as f:
+            content = f.read()
+        
+
+        
+         
     #  csv
     elif downloadType == '.csv':
         f = open('./download/tem_data.csv')
