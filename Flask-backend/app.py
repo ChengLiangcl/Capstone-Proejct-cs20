@@ -64,7 +64,7 @@ def connect_upload():
         count = count +1
         if(count==1):
             if(len(i.split(' '))==1):
-                2/0
+                raise Exception
         break
 
 
@@ -75,9 +75,9 @@ def connect_upload():
     modelsuffix = split_name[len(split_name)-1]
     
 
-    if  modelsuffix!= "cod":
-        print("find Exception")
-        raise ValueError
+    #if  modelsuffix!= "cod":
+     #   print("find Exception")
+      #  raise ValueError
     
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
@@ -347,7 +347,9 @@ def upload():
          try:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
            # to get the column number
-            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+            # to get the column number
+            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename), 'r')
+            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
             first_line = f.readline()
             if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
                 print('INTRO')
@@ -365,15 +367,12 @@ def upload():
             else:
                 sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
 
-            
+
             columnNames = [''] * sizes
             attributes_meta = sizes
             # file name checking
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
-            modelsuffix = split_name[len(split_name) - 1]
-          #  if modelsuffix not in ["dat","txt","csv","xlsx"]:
-           #     raise ValueError
 
             for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -390,27 +389,38 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             index = index + 1
-         except ValueError as e:
-            print(e)
+         except Exception as e:
+
             B.append(uploaded_file)
          else:
             A.append(uploaded_file)
         A = A + B
-
+        print(A)
         for uploaded_file in A:
 
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+
+            #size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+            first_line = f.readline()
+            if (len(first_line.strip().split(' ')) > 1 and ' ' in first_line):
+                print('INTRO')
+                print(first_line.strip().split(' ')[1])
+                if (first_line.strip().split(' ')[1].isdigit() == False):
+                    raise Exception
+                sizes = len(first_line.strip().split(' '))
+            elif (',' in first_line):
+                sizes = len(f.readline().split(','))
+                print('do here mother fucker')
+                print(sizes)
+            elif (' ' in first_line and len(first_line.strip().split(' ')) == 1):
+                print('cool')
+                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+            else:
+                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+
             columnNames = [''] * sizes
             attributes_meta = sizes
-            # file name checking
-            dataset_name = uploaded_file.filename
-            split_name = dataset_name.split(".")
-            modelsuffix = split_name[len(split_name) - 1]
-            print("EXCEPTION")
-           # if modelsuffix not in ["dat","txt","csv","xlsx"]:
-            #    raise ValueError
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
