@@ -1,11 +1,11 @@
 [
   {
     "_id": {
-      "$oid": "60ab1eb914edf338448a28b1"
+      "$oid": "60ab30bec03ab802194e0c31"
     },
-    "FileName": "copy(1)_ex_fdy.dat",
+    "FileName": "ex_ndy4.dat",
     "BriefInfo": "",
-    "Size": "4.796KB",
+    "Size": "4.93KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
@@ -17,7 +17,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123@gmail.com",
-    "copy": 1
+    "UserName": "123456@qq.com",
+    "copy": 0
   }
 ]

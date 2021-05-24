@@ -1035,7 +1035,7 @@ def passwordChange():
 
     else:
         print('The user does not exist')
-        return "UserName deos not exist"
+        return "UserName does not exist"
         # return 'Answers do not match'
 
 
