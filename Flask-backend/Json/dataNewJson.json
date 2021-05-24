@@ -1,11 +1,11 @@
 [
   {
     "_id": {
-      "$oid": "60a75618e5867f5e51e4c2fd"
+      "$oid": "60ab1eb914edf338448a28b1"
     },
-    "FileName": "Test10.dat",
+    "FileName": "copy(1)_ex_fdy.dat",
     "BriefInfo": "",
-    "Size": "4.229KB",
+    "Size": "4.796KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
@@ -17,28 +17,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123456@qq.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "60a75617e5867f5e51e4c2fc"
-    },
-    "FileName": "ex_ndy15.cod",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "123456@qq.com",
-    "copy": 0
+    "UserName": "123@gmail.com",
+    "copy": 1
   }
 ]
