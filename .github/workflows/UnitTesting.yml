@@ -2,10 +2,10 @@ name: UnitTest
 on:
   push:
     branches:
-      - Rebuud-code
+      - Rebuid-code
   pull_request:
     branches:
-      - Rebuud-code
+      - Rebuid-code
 
 jobs:
   build:
