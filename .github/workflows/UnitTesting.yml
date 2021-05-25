@@ -2,10 +2,10 @@ name: UnitTest
 on:
   push:
     branches:
-      - Rebuid-code
+      - main
   pull_request:
     branches:
-      - Rebuid-code
+      - main
 
 jobs:
   build:
@@ -16,9 +16,9 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - name: Install dependencies
+      - name: Install dependencies&Run Unit Testing
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          cd Flask-backend
+          pip install -r requirement.txt
+          cd Flask-backend 
           pytest 
