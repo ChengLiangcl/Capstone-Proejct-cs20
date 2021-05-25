@@ -7,17 +7,6 @@ attrs==21.2.0
 autopep8==1.5.2
 backports.functools-lru-cache==1.6.1
 backports.shutil-get-terminal-size==1.0.0
-baidu-aip==4.15.11
-bdist-mpkg==0.5.0
-beautifulsoup4==4.8.1
-bonjour-py==0.3
-cachetools==3.1.1
-certifi==2019.11.28
-chardet==3.0.4
-click==7.1.2
-configparser==4.0.2
-contextlib2==0.6.0.post1
-decorator==4.4.2
 Django==1.11.27
 enum34==1.1.10
 et-xmlfile==1.0.1
@@ -28,8 +17,6 @@ freetype-py==2.1.0.post1
 funcsigs==1.0.2
 futures==3.3.
 grpcio==1.37.1
-idna==2.8
-image==1.5.27
 importlib-metadata==2.1.1
 inflection==0.3.1
 ipykernel==4.10.1
@@ -70,7 +57,6 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.6.0
 Pygments==2.5.2
-pylint==1.9.5
 pymongo==3.11.4
 pyobjc-core==2.5.1
 pyobjc-framework-Accounts==2.5.1
