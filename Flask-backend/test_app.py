@@ -53,7 +53,12 @@ class Testapp(unittest.TestCase):
         values = json.load(expect)
         values = dumps(values, indent=2)
         values = json.loads(values)
-        self.assertEqual(values, loads(response.data))
+        for element in values:
+         del element['_id']
+        expect=loads(response.data)
+        for element in expect:
+            del element['_id']
+        self.assertEqual(values, expect)
 
     def test_queryDatasets(self):
         print('test queryDatasets')
@@ -151,8 +156,8 @@ class Testapp(unittest.TestCase):
     def test_queryAllDatasets(self):
         print('test queryAllDatasets')
         url = "/query-all-datasets"
-        data = ".csv"
-        data2 = ".[a-z].dat"
+        data = "LmY_"
+        data2 = "Badclass.da"
         response = app.test_client().post(url, data=json.dumps(data))
         self.assertEqual(200, response.status_code)
         expect = open('./Testing/result5.json', 'r')
@@ -171,9 +176,9 @@ class Testapp(unittest.TestCase):
     def test_queryAllModels(self):
         print('test test_queryAllModels')
         url = "/query-all-models"
-        data = "test"
-        data2 = "131"
-        data3 = ".[a-z].cod"
+        data = "LmY_"
+        data2 = "Badclass.co"
+        data3 = "lmy&&bad"
         response = app.test_client().post(url, data=json.dumps(data))
         self.assertEqual(200, response.status_code)
         expect = open('./Testing/result7.json', 'r')

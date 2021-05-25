@@ -1,9 +1,9 @@
 [
   {
     "_id": {
-      "$oid": "60ab30bec03ab802194e0c31"
+      "$oid": "60aca7844d2a6394f3fa42d6"
     },
-    "FileName": "ex_ndy4.dat",
+    "FileName": "LMY_GoodClass.dat",
     "BriefInfo": "",
     "Size": "4.93KB",
     "Description": "",
@@ -17,7 +17,28 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123456@qq.com",
+    "UserName": "532540232",
+    "copy": 0
+  },
+  {
+    "_id": {
+      "$oid": "60aca7844d2a6394f3fa42d5"
+    },
+    "FileName": "LMY_BadClass.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "532540232",
     "copy": 0
   }
 ]
