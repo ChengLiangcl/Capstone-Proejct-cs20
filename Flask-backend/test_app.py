@@ -21,13 +21,16 @@ class Testapp(unittest.TestCase):
     def test_login(self):
         print('test login')
         url = "/login"
-        data = {'username': '123456@qq.com', 'password': '12345678'}
-        data2 = {'username': '123456@qq.com', 'password': '123456'}
+        data = {'username': '123@gmail.com', 'password': '12345678'}
         response = app.test_client().post(url, data=json.dumps(data))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, b'"123456@qq.com"')
-        response = app.test_client().post(url, data=json.dumps(data2))
+        self.assertEqual(response.data, b'"123@gmail.com"')
+        
+    def test_login_failed(self):
+        data = {'username': '123@qq.com', 'password': '123456'}
+        response = app.test_client().post('/login', data=json.dumps(data))
         self.assertEqual(response.data, b'Invalid login credentials')
+
 
     def test_sign(self):
         print('test sign')
@@ -207,7 +210,7 @@ class Testapp(unittest.TestCase):
         expect = b'Update Failed, the question or answer does not match'
         self.assertEqual(expect, response.data)
         response = app.test_client().post(url, data=json.dumps(data3))
-        expect = b'UserName does not exist'
+        expect = b'UserName deos not exist'
         self.assertEqual(expect, response.data)
         response = app.test_client().post(url, data=json.dumps(data4))
         expect = b'change successfully'
