@@ -5,9 +5,11 @@ name: SOM CICD
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - Rebuid-code
   pull_request:
-    branches: [ main ]
+    branches:
+      - Rebuid-code
 
 jobs:
   build:
