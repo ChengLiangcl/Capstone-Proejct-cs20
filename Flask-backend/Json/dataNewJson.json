@@ -1,14 +1,14 @@
 [
   {
     "_id": {
-      "$oid": "60aca7844d2a6394f3fa42d6"
+      "$oid": "60adb9913356af80d3aced26"
     },
-    "FileName": "LMY_GoodClass.dat",
+    "FileName": "ex.cod",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "4.229KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
+    "Number_of_Attribute": 6,
     "Number_of_Instance": 96,
     "Keywords": [],
     "AttrInfo": [
@@ -17,19 +17,40 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "532540232",
+    "UserName": "123@gmail.com",
     "copy": 0
   },
   {
     "_id": {
-      "$oid": "60aca7844d2a6394f3fa42d5"
+      "$oid": "60adb9903356af80d3aced25"
     },
-    "FileName": "LMY_BadClass.dat",
+    "FileName": "copy(1)_ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.532KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123@gmail.com",
+    "copy": 1
+  },
+  {
+    "_id": {
+      "$oid": "60adb98e3356af80d3aced24"
+    },
+    "FileName": "copy(2)_ex_fdy.dat",
+    "BriefInfo": "",
+    "Size": "4.796KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
     "Number_of_Instance": 96,
     "Keywords": [],
     "AttrInfo": [
@@ -38,7 +59,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "532540232",
-    "copy": 0
+    "UserName": "123@gmail.com",
+    "copy": 2
   }
 ]

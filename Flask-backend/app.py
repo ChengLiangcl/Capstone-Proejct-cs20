@@ -77,7 +77,7 @@ def connect_upload():
 
     if  modelsuffix!= "cod":
         print("find Exception")
-        raise ValueError
+        raise Exception
     
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
@@ -165,11 +165,11 @@ def connect_upload():
                 print('INTRO')
                 print(first_line.strip().split(' ')[1])
                 if(first_line.strip().split(' ')[1].isdigit()==False):
-                    raise Exception
+                    2/0
                 sizes = len(first_line.strip().split(' '))
             elif(',' in first_line):
                 sizes = len(f.readline().split(','))
-
+                print('do here mother fucker')
                 print(sizes)
             elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
                 print('cool')
@@ -185,9 +185,9 @@ def connect_upload():
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
 
-            #if modelsuffix not in ["dat","txt","csv","xlsx"]:
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
                 # if name is not include, throw an exception
-                #raise ValueError
+                raise Exception
 
             for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -205,7 +205,7 @@ def connect_upload():
             instance_meta = record
             index = index + 1
 
-         except ValueError as e:
+         except Exception as e:
             # catch exception, store it in B array
             print(e)
             B.append(uploaded_file)
@@ -227,8 +227,8 @@ def connect_upload():
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
             print("EXCEPTION")
-           # if modelsuffix not in ["dat","txt","csv","xlsx"]:
-            #    raise ValueError
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                raise Exception
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -353,7 +353,7 @@ def upload():
                 print('INTRO')
                 print(first_line.strip().split(' ')[1])
                 if(first_line.strip().split(' ')[1].isdigit()==False):
-                    raise Exception
+                    2/0
                 sizes = len(first_line.strip().split(' '))
             elif(',' in first_line):
                 sizes = len(f.readline().split(','))
@@ -372,8 +372,8 @@ def upload():
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
-          #  if modelsuffix not in ["dat","txt","csv","xlsx"]:
-           #     raise ValueError
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                raise Exception
 
             for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -390,7 +390,7 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             index = index + 1
-         except ValueError as e:
+         except Exception as e:
             print(e)
             B.append(uploaded_file)
          else:
@@ -409,8 +409,8 @@ def upload():
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
             print("EXCEPTION")
-           # if modelsuffix not in ["dat","txt","csv","xlsx"]:
-            #    raise ValueError
+            if modelsuffix not in ["dat","txt","csv","xlsx"]:
+                raise Exception
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -524,7 +524,7 @@ def showMyDatasets():
 
         json_data = dumps(data_return, indent = 2)
    
-        with open('./Json/showAlldatasetFiles.json', 'w') as file:
+        with open('./showAlldatasetFiles.json', 'w') as file:
             file.write(json_data)
        
         values = json.loads(json_data)
@@ -554,9 +554,9 @@ def sendNewdatasetFiles():
     print("The taotal number of files: " + str(files_size))
     data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(file_num)
     json_data = dumps(data, indent = 2)
-    with open('./Json/dataNewJson.json', 'w') as file:
+    with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
-    jsonFile = open('./Json/dataNewJson.json', 'r')
+    jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
     # print(values)
     file_num = file_num - file_num
@@ -711,12 +711,12 @@ def queryDatasets():
     data_return = list(db.files.find({"UserName": UserName,"FileName":{"$in":result}},{"_id":0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./Json/queryResultsForDatasets.json', 'w') as file:
+        with open('./queryResultsForDatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./Json/queryResultsForDatasets.json', 'r')
+        jsonFile = open('./queryResultsForDatasets.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./Json/queryResultsForDatasets.json', 'w') as file:
+        with open('./queryResultsForDatasets.json', 'w') as file:
             file.write(values)
         return values
     else:
@@ -911,19 +911,19 @@ def sendNewModelFiles():
 
     data = db.models.find().sort('_id', -1).limit(1)  # Find the newest data to insert
     json_data = dumps(data, indent=2)
-    with open('./Json/modeldataNewJson.json', 'w') as file:
+    with open('./modeldataNewJson.json', 'w') as file:
         file.write(json_data)
 
-    jsonFile = open('./Json/modeldataNewJson.json', 'r')
+    jsonFile = open('./modeldataNewJson.json', 'r')
     values = json.load(jsonFile)
     for element in values:
         if 'data' in element:
             del element['data']
             break
     values = dumps(values, indent=2)
-    with open('./Json/modeldataNewJson.json', 'w') as file:
+    with open('./modeldataNewJson.json', 'w') as file:
         file.write(values)
-    jsonFile = open('./Json/modeldataNewJson.json', 'r')
+    jsonFile = open('./modeldataNewJson.json', 'r')
     values = json.load(jsonFile)
 
     return json.dumps(values)
@@ -1035,7 +1035,7 @@ def passwordChange():
 
     else:
         print('The user does not exist')
-        return "UserName does not exist"
+        return "UserName deos not exist"
         # return 'Answers do not match'
 
 
@@ -1124,12 +1124,12 @@ def query_model():
     data_return = list(db.models.find({"UserName": UserName, "FileName": {"$in": result}}, {"_id": 0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./Json/queryResultsForModels.json', 'w') as file:
+        with open('./queryResultsForModels.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./Json/queryResultsForModels.json', 'r')
+        jsonFile = open('./queryResultsForModels.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./Json/queryResultsForModels.json', 'w') as file:
+        with open('./queryResultsForModels.json', 'w') as file:
             file.write(values)
         return values
     else:
@@ -1169,14 +1169,14 @@ def query_binded_datasets():
 
     if (len(js) != 0):
         json_data = dumps(js, indent=2)
-        with open('./Json/correspondingdatasets.json', 'w') as file:
+        with open('./correspondingdatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./Json/correspondingdatasets.json', 'r')
+        jsonFile = open('./correspondingdatasets.json', 'r')
         values = json.load(jsonFile)
         value=list(values)
         value.insert(0,data)
         values = dumps(value, indent=2)
-        with open('./Json/bindedDatasets2.json','w') as f:
+        with open('./bindedDatasets2.json','w') as f:
          f.write(values)
         return values
     else:
@@ -1197,7 +1197,7 @@ def query_binded_datasets():
         X.insert(0,data)
         value2=dumps(X,indent=2)
         print("This model not have any datasets")
-        with open('./Json/bindedDatasets2.json','w') as f:
+        with open('./bindedDatasets2.json','w') as f:
          f.write(value2)
         return value2
 
@@ -1233,14 +1233,14 @@ def query_umatrix_datasets():
 
     if (len(js) != 0):
         json_data = dumps(js, indent=2)
-        with open('./Json/correspondingdatasets.json', 'w') as file:
+        with open('./correspondingdatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./Json/correspondingdatasets.json', 'r')
+        jsonFile = open('./correspondingdatasets.json', 'r')
         values = json.load(jsonFile)
         value=list(values)
         value.insert(0,data)
         values = dumps(value, indent=2)
-        with open('./Json/bindedDatasets2.json','w') as f:
+        with open('./bindedDatasets2.json','w') as f:
          f.write(values)
         return values
     else:
@@ -1261,7 +1261,7 @@ def query_umatrix_datasets():
         X.insert(0,data)
         value2=dumps(X,indent=2)
         print("This model not have any datasets")
-        with open('./Json/bindedDatasets2.json','w') as f:
+        with open('./bindedDatasets2.json','w') as f:
          f.write(value2)
         return value2
 
@@ -1293,12 +1293,12 @@ def showAlldatasetFiles():
         # TODO: return a empty [] to me if there is no file in the MongoDB
         # with open('./all_datasets.json') as f:
         #     data = json.load(f)
-        datas = db.files.find({},{'FileName':1,'BriefInfo':1,'UserName':1,'_id':0}).sort("UserName", 1)
+        datas = db.files.find({},{'FileName':1,'Description':1,'UserName':1,'_id':0}).sort("UserName", 1)
         datas = dumps(datas, indent = 2)
         print(datas)
-        with open('./Json/all_datasets.json','w') as f:
+        with open('./all_datasets.json','w') as f:
             f.write(datas)
-        with open('./Json/all_datasets.json','r') as f:
+        with open('./all_datasets.json','r') as f:
             data = json.load(f)
         
     return json.dumps(data)
@@ -1429,12 +1429,12 @@ def queryAllDatasets():
     data_return = list(db.files.find({"UserName":{"$in": result2}, "FileName": {"$in": result}}, {"_id": 0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./Json/queryResultsForALLDatasets.json', 'w') as file:
+        with open('./queryResultsForALLDatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./Json/queryResultsForALLDatasets.json', 'r')
+        jsonFile = open('./queryResultsForALLDatasets.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./Json/queryResultsForALLDatasets.json', 'w') as file:
+        with open('./queryResultsForALLDatasets.json', 'w') as file:
             file.write(values)
         return values
     else:
@@ -1448,6 +1448,7 @@ def queryAllDatasets():
 @cross_origin()
 def queryAllModels():
     # you will recieve a inputted word by a user from the frontend
+    print("helllooo")
     input_value = request.get_json(force=True)
     print(input_value) # you can check the inputted word through this
     print(type(input_value))  # string
@@ -1527,12 +1528,12 @@ def queryAllModels():
     data_return = list(db.models.find({"UserName": {"$in": result2}, "FileName": {"$in": result}}, {"_id": 0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./Json/queryResultsForALLModels.json', 'w') as file:
+        with open('./queryResultsForALLModels.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./Json/queryResultsForALLModels.json', 'r')
+        jsonFile = open('./queryResultsForALLModels.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./Json/queryResultsForALLModels.json', 'w') as file:
+        with open('./queryResultsForALLModels.json', 'w') as file:
             file.write(values)
         return values
     else:
