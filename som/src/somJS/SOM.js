@@ -223,4 +223,4 @@ async function getSOM(model) {
   return constructSOM(vectorGrid, vectorDim, xDim, yDim)
 }
 
-export { getSOM }
+export { getSOM, Node }
