@@ -60,6 +60,67 @@ class Testapp(unittest.TestCase):
             del element['_id']
         self.assertEqual(values, expect)
 
+    def test_showMyModelFiles(self):
+        print('test showMyModelFiles')
+        url = "/modelFiles"
+        data = '123456@qq.com'
+        data2 = '12345678@qq.com'
+        response = app.test_client().post(url, data=json.dumps(data))
+        self.assertEqual(response.status_code, 200)
+        expect = open('./Testing/result10.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        for element in values:
+            del element['_id']
+        expect = loads(response.data)
+        for element in expect:
+            del element['_id']
+        self.assertEqual(values, expect)
+
+        response = app.test_client().post(url, data=json.dumps(data2))
+        result = b'[]'
+        expect = dumps(result)
+        expect = loads(expect)
+        fact = dumps(response.data)
+        fact = loads(fact)
+        self.assertEqual(expect, fact)
+
+
+    def test_delete_binded_datasets(self):
+        print('test delete_binded_datasets')
+        url = "/delete-bindeddataset"
+        data = ['LMYNB','123456@qq.com']
+        response = app.test_client().post(url, data=json.dumps(data))
+        self.assertEqual(200, response.status_code)
+        expect = b'LMYNB'
+        self.assertEqual(expect, response.data)
+
+
+    def test_bind_model(self):
+        print('test bind_model')
+        url = "/bind-model"
+        data = ['Test1.cod', '123456@qq.com', 'ex_ndy.dat']
+        data2 = ['Test1.cod', '123456@qq.com', 'ex_ndy3.dat']
+        response = app.test_client().post(url, data=json.dumps(data))
+        self.assertEqual(200, response.status_code)
+        expect = b'Bind success'
+        self.assertEqual(expect, response.data)
+
+        response = app.test_client().post(url, data=json.dumps(data2))
+        expect = b'Bind success'
+        self.assertEqual(expect, response.data)
+
+    def test_editModelDescription(self):
+        print('test editModelDescription')
+        url = "/edit-model-desc"
+        data = {'modelName': 'Test2.cod', 'description': '', 'userName': '123456@qq.com'}
+        response = app.test_client().post(url, data=json.dumps(data))
+        self.assertEqual(200, response.status_code)
+        expect = b'Test2.cod'
+        self.assertEqual(expect, response.data)
+
+
     def test_queryDatasets(self):
         print('test queryDatasets')
         url = "/query-datasets"

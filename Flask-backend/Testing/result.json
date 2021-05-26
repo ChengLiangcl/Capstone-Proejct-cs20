@@ -11,7 +11,7 @@
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
     "UserName": "123456@qq.com",
-    "ModelName": ""
+    "ModelName": "Test1.cod"
   },
   {
     "_id": {
@@ -25,6 +25,6 @@
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
     "UserName": "123456@qq.com",
-    "ModelName": ""
+    "ModelName": "Test1.cod"
   }
 ]
