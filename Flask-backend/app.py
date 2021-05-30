@@ -152,77 +152,67 @@ def connect_upload():
         B = []
 
         for uploaded_file in files_list:
-         try:
-            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
 
-            # to get the column number
+            try:
+                
+                uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+           # to get the column number
+                f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+                first_line = f.readline()
+                if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
+                    print('INTRO')
+                    print(first_line.strip().split(' ')[1])
+                    if(first_line.strip().split(' ')[1].isdigit()==False):
+                        2/0
+                    sizes = len(first_line.strip().split(' '))
+                elif(',' in first_line):
+                    sizes = len(f.readline().split(','))
+                    print('do here mother fucker')
+                    print(sizes)
+                elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
+                    print('cool')
+                    sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+                else:
+                    sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
 
-            f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-            first_line = f.readline()
-            if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
-                print('INTRO')
-                print(first_line.strip().split(' ')[1])
-                if(first_line.strip().split(' ')[1].isdigit()==False):
-                    2/0
-                sizes = len(first_line.strip().split(' '))
-            elif(',' in first_line):
-                sizes = len(f.readline().split(','))
-                print('do here mother fucker')
-                print(sizes)
-            elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
-                print('cool')
-                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+                
+                columnNames = [''] * sizes
+                attributes_meta = sizes
+                for i in range(sizes):
+                    columnNames[i] = "Coloumn" + " " + str(i)
+
+                record = 0
+                path_str_first = './public/'+ 'convert_' + uploaded_file.filename
+                with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
+                    with open(path_str_first,'w') as f1:
+
+                        f1.write(','.join(columnNames)+"\n")
+                        next(f) # skip the first line of the dataset
+                        for line in f:
+                            lines =str(line)
+                            lines = lines.split(" ")
+                            f1.write(','.join(lines))
+                            record = record + 1
+            except Exception as e:
+                print(e)
+                B.append(uploaded_file)
             else:
-                sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
-            
-            columnNames = [''] * sizes
-            attributes_meta = sizes
-            
-            # file name checking
-            dataset_name = uploaded_file.filename
-            split_name = dataset_name.split(".")
-
-
-            for i in range(sizes):
-                columnNames[i] = "Coloumn" + " " + str(i)
-            record = 0
-            path_str_first = './public/' + str(index) + '.'+'dat'
-            with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
-                with open(path_str_first,'w') as f1:
-                    f1.write(','.join(columnNames)+"\n")
-                    next(f) # skip the first line of the dataset
-                    for line in f:
-                        lines =str(line)
-                        lines = lines.split(" ")
-                        f1.write(','.join(lines))
-                        record = record + 1
-            instance_meta = record
-            index = index + 1
-
-         except Exception as e:
-            # catch exception, store it in B array
-            print(e)
-            B.append(uploaded_file)
-         else:
-            A.append(uploaded_file)
-
-        A = A + B # Merge two array
+                A.append(uploaded_file)
+        
         for uploaded_file in A:
             # to get the column number
-
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
-
-            columnNames = [''] * sizes
-            attributes_meta = sizes
+            columnNames = [''] * size
+            attributes_meta = size
             # file name checking
-            dataset_name = uploaded_file.filename
-        
+       
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
-            path_str = './public/' + str(index) + '.'+'dat'
+          
+            path_str = './public/'+ 'convert_' + uploaded_file.filename
             with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
                 with open(path_str,'w') as f1:
                     f1.write(','.join(columnNames)+"\n")
@@ -233,13 +223,19 @@ def connect_upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
-            index = index + 1
-            data = pd.read_csv(path_str)
+            data = None 
+            f = open('./public/'+ 'convert_' + uploaded_file.filename)
+            first_line = f.readline()
+            second_line = f.readline()
+            if len(second_line.split(',')) ==len(first_line.split(',')):
+                data = pd.read_csv('./public/'+ 'convert_' + uploaded_file.filename)
+            else:
+                data = pd.read_csv('./public/'+ uploaded_file.filename)
+                attributes_meta = len(first_line.split(','))
+            index = index +1
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
-
-
             if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
                 name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))           
                 name_size = name_size[len(name_size)-1].get('copy') + 1
@@ -294,6 +290,8 @@ def connect_upload():
                 }
                 db.files.insert_one(store_schema)
             file_num = file_num + 1
+        for i in B:
+            2/0
         return json.dumps([model_name, files_name_list])
 
     files_name_list = [""]
