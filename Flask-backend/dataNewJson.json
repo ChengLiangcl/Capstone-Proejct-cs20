@@ -1,0 +1,65 @@
+[
+  {
+    "_id": {
+      "$oid": "60b3799cc3386a557a62f8fa"
+    },
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123@gmail.com",
+    "copy": 0
+  },
+  {
+    "_id": {
+      "$oid": "60b3799cc3386a557a62f8f9"
+    },
+    "FileName": "copy(1)_ex_fdy.dat",
+    "BriefInfo": "",
+    "Size": "4.796KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123@gmail.com",
+    "copy": 1
+  },
+  {
+    "_id": {
+      "$oid": "60b3797fc3386a557a62f8f7"
+    },
+    "FileName": "ex_fdy.dat",
+    "BriefInfo": "",
+    "Size": "4.796KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "123@gmail.com",
+    "copy": 0
+  }
+]

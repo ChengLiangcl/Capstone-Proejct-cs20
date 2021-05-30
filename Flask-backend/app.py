@@ -75,9 +75,7 @@ def connect_upload():
     modelsuffix = split_name[len(split_name)-1]
     
 
-    if  modelsuffix!= "cod":
-        print("find Exception")
-        raise Exception
+    
     
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
@@ -185,10 +183,6 @@ def connect_upload():
             split_name = dataset_name.split(".")
             modelsuffix = split_name[len(split_name) - 1]
 
-            if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                # if name is not include, throw an exception
-                raise Exception
-
             for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
@@ -210,7 +204,6 @@ def connect_upload():
             print(e)
             B.append(uploaded_file)
          else:
-            # if no exception, store it in A array
             A.append(uploaded_file)
 
         A = A + B # Merge two array
@@ -402,8 +395,8 @@ def upload():
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
-            columnNames = [''] * sizes
-            attributes_meta = sizes
+            columnNames = [''] * size
+            attributes_meta = size
             # file name checking
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
@@ -427,7 +420,7 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
-            data = pd.read_csv(path_str_first)
+            data = pd.read_csv(path_str)
            
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
