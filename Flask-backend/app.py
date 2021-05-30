@@ -72,7 +72,7 @@ def connect_upload():
     output.close()
     # file name checking
     split_name = model_name.split(".")
-    modelsuffix = split_name[len(split_name)-1]
+
     
 
     
@@ -181,7 +181,7 @@ def connect_upload():
             # file name checking
             dataset_name = uploaded_file.filename
             split_name = dataset_name.split(".")
-            modelsuffix = split_name[len(split_name) - 1]
+
 
             for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -217,11 +217,7 @@ def connect_upload():
             attributes_meta = sizes
             # file name checking
             dataset_name = uploaded_file.filename
-            split_name = dataset_name.split(".")
-            modelsuffix = split_name[len(split_name) - 1]
-            print("EXCEPTION")
-            if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                raise Exception
+        
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
@@ -347,6 +343,7 @@ def upload():
                 print(first_line.strip().split(' ')[1])
                 if(first_line.strip().split(' ')[1].isdigit()==False):
                     2/0
+        
                 sizes = len(first_line.strip().split(' '))
             elif(',' in first_line):
                 sizes = len(f.readline().split(','))
@@ -361,18 +358,11 @@ def upload():
             
             columnNames = [''] * sizes
             attributes_meta = sizes
-            # file name checking
-            dataset_name = uploaded_file.filename
-            split_name = dataset_name.split(".")
-            modelsuffix = split_name[len(split_name) - 1]
-            if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                raise Exception
-
             for i in range(sizes):
                 columnNames[i] = "Coloumn" + " " + str(i)
             print(columnNames)
             record = 0
-            path_str_first = './public/' + str(index) + '.'+'dat'
+            path_str_first = './public/'+ 'convert_' + uploaded_file.filename
             with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
                 with open(path_str_first,'w') as f1:
                     f1.write(','.join(columnNames)+"\n")
@@ -382,16 +372,13 @@ def upload():
                         lines = lines.split(" ")
                         f1.write(','.join(lines))
                         record = record + 1
-            index = index + 1
          except Exception as e:
             print(e)
             B.append(uploaded_file)
          else:
             A.append(uploaded_file)
-        A = A + B
-
+        
         for uploaded_file in A:
-
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
             size = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
@@ -399,17 +386,13 @@ def upload():
             attributes_meta = size
             # file name checking
             dataset_name = uploaded_file.filename
-            split_name = dataset_name.split(".")
-            modelsuffix = split_name[len(split_name) - 1]
-            print("EXCEPTION")
-            if modelsuffix not in ["dat","txt","csv","xlsx"]:
-                raise Exception
+       
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
-            index = index + 1
-            path_str = './public/' + str(index) + '.'+'dat'
+          
+            path_str = './public/'+ 'convert_' + uploaded_file.filename
             with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
                 with open(path_str,'w') as f1:
                     f1.write(','.join(columnNames)+"\n")
@@ -420,8 +403,18 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
-            data = pd.read_csv(path_str)
-           
+            data = None 
+            f = open('./public/'+ 'convert_' + uploaded_file.filename)
+            first_line = f.readline()
+            second_line = f.readline()
+            if len(second_line.split(',')) ==len(first_line.split(',')):
+                data = pd.read_csv('./public/'+ 'convert_' + uploaded_file.filename)
+            else:
+                data = pd.read_csv('./public/'+ uploaded_file.filename)
+                attributes_meta = len(first_line.split(','))
+                
+
+            index = index +1
             data = data.to_dict('records')
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
@@ -483,7 +476,10 @@ def upload():
 
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
+                
             file_num = file_num + 1
+        for i in B:
+            2/0
     return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])

@@ -1,15 +1,43 @@
 [
   {
     "_id": {
-      "$oid": "60b3797fc3386a557a62f8f7"
+      "$oid": "60b3b75eba00f981b07a1818"
     },
-    "FileName": "ex_fdy.dat",
+    "FileName": "ex_ndy.dat",
     "BriefInfo": "",
-    "Size": "4.796KB",
+    "Size": "4.93KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60b3b75fba00f981b07a1819"
+    },
+    "FileName": "ex.dat",
+    "BriefInfo": "",
+    "Size": "193.9KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 3840,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60b3b777ba00f981b07a181a"
+    },
+    "FileName": "copy(1)_ex.dat",
+    "BriefInfo": "",
+    "Size": "193.9KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 3840,
     "UserName": "123@gmail.com",
     "ModelName": ""
   }
