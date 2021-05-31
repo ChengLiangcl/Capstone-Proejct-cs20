@@ -1,7 +1,21 @@
 [
   {
     "_id": {
-      "$oid": "60b3b75eba00f981b07a1818"
+      "$oid": "60b439645ea6a96a52d62c22"
+    },
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": "fake.dat"
+  },
+  {
+    "_id": {
+      "$oid": "60b439655ea6a96a52d62c23"
     },
     "FileName": "ex_ndy.dat",
     "BriefInfo": "",
@@ -11,76 +25,6 @@
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
     "UserName": "123@gmail.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b3b75fba00f981b07a1819"
-    },
-    "FileName": "ex.dat",
-    "BriefInfo": "",
-    "Size": "193.9KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 3840,
-    "UserName": "123@gmail.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b3b777ba00f981b07a181a"
-    },
-    "FileName": "copy(1)_ex.dat",
-    "BriefInfo": "",
-    "Size": "193.9KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 3840,
-    "UserName": "123@gmail.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b3bad65ea6a96a52d62c14"
-    },
-    "FileName": "copy(1)_ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123@gmail.com",
     "ModelName": "fake.dat"
-  },
-  {
-    "_id": {
-      "$oid": "60b3bada5ea6a96a52d62c16"
-    },
-    "FileName": "copy(2)_ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123@gmail.com",
-    "ModelName": "copy(1)_fake.dat"
-  },
-  {
-    "_id": {
-      "$oid": "60b3bae55ea6a96a52d62c18"
-    },
-    "FileName": "copy(3)_ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123@gmail.com",
-    "ModelName": "copy(2)_fake.dat"
   }
 ]

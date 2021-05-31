@@ -1,13 +1,13 @@
 [
   {
     "_id": {
-      "$oid": "60b3bab65ea6a96a52d62c12"
+      "$oid": "60b435875ea6a96a52d62c1e"
     },
-    "uuid": "dea008e7ef464dd7b05a8325c9e0038d",
-    "FileName": "ex.dat",
+    "uuid": "ef46fa49413342a5baf843ece8af77f3",
+    "FileName": "copy(1)_fake.dat",
     "BriefInfo": "",
-    "Size": "193.9KB",
+    "Size": "4.229KB",
     "UserName": "123@gmail.com",
-    "copy": 0
+    "copy": 1
   }
 ]

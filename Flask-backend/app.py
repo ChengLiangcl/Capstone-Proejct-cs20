@@ -5,6 +5,7 @@ from flask_restful import Api, Resource, reqparse
 import os
 import json
 import pymongo
+import database
 from bson.json_util import dumps
 from bson.json_util import loads
 from bson import json_util
@@ -20,10 +21,7 @@ import re
 # import openpyxl
 files_size = 0
 file_num = 0
-client = pymongo.MongoClient(
-    "mongodb://123:123@cluster0-shard-00-00.nspcw.mongodb.net:27017,cluster0-shard-00-01.nspcw.mongodb.net:27017,cluster0-shard-00-02.nspcw.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-k7vjf4-shard-0&authSource=admin&retryWrites=true&w=majority",
-    ssl=True, ssl_cert_reqs='CERT_NONE')
-db = client.datasets
+db = database.db
 app = Flask(__name__)
 app.secret_key = b'pj&\xe9\xd7\xd7\xabc\xe6KX\xbe\x9f<\x9f\x87'
 app.config['UPLOAD_PATH'] = 'public'  # to create a folder which is used to save the uploaded file
