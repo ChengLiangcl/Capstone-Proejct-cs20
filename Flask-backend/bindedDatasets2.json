@@ -1,10 +1,10 @@
 [
   {
-    "uuid": "ec98dc1dbc4e4867ad48eca2cb8a9df0",
-    "FileName": "ex.ccc",
+    "uuid": "c4990eb05c8e4722936f5575050cf839",
+    "FileName": "LMY_GoodClass.cod",
     "BriefInfo": "",
     "Size": "4.229KB",
-    "UserName": "17888813173@163.com",
+    "UserName": "532540232",
     "data": [
       "3.25253 8.24155 -14.1466 -13.1775 405.378 \n",
       "5.8447 10.7367 -13.1117 -12.565 405.38 \n",
@@ -109,5 +109,19 @@
       "xDim": 12,
       "yDim": 8
     }
+  },
+  {
+    "FileName": "LMY_BadClass.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "UserName": "532540232",
+    "copy": 0
+  },
+  {
+    "FileName": "LMY_GoodClass.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "UserName": "532540232",
+    "copy": 0
   }
 ]

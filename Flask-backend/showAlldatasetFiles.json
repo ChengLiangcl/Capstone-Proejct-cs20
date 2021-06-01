@@ -1,86 +1,16 @@
 [
   {
     "_id": {
-      "$oid": "60b6472a26f92759cd36ab59"
+      "$oid": "60b6492226f92759cd36ab62"
     },
-    "FileName": "ex_ndy.png",
+    "FileName": "animal.txt",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "0.626KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
+    "Number_of_Attribute": 17,
+    "Number_of_Instance": 16,
     "UserName": "17888813173@163.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b6472b26f92759cd36ab5a"
-    },
-    "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b6472c26f92759cd36ab5b"
-    },
-    "FileName": "ass.txt",
-    "BriefInfo": "",
-    "Size": "0.025KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 1,
-    "Number_of_Instance": 8,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b6473a26f92759cd36ab5c"
-    },
-    "FileName": "copy(1)_ass.txt",
-    "BriefInfo": "",
-    "Size": "0.025KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 1,
-    "Number_of_Instance": 8,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b6485626f92759cd36ab5e"
-    },
-    "FileName": "copy(1)_ex_ndy.png",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "ex.ccc"
-  },
-  {
-    "_id": {
-      "$oid": "60b6485a26f92759cd36ab60"
-    },
-    "FileName": "copy(2)_ex_ndy.png",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "copy(1)_ex.ccc"
+    "ModelName": "animal.cod"
   }
 ]
