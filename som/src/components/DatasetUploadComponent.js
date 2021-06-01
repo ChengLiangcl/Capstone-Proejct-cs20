@@ -11,7 +11,7 @@ function DatasetUpload(props) {
     const [message, setMessage] = useState(DATASET_REMIND);
     const el = useRef(); // accesing input element
 
-    const validDatasetFormat = ["dat", "txt", "csv", "xlsx"];
+    //const validDatasetFormat = ["dat", "txt", "csv", "xlsx"];
     const [dataset_message, setDatasetFail] = useState("1");
 
     // It is for get the uploaded file you selected
@@ -23,73 +23,71 @@ function DatasetUpload(props) {
             let message = '';
 
             const acceptedDatasetArray = file.name.split(".");
-            const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length - 1, acceptedDatasetArray.length)[0];
-            if (validDatasetFormat.includes(datasetExtension)) {
-                let reader = new FileReader();
-                console.log("file name: ", file.name);
-                reader.onloadend = () => {
-                    let lines = reader.result.split('\n');
-                    console.log("check lines: ", lines);
-                    try {
+            let reader = new FileReader();
+            console.log("file name: ", file.name);
+            reader.onloadend = () => {
+                let lines = reader.result.split('\n');
+                console.log("check lines: ", lines);
+                try {
+                    const firstRow = lines[0].trim().split(" ");
+                    const secondRow = lines[1].trim().split(" ");
+                    console.log(`file name: ${file.name}, first row length: ${firstRow.length}, second row length: ${secondRow.length}`);
 
-                        if (datasetExtension === "txt" || datasetExtension == "dat") {
-                            const firstRow = lines[0].trim().split(" ");
-                            console.log("first row: ", firstRow);
-                            console.log("first row: ", firstRow.length);
-
-                            if (firstRow.length === 1) {
-                                console.log("firs row len 1");
-                                let line_check = parseFloat(firstRow[0]);
-                                message = Number.isNaN(line_check) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
-                                datasetMessage += message;
-                                setDatasetFail(datasetMessage);
-                            }
-                            else {
-                                console.log("firs row len not 1");
-                                message = `# Could not upload ${file.name}. `;
-                                datasetMessage += message;
-                                setDatasetFail(datasetMessage);
-                            }
+                    if (firstRow.length !== secondRow.length) {
+                        // check if it is a text format file
+                        if (firstRow.length === 1) {
+                            console.log("first row len 1");
+                            let line_check_first = parseFloat(firstRow[0]);
+                            message = Number.isNaN(line_check_first) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                            datasetMessage += message;
+                            setDatasetFail(datasetMessage);
+                        }
+                        else if (firstRow.length === 2){
+                            console.log("first row len 2");
+                            let line_check_first = parseFloat(firstRow[0]);
+                            let line_check_second = parseFloat(firstRow[1]);
+                            message = Number.isNaN(line_check_first) || Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                            datasetMessage += message;
+                            setDatasetFail(datasetMessage);
+                        }
+                        else {
+                            console.log("first row len not 1");
+                            message = `# Could not upload ${file.name}. `;
+                            datasetMessage += message;
+                            setDatasetFail(datasetMessage);
+                        }
+                    }
+                    else {
+                        if (secondRow.length !== 1){
+                            const checkLine = secondRow.slice(0, secondRow.length - 1).map(elem => Number.isNaN(parseFloat(elem)) ? "noUpdate" : "update");
+                            message = checkLine.includes("noUpdate") ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                            datasetMessage += message;
+                            setDatasetFail(datasetMessage);
                         }
                         else{
-                            const firstRow = lines[0].trim().split(" ");
-                            const secondRow = lines[1].trim().split(" ");
- 
-                            if (firstRow.length !== secondRow.length){
-                                message = `# Could not upload ${file.name}. `;
-                                datasetMessage += message;
-                                setDatasetFail(datasetMessage);
-                            }
-                            else{
-                                const checkLine = secondRow.slice(0, secondRow.length-1).map( elem => Number.isNaN(parseFloat(elem)) ? "noUpdate" : "update");
-                                message = checkLine.includes("noUpdate") ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
-                                datasetMessage += message;
-                                setDatasetFail(datasetMessage);
-                            }
+                            console.log("second row len 1");
+                            let line_check_second = parseFloat(secondRow[0]);
+                            message = Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                            datasetMessage += message;
+                            setDatasetFail(datasetMessage);
                         }
-
-
                     }
-                    catch (e) {
-                        message = `# Could not upload ${file.name}. `;
-                        datasetMessage += message;
-                        setDatasetFail(datasetMessage);
-                    }
-                };
 
-                reader.onerror = () => {
+                }
+                catch (e) {
                     message = `# Could not upload ${file.name}. `;
                     datasetMessage += message;
                     setDatasetFail(datasetMessage);
-                };
+                }
+            };
 
-                reader.readAsText(file);
-            }
-            else {
+            reader.onerror = () => {
                 message = `# Could not upload ${file.name}. `;
                 datasetMessage += message;
                 setDatasetFail(datasetMessage);
-            }
+            };
+
+            reader.readAsText(file);
 
             // const acceptedDatasetArray = file.name.split(".");
             // const datasetExtension = acceptedDatasetArray.slice(acceptedDatasetArray.length - 1, acceptedDatasetArray.length)[0];

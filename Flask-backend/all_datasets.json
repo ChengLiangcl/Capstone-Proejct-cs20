@@ -10,14 +10,29 @@
     "UserName": "123456@qq.com"
   },
   {
-    "FileName": "ex_fdy.dat",
+    "FileName": "ex_fdy.cod.dat",
     "Description": "",
     "UserName": "123@gmail.com"
   },
   {
+    "FileName": "ex_ndy.png",
+    "Description": "",
+    "UserName": "17888813173@163.com"
+  },
+  {
     "FileName": "ex_fts.dat",
     "Description": "",
-    "UserName": "123@gmail.com"
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "ass.txt",
+    "Description": "",
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "copy(1)_ass.txt",
+    "Description": "",
+    "UserName": "17888813173@163.com"
   },
   {
     "FileName": "LMY_BadClass.dat",
@@ -53,5 +68,10 @@
     "FileName": "copy(1)_ex_ndy.csv",
     "Description": "",
     "UserName": "jwan"
+  },
+  {
+    "FileName": "playback.m3u",
+    "Description": "",
+    "UserName": "null"
   }
 ]
