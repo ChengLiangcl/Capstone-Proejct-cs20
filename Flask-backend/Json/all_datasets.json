@@ -1,57 +1,107 @@
 [
   {
     "FileName": "ex_ndy.dat",
-    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
+    "Description": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
     "UserName": "123456@qq.com"
   },
   {
     "FileName": "ex_ndy3.dat",
-    "BriefInfo": "Build high-performance mobile and web applications that scale to process millions of user requests per second with millisecond latency",
+    "Description": "ex_ndy3.dat",
     "UserName": "123456@qq.com"
   },
   {
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
+    "FileName": "ex_fts.dat",
+    "Description": "",
     "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "ex.dat",
+    "Description": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "copy(1)_ex_fts.dat",
+    "Description": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "copy(1)_ex.dat",
+    "Description": "",
+    "UserName": "123@gmail.com"
+  },
+  {
+    "FileName": "ex_ndy.png",
+    "Description": "",
+    "UserName": "17888813173@163.com"
   },
   {
     "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "UserName": "123@gmail.com"
+    "Description": "",
+    "UserName": "17888813173@163.com"
   },
   {
-    "FileName": "copy(1)_ex_fdy.dat",
-    "BriefInfo": "",
-    "UserName": "123@gmail.com"
+    "FileName": "ass.txt",
+    "Description": "",
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "copy(1)_ex_ndy.png",
+    "Description": "",
+    "UserName": "17888813173@163.com"
+  },
+  {
+    "FileName": "copy(1)_ass.txt",
+    "Description": "",
+    "UserName": "17888813173@163.com"
   },
   {
     "FileName": "LMY_BadClass.dat",
-    "BriefInfo": "",
+    "Description": "",
     "UserName": "532540232"
   },
   {
     "FileName": "LMY_GoodClass.dat",
-    "BriefInfo": "",
+    "Description": "",
     "UserName": "532540232"
   },
   {
+    "FileName": "ex_fts.dat",
+    "Description": "",
+    "UserName": "Alice"
+  },
+  {
+    "FileName": "ex_ndy.dat",
+    "Description": "",
+    "UserName": "Alice"
+  },
+  {
+    "FileName": "copy(1)_ex_ndy.dat",
+    "Description": "",
+    "UserName": "Alice"
+  },
+  {
     "FileName": "copy(1)_ex_ndy.txt",
-    "BriefInfo": "",
+    "Description": "",
     "UserName": "jwan"
   },
   {
     "FileName": "ex_ndy.csv",
-    "BriefInfo": "",
+    "Description": "",
     "UserName": "jwan"
   },
   {
     "FileName": "ex_fts.dat",
-    "BriefInfo": "",
+    "Description": "",
     "UserName": "jwan"
   },
   {
     "FileName": "copy(1)_ex_ndy.csv",
-    "BriefInfo": "",
+    "Description": "",
     "UserName": "jwan"
+  },
+  {
+    "FileName": "playback.m3u",
+    "Description": "",
+    "UserName": "null"
   }
 ]

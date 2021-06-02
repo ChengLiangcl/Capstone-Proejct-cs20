@@ -513,7 +513,7 @@ def showMyDatasets():
 
         json_data = dumps(data_return, indent = 2)
    
-        with open('./showAlldatasetFiles.json', 'w') as file:
+        with open('./Json/showAlldatasetFiles.json', 'w') as file:
             file.write(json_data)
        
         values = json.loads(json_data)
@@ -543,7 +543,7 @@ def sendNewdatasetFiles():
     print("The taotal number of files: " + str(files_size))
     data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(files_size)
     json_data = dumps(data, indent = 2)
-    with open('./dataNewJson.json', 'w') as file:
+    with open('./Json/dataNewJson.json', 'w') as file:
                 file.write(json_data)
     jsonFile = open('./dataNewJson.json', 'r')
     values = json.load(jsonFile)
@@ -700,12 +700,12 @@ def queryDatasets():
     data_return = list(db.files.find({"UserName": UserName,"FileName":{"$in":result}},{"_id":0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./queryResultsForDatasets.json', 'w') as file:
+        with open('./Json/queryResultsForDatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./queryResultsForDatasets.json', 'r')
+        jsonFile = open('./Json/queryResultsForDatasets.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./queryResultsForDatasets.json', 'w') as file:
+        with open('./Json/queryResultsForDatasets.json', 'w') as file:
             file.write(values)
         return values
     else:
@@ -898,19 +898,19 @@ def sendNewModelFiles():
 
     data = db.models.find().sort('_id', -1).limit(1)  # Find the newest data to insert
     json_data = dumps(data, indent=2)
-    with open('./modeldataNewJson.json', 'w') as file:
+    with open('./Json/modeldataNewJson.json', 'w') as file:
         file.write(json_data)
 
-    jsonFile = open('./modeldataNewJson.json', 'r')
+    jsonFile = open('./Json/modeldataNewJson.json', 'r')
     values = json.load(jsonFile)
     for element in values:
         if 'data' in element:
             del element['data']
             break
     values = dumps(values, indent=2)
-    with open('./modeldataNewJson.json', 'w') as file:
+    with open('./Json/modeldataNewJson.json', 'w') as file:
         file.write(values)
-    jsonFile = open('./modeldataNewJson.json', 'r')
+    jsonFile = open('./Json/modeldataNewJson.json', 'r')
     values = json.load(jsonFile)
 
     return json.dumps(values)
@@ -1111,12 +1111,12 @@ def query_model():
     data_return = list(db.models.find({"UserName": UserName, "FileName": {"$in": result}}, {"_id": 0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./queryResultsForModels.json', 'w') as file:
+        with open('./Json/queryResultsForModels.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./queryResultsForModels.json', 'r')
+        jsonFile = open('./Json/queryResultsForModels.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./queryResultsForModels.json', 'w') as file:
+        with open('./Json/queryResultsForModels.json', 'w') as file:
             file.write(values)
         return values
     else:
@@ -1156,14 +1156,14 @@ def query_binded_datasets():
 
     if (len(js) != 0):
         json_data = dumps(js, indent=2)
-        with open('./correspondingdatasets.json', 'w') as file:
+        with open('./Json/correspondingdatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./correspondingdatasets.json', 'r')
+        jsonFile = open('./Json/correspondingdatasets.json', 'r')
         values = json.load(jsonFile)
         value=list(values)
         value.insert(0,data)
         values = dumps(value, indent=2)
-        with open('./bindedDatasets2.json','w') as f:
+        with open('./Json/bindedDatasets2.json','w') as f:
          f.write(values)
         return values
     else:
@@ -1184,7 +1184,7 @@ def query_binded_datasets():
         X.insert(0,data)
         value2=dumps(X,indent=2)
         print("This model not have any datasets")
-        with open('./bindedDatasets2.json','w') as f:
+        with open('./Json/bindedDatasets2.json','w') as f:
          f.write(value2)
         return value2
 
@@ -1220,14 +1220,14 @@ def query_umatrix_datasets():
 
     if (len(js) != 0):
         json_data = dumps(js, indent=2)
-        with open('./correspondingdatasets.json', 'w') as file:
+        with open('./Json/correspondingdatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./correspondingdatasets.json', 'r')
+        jsonFile = open('./Json/correspondingdatasets.json', 'r')
         values = json.load(jsonFile)
         value=list(values)
         value.insert(0,data)
         values = dumps(value, indent=2)
-        with open('./bindedDatasets2.json','w') as f:
+        with open('./Json/bindedDatasets2.json','w') as f:
          f.write(values)
         return values
     else:
@@ -1248,7 +1248,7 @@ def query_umatrix_datasets():
         X.insert(0,data)
         value2=dumps(X,indent=2)
         print("This model not have any datasets")
-        with open('./bindedDatasets2.json','w') as f:
+        with open('./Json/bindedDatasets2.json','w') as f:
          f.write(value2)
         return value2
 
@@ -1283,9 +1283,9 @@ def showAlldatasetFiles():
         datas = db.files.find({},{'FileName':1,'Description':1,'UserName':1,'_id':0}).sort("UserName", 1)
         datas = dumps(datas, indent = 2)
         print(datas)
-        with open('./all_datasets.json','w') as f:
+        with open('./Json/all_datasets.json','w') as f:
             f.write(datas)
-        with open('./all_datasets.json','r') as f:
+        with open('./Json/all_datasets.json','r') as f:
             data = json.load(f)
         
     return json.dumps(data)
@@ -1416,12 +1416,12 @@ def queryAllDatasets():
     data_return = list(db.files.find({"UserName":{"$in": result2}, "FileName": {"$in": result}}, {"_id": 0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./queryResultsForALLDatasets.json', 'w') as file:
+        with open('./Json/queryResultsForALLDatasets.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./queryResultsForALLDatasets.json', 'r')
+        jsonFile = open('./Json/queryResultsForALLDatasets.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./queryResultsForALLDatasets.json', 'w') as file:
+        with open('./Json/queryResultsForALLDatasets.json', 'w') as file:
             file.write(values)
         return values
     else:
@@ -1515,12 +1515,12 @@ def queryAllModels():
     data_return = list(db.models.find({"UserName": {"$in": result2}, "FileName": {"$in": result}}, {"_id": 0}))
     if (len(data_return) != 0):
         json_data = dumps(data_return, indent=2)
-        with open('./queryResultsForALLModels.json', 'w') as file:
+        with open('./Json/queryResultsForALLModels.json', 'w') as file:
             file.write(json_data)
-        jsonFile = open('./queryResultsForALLModels.json', 'r')
+        jsonFile = open('./Json/queryResultsForALLModels.json', 'r')
         values = json.load(jsonFile)
         values = dumps(values, indent=2)
-        with open('./queryResultsForALLModels.json', 'w') as file:
+        with open('./Json/queryResultsForALLModels.json', 'w') as file:
             file.write(values)
         return values
     else:
