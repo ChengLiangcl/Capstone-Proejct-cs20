@@ -307,6 +307,7 @@ def upload():
     if request.method == "POST":
         userName = request.files['username'].filename
         print("get username: ", userName)
+        
 
         # TODO： 这是得到多个datasets的代码
         # get files list: multiple files are stored into an list
@@ -474,8 +475,11 @@ def upload():
                 db.files.insert_one(store_schema)
                 
             file_num = file_num + 1
+       
         for i in B:
             2/0
+
+
     return json.dumps(file_name_list)
 
 @app.route('/datasetFiles', methods=["POST"])
@@ -537,7 +541,7 @@ def sendNewdatasetFiles():
     print(file_num)
     print('-----------------------------')
     print("The taotal number of files: " + str(files_size))
-    data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(file_num)
+    data = db.files.find({"UserName":username},{"data":0,"uuid":0}).sort('_id',-1).limit(files_size)
     json_data = dumps(data, indent = 2)
     with open('./dataNewJson.json', 'w') as file:
                 file.write(json_data)
@@ -745,10 +749,8 @@ def downloadFile():
 
     # read file
     # text format
-    if downloadType == '.txt':
-        with open('./download/tem_data.csv') as f:
-            content = f.read()
-    elif downloadType == '.dat':
+
+    if downloadType == '.dat' or downloadType == '.txt':
         with open('./download/tem_data.csv') as f:
             lines = f.readlines()
         lines[0] = str(size) + '\n'

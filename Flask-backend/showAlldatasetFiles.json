@@ -1,16 +1,58 @@
 [
   {
     "_id": {
-      "$oid": "60b6492226f92759cd36ab62"
+      "$oid": "60b6ee119e8034fdc1b49472"
     },
-    "FileName": "animal.txt",
+    "FileName": "ex_fdy.dat",
     "BriefInfo": "",
-    "Size": "0.626KB",
+    "Size": "4.796KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 17,
-    "Number_of_Instance": 16,
-    "UserName": "17888813173@163.com",
-    "ModelName": "animal.cod"
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60b6ee139e8034fdc1b49473"
+    },
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60b6ee139e8034fdc1b49474"
+    },
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60b6ee219e8034fdc1b49475"
+    },
+    "FileName": "copy(1)_ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
   }
 ]
