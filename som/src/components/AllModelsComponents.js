@@ -57,7 +57,7 @@ class AllModel extends Component {
               <td key={"operateEachModel"}>
                 <Container>
                   <Row>
-                    <Link to={`/visualisation/${model.FileName}`}>
+                    <Link to={`/visualisation/${model.FileName}?userName=${model.UserName}&fileName=${model.FileName}`}>
                       <IconButton aria-label="visualisation" component="span">
                         <InsertChart />
                       </IconButton>

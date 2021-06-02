@@ -54,5 +54,19 @@
     "Number_of_Instance": 96,
     "UserName": "17888813173@163.com",
     "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60b73587183a0d2059aef218"
+    },
+    "FileName": "copy(1)_ass.txt",
+    "BriefInfo": "",
+    "Size": "0.025KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 1,
+    "Number_of_Instance": 8,
+    "UserName": "17888813173@163.com",
+    "ModelName": ""
   }
 ]

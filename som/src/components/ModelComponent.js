@@ -101,7 +101,7 @@ class SOMModel extends Component {
                       modelName={model.FileName}
                       fetchModelFiles={this.props.fetchModelFiles} />
 
-                    <Link to={`/visualisation/${model.FileName}`}>
+                    <Link to={`/visualisation/${model.FileName}?userName=${model.UserName}&fileName=${model.FileName}`}>
                       <IconButton aria-label="visualisation" component="span">
                         <InsertChart />
                       </IconButton>
@@ -151,7 +151,7 @@ class SOMModel extends Component {
 
                 <Container>
                   <Row>
-                    <Link to={`/visualisation/${model.FileName}`}>
+                    <Link to={`/visualisation/${model.FileName}?userName=${model.UserName}&fileName=${model.FileName}`}>
                       <IconButton aria-label="visualisation" component="span">
                         <InsertChart />
                       </IconButton>
