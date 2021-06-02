@@ -1,15 +1,15 @@
 [
   {
     "_id": {
-      "$oid": "60b6ee359e8034fdc1b49478"
+      "$oid": "60b73587183a0d2059aef218"
     },
-    "FileName": "copy(2)_ex_ndy.dat",
+    "FileName": "copy(1)_ass.txt",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "0.025KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
+    "Number_of_Attribute": 1,
+    "Number_of_Instance": 8,
     "Keywords": [],
     "AttrInfo": [
       {
@@ -17,49 +17,7 @@
         "attrDescription": ""
       }
     ],
-    "UserName": "123@gmail.com",
-    "copy": 2
-  },
-  {
-    "_id": {
-      "$oid": "60b6ee349e8034fdc1b49477"
-    },
-    "FileName": "copy(1)_ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "123@gmail.com",
+    "UserName": "17888813173@163.com",
     "copy": 1
-  },
-  {
-    "_id": {
-      "$oid": "60b6ee329e8034fdc1b49476"
-    },
-    "FileName": "ex_fts copy.cod.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "123@gmail.com",
-    "copy": 0
   }
 ]

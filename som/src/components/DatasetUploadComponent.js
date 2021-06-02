@@ -58,16 +58,17 @@ function DatasetUpload(props) {
                         }
                     }
                     else {
-                        if (secondRow.length !== 1){
-                            const checkLine = secondRow.slice(0, secondRow.length - 1).map(elem => Number.isNaN(parseFloat(elem)) ? "noUpdate" : "update");
+                        if (firstRow.length !== 1){
+                            const checkLine = firstRow.slice(0, firstRow.length - 1).map(elem => Number.isNaN(parseFloat(elem)) ? "noUpdate" : "update");
                             message = checkLine.includes("noUpdate") ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
                             datasetMessage += message;
                             setDatasetFail(datasetMessage);
                         }
                         else{
                             console.log("second row len 1");
-                            let line_check_second = parseFloat(secondRow[0]);
-                            message = Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
+                            let line_check_first = parseFloat(firstRow[0]);
+                            let line_check_second = parseFloat(firstRow[1]);
+                            message = Number.isNaN(line_check_first) || Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
                             datasetMessage += message;
                             setDatasetFail(datasetMessage);
                         }
