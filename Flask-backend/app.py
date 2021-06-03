@@ -545,7 +545,7 @@ def sendNewdatasetFiles():
     json_data = dumps(data, indent = 2)
     with open('./Json/dataNewJson.json', 'w') as file:
                 file.write(json_data)
-    jsonFile = open('./dataNewJson.json', 'r')
+    jsonFile = open('./Json/dataNewJson.json', 'r')
     values = json.load(jsonFile)
     # print(values)
     file_num = file_num - file_num
