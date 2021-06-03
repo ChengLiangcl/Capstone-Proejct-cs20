@@ -4,7 +4,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import { Row, Col, Container, Progress, Button } from 'reactstrap';
 
 function DatasetUpload(props) {
-    const DATASET_REMIND = "Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)";
+    const DATASET_REMIND = "Please upload your datasets";
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0); // tracking the status of uploading

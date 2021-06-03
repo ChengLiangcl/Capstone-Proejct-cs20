@@ -6,8 +6,8 @@ import PublishIcon from '@material-ui/icons/Publish';
 import NeedUploading from './Modal/NeedUploading';
 
 function ConnectionUploading(props) {
-    const MODEL_REMIND = "Please upload your model. (only accept .cod)";
-    const DATASET_REMIND = "Please upload your datasets. (only accept .dat, .txt, .csv, .xlsx)";
+    const MODEL_REMIND = "Please upload your model.";
+    const DATASET_REMIND = "Please upload your datasets.";
     const [selectedModel, setSelectedModel] = useState(undefined);
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
