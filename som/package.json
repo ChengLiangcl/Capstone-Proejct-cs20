@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
-    "json-loader": "^0.5.7"
+    "json-loader": "^0.5.7",
+    "react-test-renderer": "^17.0.2"
   }
 }

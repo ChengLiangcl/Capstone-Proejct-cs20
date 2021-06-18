@@ -1,58 +1,58 @@
 [
   {
     "_id": {
-      "$oid": "60b8306dd7c17c412aae0d92"
+      "$oid": "60a49b516de22f7be94a9f27"
     },
-    "FileName": "ex_ndy.png",
+    "FileName": "copy(1)_ex_ndy.txt",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "4.892KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "ex.ccc"
+    "UserName": "jwan",
+    "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "60b8306ed7c17c412aae0d93"
+      "$oid": "60a49b5f6de22f7be94a9f28"
+    },
+    "FileName": "ex_ndy.csv",
+    "BriefInfo": "",
+    "Size": "4.989KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "jwan",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60a49b6e6de22f7be94a9f29"
     },
     "FileName": "ex_fts.dat",
     "BriefInfo": "",
-    "Size": "13.532KB",
+    "Size": "13.42KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 6,
     "Number_of_Instance": 246,
-    "UserName": "17888813173@163.com",
-    "ModelName": "ex.ccc"
-  },
-  {
-    "_id": {
-      "$oid": "60b83098d7c17c412aae0d94"
-    },
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
+    "UserName": "jwan",
     "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "60b83099d7c17c412aae0d95"
+      "$oid": "60a49e006de22f7be94a9f2c"
     },
-    "FileName": "ex_fdy.csv",
+    "FileName": "copy(1)_ex_ndy.csv",
     "BriefInfo": "",
-    "Size": "4.796KB",
+    "Size": "4.989KB",
     "Description": "",
     "Source": "",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
+    "UserName": "jwan",
+    "ModelName": "copy(1)_ex.cod"
   }
 ]

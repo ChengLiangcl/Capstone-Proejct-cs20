@@ -132,15 +132,16 @@ const Signup = (props) => {
 
             <div style={username}>
               <Field as={(props)=><Select style={{width:195}} {...props}>
-                {questions.map(item=> <MenuItem value={item}>{item}</MenuItem>)}
+                {questions.map(item=> <MenuItem value={item} key={item}>{item}</MenuItem>)}
               </Select>}
                      name="question"
                      label="question"
-                     helperText={
-                       <ErrorMessage name="question">
-                         {msg => <div style={{color: 'red'}}>{msg}</div>}
-                       </ErrorMessage>
-                     }
+                     id="outlined-question-input"
+                     // helperText={
+                     //   <ErrorMessage name="question">
+                     //     {msg => <div style={{color: 'red'}}>{msg}</div>}
+                     //   </ErrorMessage>
+                     // }
                      variant="outlined"/>
             </div>
             <div style={username}>
@@ -156,7 +157,7 @@ const Signup = (props) => {
                      variant="outlined"/>
             </div>
             <div style={button}>
-              <Button type="submit" variant="contained" color="primary" fullWidth>
+              <Button id="outlined-signup-button" type="submit" variant="contained" color="primary" fullWidth>
                 Sign Up
               </Button>
             </div>
