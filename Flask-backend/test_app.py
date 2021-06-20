@@ -358,6 +358,133 @@ class Testapp(unittest.TestCase):
             del element['_id']
         self.assertEqual(values, expect)
 
+    def test_submitMetadata(self):
+        print('test test_submitMetadata')
+        url = "/submit-metadata"
+        data = [{'FileName': 'ex_ndy2.dat', 'UserName': '123456@qq.com', 'BriefInfo': '1', 'Description': '1', 'Source': '1', 'Keywords': [], 'AttrInfo': [{'attrName': '1', 'attrDescription': '1'}]}]
+        response = app.test_client().post(url, data=json.dumps(data))
+        self.assertEqual(data, loads(response.data))
+
+    def test_downloadFile(self):
+        print('test test_downloadFile')
+        url = "/downloader"
+        data = ['ex_ndy.dat', '123456@qq.com', '.dat']
+        data2 = ['ex_ndy.dat', '123456@qq.com', '.csv']
+        response = app.test_client().post(url, data=json.dumps(data))
+        f = open('./Testing/input/ex_ndy.dat')
+        expect = f.read()
+        self.assertEqual(expect, str(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data2))
+        f = open('./Testing/input/ex_ndy6.dat')
+        expect = f.read()
+        self.assertEqual(expect, str(response.data))
+    '''
+    def test_uploadModel(self):
+        print('test test_uploadModel')
+        url = "/upload-model"
+        f1 = open('./Testing/input/ex.cod','rb')
+        upload2 = FileStorage(f1, 'ex.cod', name='ex.cod', content_type='application/octet-stream')
+        upload1 = FileStorage(f1,'123456@qq.com', name='123456@qq.com', content_type='application/octet-stream')
+        input = ImmutableMultiDict([('username', upload1), ('model', upload2)])
+        response = app.test_client().post(url, data=input)
+        self.assertEqual(['ex.cod'], response.data)
+    '''
+    def test_sendNewModelFiles(self):
+        print('test test_upload')
+        url = "/newModel"
+        data = '123456@qq.com'
+        response = app.test_client().post(url, data=json.dumps(data))
+        expect = open('./Json/modeldataNewJson.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        for element in values:
+            del element['_id']
+        expect = loads(response.data)
+        for element in expect:
+            del element['_id']
+        self.assertEqual(values, expect)
+
+    def test_query_binded_datasets(self):
+        print('test test_query_binded_datasets')
+        url = "/get-bindedDatasets"
+        data = ['Test1.cod', '123456@qq.com']
+        data2 = ['Test2.cod', '123456@qq.com']
+        response = app.test_client().post(url, data=json.dumps(data))
+        expect = open('./Json/bindedDatasets2.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        expect.close()
+        self.assertEqual(values, loads(response.data))
+        response = app.test_client().post(url, data=json.dumps(data2))
+        expect = open('./Json/bindedDatasets2.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        expect.close()
+        self.assertEqual(values, loads(response.data))
+
+    def test_query_umatrix_datasets(self):
+        print('test test_query_umatrix_datasets')
+        url = "/get-umatrixDatasets"
+        data = ['Test1.cod', '123456@qq.com']
+        data2 = ['Test2.cod', '123456@qq.com']
+        response = app.test_client().post(url, data=json.dumps(data))
+        expect = open('./Json/bindedDatasets2.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        expect.close()
+        self.assertEqual(values, loads(response.data))
+        response = app.test_client().post(url, data=json.dumps(data2))
+        expect = open('./Json/bindedDatasets2.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        expect.close()
+        self.assertEqual(values, loads(response.data))
+
+    def test_getNameForDetailedData(self):
+        print('test test_getNameForDetailedData')
+        url = "/detailedData-name"
+        data = ['ex_ndy.dat', '123456@qq.com']
+        response = app.test_client().post(url, data=json.dumps(data))
+        expect = open('./Testing/input/expect.txt', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        expect.close()
+        self.assertEqual(values, loads(response.data))
+
+
+    def test_showAlldatasetFiles(self):
+        print('test test_showAlldatasetFiles')
+        url = "/alldatasetFiles"
+        response = app.test_client().get(url)
+        expect = open('./Json/all_datasets.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        expect.close()
+        self.assertEqual(values, loads(response.data))
+
+    def test_showAllModels(self):
+        print('test test_showAllModels')
+        url = "/allmodels"
+        response = app.test_client().get(url)
+        expect = open('./Json/all_models.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        for element in values:
+            del element['_id']
+        expect = loads(response.data)
+        for element in expect:
+            del element['_id']
+        self.assertEqual(values, expect)
+
 
 if __name__ == '__main__':
     unittest.main()

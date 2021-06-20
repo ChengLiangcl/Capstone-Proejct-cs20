@@ -66,15 +66,15 @@ def connect_upload():
         break
 
 
-        
+
     output.close()
     # file name checking
     split_name = model_name.split(".")
 
-    
 
-    
-    
+
+
+
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
         name_size = name_size[len(name_size)-1].get('copy') + 1
@@ -108,8 +108,8 @@ def connect_upload():
             "copy":0
         }
         db.models.insert_one(store_schema)
-   
-    
+
+
    #--------------------------Finish Model Uploading--------------------------------------------------------------------
     # get files list: multiple files are stored into an list
     files_list = [request.files['file'+str(i)] for i in range(0, len(request.files)-2)]
@@ -118,7 +118,7 @@ def connect_upload():
     session['uploaded_datasets_len'] = len(files_list)
     print("len is: ", session['uploaded_datasets_len'])
     print("check seesion: ",  session.items())
-    
+
 
     # when a user only upload a model, then the file_list is []
     # please return a [""] file_name_list to the frontend
@@ -152,7 +152,7 @@ def connect_upload():
         for uploaded_file in files_list:
 
             try:
-                
+
                 uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
            # to get the column number
                 f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
@@ -173,7 +173,7 @@ def connect_upload():
                 else:
                     sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
 
-                
+
                 columnNames = [''] * sizes
                 attributes_meta = sizes
                 for i in range(sizes):
@@ -196,7 +196,7 @@ def connect_upload():
                 B.append(uploaded_file)
             else:
                 A.append(uploaded_file)
-        
+
         for uploaded_file in A:
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
@@ -204,12 +204,12 @@ def connect_upload():
             columnNames = [''] * size
             attributes_meta = size
             # file name checking
-       
+
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
-          
+
             path_str = './public/'+ 'convert_' + uploaded_file.filename
             with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
                 with open(path_str,'w') as f1:
@@ -221,7 +221,7 @@ def connect_upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
-            data = None 
+            data = None
             f = open('./public/'+ 'convert_' + uploaded_file.filename)
             first_line = f.readline()
             second_line = f.readline()
@@ -235,7 +235,7 @@ def connect_upload():
             size = os.path.getsize(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
             size = str(size/1000) + "KB"
             if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
-                name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))           
+                name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))
                 name_size = name_size[len(name_size)-1].get('copy') + 1
                 FileName=  'copy' + '('+ str(name_size) + ')' + '_' + uploaded_file.filename
                 outputerrors = outputerrors + "".join(Array)
@@ -325,7 +325,7 @@ def upload():
         global files_size
         global file_num
         files_size = len(files_name_list)
-        
+
         for uploaded_file in files_list:
             if uploaded_file.filename == '':
                 flash('No selected file')
@@ -346,7 +346,7 @@ def upload():
                 print(first_line.strip().split(' ')[1])
                 if(first_line.strip().split(' ')[1].isdigit()==False):
                     2/0
-        
+
                 sizes = len(first_line.strip().split(' '))
             elif(',' in first_line):
                 sizes = len(f.readline().split(','))
@@ -360,7 +360,7 @@ def upload():
                 print(sizes)
 
 
-            
+
             columnNames = [''] * sizes
             attributes_meta = sizes
             for i in range(sizes):
@@ -382,7 +382,7 @@ def upload():
             B.append(uploaded_file)
          else:
             A.append(uploaded_file)
-        
+
         for uploaded_file in A:
             # to get the column number
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
@@ -391,12 +391,12 @@ def upload():
             attributes_meta = size
             # file name checking
             dataset_name = uploaded_file.filename
-       
+
 
             for i in range(size):
                 columnNames[i] = "Coloumn" + " " + str(i)
             record = 0
-          
+
             path_str = './public/'+ 'convert_' + uploaded_file.filename
             with open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r') as f:
                 with open(path_str,'w') as f1:
@@ -408,7 +408,7 @@ def upload():
                         f1.write(','.join(lines))
                         record = record + 1
             instance_meta = record
-            data = None 
+            data = None
             f = open('./public/'+ 'convert_' + uploaded_file.filename)
             first_line = f.readline()
             second_line = f.readline()
@@ -417,7 +417,7 @@ def upload():
             else:
                 data = pd.read_csv('./public/'+ uploaded_file.filename)
                 attributes_meta = len(first_line.split(','))
-                
+
 
             index = index +1
             data = data.to_dict('records')
@@ -427,7 +427,7 @@ def upload():
             if len(list(db.files.find({"UserName":userName,"FileName":{'$regex' :uploaded_file.filename}})))>0:
                 name_size = list(db.files.find({"UserName":userName, "FileName" :{'$regex' :uploaded_file.filename}},{"copy":1,"_id":0}))
                 copy_size = name_size[len(name_size)-1].get('copy')+1
-                FileName=  'copy' + '('+ str(copy_size) + ')' + '_' + uploaded_file.filename 
+                FileName=  'copy' + '('+ str(copy_size) + ')' + '_' + uploaded_file.filename
 
                 file_name_list.append(FileName)
                 store_schema={
@@ -481,9 +481,9 @@ def upload():
 
                 file_name_list.append(uploaded_file.filename)
                 db.files.insert_one(store_schema)
-                
+
             file_num = file_num + 1
-       
+
         for i in B:
             2/0
 
@@ -500,18 +500,18 @@ def showMyDatasets():
     data_return = list(db.files.find( {"UserName":UserName},{"AttrInfo":0,"Keywords":0,"uuid":0,"data":0,"copy":0}))
     model_uuid = list(db.files.find( {"UserName":UserName},{"uuid":1,"_id":0}))
     model_name = list()
-  
+
     # print(model_uuid[0].get('uuid'))
     for i in model_uuid:
         models = list(db.models.find( {"uuid":i.get('uuid')},{'FileName':1,'_id':0}))
-        
+
         if(len(models)==0):
             model_name.append('')
         else:
             model_name.append(models[0])
-  
 
-   
+
+
     if(len(data_return)!=0):
         for i in range (len(data_return)):
             if(model_name[i]!=""):
@@ -520,10 +520,10 @@ def showMyDatasets():
                 data_return[i]['ModelName'] = ""
 
         json_data = dumps(data_return, indent = 2)
-   
+
         with open('./Json/showAlldatasetFiles.json', 'w') as file:
             file.write(json_data)
-       
+
         values = json.loads(json_data)
         values = dumps(values, indent = 2)
         return values
@@ -562,6 +562,7 @@ def sendNewdatasetFiles():
 @app.route('/submit-metadata', methods=["POST"])
 @cross_origin()
 def submitMetadata():
+
     metadata = request.get_json(force=True)
     FileName = metadata[0]["FileName"]
     UserName = metadata[0]["UserName"]
@@ -578,9 +579,9 @@ def submitMetadata():
             "Keywords":Keywords,
             "AttrInfo":AttrInfo
             }}
-            ) 
+            )
     metadata_string = request.data
-
+    print(request.data)
     # TODO save the metadata into MongoDB
 
     # this return must be string, which will be returned to the frontend immediately
@@ -607,6 +608,7 @@ def deleteOneDataset():
 @app.route('/detailedData-name', methods=["POST"])
 @cross_origin()
 def getNameForDetailedData():
+    print(request.get_json(force=True))
     dataset_userName = request.get_json(force=True)
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
@@ -727,6 +729,7 @@ def queryDatasets():
 def downloadFile():
     # get dataset name that needs to be downloaded and username
     dataset_userName = request.get_json(force=True)
+    print(dataset_userName)
     datasetName= dataset_userName[0]
     userName = dataset_userName[1]
     downloadType= dataset_userName[2]
@@ -736,8 +739,8 @@ def downloadFile():
     result = loads(dumps(result))
     metadata = result
     data = metadata[0]['data']
-   
-    
+
+
     data_list = list()
     size = len(data[0])
 
@@ -769,10 +772,10 @@ def downloadFile():
             f.writelines(lines)
         with open('./download/tem_data.txt') as f:
             content = f.read()
-        
 
-        
-         
+
+
+
     #  csv
     elif downloadType == '.csv':
         f = open('./download/tem_data.csv')
@@ -799,8 +802,7 @@ def downloadFile():
         writer.writeheader()
         writer.writerows(format_result)
         content = ''.join(csvfile.csv_string)
-    
-    print(content)
+
     return content
 
 '''
@@ -832,9 +834,11 @@ def uploadModel():
         #userName = request.files['username']
         userName = request.files['username'].filename
         print(userName)
+        print(request.files)
         # check if the post request has the file part
         if 'file' not in request.files:
             flash("No file part")
+            print("No file part1")
             return redirect(request.url)
 
         uploaded_file = request.files['file']
@@ -842,6 +846,7 @@ def uploadModel():
         # if user does not select file browser also
         # submit an empty part without filename
         if uploaded_file.filename == '':
+            print("No file part2")
             flash('No selected file')
             return redirect(request.url)
 
@@ -872,8 +877,8 @@ def uploadModel():
                 print('------')
                 print(tem)
                 print('guichuang')
-            
-            
+
+
         data = lines
         Array = filename.split('.', 1)
         filename = Array[0] + ".cod"
@@ -1042,7 +1047,7 @@ def bind_model():
     modelName = model_userName_datasetName[0]
     userName = model_userName_datasetName[1]
     datasetName = model_userName_datasetName[2]
-    #TODO: 1. fine the uuid of the model 
+    #TODO: 1. fine the uuid of the model
     #TODO: 2. set the uuid to the dataset
     returndata=db.models.find_one({"UserName":userName,"FileName":modelName})
     data=json.loads(dumps(returndata))
@@ -1135,6 +1140,7 @@ def query_model():
 @app.route('/get-bindedDatasets', methods=["POST"])
 @cross_origin()
 def query_binded_datasets():
+    print(request.get_json(force=True))
     modelname_username = request.get_json(force=True)
     modelName = modelname_username[0]
     Username = modelname_username[1]
@@ -1173,6 +1179,7 @@ def query_binded_datasets():
         values = dumps(value, indent=2)
         with open('./Json/bindedDatasets2.json','w') as f:
          f.write(values)
+         f.close()
         return values
     else:
         returndata = db.models.find_one({"UserName": Username, "FileName": modelName}, {"_id": 0})
@@ -1199,6 +1206,7 @@ def query_binded_datasets():
 @app.route('/get-umatrixDatasets', methods=["POST"])
 @cross_origin()
 def query_umatrix_datasets():
+    print(request.get_json(force=True))
     modelname_username = request.get_json(force=True)
     modelName = modelname_username[0]
     Username = modelname_username[1]
@@ -1282,6 +1290,8 @@ def delete_binded_datasets():
 
 @app.route('/alldatasetFiles', methods=["GET"])
 def showAlldatasetFiles():
+    print("unit test marker")
+
     if request.method == "GET":
         # read datasets JSON file
         # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
@@ -1295,7 +1305,7 @@ def showAlldatasetFiles():
             f.write(datas)
         with open('./Json/all_datasets.json','r') as f:
             data = json.load(f)
-        
+
     return json.dumps(data)
 
 @app.route('/allmodels', methods=["GET", "POST"])
@@ -1304,12 +1314,14 @@ def showAllModels():
         # read datasets JSON file
         # TODO: You should get the same format of (_id, FileName, Size) from MongoDB, then replace it
         # TODO: return a empty [] to me if there is no file in the MongoDB
-       
-      
+
+
         data_return = list(db.models.find({},{'data':0}).sort("UserName", 1))
 
         if (len(data_return) != 0):
             json_data = dumps(data_return, indent=2)
+            with open('./Json/all_models.json', 'w') as f:
+                f.write(json_data)
             values = json.loads(json_data)
             values = dumps(values, indent=2)
             print(values)

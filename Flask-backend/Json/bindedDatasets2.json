@@ -1,7 +1,7 @@
 [
   {
-    "uuid": "1d0e21365875466f948047d396315e05",
-    "FileName": "copy(3)_ex.cod",
+    "uuid": "96fb0227497a48e7b7d6f12d3db0a87f",
+    "FileName": "Test2.cod",
     "BriefInfo": "",
     "Size": "4.229KB",
     "UserName": "123456@qq.com",
@@ -103,18 +103,11 @@
       "45.4543 55.2803 0.264083 -0.00898778 402.922 \n",
       "46.6649 57.0576 -0.0563481 -0.395202 402.7 \n"
     ],
-    "copy": 3,
+    "copy": 0,
     "Model_info": {
       "vectorDim": 5,
       "xDim": 12,
       "yDim": 8
     }
-  },
-  {
-    "FileName": "copy(4)_ex_ndy.dat",
-    "BriefInfo": "",
-    "Size": "4.884KB",
-    "UserName": "123456@qq.com",
-    "copy": 4
   }
 ]
