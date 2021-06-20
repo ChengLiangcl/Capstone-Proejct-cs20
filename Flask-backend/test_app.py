@@ -1,4 +1,7 @@
 import unittest
+
+from werkzeug.datastructures import ImmutableMultiDict, FileStorage
+
 from app import app
 import requests
 from flask import request
@@ -129,6 +132,9 @@ class Testapp(unittest.TestCase):
         url = "/query-datasets"
         data = ['EX_nd', '123456@qq.com']
         data2 = ['.+[0-9].dat', '123456@qq.com']
+        data3 = ['EX_nd&&.dat', '123456@qq.com']
+        data4 = ['.+[0-9].dat||.[a-z].dat', '123456@qq.com']
+
         response = app.test_client().post(url, data=json.dumps(data))
         self.assertEqual(200, response.status_code)
         expect = open('./Testing/result1.json', 'r')
@@ -138,6 +144,16 @@ class Testapp(unittest.TestCase):
         expect2 = open('./Testing/result2.json', 'r')
         values2 = json.load(expect2)
         self.assertEqual(values2, loads(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data3))
+        expect3 = open('./Testing/result14.json', 'r')
+        values3 = json.load(expect3)
+        self.assertEqual(values3, loads(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data4))
+        expect4 = open('./Testing/result15.json', 'r')
+        values4 = json.load(expect4)
+        self.assertEqual(values4, loads(response.data))
         # print(values)
         # print(loads(response.text))
 
@@ -146,6 +162,8 @@ class Testapp(unittest.TestCase):
         url = "/query-models"
         data = ['131', '123456@qq.com']
         data2 = ['.+[0-9].cod', '123456@qq.com']
+        data3 = ['.+[0-9].cod&&1312231', '123456@qq.com']
+        data4 = ['2.cod||1312231', '123456@qq.com']
         response = app.test_client().post(url, data=json.dumps(data))
         self.assertEqual(200, response.status_code)
         expect = open('./Testing/result3.json', 'r')
@@ -155,6 +173,16 @@ class Testapp(unittest.TestCase):
         expect2 = open('./Testing/result4.json', 'r')
         values2 = json.load(expect2)
         self.assertEqual(values2, loads(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data3))
+        expect3 = open('./Testing/result16.json', 'r')
+        values3 = json.load(expect3)
+        self.assertEqual(values3, loads(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data4))
+        expect4 = open('./Testing/result17.json', 'r')
+        values4 = json.load(expect4)
+        self.assertEqual(values4, loads(response.data))
         # print(values)
         # print(loads(response.text))
 
@@ -222,6 +250,8 @@ class Testapp(unittest.TestCase):
         url = "/query-all-datasets"
         data = "LmY_"
         data2 = "Badclass.da"
+        data3 = "LMY&&GOOD"
+        data4 = "LMY_GOOD||LMY_BAD"
         response = app.test_client().post(url, data=json.dumps(data))
         self.assertEqual(200, response.status_code)
         expect = open('./Testing/result5.json', 'r')
@@ -230,11 +260,20 @@ class Testapp(unittest.TestCase):
         response = app.test_client().post(url, data=json.dumps(data2))
         expect2 = open('./Testing/result6.json', 'r')
         values2 = json.load(expect2)
-        print(expect2)
-        print(loads(response.data))
         self.assertEqual(values2, loads(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data3))
+        expect3 = open('./Testing/result11.json', 'r')
+        values3 = json.load(expect3)
+        self.assertEqual(values3, loads(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data4))
+        expect4 = open('./Testing/result12.json', 'r')
+        values4 = json.load(expect4)
+        self.assertEqual(values4, loads(response.data))
         # print(values)
         # print(loads(response.text))
+
 
 
     def test_queryAllModels(self):
@@ -243,6 +282,7 @@ class Testapp(unittest.TestCase):
         data = "LmY_"
         data2 = "Badclass.co"
         data3 = "lmy&&bad"
+        data4 = "LMY_GOOD||LMY_BAD"
         response = app.test_client().post(url, data=json.dumps(data))
         self.assertEqual(200, response.status_code)
         expect = open('./Testing/result7.json', 'r')
@@ -252,14 +292,71 @@ class Testapp(unittest.TestCase):
         expect2 = open('./Testing/result8.json', 'r')
         values2 = json.load(expect2)
         self.assertEqual(values2, loads(response.data))
+
         response = app.test_client().post(url, data=json.dumps(data3))
         expect3 = open('./Testing/result9.json', 'r')
         values3 = json.load(expect3)
         self.assertEqual(values3, loads(response.data))
+
+        response = app.test_client().post(url, data=json.dumps(data4))
+        expect4 = open('./Testing/result13.json', 'r')
+        values4 = json.load(expect4)
+        self.assertEqual(values4, loads(response.data))
+
         # print(values)
         # print(loads(response.text))
 
+    def test_connect_upload(self):
+        print('test test_connect_upload')
+        url = "/connect-upload"
+        f1 = open('./Testing/input/ex.cod','rb')
+        upload2 = FileStorage(f1, 'ex.cod', name='ex.cod', content_type='application/octet-stream')
+        f2 = open('./Testing/input/ex_ndy5.dat','rb')
+        upload3 = FileStorage(f2, 'ex_ndy5.dat', name='ex_ndy5.dat', content_type='application/octet-stream')
+        f3 = open('./Testing/input/ex_ndy2.dat','rb')
+        upload4 = FileStorage(f3, 'ex_ndy2.dat', name='ex_ndy2.dat', content_type='application/octet-stream')
 
+        upload1 = FileStorage(f3,'123456@qq.com', name='123456@qq.com', content_type='application/octet-stream')
+        input = ImmutableMultiDict([('username', upload1), ('model', upload2), ('file0',upload3)])
+        response = app.test_client().post(url, data=input)
+        self.assertEqual(['ex.cod', ['ex_ndy5.dat']], loads(response.data))
+        url = "/delete-dataset"
+        data = ['ex_ndy5.dat', '123456@qq.com']
+        response = app.test_client().post(url, data=json.dumps(data))
+        url = "/delete-model"
+        data = ['ex.cod', '123456@qq.com']
+        response = app.test_client().post(url, data=json.dumps(data))
+    '''
+    def test_upload(self):
+        print('test test_upload')
+        url = "/upload"
+        f = open('./Testing/input/ex_ndy2.dat', 'rb')
+        upload3 = FileStorage(f, 'ex_ndy2.dat', name='ex_ndy2.dat', content_type='application/octet-stream')
+        upload1 = FileStorage(f, '123456@qq.com', name='123456@qq.com', content_type='application/octet-stream')
+        input = ImmutableMultiDict([('username', upload1), ('file0', upload3)])
+        # print(input)
+        response = app.test_client().post(url, data=input)
+        self.assertEqual(['ex_ndy5.dat'], loads(response.data))
+        url = "/delete-dataset"
+        data = ['ex_ndy5.dat', '123456@qq.com']
+        response = app.test_client().post(url, data=json.dumps(data))
+
+    '''
+    def test_sendNewdatasetFiles(self):
+        print('test test_upload')
+        url = "/newDataset"
+        data = '123456@qq.com'
+        response = app.test_client().post(url, data=json.dumps(data))
+        expect = open('./Json/dataNewJson.json', 'r')
+        values = json.load(expect)
+        values = dumps(values, indent=2)
+        values = json.loads(values)
+        for element in values:
+            del element['_id']
+        expect = loads(response.data)
+        for element in expect:
+            del element['_id']
+        self.assertEqual(values, expect)
 
 
 if __name__ == '__main__':

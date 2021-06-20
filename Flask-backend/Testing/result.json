@@ -1,19 +1,5 @@
 [
-  {
-    "_id": {
-      "$oid": "609b64dbc1c75478f2485c8a"
-    },
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
-    "Size": "4.93KB",
-    "Description": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
-    "Source": "1",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "123456@qq.com",
-    "ModelName": "Test1.cod"
-  },
-  {
+{
     "_id": {
       "$oid": "609b64ddc1c75478f2485c8c"
     },
@@ -26,5 +12,20 @@
     "Number_of_Instance": 96,
     "UserName": "123456@qq.com",
     "ModelName": "Test1.cod"
+  },
+  {
+    "_id": {
+      "$oid": "609b64dbc1c75478f2485c8a"
+    },
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
+    "Size": "4.884KB",
+    "Description": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
+    "Source": "1",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123456@qq.com",
+    "ModelName": "Test1.cod"
   }
+  
 ]

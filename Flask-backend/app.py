@@ -148,7 +148,7 @@ def connect_upload():
         # initial two Array to A store valid file name B store invalid file
         A = []
         B = []
-
+        print(files_list)
         for uploaded_file in files_list:
 
             try:
@@ -165,7 +165,7 @@ def connect_upload():
                     sizes = len(first_line.strip().split(' '))
                 elif(',' in first_line):
                     sizes = len(f.readline().split(','))
-                    print('do here mother fucker')
+                    print('do here')
                     print(sizes)
                 elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
                     print('cool')
@@ -289,7 +289,9 @@ def connect_upload():
                 db.files.insert_one(store_schema)
             file_num = file_num + 1
         for i in B:
+            print("done here")
             2/0
+        print([model_name, files_name_list])
         return json.dumps([model_name, files_name_list])
 
     files_name_list = [""]
@@ -301,13 +303,14 @@ Datasets
 @app.route('/upload', methods=["GET", "POST"])
 @cross_origin()
 def upload():
+
     file_name_list = list()
     index = 0
     uuid_combined = uuid.uuid4().hex
     if request.method == "POST":
         userName = request.files['username'].filename
         print("get username: ", userName)
-        
+        print("get file: ", request.files)
 
         # TODO： 这是得到多个datasets的代码
         # get files list: multiple files are stored into an list
@@ -332,9 +335,12 @@ def upload():
         for uploaded_file in files_list:
          try:
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-           # to get the column number
+            # to get the column number
+            print(uploaded_file.filename)
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
+
             first_line = f.readline()
+
             if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
                 print('INTRO')
                 print(first_line.strip().split(' ')[1])
@@ -344,13 +350,15 @@ def upload():
                 sizes = len(first_line.strip().split(' '))
             elif(',' in first_line):
                 sizes = len(f.readline().split(','))
-                print('do here mother fucker')
+                print('do here ')
                 print(sizes)
             elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
                 print('cool')
                 sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
             else:
                 sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+                print(sizes)
+
 
             
             columnNames = [''] * sizes

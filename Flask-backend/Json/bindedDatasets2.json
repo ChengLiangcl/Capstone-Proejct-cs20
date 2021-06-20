@@ -1,10 +1,10 @@
 [
   {
-    "uuid": "c5c964af9ec84c9996366afd4dab8677",
-    "FileName": "ex.cod",
-    "BriefInfo": "sadasd",
+    "uuid": "1d0e21365875466f948047d396315e05",
+    "FileName": "copy(3)_ex.cod",
+    "BriefInfo": "",
     "Size": "4.229KB",
-    "UserName": "jwan",
+    "UserName": "123456@qq.com",
     "data": [
       "3.25253 8.24155 -14.1466 -13.1775 405.378 \n",
       "5.8447 10.7367 -13.1117 -12.565 405.38 \n",
@@ -103,11 +103,18 @@
       "45.4543 55.2803 0.264083 -0.00898778 402.922 \n",
       "46.6649 57.0576 -0.0563481 -0.395202 402.7 \n"
     ],
-    "copy": 0,
+    "copy": 3,
     "Model_info": {
       "vectorDim": 5,
       "xDim": 12,
       "yDim": 8
     }
+  },
+  {
+    "FileName": "copy(4)_ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.884KB",
+    "UserName": "123456@qq.com",
+    "copy": 4
   }
 ]

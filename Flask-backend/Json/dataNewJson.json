@@ -1,44 +1,26 @@
 [
   {
     "_id": {
-      "$oid": "60b83099d7c17c412aae0d95"
+      "$oid": "60ced4e7de93998ef4fc1402"
     },
-    "FileName": "ex_fdy.csv",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "Description": "",
-    "Source": "",
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
+    "Size": "4.884KB",
+    "Description": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
+    "Source": "1",
     "Number_of_Attribute": 5,
     "Number_of_Instance": 96,
-    "Keywords": [],
+    "Keywords": [
+      "keyword1",
+      "keyword2"
+    ],
     "AttrInfo": [
       {
-        "attrName": "",
-        "attrDescription": ""
+        "attrName": "1",
+        "attrDescription": "1"
       }
     ],
-    "UserName": "17888813173@163.com",
-    "copy": 0
-  },
-  {
-    "_id": {
-      "$oid": "60b83098d7c17c412aae0d94"
-    },
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [],
-    "AttrInfo": [
-      {
-        "attrName": "",
-        "attrDescription": ""
-      }
-    ],
-    "UserName": "17888813173@163.com",
+    "UserName": "123456@qq.com",
     "copy": 0
   }
 ]
