@@ -40,19 +40,5 @@
     "Number_of_Instance": 96,
     "UserName": "17888813173@163.com",
     "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60b83099d7c17c412aae0d95"
-    },
-    "FileName": "ex_fdy.csv",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
   }
 ]

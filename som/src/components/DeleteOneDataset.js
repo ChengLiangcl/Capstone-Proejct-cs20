@@ -8,6 +8,9 @@ function DeleteOneDataset(props) {
 
     const toggleModal = () => {
         setModal(!isModalOpen);
+        if(props.onChange){
+            props.onChange(!isModalOpen);
+        }
     };
 
     // while a user chooses not to delete a dataset
@@ -26,7 +29,7 @@ function DeleteOneDataset(props) {
     return (
         <div>
             <IconButton aria-label="delete a dataset" component="span">
-                <DeleteIcon onClick={toggleModal}/>
+                <DeleteIcon data-testid="delete-dataset" onClick={toggleModal}/>
             </IconButton>
 
             <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>

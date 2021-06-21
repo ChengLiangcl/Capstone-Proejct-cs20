@@ -76,7 +76,7 @@ class SOMModel extends Component {
   tableBody(models) {
     if (models.length === 0) {
       return (
-        <tbody />
+        <tbody data-testid="null-model"/>
       );
     }
     else {
@@ -132,7 +132,7 @@ class SOMModel extends Component {
   allTableBody(models) {
     if (models.length === 0) {
       return (
-        <tbody />
+        <tbody data-testid="null-all-model"/>
       );
     }
     else {

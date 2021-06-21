@@ -1,6 +1,7 @@
 import { unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, fireEvent } from "@testing-library/react";
+import '@testing-library/jest-dom';
 import Signup from "./components/Signup";
 import { MemoryRouter } from "react-router-dom";
 import { ConfigureStore } from "./redux/configureStore";
@@ -11,53 +12,18 @@ import http from "./server/baseUrl";
 import Login from "./components/login";
 import Main from './components/MainComponent';
 import Database from './components/DatabaseComponent';
+import SOMModel from './components/ModelComponent';
+import AllDataset from './components/AlldatasetsComponent';
+import AllModelsComponents from './components/AllModelsComponents';
+import DeleteOneDataset from './components/DeleteOneDataset';
+import DeleteOneModel from './components/DeleteOneModel';
+import ModelBriefInfo from './components/ModelBriefInfo';
+import DatasetUploading from './components/Modal/DatasetUploading';
+import ConnectionUploading from './components/Modal/ConnectionUploading';
+import {testDatasets, testModels} from './testData';
 
 let container = null;
 let store = null;
-
-const testDatasets = [
-  {
-    "FileName": "test1.dat",
-    "BriefInfo": "test1 briefInfo",
-    "Size": "4.93KB",
-    "Description": "test1 description",
-    "Source": "3",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "test user1",
-    "ModelName": ""
-  },
-  {
-    "FileName": "test2.dat",
-    "BriefInfo": "test2 briefInfo",
-    "Size": "4.884KB",
-    "Description": "test2 description",
-    "Source": "1",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "test user2",
-    "ModelName": "test model"
-  }
-];
-
-const testModels = [
-  {
-    "uuid": "1130849f0980498ab13a19f5e975945a",
-    "FileName": "test1 model.cod",
-    "BriefInfo": "test1 model briefInfo",
-    "Size": "16.517KB",
-    "UserName": "test user1",
-    "copy": 1
-  },
-  {
-    "uuid": "1130849f0980498ab13a19f5e975945a",
-    "FileName": "test1 mode2.cod",
-    "BriefInfo": "test1 mode2 briefInfo",
-    "Size": "16.517KB",
-    "UserName": "test user2",
-    "copy": 1
-  },
-];
 
 beforeEach(() => {
   container = document.createElement("div");
@@ -133,11 +99,166 @@ describe("my datasets", () => {
     });
 
     const nullAllDatasetRow = screen.getByTestId("null-all-table").closest("tbody");
-    // highlight-start
     expect(nullAllDatasetRow).toBeInTheDocument();
+  });
+
+  it("there are datasets in all datasets -- all", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(
+        <MemoryRouter>
+          <AllDataset datasetFiles={testDatasets} isLoading={false} errMess={null}
+              modelFiles={testModels}/>
+        </MemoryRouter>, container);
+    });
+    
+    testDatasets.forEach((eachDataset) => {
+      const datasetAllRow = screen.getByText(eachDataset.FileName).closest("tr");
+      // highlight-start
+      const utils = within(datasetAllRow);
+      expect(utils.getByText(eachDataset.FileName)).toBeInTheDocument();
+      expect(utils.getByText(eachDataset.BriefInfo)).toBeInTheDocument();
+      expect(utils.getByText(eachDataset.UserName)).toBeInTheDocument();
+      // highlight-end
+    });
+  });
+
+  it("there is no dataset in all datasets -- all", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(
+      <AllDataset datasetFiles={[]} isLoading={false} errMess={null}/>, container);
+    });
+    const nullDatasetRow = screen.getByTestId("null-dataset--all").closest("tbody");
+    expect(nullDatasetRow).toBeInTheDocument();
+  });
+
+  it("should toggle deletion when click the delete button", () => {
+    const onChange = jest.fn()
+  
+    act(() => {
+      render(<DeleteOneDataset onChange={onChange}/>, container);
+    });
+  
+    fireEvent.click(screen.getByTestId("delete-dataset"));
+    expect(onChange).toHaveBeenCalledTimes(1);
+  })
+  
+  it("should toggle uploading when click the upload button for datasets", () => {
+    const onDatasetUploadChange = jest.fn()
+  
+    act(() => {
+      render(<DatasetUploading onChange={onDatasetUploadChange}/>, container);
+    });
+  
+    fireEvent.click(screen.getByTestId("upload-dataset"));
+    expect(onDatasetUploadChange).toHaveBeenCalledTimes(1);
+  })
+
+});
+
+/** =================== Dataset redux==================================== */
+
+
+/* ======================= Model ======================= */
+describe("my model", () => {
+
+  it("there are models in my models", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(
+        <MemoryRouter>
+          <SOMModel modelFiles={testModels} isLoading={false} errMess={null}/>
+        </MemoryRouter>, container);
+    });
+    
+    testModels.forEach((eachModel) => {
+      const modelRow = screen.getByText(eachModel.FileName).closest("tr");
+      // highlight-start
+      const utils = within(modelRow);
+      expect(utils.getByText(eachModel.FileName)).toBeInTheDocument();
+      expect(utils.getByText(eachModel.BriefInfo)).toBeInTheDocument();
+      expect(utils.getByText(eachModel.Size)).toBeInTheDocument();
+      // highlight-end
+    });
+  });
+
+  it("there are models in all models", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(
+        <MemoryRouter>
+          <SOMModel allModels={testModels} isAllQuery={true}/>
+        </MemoryRouter>, container);
+    });
+    
+    testModels.forEach((eachModel) => {
+      const allModelRow = screen.getByText(eachModel.FileName).closest("tr");
+      // highlight-start
+      const utils = within(allModelRow);
+      expect(utils.getByText(eachModel.FileName)).toBeInTheDocument();
+      expect(utils.getByText(eachModel.BriefInfo)).toBeInTheDocument();
+      expect(utils.getByText(eachModel.UserName)).toBeInTheDocument();
+      // highlight-end
+    });
+  });
+
+  it("there is no model in my models", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(
+      <SOMModel modelFiles={[]} isLoading={false} errMess={null}/>, container);
+    });
+    const nullModelRow = screen.getByTestId("null-model").closest("tbody");
+    expect(nullModelRow).toBeInTheDocument();
+  });
+
+  it("there is no model in all models", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(<SOMModel allModels={[]} isAllQuery={true}/>, container);
+    });
+
+    const nullAllModelRow = screen.getByTestId("null-all-model").closest("tbody");
+    // highlight-start
+    expect(nullAllModelRow).toBeInTheDocument();
     // highlight-end
   });
 
+  it("should toggle deletion when click the delete button for a model", () => {
+    const onModelChange = jest.fn()
+  
+    act(() => {
+      render(<DeleteOneModel onChange={onModelChange}/>, container);
+    });
+  
+    fireEvent.click(screen.getByTestId("delete-model"));
+    expect(onModelChange).toHaveBeenCalledTimes(1);
+  })
+
+  it("should toggle briefInfo when click the modify button for a model", () => {
+    const onModelBriefInfoChange = jest.fn()
+  
+    act(() => {
+      render(<ModelBriefInfo onChange={onModelBriefInfoChange}/>, container);
+    });
+  
+    fireEvent.click(screen.getByTestId("modify-model-briefInfo"));
+    expect(onModelBriefInfoChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("should toggle uploading when click the upload button for a model", () => {
+    const onModelUploadChange = jest.fn()
+  
+    act(() => {
+      render(<ConnectionUploading onChange={onModelUploadChange} 
+        connectionFiles={["this is for a uploaded model", ["this is for uploaded datasets"]]}/>, container);
+    });
+  
+    fireEvent.click(screen.getByTestId("model-upload"));
+    expect(onModelUploadChange).toHaveBeenCalledTimes(1);
+
+  });
 
 });
 

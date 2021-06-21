@@ -8,6 +8,9 @@ function DeleteOneModel(props) {
 
     const toggleModal = () => {
         setModal(!isModalOpen);
+        if(props.onChange){
+            props.onChange(!isModalOpen);
+        }
     };
 
     // while a user chooses not to delete a model
@@ -26,7 +29,7 @@ function DeleteOneModel(props) {
     return (
         <div>
             <IconButton aria-label="delete a model" component="span">
-                <DeleteIcon onClick={toggleModal} />
+                <DeleteIcon data-testid="delete-model" onClick={toggleModal} />
             </IconButton>
 
             <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>

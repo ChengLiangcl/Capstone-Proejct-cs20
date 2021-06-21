@@ -9,6 +9,9 @@ function ConnectUploading(props) {
 
     const toggleModal = () => {
         setModal(!isModalOpen);
+        if(props.onChange){
+            props.onChange(!isModalOpen);
+        }
     };
 
     const closeModal = () => {
@@ -25,7 +28,7 @@ function ConnectUploading(props) {
     return (
         <div>
             <IconButton aria-label="connect uploading" component="span">
-                <PublishIcon onClick={toggleModal} />
+                <PublishIcon data-testid="model-upload" onClick={toggleModal} />
             </IconButton>
 
             <p style={{color: "grey"}}>Please upload your model and datasets here</p>

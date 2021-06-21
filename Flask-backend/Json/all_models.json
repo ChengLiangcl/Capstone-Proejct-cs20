@@ -67,17 +67,6 @@
   },
   {
     "_id": {
-      "$oid": "60c83c4e4093de9e433e2e62"
-    },
-    "uuid": "1130849f0980498ab13a19f5e975945a",
-    "FileName": "copy(1)_animal.cod",
-    "BriefInfo": "",
-    "Size": "16.517KB",
-    "UserName": "17888813173@163.com",
-    "copy": 1
-  },
-  {
-    "_id": {
       "$oid": "60aca7834d2a6394f3fa42d4"
     },
     "uuid": "c4990eb05c8e4722936f5575050cf839",

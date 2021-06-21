@@ -10,6 +10,9 @@ function ModelBriefInfo(props) {
 
     const toggleModal = () => {
         setModal(!isModalOpen);
+        if(props.onChange){
+            props.onChange(!isModalOpen);
+        }
     };
 
     // while a user chooses not to delete a model
@@ -29,7 +32,7 @@ function ModelBriefInfo(props) {
     return (
         <div>
             <IconButton aria-label="delete a model" component="span">
-                <CreateIcon onClick={toggleModal} />
+                <CreateIcon data-testid="modify-model-briefInfo" onClick={toggleModal} />
             </IconButton>
 
             <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>

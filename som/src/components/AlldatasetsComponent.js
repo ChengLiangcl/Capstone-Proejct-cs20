@@ -44,7 +44,7 @@ class AllDataset extends Component {
     // when there is no uploaded dataset in the database
     if (datasets.length === 0) {
       return (
-        <tbody />
+        <tbody data-testid="null-dataset--all"/>
       );
     }
     else { // where are dataset stored in the database
@@ -53,7 +53,7 @@ class AllDataset extends Component {
           {datasets.map((eachDataset, index) =>
             <tr key={index}>
               <td key={'name'}>{eachDataset.FileName}</td>
-              <td key={'Description'}>{eachDataset.Description}</td>
+              <td key={'Description'}>{eachDataset.BriefInfo}</td>
               <td key={'Username'}>{eachDataset.UserName}</td>
               <td key={"operateEachDataset"}>{this.operateDataset(true, eachDataset.FileName, eachDataset.UserName)}</td>
             </tr>

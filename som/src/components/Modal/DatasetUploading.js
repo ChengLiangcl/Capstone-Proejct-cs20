@@ -9,6 +9,9 @@ function DatasetUploading(props) {
 
     const toggleModal = () => {
         setModal(!isModalOpen);
+        if(props.onChange){
+            props.onChange(!isModalOpen);
+        }
     };
 
     const closeModal = () => {
@@ -24,7 +27,7 @@ function DatasetUploading(props) {
     return (
         <div>
             <IconButton aria-label="connect uploading" component="span">
-                <PublishIcon onClick={toggleModal} />
+                <PublishIcon data-testid="upload-dataset" onClick={toggleModal} />
             </IconButton>
 
             <p style={{color: "grey"}}>Please upload your datasets here</p>
