@@ -89,10 +89,6 @@ class Main extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log("start should");
-        // if the metadata itself needs to be updated, return true
-        //console.log("compareMetadata: ", this.props.metadata.metadata);
-        //console.log("nextMetadata: ", nextProps.metadata.metadata);
 
         const compareBindedDatasets = (currentBindedDatasets, nextBindedDatasets) => {
             //console.log("current: ", currentBindedDatasets);
@@ -114,7 +110,7 @@ class Main extends Component {
                     })
                 });
 
-                console.log("binded dataset: ", result);
+                //console.log("binded dataset: ", result);
                 const result_final = result.map(eachResult => {
                     return eachResult.includes("update") ? "update" : "noUpdate";
                 });
@@ -170,8 +166,8 @@ class Main extends Component {
             return true;
         }
         else {
-            console.log("current umatrix datasets: ", this.props.connectionFiles.umatrixDatasets[0]);
-            console.log("next umatrix datasets: ", nextProps.connectionFiles.umatrixDatasets[0]);
+            //console.log("current umatrix datasets: ", this.props.connectionFiles.umatrixDatasets[0]);
+            //console.log("next umatrix datasets: ", nextProps.connectionFiles.umatrixDatasets[0]);
             if (this.props.connectionFiles.connectionFiles[0] !== nextProps.connectionFiles.connectionFiles[0]) {
                 console.log("because of connection files");
                 return true
@@ -191,7 +187,7 @@ class Main extends Component {
                 return true
             }
             else {
-                console.log("not update");
+                //console.log("not update");
                 return false;
             }
         }

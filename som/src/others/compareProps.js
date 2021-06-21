@@ -57,7 +57,7 @@ function compareProps(currentMetadata, nextMetadata, currentModelFiles, nextMode
             const attr_result_final = attr_result.map(eachResult => {
                 return eachResult.includes("update") ? "update" : "noUpdate";
             });
-            console.log("briefInfo result: ", attr_result);
+            //console.log("briefInfo result: ", attr_result);
             return attr_result_final.includes("update");
         }
     };

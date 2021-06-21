@@ -221,7 +221,7 @@ class SOMModel extends Component {
   }
 
   render() {
-    console.log("switch state: ", this.state.checkAllModels);
+    //console.log("switch state: ", this.state.checkAllModels);
     if (this.state.checkAllModels) {
       return (
         <Container>

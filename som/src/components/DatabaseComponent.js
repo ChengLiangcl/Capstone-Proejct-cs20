@@ -45,7 +45,6 @@ class Database extends Component {
             isShown: false,
             checkAllDatasets: this.props.isAllQuery === true ? true : false
         };
-        console.log("hhhh", JSON.stringify(this.props.isAllQuery))
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -82,13 +81,11 @@ class Database extends Component {
         );
     }
 
-    //TODO: may change if the design of the database is changed
     tableBody(datasets) {
         // when there is no uploaded dataset in the database
-        console.log(`dataset length: ${datasets.length}, dataset is ${datasets}`)
         if (datasets.length === 0) {
             return (
-                <tbody />
+                <tbody data-testid="null-table"/>
             );
         }
         else { // where are dataset stored in the database
@@ -110,7 +107,7 @@ class Database extends Component {
 
     //showOperate: bool. the delete button and the create button will be disable
     operateDataset(showOperate, fileName, bindModelName, userName) {
-        console.log("dataset comp: ", userName);
+        //console.log("dataset comp: ", userName);
         if (showOperate) {
             return (
                 <Container>
@@ -163,7 +160,7 @@ class Database extends Component {
         else if (isQuery) {
             return (
                 <div>
-                    <Table hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
+                    <Table id="dataset-table" hover style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
                         {this.tableHead(datasets)}
                         {this.tableBody(datasets)}
                     </Table>
@@ -204,7 +201,7 @@ class Database extends Component {
         // when there is no uploaded dataset in the database
         if (datasets.length === 0) {
             return (
-                <tbody />
+                <tbody data-testid="null-all-table"/>
             );
         }
         else { // where are dataset stored in the database
@@ -213,7 +210,7 @@ class Database extends Component {
                     {datasets.map((eachDataset, index) =>
                         <tr key={index}>
                             <td key={'name'}>{eachDataset.FileName}</td>
-                            <td key={'Description'}>{eachDataset.Description}</td>
+                            <td key={'Description'}>{eachDataset.BriefInfo}</td>
                             <td key={'Username'}>{eachDataset.UserName}</td>
                             <td key={"operateEachDataset"}>{this.operateDataset(false, eachDataset.FileName, " ", eachDataset.UserName)}</td>
                         </tr>
@@ -257,8 +254,8 @@ class Database extends Component {
     }
 
     render() {
-        console.log("switch state: ", this.state.checkAllDatasets)
-        console.log("check query datasets: ", this.props.isAllQuery)
+        //console.log("switch state: ", this.state.checkAllDatasets)
+        //console.log("check query datasets: ", this.props.isAllQuery)
         if (this.state.checkAllDatasets) {
             return (
                 <Container>

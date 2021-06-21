@@ -166,7 +166,7 @@ export const fetchDatasetFiles = (userName) => (dispatch) => {
     }
   }) // backend address: Localhost: 5000/datasetFiles
     .then(res => dispatch(addDatasetFiles(res.data))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 }
 
 export const datasetFilesLoading = () => ({
@@ -357,7 +357,7 @@ export const fetchModelFiles = (userName, isLoading = true) => (dispatch) => {
       console.log(res)
       dispatch(addModelFiles(res.data))
     }) // when the modelFiles is obtained, we dispatch it into addModelFiles()
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 }
 
 export const modelFilesLoading = () => ({
