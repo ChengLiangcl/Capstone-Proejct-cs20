@@ -25,7 +25,7 @@ import ConnectionUploading from './components/Modal/ConnectionUploading';
 import ModelBinding from './components/Modal/BindModel';
 import AllBindedDatasets from './components/Modal/AllBindedDataset';
 import BindedDatasets from './components/Modal/BindedDatasets';
-import DownloadFile from './components/Modal/DownloadFile';
+import DownloadFile from './components/Modal/downloadFile';
 
 import { testDatasets, testModels, testMetadata, testDetailedData, testEmptyMetadata,
   testBindedDataset, testNoBindedDataset } from './testData';
@@ -278,6 +278,10 @@ describe("my datasets", () => {
     });
     expect(onListen).toHaveBeenCalledTimes(3);
   });
+
+  describe("check dataset uploading", () => {
+    
+  })
 });
 
 
