@@ -39,7 +39,7 @@ class AllModel extends Component {
   tableBody(models) {
     if (models.length === 0) {
       return (
-        <tbody />
+        <tbody data-testid="null-model--all"/>
       );
     }
     else {
@@ -100,7 +100,7 @@ class AllModel extends Component {
   }
 
   render() {
-    console.log("model query: ", this.props.isAllQuery)
+    //console.log("model query: ", this.props.isAllQuery)
     return (
       <Container>
         <Col>

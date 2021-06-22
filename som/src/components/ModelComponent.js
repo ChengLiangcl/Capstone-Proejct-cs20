@@ -8,7 +8,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import InsertChart from '@material-ui/icons/InsertChart';
 import { Link } from 'react-router-dom';
-import ModelUploadComponent from './ModelUploadComponent';
 import DeleteOneModel from './DeleteOneModel';
 import ModelBriefInfo from './ModelBriefInfo';
 import { Loading } from './LoadingComponent';

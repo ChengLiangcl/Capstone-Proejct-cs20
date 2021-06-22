@@ -195,10 +195,6 @@ class Main extends Component {
 
     render() {
         const DatasetWithName = ({ match }) => {
-            let selectedDataset = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-detaileddata') :
-                this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
-            //localStorage.setItem('datasetname-detaileddata', selectedDataset);
-            //console.log("detaileddata for name: ", selectedDataset);
 
             return (
                 <DetailedDataset
@@ -245,7 +241,6 @@ class Main extends Component {
             return (
                 <BindedDatasets modelName={this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0]}
                     getBindedDatasets={this.props.getBindedDatasets}
-                    isBindLoading={this.props.isBindLoading}
                     bindedDatasets={this.props.connectionFiles.bindedDatasets}
                     isBindLoading={this.props.connectionFiles.isLoading}
 

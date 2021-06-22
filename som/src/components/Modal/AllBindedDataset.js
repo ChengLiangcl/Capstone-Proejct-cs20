@@ -16,19 +16,19 @@ function AllBindedDatasets(props) {
     const query = qs.parse(window.location.search.split('?')[1] || '')
     const modelName = query.fileName;
     const userName = query.userName;
-    console.log("local get model name: ", modelName);
-    console.log("local get user name: ", userName);
+    // console.log("local get model name: ", modelName);
+    // console.log("local get user name: ", userName);
 
     const [isModalOpen, setModal] = useState(false);
 
-    const toggleModal = () => {
-        setModal(!isModalOpen);
-    };
+    // const toggleModal = () => {
+    //     setModal(!isModalOpen);
+    // };
 
-    // while a user chooses not to delete a dataset
-    const handlenNoBtn = () => {
-        setModal(!isModalOpen);
-    };
+    // // while a user chooses not to delete a dataset
+    // const handlenNoBtn = () => {
+    //     setModal(!isModalOpen);
+    // };
 
     const tableHead = () => {
         return (
@@ -114,15 +114,16 @@ function AllBindedDatasets(props) {
 
 
     useEffect(() => {
-        // fetch the existing metadata first
-        //console.log("start refreshing all binded datasets", props.bindedDatasets);
-        props.getBindedDatasets(modelName, query.userName);
+        if(props.getBindedDatasets){
+            props.getBindedDatasets(modelName, query.userName);
+        }
+        
     }, [props.bindedDatasets]);
 
     return (
         <Container>
             <Row>
-                <Breadcrumb>
+                <Breadcrumb data-testid="Binded-Breadcrumb">
                     <BreadcrumbItem><Link style={{ color: "grey" }} to="/allmodels">All Models</Link></BreadcrumbItem>
                     <BreadcrumbItem active>Binded datasets of {modelName}</BreadcrumbItem>
                 </Breadcrumb>

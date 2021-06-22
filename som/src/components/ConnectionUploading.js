@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Container, Progress, Card, CardBody, CardTitle, CardText, Button, CardColumns } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import PublishIcon from '@material-ui/icons/Publish';
-import NeedUploading from './Modal/NeedUploading';
 
 function ConnectionUploading(props) {
     const MODEL_REMIND = "Please upload your model.";

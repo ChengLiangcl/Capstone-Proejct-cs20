@@ -245,8 +245,9 @@ function MetadataForm(props) {
 
     useEffect(() => {
         // fetch the existing metadata first
-        console.log("start refreshing metadata form")
-        props.sendNameForDetailedData(FileName, sessionStorage.getItem('verifiedUsername'));
+        if(props.sendNameForDetailedData){
+            props.sendNameForDetailedData(FileName, sessionStorage.getItem('verifiedUsername'));
+        }
     });
 
     return (
@@ -299,42 +300,6 @@ function MetadataForm(props) {
                                 </Col>
                             </Row>
                         </Col>
-
-                        {/** 
-                        <Row className="form-group">
-                            <Col md={5}>
-                                <Label htmlFor="Number_of_Instance" md={10}>Number of instances:</Label>
-                                <Col md={4}>
-                                    <Control.input model=".Number_of_Instance" id="Number_of_Instance" name="Number_of_Instance"
-                                        className="form-control"
-                                        min="0" type="number" step="1" />
-                                </Col>
-                            </Col>
-
-                            <Col md={5}>
-                                <Label htmlFor="Number_of_Attribute" md={10}>Number of attributes:</Label>
-                                <Col md={4}>
-                                    <Control.input model=".Number_of_Attribute" id="Number_of_Attribute" name="Number_of_Attribute"
-                                        className="form-control"
-                                        min="0" type="number" step="1" />
-                                </Col>
-                            </Col>
-                        </Row>
-
-                        <Col className="form-group">
-                            <Row>
-                                <Label md={4}>Whether the dataset containes labels:</Label>
-                                <Col md={2}>
-                                    <Control.select model=".Label" id="Label" name="Label"
-                                        className="form-control">
-                                        <option>Unknown</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </Control.select>
-                                </Col>
-                            </Row>
-                        </Col>
-                        */}
 
                         <Col className="form-group">
                             <Row>
@@ -441,15 +406,9 @@ const RenderMetadata = ({ metadata, isLoading, errMess, fileName }) => {
                             </tr>
 
                             <tr>
-                                <th scope="row">5</th>
-                                <td>Whether the dataset contains labels:</td>
-                                <td>{metadata.Label}</td>
-                            </tr>
-
-                            <tr>
                                 <th scope="row">6</th>
                                 <td>Keywords:</td>
-                                <td>{metadata.Keywords.length === 0 ? "" : JSON.stringify(metadata.Keywords)}</td>
+                                <td>{metadata.Keywords === undefined || metadata.Keywords.length === 0 ? "" : JSON.stringify(metadata.Keywords)}</td>
                             </tr>
                         </tbody>
                     </Table>

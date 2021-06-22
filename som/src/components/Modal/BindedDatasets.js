@@ -109,14 +109,15 @@ function BindedDatasets(props) {
 
     useEffect(() => {
         // fetch the existing metadata first
-        console.log("start refreshing binded datasets", props.bindedDatasets);
-        props.getBindedDatasets(ModelName, sessionStorage.getItem('verifiedUsername'));
+        if(props.getBindedDatasets){
+            props.getBindedDatasets(ModelName, sessionStorage.getItem('verifiedUsername'));
+        }
     }, [props.bindedDatasets]);
 
     return (
         <Container>
             <Row>
-                <Breadcrumb>
+                <Breadcrumb data-testid="my-binded-Breadcrumb">
                     <BreadcrumbItem><Link style={{color: "grey"}}to="/mymodels">My Models</Link></BreadcrumbItem>
                     <BreadcrumbItem active>Binded datasets of {ModelName}</BreadcrumbItem>
                 </Breadcrumb>

@@ -10,6 +10,9 @@ function ModelBinding(props) {
 
     const toggleModal = () => {
         setModal(!isModalOpen);
+        if(props.onChange){
+            props.onChange(!isModalOpen);
+        }
     };
 
     // while a user chooses not to delete a dataset
@@ -25,8 +28,8 @@ function ModelBinding(props) {
 
     return (
         <div>
-            <IconButton aria-label="delete a dataset" component="span">
-                <SettingsEthernetIcon onClick={toggleModal}/>
+            <IconButton aria-label="bind a model" component="span">
+                <SettingsEthernetIcon data-testid="binding-model" onClick={toggleModal}/>
             </IconButton>
 
             <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>

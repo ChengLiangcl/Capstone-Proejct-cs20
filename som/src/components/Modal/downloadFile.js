@@ -29,10 +29,16 @@ function DownloadFile(props) {
 
         downloading(props.datasetName, filename, options[index]);
         setOpen(false);
+        if(props.onListen){
+            props.onListen(false);
+        }
     };
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
+        if(props.onChange){
+            props.onChange((prevOpen) => !prevOpen);
+        }
     };
 
     const handleClose = (event) => {
@@ -43,38 +49,31 @@ function DownloadFile(props) {
         setOpen(false);
     };
 
-    // const toggleModal = () => {
-    //     setModal(!isModalOpen);
-    // };
-
-    // // while a user chooses not to delete a dataset
-    // const handlenNoBtn = () => {
-    //     setModal(!isModalOpen);
-    // };
-
     const handleDownload = () => {
         downloading();
     };
 
     const downloading = (datasetName, downloadName, downloadType) => {
-        props.downloadFile(datasetName, downloadName, downloadType, props.userName)
+        if(props.downloadFile){
+            props.downloadFile(datasetName, downloadName, downloadType, props.userName);
+        }
     };
 
 
     return (
         <div>
-                <IconButton
-                    ref={anchorRef}
-                    aria-controls={open ? 'split-button-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-label="select merge strategy"
-                    aria-haspopup="menu"
-                    onClick={handleToggle}
-                >
-                     <GetAppIcon/>
-                </IconButton>
+            <IconButton data-testid="download-selection"
+                ref={anchorRef}
+                aria-controls={open ? 'split-button-menu' : undefined}
+                aria-expanded={open ? 'true' : undefined}
+                aria-label="select merge strategy"
+                aria-haspopup="menu"
+                onClick={handleToggle}
+            >
+                <GetAppIcon />
+            </IconButton>
 
-            <Popper style={{zIndex: "3"}} open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+            <Popper data-testid="download-popper" style={{ zIndex: "3" }} open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                 {({ TransitionProps, placement }) => (
                     <Grow
                         {...TransitionProps}
@@ -83,10 +82,10 @@ function DownloadFile(props) {
                         }}
                     >
                         <Paper>
-                            <ClickAwayListener onClickAway={handleClose}>
+                            <ClickAwayListener  onClickAway={handleClose}>
                                 <MenuList id="split-button-menu">
                                     {options.map((option, index) => (
-                                        <MenuItem
+                                        <MenuItem data-testid={`download-popper-${option}`}
                                             key={option}
                                             onClick={(event) => handleMenuItemClick(event, index)}
                                         >
@@ -99,22 +98,6 @@ function DownloadFile(props) {
                     </Grow>
                 )}
             </Popper>
-
-            {/* <IconButton aria-label="delete a dataset" component="span">
-                <GetAppIcon onClick={handleDownload} />
-            </IconButton> */}
-
-            {/* <Modal isOpen={isModalOpen} toggle={toggleModal} centered={true}>
-                <ModalHeader toggle={toggleModal}>Bind Model</ModalHeader>
-                <ModalBody>
-                    <LocalForm onSubmit={(values) => handleSubmit(values)}>
-                        <input type="file" onChange={onChange} />
-                        <Col>
-                            <Button type="submit" onClick={handlenNoBtn}>Bind</Button>
-                        </Col>
-                    </LocalForm>
-                </ModalBody>
-            </Modal> */}
         </div>
 
     );

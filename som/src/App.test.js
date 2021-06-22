@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import Signup from "./components/Signup";
 import { MemoryRouter } from "react-router-dom";
 import { ConfigureStore } from "./redux/configureStore";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import React from "react";
 import userEvent from "@testing-library/user-event";
 import http from "./server/baseUrl";
@@ -14,13 +14,21 @@ import Main from './components/MainComponent';
 import Database from './components/DatabaseComponent';
 import SOMModel from './components/ModelComponent';
 import AllDataset from './components/AlldatasetsComponent';
-import AllModelsComponents from './components/AllModelsComponents';
+import AllModel from './components/AllModelsComponents';
 import DeleteOneDataset from './components/DeleteOneDataset';
 import DeleteOneModel from './components/DeleteOneModel';
 import ModelBriefInfo from './components/ModelBriefInfo';
+import MetadataForm from './components/MetadataForm';
+import DetailedDataset from './components/DetailedDatasetComponent';
 import DatasetUploading from './components/Modal/DatasetUploading';
 import ConnectionUploading from './components/Modal/ConnectionUploading';
-import {testDatasets, testModels} from './testData';
+import ModelBinding from './components/Modal/BindModel';
+import AllBindedDatasets from './components/Modal/AllBindedDataset';
+import BindedDatasets from './components/Modal/BindedDatasets';
+import DownloadFile from './components/Modal/DownloadFile';
+
+import { testDatasets, testModels, testMetadata, testDetailedData, testEmptyMetadata,
+  testBindedDataset, testNoBindedDataset } from './testData';
 
 let container = null;
 let store = null;
@@ -47,10 +55,10 @@ describe("my datasets", () => {
       render(
         <MemoryRouter>
           <Database datasetFiles={testDatasets} isLoading={false} errMess={null}
-              modelFiles={testModels}/>
+            modelFiles={testModels} />
         </MemoryRouter>, container);
     });
-    
+
     testDatasets.forEach((eachDataset) => {
       const datasetRow = screen.getByText(eachDataset.FileName).closest("tr");
       // highlight-start
@@ -67,10 +75,10 @@ describe("my datasets", () => {
     act(() => {
       render(
         <MemoryRouter>
-          <Database allDatasetFiles={testDatasets} isAllLoading={false} allErrMess={null} isAllQuery={true}/>
+          <Database allDatasetFiles={testDatasets} isAllLoading={false} allErrMess={null} isAllQuery={true} />
         </MemoryRouter>, container);
     });
-    
+
     testDatasets.forEach((eachDataset) => {
       const allDatasetRow = screen.getByText(eachDataset.FileName).closest("tr");
       // highlight-start
@@ -86,7 +94,7 @@ describe("my datasets", () => {
     // Test first render and componentDidMount
     act(() => {
       render(
-      <Database datasetFiles={[]} isLoading={false} errMess={null}/>, container);
+        <Database datasetFiles={[]} isLoading={false} errMess={null} />, container);
     });
     const nullDatasetRow = screen.getByTestId("null-table").closest("tbody");
     expect(nullDatasetRow).toBeInTheDocument();
@@ -95,7 +103,7 @@ describe("my datasets", () => {
   it("there is no dataset in all datasets", () => {
     // Test first render and componentDidMount
     act(() => {
-      render(<Database allDatasetFiles={[]} isAllLoading={false} allErrMess={null} isAllQuery={true}/>, container);
+      render(<Database allDatasetFiles={[]} isAllLoading={false} allErrMess={null} isAllQuery={true} />, container);
     });
 
     const nullAllDatasetRow = screen.getByTestId("null-all-table").closest("tbody");
@@ -108,10 +116,10 @@ describe("my datasets", () => {
       render(
         <MemoryRouter>
           <AllDataset datasetFiles={testDatasets} isLoading={false} errMess={null}
-              modelFiles={testModels}/>
+            modelFiles={testModels} />
         </MemoryRouter>, container);
     });
-    
+
     testDatasets.forEach((eachDataset) => {
       const datasetAllRow = screen.getByText(eachDataset.FileName).closest("tr");
       // highlight-start
@@ -127,37 +135,150 @@ describe("my datasets", () => {
     // Test first render and componentDidMount
     act(() => {
       render(
-      <AllDataset datasetFiles={[]} isLoading={false} errMess={null}/>, container);
+        <AllDataset datasetFiles={[]} isLoading={false} errMess={null} />, container);
     });
     const nullDatasetRow = screen.getByTestId("null-dataset--all").closest("tbody");
     expect(nullDatasetRow).toBeInTheDocument();
   });
 
+  describe("test metadata and data in the DetailedData Component", () => {
+
+    it("should show corresponding metadata", () => {
+      act(() => {
+        render(
+          <MemoryRouter>
+            <DetailedDataset detailedData={testDetailedData} isLoading_detailedData={false} errMess_detailedData={null}
+              metadata={testMetadata[0]} isLoading_metadata={false} errMess_metadata={null} />
+          </MemoryRouter>, container);
+      });
+      // metadata
+      expect(screen.getByText(testMetadata[0].Description)).toBeInTheDocument();
+      expect(screen.getByText(testMetadata[0].Source)).toBeInTheDocument();
+
+      testMetadata[0].AttrInfo.forEach((eachAttr) => {
+        const attrTows = screen.getByText(eachAttr.attrName).closest("tr");
+        const utils = within(attrTows);
+        expect(utils.getByText(eachAttr.attrName)).toBeInTheDocument();
+        expect(utils.getByText(eachAttr.attrDescription)).toBeInTheDocument();
+      });
+
+      // SOM data
+      testDetailedData.forEach((eachRow) => {
+        const detailedDataRow = screen.getByText(eachRow["Coloumn 0"]).closest("tr");
+        expect(detailedDataRow).toBeInTheDocument();
+      });
+    });
+
+  });
+
+  describe("test metadata and data in the MetadataForm Component", () => {
+
+    it("should show corresponding metadata", () => {
+      act(() => {
+        render(
+          <MemoryRouter>
+            <MetadataForm detailedData={testDetailedData} isLoading_detailedData={false} errMess_detailedData={null}
+              metadata={testMetadata[0]} isLoading_metadata={false} errMess_metadata={null} />
+          </MemoryRouter>, container);
+      });
+      // metadata
+      expect(screen.getByText(testMetadata[0].Description)).toBeInTheDocument();
+      expect(screen.getByText(testMetadata[0].Source)).toBeInTheDocument();
+
+      testMetadata[0].AttrInfo.forEach((eachAttr) => {
+        const attrTows = screen.getByText(eachAttr.attrName).closest("tr");
+        const utils = within(attrTows);
+        expect(utils.getByText(eachAttr.attrName)).toBeInTheDocument();
+        expect(utils.getByText(eachAttr.attrDescription)).toBeInTheDocument();
+      });
+
+      // SOM data
+      testDetailedData.forEach((eachRow) => {
+        const detailedDataRow = screen.getByText(eachRow["Coloumn 0"]).closest("tr");
+        expect(detailedDataRow).toBeInTheDocument();
+      });
+
+      // Metadata form
+      expect(screen.getByPlaceholderText(testMetadata[0].BriefInfo)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(testMetadata[0].Description)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(testMetadata[0].Source)).toBeInTheDocument();
+    });
+
+    it("should show corresponding empty metadata", () => {
+      act(() => {
+        render(
+          <MemoryRouter>
+            <MetadataForm detailedData={testDetailedData} isLoading_detailedData={false} errMess_detailedData={null}
+              metadata={testEmptyMetadata[0]} isLoading_metadata={false} errMess_metadata={null} />
+          </MemoryRouter>, container);
+      });
+      // SOM data
+      testDetailedData.forEach((eachRow) => {
+        const detailedDataRow = screen.getByText(eachRow["Coloumn 0"]).closest("tr");
+        expect(detailedDataRow).toBeInTheDocument();
+      });
+
+      // Metadata form
+      expect(screen.getByPlaceholderText("Please input a brief description for the dataset")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("Please input a detailed description for the dataset")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("Please input the source")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("Type and press Enter")).toBeInTheDocument();
+    });
+
+  });
+
   it("should toggle deletion when click the delete button", () => {
     const onChange = jest.fn()
-  
+
     act(() => {
-      render(<DeleteOneDataset onChange={onChange}/>, container);
+      render(<DeleteOneDataset onChange={onChange} />, container);
     });
-  
+
     fireEvent.click(screen.getByTestId("delete-dataset"));
     expect(onChange).toHaveBeenCalledTimes(1);
-  })
-  
+  });
+
   it("should toggle uploading when click the upload button for datasets", () => {
     const onDatasetUploadChange = jest.fn()
-  
+
     act(() => {
-      render(<DatasetUploading onChange={onDatasetUploadChange}/>, container);
+      render(<DatasetUploading onChange={onDatasetUploadChange} />, container);
     });
-  
+
     fireEvent.click(screen.getByTestId("upload-dataset"));
     expect(onDatasetUploadChange).toHaveBeenCalledTimes(1);
-  })
+  });
 
+  it("should toggle model binding when click the bind button for datasets", () => {
+    const onBindChange = jest.fn()
+
+    act(() => {
+      render(<ModelBinding onChange={onBindChange} modelFiles={testModels} />, container);
+    });
+
+    fireEvent.click(screen.getByTestId("binding-model"));
+    expect(onBindChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("a poper should be reacted when the download button is clicked", () => {
+    const onChange = jest.fn()
+    const onListen = jest.fn()
+
+    act(() => {
+      render(<DownloadFile onChange={onChange} onListen={onListen} datasetName={"test.dat"}/>, container);
+    });
+
+    fireEvent.click(screen.getByTestId("download-selection"));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId("download-popper")).toBeInTheDocument();
+    // test download items
+    const options = ['.txt', '.dat', '.csv'];
+    options.forEach((option, index) => {
+      fireEvent.click(screen.getByTestId(`download-popper-${option}`));
+    });
+    expect(onListen).toHaveBeenCalledTimes(3);
+  });
 });
-
-/** =================== Dataset redux==================================== */
 
 
 /* ======================= Model ======================= */
@@ -168,10 +289,10 @@ describe("my model", () => {
     act(() => {
       render(
         <MemoryRouter>
-          <SOMModel modelFiles={testModels} isLoading={false} errMess={null}/>
+          <SOMModel modelFiles={testModels} isLoading={false} errMess={null} />
         </MemoryRouter>, container);
     });
-    
+
     testModels.forEach((eachModel) => {
       const modelRow = screen.getByText(eachModel.FileName).closest("tr");
       // highlight-start
@@ -188,10 +309,10 @@ describe("my model", () => {
     act(() => {
       render(
         <MemoryRouter>
-          <SOMModel allModels={testModels} isAllQuery={true}/>
+          <SOMModel allModels={testModels} isAllQuery={true} />
         </MemoryRouter>, container);
     });
-    
+
     testModels.forEach((eachModel) => {
       const allModelRow = screen.getByText(eachModel.FileName).closest("tr");
       // highlight-start
@@ -207,7 +328,7 @@ describe("my model", () => {
     // Test first render and componentDidMount
     act(() => {
       render(
-      <SOMModel modelFiles={[]} isLoading={false} errMess={null}/>, container);
+        <SOMModel modelFiles={[]} isLoading={false} errMess={null} />, container);
     });
     const nullModelRow = screen.getByTestId("null-model").closest("tbody");
     expect(nullModelRow).toBeInTheDocument();
@@ -216,7 +337,7 @@ describe("my model", () => {
   it("there is no model in all models", () => {
     // Test first render and componentDidMount
     act(() => {
-      render(<SOMModel allModels={[]} isAllQuery={true}/>, container);
+      render(<SOMModel allModels={[]} isAllQuery={true} />, container);
     });
 
     const nullAllModelRow = screen.getByTestId("null-all-model").closest("tbody");
@@ -225,39 +346,111 @@ describe("my model", () => {
     // highlight-end
   });
 
+  it("there are models in all models -- all", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(
+        <MemoryRouter>
+          <AllModel allModels={testModels} />
+        </MemoryRouter>, container);
+    });
+
+    testModels.forEach((eachModel) => {
+      const datasetAllRow = screen.getByText(eachModel.FileName).closest("tr");
+      // highlight-start
+      const utils = within(datasetAllRow);
+      expect(utils.getByText(eachModel.FileName)).toBeInTheDocument();
+      expect(utils.getByText(eachModel.BriefInfo)).toBeInTheDocument();
+      expect(utils.getByText(eachModel.UserName)).toBeInTheDocument();
+      // highlight-end
+    });
+  });
+
+  it("there is no model in all modelss -- all", () => {
+    // Test first render and componentDidMount
+    act(() => {
+      render(
+        <AllModel allModels={[]} />, container);
+    });
+    const nullModelRow = screen.getByTestId("null-model--all").closest("tbody");
+    expect(nullModelRow).toBeInTheDocument();
+  });
+
   it("should toggle deletion when click the delete button for a model", () => {
     const onModelChange = jest.fn()
-  
+
     act(() => {
-      render(<DeleteOneModel onChange={onModelChange}/>, container);
+      render(<DeleteOneModel onChange={onModelChange} />, container);
     });
-  
+
     fireEvent.click(screen.getByTestId("delete-model"));
     expect(onModelChange).toHaveBeenCalledTimes(1);
   })
 
   it("should toggle briefInfo when click the modify button for a model", () => {
     const onModelBriefInfoChange = jest.fn()
-  
+
     act(() => {
-      render(<ModelBriefInfo onChange={onModelBriefInfoChange}/>, container);
+      render(<ModelBriefInfo onChange={onModelBriefInfoChange} />, container);
     });
-  
+
     fireEvent.click(screen.getByTestId("modify-model-briefInfo"));
     expect(onModelBriefInfoChange).toHaveBeenCalledTimes(1);
   });
 
   it("should toggle uploading when click the upload button for a model", () => {
     const onModelUploadChange = jest.fn()
-  
+
     act(() => {
-      render(<ConnectionUploading onChange={onModelUploadChange} 
-        connectionFiles={["this is for a uploaded model", ["this is for uploaded datasets"]]}/>, container);
+      render(<ConnectionUploading onChange={onModelUploadChange}
+        connectionFiles={["this is for a uploaded model", ["this is for uploaded datasets"]]} />, container);
     });
-  
+
     fireEvent.click(screen.getByTestId("model-upload"));
     expect(onModelUploadChange).toHaveBeenCalledTimes(1);
 
+  });
+
+  describe("check a binded model and its related dataset", () => {
+    it("Breadcrumb and a table should be shown in the all model's binded page", () => {
+      act(() => {
+        render(
+          <MemoryRouter>
+            <AllBindedDatasets bindedDatasets={testNoBindedDataset}/>
+          </MemoryRouter>, container);
+      });
+
+      expect(screen.getByTestId("Binded-Breadcrumb")).toBeInTheDocument();
+
+      testNoBindedDataset.forEach((eachModel) => {
+        const bindedDatasetAllRow = screen.getByText(eachModel.FileName).closest("tr");
+        // highlight-start
+        const utils = within(bindedDatasetAllRow);
+        expect(utils.getByText(eachModel.FileName)).toBeInTheDocument();
+        expect(utils.getByText(eachModel.BriefInfo)).toBeInTheDocument();
+        // highlight-end
+      });
+    });
+
+    it("Breadcrumb and a table should be shown in the my model's binded page", () => {
+      act(() => {
+        render(
+          <MemoryRouter>
+            <BindedDatasets bindedDatasets={testNoBindedDataset}/>
+          </MemoryRouter>, container);
+      });
+
+      expect(screen.getByTestId("my-binded-Breadcrumb")).toBeInTheDocument();
+
+      testNoBindedDataset.forEach((eachModel) => {
+        const bindedDatasetAllRow = screen.getByText(eachModel.FileName).closest("tr");
+        // highlight-start
+        const utils = within(bindedDatasetAllRow);
+        expect(utils.getByText(eachModel.FileName)).toBeInTheDocument();
+        expect(utils.getByText(eachModel.BriefInfo)).toBeInTheDocument();
+        // highlight-end
+      });
+    });
   });
 
 });

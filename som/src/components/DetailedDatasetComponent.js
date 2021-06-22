@@ -22,7 +22,6 @@ const RenderDetailedData = ({ detailedData, isLoading, errMess }) => {
         console.log("detailed data is:");
         console.log(detailedData);
         const colName = Object.keys(detailedData[Object.keys(detailedData)[0]]);
-        console.log("colname is " + colName);
         return (
             <Table striped>
                 <thead style={{ backgroundColor: '#FFE399', color: "black" }}>
@@ -35,7 +34,7 @@ const RenderDetailedData = ({ detailedData, isLoading, errMess }) => {
 
                 <tbody>
                     {Object.keys(detailedData).map(row => // [row1, row2, row3, row4, row5]
-                        <tr>
+                        <tr data-testid="detailed-data1">
                             {Object.values(detailedData[row]).map(value =>
                                 <td>{value}</td>
                             )}
@@ -49,9 +48,6 @@ const RenderDetailedData = ({ detailedData, isLoading, errMess }) => {
 };
 
 const RenderMetadata = ({ metadata, isLoading, errMess, fileName }) => {
-    console.log("check metadata");
-    console.log(JSON.stringify(metadata));
-    console.log("check filename: ", fileName)
     if (isLoading) {
         return (
             <Loading />
@@ -103,7 +99,7 @@ const RenderMetadata = ({ metadata, isLoading, errMess, fileName }) => {
                             <tr>
                                 <th scope="row">6</th>
                                 <td>Keywords:</td>
-                                <td>{metadata.Keywords.length === 0 ? "" : JSON.stringify(metadata.Keywords)}</td>
+                                <td>{metadata.Keywords.length === 0? "" : JSON.stringify(metadata.Keywords)}</td>
                             </tr>
                         </tbody>
                     </Table>
@@ -140,7 +136,10 @@ const DetailedDataset = (props) => {
     console.log("local get user name: ", query.userName);
 
     useEffect(() => {
-        props.sendNameForDetailedData(FileName, query.userName);
+        if(props.sendNameForDetailedData){
+            props.sendNameForDetailedData(FileName, query.userName);
+        }
+        
     });
 
     //useEffect(() => {
