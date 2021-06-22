@@ -1,26 +1,23 @@
 [
   {
     "_id": {
-      "$oid": "60ced4e7de93998ef4fc1402"
+      "$oid": "60d1c581c9c7e5a826fe769d"
     },
-    "FileName": "ex_ndy.dat",
-    "BriefInfo": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
-    "Size": "4.884KB",
-    "Description": "Amazon DocumentDB is a non-relational database service designed from the ground-up",
-    "Source": "1",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "Keywords": [
-      "keyword1",
-      "keyword2"
-    ],
+    "FileName": "copy(2)_ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "Keywords": [],
     "AttrInfo": [
       {
-        "attrName": "1",
-        "attrDescription": "1"
+        "attrName": "",
+        "attrDescription": ""
       }
     ],
-    "UserName": "123456@qq.com",
-    "copy": 0
+    "UserName": "123@gmail.com",
+    "copy": 2
   }
 ]

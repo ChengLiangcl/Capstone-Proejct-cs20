@@ -72,9 +72,6 @@ def connect_upload():
     split_name = model_name.split(".")
 
 
-
-
-
     if len(list(db.models.find({"UserName":userName,"FileName" :{'$regex' :model_name}})))>0:
         name_size = list(db.models.find({"UserName":userName, "FileName" :{'$regex' :model_name}},{"copy":1,"_id":0}))
         name_size = name_size[len(name_size)-1].get('copy') + 1
@@ -157,6 +154,8 @@ def connect_upload():
            # to get the column number
                 f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
                 first_line = f.readline()
+                second_line = f.readline()
+                
                 if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
                     print('INTRO')
                     print(first_line.strip().split(' ')[1])
@@ -170,8 +169,15 @@ def connect_upload():
                 elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
                     print('cool')
                     sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+                elif(len(second_line.strip().split(' '))==1 ):
+                    2/0
+             
                 else:
                     sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+                
+                
+               
+
 
 
                 columnNames = [''] * sizes
@@ -338,15 +344,14 @@ def upload():
             # to get the column number
             print(uploaded_file.filename)
             f = open(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename),'r')
-
             first_line = f.readline()
-
+            second_line = f.readline()
+        
             if(len(first_line.strip().split(' '))>1 and ' ' in first_line ):
                 print('INTRO')
                 print(first_line.strip().split(' ')[1])
                 if(first_line.strip().split(' ')[1].isdigit()==False):
                     2/0
-
                 sizes = len(first_line.strip().split(' '))
             elif(',' in first_line):
                 sizes = len(f.readline().split(','))
@@ -355,6 +360,8 @@ def upload():
             elif(' ' in first_line and len(first_line.strip().split(' '))==1 ):
                 print('cool')
                 sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
+            elif(len(second_line.strip().split(' '))==1 ):
+                2/0
             else:
                 sizes = [len(line.rstrip().split(' ')) for line in f.readlines()[1:2]][0]
                 print(sizes)

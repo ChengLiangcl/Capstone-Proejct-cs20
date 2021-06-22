@@ -1,49 +1,21 @@
 [
   {
     "_id": {
-      "$oid": "60b8306dd7c17c412aae0d92"
+      "$oid": "60b72ee8b234a76efa5bbd1d"
     },
-    "FileName": "ex_ndy.png",
+    "FileName": "ex_fts.dat",
     "BriefInfo": "",
-    "Size": "4.93KB",
+    "Size": "13.532KB",
     "Description": "",
     "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "ex.ccc"
-  },
-  {
-    "_id": {
-      "$oid": "60b83098d7c17c412aae0d94"
-    },
-    "FileName": "ex_fdy.dat",
-    "BriefInfo": "",
-    "Size": "4.796KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
     "ModelName": ""
   },
   {
     "_id": {
-      "$oid": "60d137d3851ee5125347362f"
-    },
-    "FileName": "copy(1)_ex_ndy.png",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": "copy(1)_animal.cod"
-  },
-  {
-    "_id": {
-      "$oid": "60d137d4851ee51253473630"
+      "$oid": "60b82f78362d00607aafc83c"
     },
     "FileName": "copy(1)_ex_fts.dat",
     "BriefInfo": "",
@@ -52,7 +24,35 @@
     "Source": "",
     "Number_of_Attribute": 6,
     "Number_of_Instance": 246,
-    "UserName": "17888813173@163.com",
-    "ModelName": "copy(1)_animal.cod"
+    "UserName": "123@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60d1c60584ad31d213c6234a"
+    },
+    "FileName": "copy(2)_ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60d1c60684ad31d213c6234b"
+    },
+    "FileName": "ex_ndy.dat",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "123@gmail.com",
+    "ModelName": ""
   }
 ]
