@@ -1,9 +1,9 @@
 [
   {
     "_id": {
-      "$oid": "60d20efd1eda0dc73d99524c"
+      "$oid": "60d2d801c344e744147abf65"
     },
-    "FileName": "copy(1)_ex_fts.dat",
+    "FileName": "ex_fts.dat",
     "BriefInfo": "",
     "Size": "13.532KB",
     "Description": "",
@@ -18,6 +18,27 @@
       }
     ],
     "UserName": "17888813173@163.com",
-    "copy": 1
+    "copy": 0
+  },
+  {
+    "_id": {
+      "$oid": "60d2d800c344e744147abf64"
+    },
+    "FileName": "copy(2)_ex_ndy.png",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "17888813173@163.com",
+    "copy": 2
   }
 ]

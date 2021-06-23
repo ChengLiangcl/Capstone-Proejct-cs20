@@ -32,12 +32,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd som
+        cd Frontend
         npm install
 
     - name: Run the tests and generate coverage report
       run: |
-        cd som
+        cd Frontend
         npm test -- --coverage
 
     - name: Upload coverage to Codecov

@@ -290,7 +290,7 @@ describe("my datasets", () => {
   describe("check dataset uploading", () => {
     it("selecting files and uploading buttons should be shown", () => {
       act(() => {
-        render(<DatasetUpload/>, container);
+        render(<DatasetUpload />, container);
       });
       expect(screen.getByTestId("select-dataset")).toBeInTheDocument();
       expect(screen.getByTestId("upload-dataset-btn")).toBeInTheDocument();
@@ -299,40 +299,41 @@ describe("my datasets", () => {
 
   describe('FileUploadField', () => {
     const component = shallow(<DatasetUpload />);
-  
+    const instance = component.instance();
+
     it('should render a label and a file input field', () => {
       expect(component.find('input[type="file"]')).toBeTruthy();
       expect(component.find('label')).toBeTruthy();
     });
-  
+
     it('should attach the label to the input field', () => {
       const id = 'file-upload';
       expect(component.find('label').prop('htmlFor')).toBe(id);
       expect(component.find('input').prop('id')).toBe(id);
     });
-  
+
     it('should not show preview if no file has been selected', () => {
       expect(component.find('p')).toBeTruthy();
     });
-  });
 
-  test('upload multiple files', () => {
-    const files = [
-      new File(['hello'], 'hello.png', {type: 'image/png'}),
-      new File(['there'], 'there.png', {type: 'image/png'}),
-    ]
-  
-    act(() => {
-      render(<DatasetUpload/>, container);
+    it('should show initial uploading message', () => {
+      //expect(component.find('.uploading-notice')).toBe("Please upload your datasets");
+      //instance.readFileAsDataURL(file);
+      expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets");
     });
 
-    const input = screen.getByTestId('label-dataset');
-    userEvent.upload(input, files);
-  
-    expect(input.files).toHaveLength(2)
-    expect(input.files[0]).toStrictEqual(files[0])
-    expect(input.files[1]).toStrictEqual(files[1])
-  })
+    // it("should show for a successful uploading", () => {
+    //   const mock = jest.spyOn(comp, 'remove');
+    //   const file = [new File(['hello'], 'hello.png', { type: 'image/png' })];
+    //   const input = component.find('input');
+    //   input.simulate('change', { target: { value: file } });
+    //   input = component.find('input');
+    //   //expect(input.props().value).toEqual(10);
+
+    //   //component.props().readFileAsDataURL(file);
+    //   expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets");
+    // })
+  });
 
 });
 
@@ -512,6 +513,7 @@ describe("my model", () => {
 });
 
 /* ======================= User Registration & Login ======================= */
+//https://ovpv.me/unit-testing-functional-components-jest-enzyme/
 // describe("user", () => {
 //   describe("signup", () => {
 //     describe("signup component render", () => {
