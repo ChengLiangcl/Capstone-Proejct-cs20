@@ -1,0 +1,23 @@
+[
+  {
+    "_id": {
+      "$oid": "60d20efd1eda0dc73d99524c"
+    },
+    "FileName": "copy(1)_ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "Keywords": [],
+    "AttrInfo": [
+      {
+        "attrName": "",
+        "attrDescription": ""
+      }
+    ],
+    "UserName": "17888813173@163.com",
+    "copy": 1
+  }
+]
