@@ -14,11 +14,10 @@ export const ConnectionFiles = (state = {
         // only then we will add it to the redux store.
         case ActionTypes.ADD_CONNECTIONS:
             var files = action.payload; // get the uploaded dataset
-            console.log("did i get the connected files? ", action.payload)
             return { ...state, connectionFiles: action.payload };
 
         case ActionTypes.ADD_UMATRIXDATASETS:
-            console.log("did i get the umatrix datasets? ", action.payload)
+            //console.log("did i get the umatrix datasets? ", action.payload)
             return { ...state, isLoading: false, umatrixDatasets: action.payload };
 
         case ActionTypes.UPDATE_UPLOADINGSTATUS:
@@ -29,30 +28,27 @@ export const ConnectionFiles = (state = {
             return { ...state, connectionFiles: connectionFiles };
 
         case ActionTypes.ADD_BINDDATASETS:
-            console.log("did i get the binded datasets? ", action.payload)
             return { ...state, isLoading: false, bindedDatasets: action.payload };
 
         case ActionTypes.BIND_LOADING:
             return { ...state, isLoading: true, errMess: null, bindedDatasets: [] };
 
-        case ActionTypes.REMOVE_BIND:
-            console.log("start delete a binded dataset");
-            var datasetName = action.payload; // to get the filename of the selected dataset
-            let deletedIndex = 0; // to find the corresponding index based on filename
-            console.log("get dataset is " + datasetName);
-            for (let [index, eachDataset] of Object.entries(state.bindedDatasets)) {
-                if (eachDataset.FileName === datasetName) {
-                    deletedIndex = parseInt(index, 10);
-                }
-            }
+        // case ActionTypes.REMOVE_BIND:
+        //     var datasetName = action.payload; // to get the filename of the selected dataset
+        //     let deletedIndex = 0; // to find the corresponding index based on filename
+        //     for (let [index, eachDataset] of Object.entries(state.bindedDatasets)) {
+        //         if (eachDataset.FileName === datasetName) {
+        //             deletedIndex = parseInt(index, 10);
+        //         }
+        //     }
 
-            console.log("deletedIndex is " + deletedIndex);
+        //     console.log("deletedIndex is " + deletedIndex);
 
-            const newDataset = [
-                ...state.datasetFiles.slice(0, deletedIndex),
-                ...state.datasetFiles.slice(deletedIndex + 1, state.datasetFiles.length)];
+        //     const newDataset = [
+        //         ...state.datasetFiles.slice(0, deletedIndex),
+        //         ...state.datasetFiles.slice(deletedIndex + 1, state.datasetFiles.length)];
 
-            return { ...state, bindedDatasets: newDataset };
+        //     return { ...state, bindedDatasets: newDataset };
 
         default:
             return state;

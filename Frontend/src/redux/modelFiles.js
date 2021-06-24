@@ -8,7 +8,6 @@ export const ModelFiles = (state = {
 }, action) => {
     switch (action.type) {
         case ActionTypes.ADD_MODELFILES:
-            console.log("I wanna check model file");
             return { ...state, isLoading: false, errMess: null, isQuery: false, modelFiles: action.payload };
 
         case ActionTypes.QUERY_MODELFILES:
@@ -25,17 +24,13 @@ export const ModelFiles = (state = {
             return { ...state, modelFiles: [...state.modelFiles, ...model] };
 
         case ActionTypes.REMOVE_MODEL:
-            console.log("start delete");
             var modelName = action.payload; // to get the filename of the selected model
             let deletedIndex = 0; // to find the corresponding index based on filename
-            console.log("get model is " + modelName);
             for (let [index, eachModel] of Object.entries(state.modelFiles)) {
                 if (eachModel.FileName === modelName) {
                     deletedIndex = parseInt(index, 10);
                 }
             }
-
-            console.log("deletedIndex is " + deletedIndex);
 
             const newModel = [
                 ...state.modelFiles.slice(0, deletedIndex),
@@ -44,10 +39,9 @@ export const ModelFiles = (state = {
             return { ...state, modelFiles: newModel };
 
         case ActionTypes.EDIT_MODEL_DESCRIPTION:
-            console.log("start edit");
             var { modelName, description } = action.payload;
-            console.log("my modelname:", modelName);
-            console.log("my description:", description)
+            // console.log("my modelname:", modelName);
+            // console.log("my description:", description)
             state.modelFiles.forEach(item => {
                 if (item.FileName === modelName) {
                     item.BriefInfo = description
@@ -63,7 +57,7 @@ export const ModelFiles = (state = {
                 }
             });
 
-            console.log("new modelFile: ", updatedModel)
+            //console.log("new modelFile: ", updatedModel)
             return { ...state, modelFiles: updatedModel };
 
         default:

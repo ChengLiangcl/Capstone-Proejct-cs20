@@ -40,33 +40,5 @@
     "Number_of_Instance": 96,
     "UserName": "17888813173@163.com",
     "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60d2ea5ec344e744147abf6c"
-    },
-    "FileName": "copy(3)_ex_ndy.png",
-    "BriefInfo": "",
-    "Size": "4.93KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 5,
-    "Number_of_Instance": 96,
-    "UserName": "17888813173@163.com",
-    "ModelName": ""
-  },
-  {
-    "_id": {
-      "$oid": "60d33d5268e8661a08df0804"
-    },
-    "FileName": "ex_fts.dat",
-    "BriefInfo": "",
-    "Size": "13.532KB",
-    "Description": "",
-    "Source": "",
-    "Number_of_Attribute": 6,
-    "Number_of_Instance": 246,
-    "UserName": "17888813173@163.com",
-    "ModelName": "copy(2)_animal.cod"
   }
 ]

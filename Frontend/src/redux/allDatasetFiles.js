@@ -8,7 +8,6 @@ export const AllDatasetFiles = (state = {
 }, action) => {
     switch (action.type) {
         case ActionTypes.ADD_ALL_DATASETFILES:
-            console.log("Add dataallsetfiles to store");
             return { ...state, isLoading: false, errMess: null, isQuery: false, datasetFiles: action.payload };
         
         case ActionTypes.QUERY_ALL_DATASETFILES:

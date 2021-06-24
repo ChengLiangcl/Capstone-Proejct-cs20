@@ -8,7 +8,6 @@ export const AllModelFiles = (state = {
 }, action) => {
     switch (action.type) {
         case ActionTypes.ADD_ALL_MODELS:
-            console.log("add all models: ", action.payload);
             return { ...state, isLoading: false, errMess: null, isQuery: false, modelFiles: action.payload };
         
         case ActionTypes.QUERY_ALL_MODELS:
