@@ -40,7 +40,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirement.txt
         cd Backend
-        python app.py
 
     - name: Run the tests and generate coverage report
       run: |
