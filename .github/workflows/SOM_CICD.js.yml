@@ -35,8 +35,10 @@ jobs:
         cd Frontend
         npm install
     
-    - name: Open the backend
+    - name: Configure and open the backend
       run: |
+        python -m pip install --upgrade pip
+        pip install -r requirement.txt
         cd Backend
         python app.py
 
