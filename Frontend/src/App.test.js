@@ -715,32 +715,6 @@ describe("user", () => {
 
         expect(answer.parentNode.nextSibling.innerHTML).toMatch(/Required/);
       });
-
-      it("sign up request backend API", async () => {
-        const body = {
-          email: 'John_' + Math.ceil(Math.random() * 99999999),
-          password: '12345678',
-          confirmpassword: '12345678',
-          question: 'What is your mother name',
-          answer: 'test name'
-        };
-        const response = await http.post('/sign-up', JSON.stringify(body));
-        expect(response.status).toBe(200);
-        expect(response.data).toBe("Add Sucessfully");
-      });
-
-      it("sign up with duplicate username", async () => {
-        const body = {
-          email: 'John',
-          password: '12345678',
-          confirmpassword: '12345678',
-          question: 'What is your mother name',
-          answer: 'test name'
-        };
-        const response = await http.post('/sign-up', JSON.stringify(body));
-        expect(response.status).toBe(200);
-        expect(response.data).toBe("username already exist");
-      });
     });
   });
 
@@ -796,26 +770,6 @@ describe("user", () => {
         });
 
         expect(password.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-      });
-
-      it("login with invalid username or password", async () => {
-        const body = {
-          username: 'John',
-          password: 'errorpassword',
-        };
-        const response = await http.post('/login', JSON.stringify(body));
-        expect(response.status).toBe(200);
-        expect(response.data).toBe("Invalid login credentials");
-      });
-
-      it("login with correct invalid username or password", async () => {
-        const body = {
-          username: 'John',
-          password: '12345678',
-        };
-        const response = await http.post('/login', JSON.stringify(body));
-        expect(response.status).toBe(200);
-        expect(response.data).toBe("John");
       });
     });
   });
@@ -958,32 +912,6 @@ describe("user", () => {
           });
 
           expect(answer.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-        });
-
-        it("sign up request backend API", async () => {
-          const body = {
-            email: 'John_' + Math.ceil(Math.random() * 99999999),
-            password: '12345678',
-            confirmpassword: '12345678',
-            question: 'What is your mother name',
-            answer: 'test name'
-          };
-          const response = await http.post('/sign-up', JSON.stringify(body));
-          expect(response.status).toBe(200);
-          expect(response.data).toBe("Add Sucessfully");
-        });
-
-        it("sign up with duplicate username", async () => {
-          const body = {
-            email: 'John',
-            password: '12345678',
-            confirmpassword: '12345678',
-            question: 'What is your mother name',
-            answer: 'test name'
-          };
-          const response = await http.post('/sign-up', JSON.stringify(body));
-          expect(response.status).toBe(200);
-          expect(response.data).toBe("username already exist");
         });
       });
     });
