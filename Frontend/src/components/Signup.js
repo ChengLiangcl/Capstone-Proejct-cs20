@@ -69,10 +69,10 @@ const Signup = (props) => {
 
 
   const onSubmit = (values) => {
-    console.log(values)
+    //console.log(values)
     props.signUp(values, res => {
       setModal(true)
-      console.log(res);
+      //console.log(res);
       setModalContent(res.toString())
     })
   }

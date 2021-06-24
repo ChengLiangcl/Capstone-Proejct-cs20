@@ -58,13 +58,13 @@ const Login = ({ handleChange, ...props }) => {
   })
   const [user, setUser] = useState('')
   const onSubmit = (values) => {
-    console.log("check username and password", values)
+    //console.log("check username and password", values)
     // save into the local session
-    console.log(values.username)
+    //console.log(values.username)
     sessionStorage.setItem('username', values.username);
     sessionStorage.setItem('password', values.password)
     const loginInfo = { username: sessionStorage.getItem('username'), password: sessionStorage.getItem('password') };
-    console.log("userInfo ", loginInfo);
+    //console.log("userInfo ", loginInfo);
     setUser(loginInfo.username);
     props.login(loginInfo);
   }
@@ -80,14 +80,13 @@ const Login = ({ handleChange, ...props }) => {
 
 
   useEffect(() => {
-    console.log("helllloo");
-    console.log(123, sessionStorage.getItem('verifiedUsername'));
+    //console.log(123, sessionStorage.getItem('verifiedUsername'));
     if (sessionStorage.getItem('verifiedUsername') != undefined || sessionStorage.getItem('verifiedUsername') !== null){
       props.updateUser(sessionStorage.getItem('verifiedUsername'));
     }
     
     if (props.user.userInfo) {
-      console.log(props.user.userInfo);
+      //console.log(props.user.userInfo);
       if (sessionStorage.getItem('verifiedUsername') === sessionStorage.getItem('username')) {
         props.history.replace('/');
       } else {

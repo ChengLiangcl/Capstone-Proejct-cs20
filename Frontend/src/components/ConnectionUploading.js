@@ -25,7 +25,6 @@ function ConnectionUploading(props) {
 
     const checkValidation = (file, reminder, message, setFail) => {
         let reader = new FileReader();
-        console.log("file name: ", file.name);
         reader.onloadend = () => {
             let lines = reader.result.split('\n');
             try {
@@ -35,7 +34,6 @@ function ConnectionUploading(props) {
                     let line_check = parseFloat(firstRow[0]);
                     message = Number.isNaN(line_check) ? `Could not upload ${file.name}. Please check your model format or the content!#` : `${file.name} uploaded successfully!#`;
                     reminder += message;
-                    console.log("check reminder: ", reminder);
                     setFail(reminder);
                 }
                 else {
@@ -66,7 +64,6 @@ function ConnectionUploading(props) {
         const file = event.target.files[0]; // accessing file
         let modelMessage = '';
         let message = '';
-        console.log("accepted model: ", file.name);
         if (file.name !== null || file.name !== undefined || file.name.length !== 0) {
             const acceptedModelArray = file.name.split(".");
             const modelExtension = acceptedModelArray.slice(acceptedModelArray.length - 1, acceptedModelArray.length)[0]
@@ -85,26 +82,22 @@ function ConnectionUploading(props) {
 
             const acceptedDatasetArray = file.name.split(".");
             let reader = new FileReader();
-            console.log("file name: ", file.name);
             reader.onloadend = () => {
                 let lines = reader.result.split('\n');
-                console.log("check lines: ", lines);
                 try {
                     const firstRow = lines[0].trim().split(" ");
                     const secondRow = lines[1].trim().split(" ");
-                    console.log(`file name: ${file.name}, first row length: ${firstRow.length}, second row length: ${secondRow.length}`);
+                    //console.log(`file name: ${file.name}, first row length: ${firstRow.length}, second row length: ${secondRow.length}`);
 
                     if (firstRow.length !== secondRow.length) {
                         // check if it is a text format file
                         if (firstRow.length === 1) {
-                            console.log("first row len 1");
                             let line_check_first = parseFloat(firstRow[0]);
                             message = Number.isNaN(line_check_first) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
                             datasetMessage += message;
                             setDatasetFail(datasetMessage);
                         }
                         else if (firstRow.length === 2) {
-                            console.log("first row len 2");
                             let line_check_first = parseFloat(firstRow[0]);
                             let line_check_second = parseFloat(firstRow[1]);
                             message = Number.isNaN(line_check_first) || Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
@@ -112,7 +105,6 @@ function ConnectionUploading(props) {
                             setDatasetFail(datasetMessage);
                         }
                         else {
-                            console.log("first row len not 1");
                             message = `# Could not upload ${file.name}. `;
                             datasetMessage += message;
                             setDatasetFail(datasetMessage);
@@ -126,7 +118,6 @@ function ConnectionUploading(props) {
                             setDatasetFail(datasetMessage);
                         }
                         else {
-                            console.log("second row len 1");
                             let line_check_first = parseFloat(firstRow[0]);
                             let line_check_second = parseFloat(firstRow[1]);
                             message = Number.isNaN(line_check_first) || Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
@@ -174,35 +165,37 @@ function ConnectionUploading(props) {
             }
         }
 
-        // Display the keys
-        for (var key of formData.keys()) {
-            console.log(key);
-        }
+        // // Display the keys
+        // for (var key of formData.keys()) {
+        //     console.log(key);
+        // }
 
-        console.log("selected file:", selectedFiles);
+        //console.log("selected file:", selectedFiles);
         setCurrentFile(selectedFiles);
 
         // 'props.uploadModel' is from Redux actionCreators, which is used to post the uploaded model to the backend server
-        props.connectUploading(formData, (event) => {
-            setProgress(Math.round((100 * event.loaded) / event.total));
-        }, sessionStorage.getItem('verifiedUsername'))
-            .then(() => console.log("I'm back"))
-            .then((response) => {
-                setModelMessage("Uploaded successfully");
-                setMessage("Uploaded successfully");
-                console.log("get connect names: ", props.connectionFiles);
-            })
-            .catch((res) => {
-                setProgress(0);
-                console.log("dataset", dataset_message);
-                console.log(`model message: ${model_message}, dataset message: ${dataset_message}`)
-                setModelMessage(model_message);
-                if (model_message === "Could not upload the model. Please check your model format or the content!") {
-                    setMessage("datasets are not allowed to be uploaded while model uploading fails");
-                } else {
-                    setMessage(dataset_message);
-                }
-            });
+        if (props.connectUploading) {
+            props.connectUploading(formData, (event) => {
+                setProgress(Math.round((100 * event.loaded) / event.total));
+            }, sessionStorage.getItem('verifiedUsername'))
+                .then(() => console.log("I'm back"))
+                .then((response) => {
+                    setModelMessage("Uploaded successfully");
+                    setMessage("Uploaded successfully");
+                    //console.log("get connect names: ", props.connectionFiles);
+                })
+                .catch((res) => {
+                    setProgress(0);
+                    // console.log("dataset", dataset_message);
+                    // console.log(`model message: ${model_message}, dataset message: ${dataset_message}`)
+                    setModelMessage(model_message);
+                    if (model_message === "Could not upload the model. Please check your model format or the content!") {
+                        setMessage("datasets are not allowed to be uploaded while model uploading fails");
+                    } else {
+                        setMessage(dataset_message);
+                    }
+                });
+        }
     };
 
     const handleUploadBtn = () => {
@@ -227,17 +220,17 @@ function ConnectionUploading(props) {
         <Container>
 
             <div>
-                {currentFile && (<Progress animated value={progress} max="100">{progress}%</Progress>)}
+                {currentFile && (<Progress id="connect-progress-bar" animated value={progress} max="100">{progress}%</Progress>)}
             </div>
 
             <Row>
                 <Col md="9">
                     <Row>
-                        <label htmlFor="file-upload">
-                            <input type="file" id="file-upload" ref={el} onChange={handleModelChange} />
+                        <label htmlFor="model-upload">
+                            <input className="model-upload" type="file" id="model-upload" ref={el} onChange={handleModelChange} />
                             <div className="alert alert-light" role="alert">
                                 {modelMessage.split("#").map(eachMessage =>
-                                    <p>{eachMessage.includes("successfully") || eachMessage === MODEL_REMIND ? eachMessage : <div style={{ color: 'red' }}>{eachMessage}</div>}</p>
+                                    <p className="uploading-notice-model">{eachMessage.includes("successfully") || eachMessage === MODEL_REMIND ? eachMessage : <div style={{ color: 'red' }}>{eachMessage}</div>}</p>
                                 )}
                             </div>
                         </label>
@@ -245,7 +238,7 @@ function ConnectionUploading(props) {
                 </Col>
 
                 <Col>
-                    <Button
+                    <Button className="upload-btn"
                         style={{ backgroundColor: "#378CC6" }}
                         disabled={!selectedModel}
                         onClick={handleUploadBtn}>
@@ -260,10 +253,10 @@ function ConnectionUploading(props) {
                 <Col md="5">
                     <Row>
                         <label htmlFor="file-upload">
-                            <input type="file" multiple ref={el} onChange={handleDatasetChange} />
+                            <input type="file" className="dataset-upload" id="file-upload" multiple ref={el} onChange={handleDatasetChange} />
                             <div className="alert alert-light" role="alert">
                                 {message.split("#").map(eachMessage =>
-                                    <p>{eachMessage.includes("successfully") || eachMessage === DATASET_REMIND ? eachMessage : <div style={{ color: 'red' }}>{eachMessage}</div>}</p>
+                                    <p className="uploading-notice">{eachMessage.includes("successfully") || eachMessage === DATASET_REMIND ? eachMessage : <div style={{ color: 'red' }}>{eachMessage}</div>}</p>
                                 )}
                             </div>
                         </label>
@@ -283,7 +276,7 @@ function ConnectionUploading(props) {
                 </Modal>
             </Row>
 
-            <Card>
+            <Card className="uploading-info">
                 <CardBody>
                     <CardTitle>
                         <h5 className="center">Last Uploading History</h5>
@@ -294,7 +287,7 @@ function ConnectionUploading(props) {
                     <CardTitle><strong>uploaded Model</strong></CardTitle>
                     <CardText>
                         <ListGroup>
-                            <ListGroupItem className="justify-content-between">{props.connectionFiles[0]}</ListGroupItem>
+                            <ListGroupItem id="model-info" className="justify-content-between">{props.connectionFiles[0]}</ListGroupItem>
                         </ListGroup>
                     </CardText>
 
@@ -302,7 +295,7 @@ function ConnectionUploading(props) {
                     <CardText>
                         <ListGroup>
                             {props.connectionFiles[1].map((filename, index) => (
-                                <ListGroupItem className="justify-content-between">{filename}</ListGroupItem>
+                                 <ListGroupItem id="dataset-info" className="justify-content-between">{filename}</ListGroupItem>
                             ))}
                         </ListGroup>
                     </CardText>

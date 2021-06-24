@@ -56,7 +56,6 @@ export const updateUser = (userInfo) => ({
  */
 // uploading a new model file
 export const connectUploading = (files, onUploadProgress, username) => (dispatch) => {
-  console.log("connect start");
   // post the uploaded model to the backend server
   return http.post('/connect-upload', files, {
     headers: {
@@ -65,8 +64,8 @@ export const connectUploading = (files, onUploadProgress, username) => (dispatch
     onUploadProgress,
   })
     .then(res => {
-      console.log("this is response for connection uploading");
-      console.log(res.data);
+      // console.log("this is response for connection uploading");
+      // console.log(res.data);
       dispatch(addConnections(res.data));
       dispatch(fetchUploadedModel(username));
       dispatch(fetchUploadedDataset(username));
@@ -93,16 +92,15 @@ export const addConnections = (filename) => ({
 });
 
 export const bindModel = (modelname, username, datasetname) => (dispatch) => {
-  console.log("bind start");
   return http.post('/bind-model', [modelname, username, datasetname], {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
-    .then(res => {
-      console.log("this is response for model binding");
-      console.log(res);
-    });
+    // .then(res => {
+    //   console.log("this is response for model binding");
+    //   console.log(res);
+    // });
 };
 
 export const addBindedDatasets = (bindedDatasets) => ({
@@ -124,8 +122,8 @@ export const getBindedDatasets = (modelname, username) => (dispatch) => {
     }
   })
     .then(res => {
-      console.log("this is response for bindedDatasets");
-      console.log(res);
+      // console.log("this is response for bindedDatasets");
+      // console.log(res);
       dispatch(addBindedDatasets(res.data))
     });
 
@@ -144,12 +142,12 @@ export const deleteOneBindedDataset = (datasetName, userName) => (dispatch) => {
     }
   })
     .then(res => {
-      console.log("this is response for delete binded dataset");
-      console.log(res);
+      // console.log("this is response for delete binded dataset");
+      // console.log(res);
       dispatch(removeOneBindedDataset(res.data));
       dispatch(removeOneDataset(res.data));
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 /**
@@ -201,11 +199,11 @@ export const queryAllDatasets = (inputValue) => (dispatch) => {
     }
   })
     .then(res => {
-      console.log("this is response for querying all datasets");
-      console.log(res.data);
+      // console.log("this is response for querying all datasets");
+      // console.log(res.data);
       dispatch(checkQueryALLDatasets(res.data))
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 export const fetchAllDatasetFiles = () => (dispatch) => {
@@ -214,7 +212,6 @@ export const fetchAllDatasetFiles = () => (dispatch) => {
   return fetch(backendUrl + '/alldatasetFiles') // backend address: Localhost: 5000/datasetFiles
     .then(response => response.json()) // when the promise resolved, we convert the incoming response into JSON by calling response.json
     .then(datasetFiles => dispatch(addAllDatasetFiles(datasetFiles))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
-    .then(data => console.log(data));
 }
 
 export const allDatasetFilesLoading = () => ({
@@ -241,10 +238,10 @@ export const uploadDataset = (dataset, onUploadProgress, username) => (dispatch)
     },
     onUploadProgress,
   })
-    .then(res => {
-      console.log("this is response for uploading dataset");
-      console.log(res);
-    })
+    // .then(res => {
+    //   console.log("this is response for uploading dataset");
+    //   console.log(res);
+    // })
     .then(res => {
       dispatch(fetchUploadedDataset(username));
     })
@@ -252,14 +249,13 @@ export const uploadDataset = (dataset, onUploadProgress, username) => (dispatch)
 
 // get the uploded dataset info when the uploading is done in the backend
 export const fetchUploadedDataset = (username) => (dispatch) => {
-  console.log("start add new datasets");
   return http.post('/newDataset', JSON.stringify(username), {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log(res)
+      //console.log(res)
       dispatch(addDataset(res.data));
     })
 };
@@ -277,11 +273,11 @@ export const deleteOneDataset = (datasetName, userName) => (dispatch) => {
     }
   })
     .then(res => {
-      console.log("this is response for delete dataset");
-      console.log(res);
+      // console.log("this is response for delete dataset");
+      // console.log(res);
       dispatch(removeOneDataset(res.data));
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 //query datasets
@@ -297,23 +293,22 @@ export const queryDatasets = (inputValue, userName) => (dispatch) => {
     }
   })
     .then(res => {
-      console.log("this is response for querying datasets");
-      console.log(res.data);
+      // console.log("this is response for querying datasets");
+      // console.log(res.data);
       dispatch(checkQueryDatasets(res.data))
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 export const downloadFile = (datasetName, downloadName, downloadType, username) => (dispatch) => {
-  console.log("start downloading");
   return http.post('/downloader', [datasetName, username, downloadType], {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log("this is response for downloading dataset");
-      console.log(res);
+      // console.log("this is response for downloading dataset");
+      // console.log(res);
       const element = document.createElement('a');
       const file = new Blob([res.data]);
 
@@ -334,7 +329,7 @@ export const fetchAllModels = () => (dispatch) => {
   return fetch(backendUrl + '/allmodels') // backend address: Localhost: 5000/datasetFiles
     .then(response => response.json()) // when the promise resolved, we convert the incoming response into JSON by calling response.json
     .then(models => dispatch(addAllModels(models))) // when the datasetFiles is obtained, we dispatch it into addDatasetFiles()
-    .then(data => console.log(data));
+    //.then(data => console.log(data));
 }
 
 export const addAllModels = (models) => ({
@@ -354,7 +349,7 @@ export const fetchModelFiles = (userName, isLoading = true) => (dispatch) => {
     }
   }) // backend address: Localhost: 5000/modelFiles
     .then(res => {
-      console.log(res)
+      //console.log(res)
       dispatch(addModelFiles(res.data))
     }) // when the modelFiles is obtained, we dispatch it into addModelFiles()
     //.catch((err) => console.log(err));
@@ -389,8 +384,8 @@ export const uploadModel = (model, onUploadProgress, username) => (dispatch) => 
     onUploadProgress,
   })
     .then(res => {
-      console.log("this is response model");
-      console.log(res);
+      // console.log("this is response model");
+      // console.log(res);
     })
     .then(res => {
       dispatch(fetchUploadedModel(username));
@@ -405,7 +400,7 @@ export const fetchUploadedModel = (username) => (dispatch) => {
     }
   })
     .then(model => {
-      console.log(model)
+      //console.log(model)
       dispatch(addModel(model.data));
     })
 };
@@ -422,33 +417,33 @@ export const editOneModelDescription = (modelName, description) => ({
 
 // pass the filename to the backend server and tell it to delete corresponding model
 export const deleteOneModel = (modelName, userName) => (dispatch) => {
-  console.log("delete model: ", [modelName])
+  //console.log("delete model: ", [modelName])
   return http.post('/delete-model', JSON.stringify([modelName, userName]), {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log("this is response for delete model");
-      console.log(res);
+      // console.log("this is response for delete model");
+      // console.log(res);
       dispatch(removeOneModel(res.data));
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 export const editModelDescription = (modelName, description, userName) => (dispatch) => {
-  console.log("edit user name: ", userName)
+  //console.log("edit user name: ", userName)
   return http.post('/edit-model-desc', JSON.stringify({ modelName, description, userName }), {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log("this is response for edit model");
-      console.log(res);
+      // console.log("this is response for edit model");
+      // console.log(res);
       dispatch(editOneModelDescription(modelName, description));
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 export const checkQueryALLModels = (models) => ({
@@ -457,18 +452,17 @@ export const checkQueryALLModels = (models) => ({
 });
 
 export const queryAllModels = (inputValue) => (dispatch) => {
-  console.log("start query all models");
   return http.post('/query-all-models', JSON.stringify(inputValue), {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log("this is response for querying all models");
-      console.log(res.data);
+      // console.log("this is response for querying all models");
+      // console.log(res.data);
       dispatch(checkQueryALLModels(res.data))
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 //query datasets
@@ -478,18 +472,17 @@ export const checkQueryModels = (models) => ({
 });
 
 export const queryModels = (inputValue, userName) => (dispatch) => {
-  console.log("start query models");
   return http.post('/query-models', JSON.stringify([inputValue, userName]), {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log("this is response for querying models");
-      console.log(res.data);
+      // console.log("this is response for querying models");
+      // console.log(res.data);
       dispatch(checkQueryModels(res.data))
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 
@@ -505,11 +498,11 @@ export const submitMetadata = (metadata) => (dispatch) => {
     }
   })
     .then(res => {
-      console.log("this is response for metadata");
-      console.log(res);
+      // console.log("this is response for metadata");
+      // console.log(res);
       dispatch(addMetadata(res.data));
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 };
 
 export const addMetadata = (metadata) => ({
@@ -544,15 +537,14 @@ export const allMetadataLoading = () => ({
  * Detailed data
  */
 export const sendNameForDetailedData = (datasetName, userName) => (dispatch) => {
-  console.log("start detailed loading");
   return http.post('/detailedData-name', JSON.stringify([datasetName, userName]), {
     headers: {
       "Content-Type": "multipart/form-data",
     }
   })
     .then(res => {
-      console.log("this is response for detailed data");
-      console.log(res.data);
+      // console.log("this is response for detailed data");
+      // console.log(res.data);
       dispatch(addDetailedData(res.data[0]));
       dispatch(addMetadata(res.data[1]));
 
@@ -561,7 +553,7 @@ export const sendNameForDetailedData = (datasetName, userName) => (dispatch) => 
       const briefInfo_datasetName = [datasetName, briefInfo];
       dispatch(modifyBriefInfo(briefInfo_datasetName));
     })
-    .catch((err) => console.log(err));
+    //.catch((err) => console.log(err));
 }
 
 export const modifyBriefInfo = (briefInfo_datasetName) => ({
@@ -608,13 +600,10 @@ export const addUmatrixDatasets = (UmatrixDatasets) => ({
 });
 
 export const cleanUmatrixDatasets = () => (dispatch) => {
-  console.log("start clean umatrix");
   dispatch(addUmatrixDatasets([]))
 }
 
 export const getUMatrixDatasets = (modelname, username) => (dispatch) => {
-  console.log("start umatrix datasets");
-  //dispatch(bindedDatasetsLoading(true));
 
   return http.post('/get-umatrixDatasets', [modelname, username], {
     headers: {
@@ -622,8 +611,8 @@ export const getUMatrixDatasets = (modelname, username) => (dispatch) => {
     }
   })
     .then(res => {
-      console.log("this is response for bindedDatasets");
-      console.log(res);
+      // console.log("this is response for bindedDatasets");
+      // console.log(res);
       dispatch(addUmatrixDatasets(res.data))
     });
 

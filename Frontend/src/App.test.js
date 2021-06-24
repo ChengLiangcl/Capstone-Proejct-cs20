@@ -1,6 +1,6 @@
-import { unmountComponentAtNode } from "react-dom";
+import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
-import { render, screen, within, fireEvent } from "@testing-library/react";
+import { screen, within, fireEvent } from "@testing-library/react";
 import '@testing-library/jest-dom';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -13,7 +13,11 @@ import React from "react";
 import userEvent from "@testing-library/user-event";
 import http from "./server/baseUrl";
 import Login from "./components/login";
+import LoginContainner from "./components/LoginComponent";
+import Sidebar from './components/SidebarComponent';
 import Main from './components/MainComponent';
+import ConnectionUpload from './components/ConnectionUploading';
+import ForgetPassword from "./components/ForgetPasswordComponent";
 import Database from './components/DatabaseComponent';
 import SOMModel from './components/ModelComponent';
 import AllDataset from './components/AlldatasetsComponent';
@@ -322,19 +326,29 @@ describe("my datasets", () => {
       expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets");
     });
 
-    // it("should show for a successful uploading", () => {
-    //   const mock = jest.spyOn(comp, 'remove');
-    //   const file = [new File(['hello'], 'hello.png', { type: 'image/png' })];
-    //   const input = component.find('input');
-    //   input.simulate('change', { target: { value: file } });
-    //   input = component.find('input');
-    //   //expect(input.props().value).toEqual(10);
+    it("should show for a successful selecting files", () => {
+      const files = [
+        new File(['hello'], 'hello.png', { type: 'image/png' }),
+        new File(["foo"], "foo.txt", { type: "text/plain", })
+      ];
+      const input = component.find('input');
+      input.simulate('change', { target: { files: files } });
+      expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets");
+    });
 
-    //   //component.props().readFileAsDataURL(file);
-    //   expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets");
-    // })
+    it("should show for a successful uploading files", () => {
+
+      const files = [
+        new File(['hello'], 'hello.png', { type: 'image/png' }),
+        new File(["foo"], "foo.txt", { type: "text/plain", })
+      ];
+
+      const uploadBtn = component.find('.upload-btn');
+      uploadBtn.simulate('click');
+      expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets");
+      expect(component.find('.progress-bar').prop("value")).toBe(0);
+    });
   });
-
 });
 
 
@@ -510,241 +524,484 @@ describe("my model", () => {
     });
   });
 
+  describe('FileUploadField', () => {
+    const component = shallow(<ConnectionUpload connectionFiles={["this is for a uploaded model", ["this is for uploaded datasets"]]} />);
+    const instance = component.instance();
+
+    it('should render a label and a file input field', () => {
+      expect(component.find('input[type="file"]')).toBeTruthy();
+      expect(component.find('label')).toBeTruthy();
+    });
+
+    it('should render a card for uploading info', () => {
+      expect(component.find(".uploading-info")).toBeTruthy();
+      expect(component.find('h5')).toBeTruthy();
+      expect(component.find('strong')).toBeTruthy();
+      expect(component.find('#model-info').text()).toBeTruthy();
+      expect(component.find('#dataset-info').text()).toBeTruthy();
+    });
+
+    it('should not show preview if no file has been selected', () => {
+      expect(component.find('p')).toBeTruthy();
+    });
+
+    it('should show initial uploading message', () => {
+      expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets.");
+    });
+
+    it("should show for a successful selecting model", () => {
+
+      const files = [
+        new File(['hello'], 'hello.png', { type: 'image/png' }),
+        new File(["foo"], "foo.txt", { type: "text/plain", })
+      ];
+      const modelInput = component.find('input.model-upload');
+      modelInput.simulate('change', { target: { files: files } });
+      expect(component.find('.uploading-notice-model').text()).toBe("Please upload your model.");
+    });
+
+    it("should show for a successful selecting datasets", () => {
+
+      const files = [
+        new File(['hello'], 'hello.png', { type: 'image/png' }),
+        new File(["foo"], "foo.txt", { type: "text/plain", })
+      ];
+      const datasetInput = component.find('.dataset-upload');
+      datasetInput.simulate('change', { target: { files: files } });
+      expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets.");
+    });
+
+    it("should show for a successful uploading files", () => {
+
+      const files = [
+        new File(['hello'], 'hello.png', { type: 'image/png' }),
+        new File(["foo"], "foo.txt", { type: "text/plain", })
+      ];
+
+      const uploadBtn = component.find('.upload-btn');
+      uploadBtn.simulate('click');
+      expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets.");
+
+    });
+  });
+
 });
 
 /* ======================= User Registration & Login ======================= */
 //https://ovpv.me/unit-testing-functional-components-jest-enzyme/
-// describe("user", () => {
-//   describe("signup", () => {
-//     describe("signup component render", () => {
-//       let username, password, confirmPassword, question, answer, signUpButton;
+describe("user", () => {
+  describe("signup", () => {
+    describe("signup component render", () => {
+      let username, password, confirmPassword, question, answer, signUpButton;
 
-//       beforeEach(() => {
-//         act(() => {
-//           render((
-//               <Provider store={store}>
-//                 <MemoryRouter>
-//                   <Signup />
-//                 </MemoryRouter>
-//               </Provider>
-//           ), container);
-//         });
-//         username = container.querySelector("#outlined-email-input")
-//         password = container.querySelector("#outlined-password-input")
-//         confirmPassword = container.querySelector("#outlined-confirmpassword-input")
-//         question = container.querySelector("#outlined-question-input")
-//         answer = container.querySelector("#outlined-answer-input")
-//         signUpButton = container.querySelector("#outlined-signup-button")
-//       });
+      beforeEach(() => {
+        act(() => {
+          render((
+            <Provider store={store}>
+              <MemoryRouter>
+                <Signup />
+              </MemoryRouter>
+            </Provider>
+          ), container);
+        });
+        username = container.querySelector("#outlined-email-input")
+        password = container.querySelector("#outlined-password-input")
+        confirmPassword = container.querySelector("#outlined-confirmpassword-input")
+        question = container.querySelector("#outlined-question-input")
+        answer = container.querySelector("#outlined-answer-input")
+        signUpButton = container.querySelector("#outlined-signup-button")
+      });
 
-//       afterEach(() => {
-//         username.remove();
-//         password.remove();
-//         confirmPassword.remove();
-//         question.remove();
-//         answer.remove();
-//         signUpButton.remove();
-//         username = undefined;
-//         password = undefined;
-//         confirmPassword = undefined;
-//         question = undefined;
-//         answer = undefined;
-//         signUpButton = undefined;
-//       });
+      afterEach(() => {
+        username.remove();
+        password.remove();
+        confirmPassword.remove();
+        question.remove();
+        answer.remove();
+        signUpButton.remove();
+        username = undefined;
+        password = undefined;
+        confirmPassword = undefined;
+        question = undefined;
+        answer = undefined;
+        signUpButton = undefined;
+      });
 
-//       it("should contain all sign up input text field and submit button", () => {
-//         expect(username).not.toBeNull();
-//         expect(password).not.toBeNull();
-//         expect(confirmPassword).not.toBeNull();
-//         expect(question).not.toBeNull();
-//         expect(answer).not.toBeNull();
-//         expect(answer).not.toBeNull();
-//       });
+      it("should contain all sign up input text field and submit button", () => {
+        expect(username).not.toBeNull();
+        expect(password).not.toBeNull();
+        expect(confirmPassword).not.toBeNull();
+        expect(question).not.toBeNull();
+        expect(answer).not.toBeNull();
+        expect(answer).not.toBeNull();
+      });
 
-//       it("sign up without username", async () => {
-//         userEvent.type(password, '12345678');
-//         userEvent.type(confirmPassword, '12345678');
-//         userEvent.type(question, 'What is your mother name');
-//         userEvent.type(answer, 'Julie');
+      it("sign up without username", async () => {
+        userEvent.type(password, '12345678');
+        userEvent.type(confirmPassword, '12345678');
+        userEvent.type(question, 'What is your mother name');
+        userEvent.type(answer, 'Julie');
 
-//         await act(async () => {
-//           signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(username.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-//       });
+        expect(username.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+      });
 
-//       it("sign up without password", async () => {
-//         userEvent.type(username, 'jack');
-//         userEvent.type(confirmPassword, '12345678');
-//         userEvent.type(question, 'What is your mother name');
-//         userEvent.type(answer, 'Julie');
+      it("sign up without password", async () => {
+        userEvent.type(username, 'jack');
+        userEvent.type(confirmPassword, '12345678');
+        userEvent.type(question, 'What is your mother name');
+        userEvent.type(answer, 'Julie');
 
-//         await act(async () => {
-//           signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(password.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-//       });
+        expect(password.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+      });
 
-//       it("sign up with the password less than 8 digits", async () => {
-//         userEvent.type(username, 'John');
-//         userEvent.type(password, 'abc');
-//         userEvent.type(confirmPassword, 'abc');
-//         userEvent.type(question, 'What is your mother name');
-//         userEvent.type(answer, 'Julie');
+      it("sign up with the password less than 8 digits", async () => {
+        userEvent.type(username, 'John');
+        userEvent.type(password, 'abc');
+        userEvent.type(confirmPassword, 'abc');
+        userEvent.type(question, 'What is your mother name');
+        userEvent.type(answer, 'Julie');
 
-//         await act(async () => {
-//           signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(password.parentNode.nextSibling.innerHTML).toMatch(/The password length should be at least 8 digits/);
-//       });
+        expect(password.parentNode.nextSibling.innerHTML).toMatch(/The password length should be at least 8 digits/);
+      });
 
-//       it("sign up without confirm password", async () => {
-//         userEvent.type(username, 'John');
-//         userEvent.type(password, 'qazwsxedc');
-//         userEvent.type(question, 'What is your mother name');
-//         userEvent.type(answer, 'Julie');
+      it("sign up without confirm password", async () => {
+        userEvent.type(username, 'John');
+        userEvent.type(password, 'qazwsxedc');
+        userEvent.type(question, 'What is your mother name');
+        userEvent.type(answer, 'Julie');
 
-//         await act(async () => {
-//           signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(confirmPassword.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-//       });
+        expect(confirmPassword.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+      });
 
-//       it("sign up with confirm password not matched password", async () => {
-//         userEvent.type(username, 'John');
-//         userEvent.type(password, 'qazwsxedc');
-//         userEvent.type(confirmPassword, 'abcdfsdf');
-//         userEvent.type(question, 'What is your mother name');
-//         userEvent.type(answer, 'Julie');
+      it("sign up with confirm password not matched password", async () => {
+        userEvent.type(username, 'John');
+        userEvent.type(password, 'qazwsxedc');
+        userEvent.type(confirmPassword, 'abcdfsdf');
+        userEvent.type(question, 'What is your mother name');
+        userEvent.type(answer, 'Julie');
 
-//         await act(async () => {
-//           signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(confirmPassword.parentNode.nextSibling.innerHTML).toMatch(/Password not matched/);
-//       });
+        expect(confirmPassword.parentNode.nextSibling.innerHTML).toMatch(/Password not matched/);
+      });
 
-//       it("sign up without answer", async () => {
-//         userEvent.type(username, 'John');
-//         userEvent.type(password, 'qazwsxedc');
-//         userEvent.type(confirmPassword, 'qazwsxedc');
-//         userEvent.type(question, 'What is your mother name');
+      it("sign up without answer", async () => {
+        userEvent.type(username, 'John');
+        userEvent.type(password, 'qazwsxedc');
+        userEvent.type(confirmPassword, 'qazwsxedc');
+        userEvent.type(question, 'What is your mother name');
 
-//         await act(async () => {
-//           signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          signUpButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(answer.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-//       });
+        expect(answer.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+      });
 
-//       it("sign up request backend API", async () => {
-//         const body = {
-//           email: 'John_' + Math.ceil(Math.random() * 99999999),
-//           password: '12345678',
-//           confirmpassword: '12345678',
-//           question: 'What is your mother name',
-//           answer: 'test name'
-//         };
-//         const response = await http.post('/sign-up', JSON.stringify(body));
-//         expect(response.status).toBe(200);
-//         expect(response.data).toBe("Add Sucessfully");
-//       });
+      it("sign up request backend API", async () => {
+        const body = {
+          email: 'John_' + Math.ceil(Math.random() * 99999999),
+          password: '12345678',
+          confirmpassword: '12345678',
+          question: 'What is your mother name',
+          answer: 'test name'
+        };
+        const response = await http.post('/sign-up', JSON.stringify(body));
+        expect(response.status).toBe(200);
+        expect(response.data).toBe("Add Sucessfully");
+      });
 
-//       it("sign up with duplicate username", async () => {
-//         const body = {
-//           email: 'John',
-//           password: '12345678',
-//           confirmpassword: '12345678',
-//           question: 'What is your mother name',
-//           answer: 'test name'
-//         };
-//         const response = await http.post('/sign-up', JSON.stringify(body));
-//         expect(response.status).toBe(200);
-//         expect(response.data).toBe("username already exist");
-//       });
-//     });
-//   });
+      it("sign up with duplicate username", async () => {
+        const body = {
+          email: 'John',
+          password: '12345678',
+          confirmpassword: '12345678',
+          question: 'What is your mother name',
+          answer: 'test name'
+        };
+        const response = await http.post('/sign-up', JSON.stringify(body));
+        expect(response.status).toBe(200);
+        expect(response.data).toBe("username already exist");
+      });
+    });
+  });
 
-//   describe("login", () => {
-//     describe("login component render", () => {
-//       let username, password, loginButton;
+  describe("login", () => {
+    describe("login component render", () => {
+      let username, password, loginButton;
 
-//       beforeEach(() => {
-//         act(() => {
-//           render((
-//               <Provider store={store}>
-//                 <MemoryRouter>
-//                   <Login />
-//                 </MemoryRouter>
-//               </Provider>
-//           ), container);
-//         });
-//         username = container.querySelector("#outlined-search")
-//         password = container.querySelector("#outlined-password-input")
-//         loginButton = container.querySelector("#outlined-login-button")
-//       });
+      beforeEach(() => {
+        act(() => {
+          render((
+            <Provider store={store}>
+              <MemoryRouter>
+                <Login />
+              </MemoryRouter>
+            </Provider>
+          ), container);
+        });
+        username = container.querySelector("#outlined-search")
+        password = container.querySelector("#outlined-password-input")
+        loginButton = container.querySelector("#outlined-login-button")
+      });
 
-//       afterEach(() => {
-//         username.remove();
-//         password.remove();
-//         loginButton.remove();
-//         username = undefined;
-//         password = undefined;
-//         loginButton = undefined;
-//       });
+      afterEach(() => {
+        username.remove();
+        password.remove();
+        loginButton.remove();
+        username = undefined;
+        password = undefined;
+        loginButton = undefined;
+      });
 
-//       it("should contain all login input text field and submit button", () => {
-//         expect(username).not.toBeNull();
-//         expect(password).not.toBeNull();
-//         expect(loginButton).not.toBeNull();
-//       });
+      it("should contain all login input text field and submit button", () => {
+        expect(username).not.toBeNull();
+        expect(password).not.toBeNull();
+        expect(loginButton).not.toBeNull();
+      });
 
-//       it("login without username", async () => {
-//         userEvent.type(password, '12345678');
+      it("login without username", async () => {
+        userEvent.type(password, '12345678');
 
-//         await act(async () => {
-//           loginButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          loginButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(username.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-//       });
+        expect(username.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+      });
 
-//       it("login without password", async () => {
-//         userEvent.type(username, 'John');
+      it("login without password", async () => {
+        userEvent.type(username, 'John');
 
-//         await act(async () => {
-//           loginButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-//         });
+        await act(async () => {
+          loginButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-//         expect(password.parentNode.nextSibling.innerHTML).toMatch(/Required/);
-//       });
+        expect(password.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+      });
 
-//       it("login with invalid username or password", async () => {
-//         const body = {
-//           username: 'John',
-//           password: 'errorpassword',
-//         };
-//         const response = await http.post('/login', JSON.stringify(body));
-//         expect(response.status).toBe(200);
-//         expect(response.data).toBe("Invalid login credentials");
-//       });
+      it("login with invalid username or password", async () => {
+        const body = {
+          username: 'John',
+          password: 'errorpassword',
+        };
+        const response = await http.post('/login', JSON.stringify(body));
+        expect(response.status).toBe(200);
+        expect(response.data).toBe("Invalid login credentials");
+      });
 
-//       it("login with correct invalid username or password", async () => {
-//         const body = {
-//           username: 'John',
-//           password: '12345678',
-//         };
-//         const response = await http.post('/login', JSON.stringify(body));
-//         expect(response.status).toBe(200);
-//         expect(response.data).toBe("John");
-//       });
-//     });
-//   });
-// });
+      it("login with correct invalid username or password", async () => {
+        const body = {
+          username: 'John',
+          password: '12345678',
+        };
+        const response = await http.post('/login', JSON.stringify(body));
+        expect(response.status).toBe(200);
+        expect(response.data).toBe("John");
+      });
+    });
+  });
+
+  describe("loginContainer", () => {
+    const loginWrapper = shallow(<LoginContainner />);
+
+    it("should show tabs for log in and sign up after mounting", () => {
+      expect(loginWrapper.find('#simple-tabpanel-0')).toBeTruthy();
+      expect(loginWrapper.find('#simple-tabpanel-1')).toBeTruthy();
+      expect(loginWrapper.find(Login)).toBeTruthy();
+      expect(loginWrapper.find(Signup)).toBeTruthy();
+    });
+  })
+
+    describe("forget password", () => {
+      describe("forget password component render", () => {
+        let username, password, confirmPassword, question, answer, submitButton, backToLogin;
+
+        beforeEach(() => {
+          act(() => {
+            render((
+              <Provider store={store}>
+                <MemoryRouter>
+                  <ForgetPassword />
+                </MemoryRouter>
+              </Provider>
+            ), container);
+          });
+          username = container.querySelector("#outlined-search")
+          password = container.querySelector("#outlined-password-input")
+          confirmPassword = container.querySelector("#outlined-confirmpassword-input")
+          question = container.querySelector("#outlined-question-input")
+          answer = container.querySelector("#outlined-answer-input")
+          submitButton = container.querySelector("#outlined-submit-button")
+          backToLogin = container.querySelector("#outlined-back-button")
+        });
+
+        afterEach(() => {
+          username.remove();
+          password.remove();
+          confirmPassword.remove();
+          question.remove();
+          answer.remove();
+          submitButton.remove();
+          backToLogin.remove();
+          username = undefined;
+          password = undefined;
+          confirmPassword = undefined;
+          question = undefined;
+          answer = undefined;
+          submitButton = undefined;
+          backToLogin = undefined;
+        });
+
+        it("should contain all sign up input text field and submit button", () => {
+          expect(username).not.toBeNull();
+          expect(password).not.toBeNull();
+          expect(confirmPassword).not.toBeNull();
+          expect(question).not.toBeNull();
+          expect(answer).not.toBeNull();
+          expect(answer).not.toBeNull();
+        });
+
+        it("sign up without username", async () => {
+          userEvent.type(password, '12345678');
+          userEvent.type(confirmPassword, '12345678');
+          userEvent.type(question, 'What is your mother name');
+          userEvent.type(answer, 'Julie');
+
+          await act(async () => {
+            submitButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          });
+
+          expect(username.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+        });
+
+        it("sign up without password", async () => {
+          userEvent.type(username, 'jack');
+          userEvent.type(confirmPassword, '12345678');
+          userEvent.type(question, 'What is your mother name');
+          userEvent.type(answer, 'Julie');
+
+          await act(async () => {
+            submitButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          });
+
+          expect(password.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+        });
+
+        it("sign up with the password less than 8 digits", async () => {
+          userEvent.type(username, 'John');
+          userEvent.type(password, 'abc');
+          userEvent.type(confirmPassword, 'abc');
+          userEvent.type(question, 'What is your mother name');
+          userEvent.type(answer, 'Julie');
+
+          await act(async () => {
+            submitButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          });
+
+          expect(password.parentNode.nextSibling.innerHTML).toMatch(/The password length should be at least 8 digits/);
+        });
+
+        it("sign up without confirm password", async () => {
+          userEvent.type(username, 'John');
+          userEvent.type(password, 'qazwsxedc');
+          userEvent.type(question, 'What is your mother name');
+          userEvent.type(answer, 'Julie');
+
+          await act(async () => {
+            submitButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          });
+
+          expect(confirmPassword.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+        });
+
+        it("sign up with confirm password not matched password", async () => {
+          userEvent.type(username, 'John');
+          userEvent.type(password, 'qazwsxedc');
+          userEvent.type(confirmPassword, 'abcdfsdf');
+          userEvent.type(question, 'What is your mother name');
+          userEvent.type(answer, 'Julie');
+
+          await act(async () => {
+            submitButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          });
+
+          expect(confirmPassword.parentNode.nextSibling.innerHTML).toMatch(/Password not matched/);
+        });
+
+        it("sign up without answer", async () => {
+          userEvent.type(username, 'John');
+          userEvent.type(password, 'qazwsxedc');
+          userEvent.type(confirmPassword, 'qazwsxedc');
+          userEvent.type(question, 'What is your mother name');
+
+          await act(async () => {
+            submitButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          });
+
+          expect(answer.parentNode.nextSibling.innerHTML).toMatch(/Required/);
+        });
+
+        it("sign up request backend API", async () => {
+          const body = {
+            email: 'John_' + Math.ceil(Math.random() * 99999999),
+            password: '12345678',
+            confirmpassword: '12345678',
+            question: 'What is your mother name',
+            answer: 'test name'
+          };
+          const response = await http.post('/sign-up', JSON.stringify(body));
+          expect(response.status).toBe(200);
+          expect(response.data).toBe("Add Sucessfully");
+        });
+
+        it("sign up with duplicate username", async () => {
+          const body = {
+            email: 'John',
+            password: '12345678',
+            confirmpassword: '12345678',
+            question: 'What is your mother name',
+            answer: 'test name'
+          };
+          const response = await http.post('/sign-up', JSON.stringify(body));
+          expect(response.status).toBe(200);
+          expect(response.data).toBe("username already exist");
+        });
+      });
+    });
+});
+
+/**=======================Visualisation======================================= */
+
+/**======================= Side bar ==================================== */
+// describe("side bar component", () => {
+
+//   it("should render all elements needed", () => {
+//     act(() => {
+//       render((
+//         <Sidebar />
+//       ), container);
+//     })
+//   })
+//});
 
 
 // /* ======================= Model ======================= */
@@ -821,10 +1078,3 @@ describe("my model", () => {
 //     });
 //   });
 // });
-
-
-/*
-https://reactjs.org/docs/testing-recipes.html
-https://create-react-app.dev/docs/running-tests/
-https://jestjs.io/docs/tutorial-react
-*/

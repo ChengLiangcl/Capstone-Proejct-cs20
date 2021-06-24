@@ -23,28 +23,25 @@ function DatasetUpload(props) {
         for (let file of files) {
             let message = '';
 
-            const acceptedDatasetArray = file.name.split(".");
             let reader = new FileReader();
-            console.log("file name: ", file.name);
             reader.onloadend = () => {
                 let lines = reader.result.split('\n');
-                console.log("check lines: ", lines);
                 try {
                     const firstRow = lines[0].trim().split(" ");
                     const secondRow = lines[1].trim().split(" ");
-                    console.log(`file name: ${file.name}, first row length: ${firstRow.length}, second row length: ${secondRow.length}`);
+                    //console.log(`file name: ${file.name}, first row length: ${firstRow.length}, second row length: ${secondRow.length}`);
 
                     if (firstRow.length !== secondRow.length) {
                         // check if it is a text format file
                         if (firstRow.length === 1) {
-                            console.log("first row len 1");
+                            //console.log("first row len 1");
                             let line_check_first = parseFloat(firstRow[0]);
                             message = Number.isNaN(line_check_first) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
                             datasetMessage += message;
                             setDatasetFail(datasetMessage);
                         }
-                        else if (firstRow.length === 2){
-                            console.log("first row len 2");
+                        else if (firstRow.length === 2) {
+                            //console.log("first row len 2");
                             let line_check_first = parseFloat(firstRow[0]);
                             let line_check_second = parseFloat(firstRow[1]);
                             message = Number.isNaN(line_check_first) || Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
@@ -52,21 +49,21 @@ function DatasetUpload(props) {
                             setDatasetFail(datasetMessage);
                         }
                         else {
-                            console.log("first row len not 1");
+                            //console.log("first row len not 1");
                             message = `# Could not upload ${file.name}. `;
                             datasetMessage += message;
                             setDatasetFail(datasetMessage);
                         }
                     }
                     else {
-                        if (firstRow.length !== 1){
+                        if (firstRow.length !== 1) {
                             const checkLine = firstRow.slice(0, firstRow.length - 1).map(elem => Number.isNaN(parseFloat(elem)) ? "noUpdate" : "update");
                             message = checkLine.includes("noUpdate") ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
                             datasetMessage += message;
                             setDatasetFail(datasetMessage);
                         }
-                        else{
-                            console.log("second row len 1");
+                        else {
+                            //console.log("second row len 1");
                             let line_check_first = parseFloat(firstRow[0]);
                             let line_check_second = parseFloat(firstRow[1]);
                             message = Number.isNaN(line_check_first) || Number.isNaN(line_check_second) ? `# Could not upload ${file.name}. ` : `# ${file.name} uploaded successfully!  `;
@@ -122,22 +119,24 @@ function DatasetUpload(props) {
         setCurrentFile(selectedFiles);
 
         // 'props.uploadDataset' is from Redux actionCreators, which is used to post the uploaded dataset to the backend server
-        props.uploadDataset(formData, (event) => {
-            setProgress(Math.round((100 * event.loaded) / event.total));
-        }, sessionStorage.getItem('verifiedUsername'))
-            .then((response) => {
-                setMessage("Uploaded successfully");
-            })
-            .catch(() => {
-                setProgress(0);
-                setMessage(dataset_message);
-            });
+        if (props.uploadDataset) {
+            props.uploadDataset(formData, (event) => {
+                setProgress(Math.round((100 * event.loaded) / event.total));
+            }, sessionStorage.getItem('verifiedUsername'))
+                .then((response) => {
+                    setMessage("Uploaded successfully");
+                })
+                .catch(() => {
+                    setProgress(0);
+                    setMessage(dataset_message);
+                });
+        }
     };
 
     return (
         <Container>
             <div>
-                {currentFile && (<Progress animated value={progress} max="100">{progress}%</Progress>)}
+                {currentFile && (<Progress className="progress-bar" animated value={progress} max="100">{progress}%</Progress>)}
             </div>
 
             {/** datasets */}
@@ -156,7 +155,7 @@ function DatasetUpload(props) {
                 </Col>
 
                 <Col>
-                    <Button
+                    <Button className="upload-btn"
                         data-testid="upload-dataset-btn"
                         style={{ backgroundColor: "#378CC6" }}
                         disabled={!selectedFiles}

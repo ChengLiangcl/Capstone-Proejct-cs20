@@ -34,6 +34,11 @@ jobs:
       run: |
         cd Frontend
         npm install
+    
+    - name: Open the backend
+      run: |
+        cd Backend
+        python app.py
 
     - name: Run the tests and generate coverage report
       run: |

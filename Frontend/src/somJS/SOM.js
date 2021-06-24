@@ -224,3 +224,10 @@ async function getSOM(model) {
 }
 
 export { getSOM, Node }
+
+export const testables = {
+  getVectorGrid: getVectorGrid,
+  constructSOM: constructSOM,
+  SOM: SOM,
+  Node: Node
+}

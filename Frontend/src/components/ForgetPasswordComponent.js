@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {Grid, Paper, Typography} from '@material-ui/core';
+import { Grid, Paper, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {Formik, Field, Form, ErrorMessage} from 'formik';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import {questions} from '../others/constants'
+import { questions } from '../others/constants'
 
 import {
   passwordChange
 } from '../redux/ActionCreators';
-import {connect} from "react-redux";
-import {Link, withRouter} from "react-router-dom";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import {Col, Modal, ModalBody, ModalHeader, Row} from "reactstrap";
+import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
 
 const mapStateToProps = state => {
   return {
@@ -23,13 +23,13 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  passwordChange: (data,cb) => {
-    dispatch(passwordChange(data,cb))
+  passwordChange: (data, cb) => {
+    dispatch(passwordChange(data, cb))
   },
 });
 
-const ForgetPassword = ({handleChange, ...props}) => {
-  const paperStyle = {width: 340,textAlign:'center', padding: 20, height: '70vh auto', margin: "10vh auto 0"}
+const ForgetPassword = ({ handleChange, ...props }) => {
+  const paperStyle = { width: 340, textAlign: 'center', padding: 20, height: '70vh auto', margin: "10vh auto 0" }
   let myStyle = {
     color: '#6495ED',
     fontSize: '48px',
@@ -68,7 +68,7 @@ const ForgetPassword = ({handleChange, ...props}) => {
   };
   const onSubmit = (values) => {
     console.log(values);
-    props.passwordChange(values,(res)=>{
+    props.passwordChange(values, (res) => {
       console.log(res);
       setModalContent(res.toString())
       setModal(true)
@@ -86,80 +86,82 @@ const ForgetPassword = ({handleChange, ...props}) => {
               <div>
                 <div style={username}>
                   <Field as={TextField}
-                         id="outlined-search"
-                         label="username"
-                         name="username"
-                         type="search"
-                         helperText={
-                           <ErrorMessage name="username">
-                           {msg => <div style={{color: 'red'}}>{msg}</div>}
-                           </ErrorMessage>
-                         }
-                         variant="outlined"/>
+                    id="outlined-search"
+                    label="username"
+                    name="username"
+                    type="search"
+                    helperText={
+                      <ErrorMessage name="username">
+                        {msg => <div style={{ color: 'red' }}>{msg}</div>}
+                      </ErrorMessage>
+                    }
+                    variant="outlined" />
                 </div>
 
                 <div>
                   <Field as={TextField}
-                         id="outlined-password-input"
-                         label="Password"
-                         name="password"
-                         type="password"
-                         autoComplete="current-password"
-                         helperText={
-                           <ErrorMessage name="password">
-                           {msg => <div style={{color: 'red'}}>{msg}</div>}
-                           </ErrorMessage>
-                         }
-                         variant="outlined"/>
+                    id="outlined-password-input"
+                    label="Password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    helperText={
+                      <ErrorMessage name="password">
+                        {msg => <div style={{ color: 'red' }}>{msg}</div>}
+                      </ErrorMessage>
+                    }
+                    variant="outlined" />
                 </div>
                 <div style={username}>
                   <Field as={TextField}
-                         id="outlined-confirmpassword-input"
-                         name="confirmpassword"
-                         label="confirm password"
-                         type="password"
-                         autoComplete="current-password"
-                         helperText={
-                           <ErrorMessage name="confirmpassword">
-                             {msg => <div style={{color: 'red'}}>{msg}</div>}
-                           </ErrorMessage>
-                         }
-                         variant="outlined"/>
+                    id="outlined-confirmpassword-input"
+                    name="confirmpassword"
+                    label="confirm password"
+                    type="password"
+                    autoComplete="current-password"
+                    helperText={
+                      <ErrorMessage name="confirmpassword">
+                        {msg => <div style={{ color: 'red' }}>{msg}</div>}
+                      </ErrorMessage>
+                    }
+                    variant="outlined" />
                 </div>
 
                 <div style={username}>
-                  <Field as={(props)=><Select style={{width:195}} {...props}>
-                    {questions.map(item=> <MenuItem value={item}>{item}</MenuItem>)}
+                  <Field as={(props) => <Select style={{ width: 195 }} {...props}>
+                    {questions.map(item => <MenuItem value={item}>{item}</MenuItem>)}
                   </Select>}
-                         name="question"
-                         label="question"
-                         helperText={
-                           <ErrorMessage name="question">
-                             {msg => <div style={{color: 'red'}}>{msg}</div>}
-                           </ErrorMessage>
-                         }
-                         variant="outlined"/>
+                    id="outlined-question-input"
+                    name="question"
+                    label="question"
+                    helperText={
+                      <ErrorMessage name="question">
+                        {msg => <div style={{ color: 'red' }}>{msg}</div>}
+                      </ErrorMessage>
+                    }
+                    variant="outlined" />
                 </div>
                 <div style={username}>
                   <Field as={TextField}
-                         id="outlined-answer-input"
-                         name="answer"
-                         label="answer"
-                         helperText={
-                           <ErrorMessage name="answer">
-                             {msg => <div style={{color: 'red'}}>{msg}</div>}
-                           </ErrorMessage>
-                         }
-                         variant="outlined"/>
+                    id="outlined-answer-input"
+                    name="answer"
+                    label="answer"
+                    helperText={
+                      <ErrorMessage name="answer">
+                        {msg => <div style={{ color: 'red' }}>{msg}</div>}
+                      </ErrorMessage>
+                    }
+                    variant="outlined" />
                 </div>
               </div>
-              <div style={button}>
-                <Button type="submit" variant="contained" color="primary" fullWidth>
+              <div style={button} className="btn">
+                <Button id="outlined-submit-button" type="submit" variant="contained" color="primary" fullWidth>
                   Submit
                 </Button>
-                <Link to={'/login'}> <Button type="submit" variant="contained" color="primary" fullWidth>
-                  Back to login
-                </Button></Link>
+                <Link to={'/login'}>
+                  <Button type="submit" id="outlined-back-button" variant="contained" color="primary" fullWidth>
+                    Back to login
+                  </Button></Link>
               </div>
             </Form>
           )}
@@ -176,7 +178,7 @@ const ForgetPassword = ({handleChange, ...props}) => {
               </Col>
             </Row>
           </ModalBody>
-      </Modal>
+        </Modal>
       </Paper>
     </Grid>
   )

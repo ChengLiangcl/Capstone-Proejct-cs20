@@ -19,8 +19,8 @@ const RenderDetailedData = ({ detailedData, isLoading, errMess }) => {
         );
     }
     else {
-        console.log("detailed data is:");
-        console.log(detailedData);
+        // console.log("detailed data is:");
+        // console.log(detailedData);
         const colName = Object.keys(detailedData[Object.keys(detailedData)[0]]);
         return (
             <Table striped>
@@ -132,8 +132,8 @@ const DetailedDataset = (props) => {
     //const FileName = localStorage.getItem('datasetname-detaileddata');
     const query = qs.parse(window.location.search.split('?')[1] || '')
     const FileName = query.fileName;
-    console.log("local get file name: ", FileName);
-    console.log("local get user name: ", query.userName);
+    // console.log("local get file name: ", FileName);
+    // console.log("local get user name: ", query.userName);
 
     useEffect(() => {
         if(props.sendNameForDetailedData){
