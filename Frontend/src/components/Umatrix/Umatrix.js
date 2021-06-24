@@ -243,75 +243,75 @@ class UMatrix extends Component {
         return (
             <div>
                 <div className="d-flex justify-content-between">
-                    <ButtonDropdown isOpen={this.state.minDropdownOpen} toggle={this.minToggle}>
+                    <ButtonDropdown id={'btn-drop-down'} isOpen={this.state.minDropdownOpen} toggle={this.minToggle}>
                         <DropdownToggle caret size="sm" style={{ backgroundColor: "white", color: "grey", border: "none" }}>
                             Minimum distance: {this.state.minDistance.toFixed(4)}
                         </DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem header>Color for minimum distance: </DropdownItem>
+                            <DropdownItem id={'drop-down-head'} header>Color for minimum distance: </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#ffffff' })}><FiberManualRecordIcon style={{ color: '#ffffff' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#000000' })}><FiberManualRecordIcon style={{ color: '#000000' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#ffffff' })}><FiberManualRecordIcon style={{ color: '#ffffff' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#000000' })}><FiberManualRecordIcon style={{ color: '#000000' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#E6B8AF' })}><FiberManualRecordIcon style={{ color: '#E6B8AF' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#F4CCCC' })}><FiberManualRecordIcon style={{ color: '#F4CCCC' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#FCE5CD' })}><FiberManualRecordIcon style={{ color: '#FCE5CD' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#FFF2CC' })}><FiberManualRecordIcon style={{ color: '#FFF2CC' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#D9EAD3' })}><FiberManualRecordIcon style={{ color: '#D9EAD3' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#D0E0E3' })}><FiberManualRecordIcon style={{ color: '#D0E0E3' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#C9DAF8' })}><FiberManualRecordIcon style={{ color: '#C9DAF8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#CFE2F3' })}><FiberManualRecordIcon style={{ color: '#CFE2F3' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#D9D2E9' })}><FiberManualRecordIcon style={{ color: '#D9D2E9' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#EAD1DC' })}><FiberManualRecordIcon style={{ color: '#EAD1DC' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#E6B8AF' })}><FiberManualRecordIcon style={{ color: '#E6B8AF' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#F4CCCC' })}><FiberManualRecordIcon style={{ color: '#F4CCCC' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#FCE5CD' })}><FiberManualRecordIcon style={{ color: '#FCE5CD' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#FFF2CC' })}><FiberManualRecordIcon style={{ color: '#FFF2CC' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#D9EAD3' })}><FiberManualRecordIcon style={{ color: '#D9EAD3' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#D0E0E3' })}><FiberManualRecordIcon style={{ color: '#D0E0E3' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#C9DAF8' })}><FiberManualRecordIcon style={{ color: '#C9DAF8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#CFE2F3' })}><FiberManualRecordIcon style={{ color: '#CFE2F3' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#D9D2E9' })}><FiberManualRecordIcon style={{ color: '#D9D2E9' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#EAD1DC' })}><FiberManualRecordIcon style={{ color: '#EAD1DC' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#DD7E6B' })}><FiberManualRecordIcon style={{ color: '#DD7E6B' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#EA9999' })}><FiberManualRecordIcon style={{ color: '#EA9999' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#F9CB9C' })}><FiberManualRecordIcon style={{ color: '#F9CB9C' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#FFE599' })}><FiberManualRecordIcon style={{ color: '#FFE599' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#B6D7A8' })}><FiberManualRecordIcon style={{ color: '#B6D7A8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#A2C4C9' })}><FiberManualRecordIcon style={{ color: '#A2C4C9' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#A4C2F4' })}><FiberManualRecordIcon style={{ color: '#A4C2F4' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#9FC5E8' })}><FiberManualRecordIcon style={{ color: '#9FC5E8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#B4A7D6' })}><FiberManualRecordIcon style={{ color: '#B4A7D6' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#D5A6BD' })}><FiberManualRecordIcon style={{ color: '#D5A6BD' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#DD7E6B' })}><FiberManualRecordIcon style={{ color: '#DD7E6B' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#EA9999' })}><FiberManualRecordIcon style={{ color: '#EA9999' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#F9CB9C' })}><FiberManualRecordIcon style={{ color: '#F9CB9C' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#FFE599' })}><FiberManualRecordIcon style={{ color: '#FFE599' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#B6D7A8' })}><FiberManualRecordIcon style={{ color: '#B6D7A8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#A2C4C9' })}><FiberManualRecordIcon style={{ color: '#A2C4C9' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#A4C2F4' })}><FiberManualRecordIcon style={{ color: '#A4C2F4' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#9FC5E8' })}><FiberManualRecordIcon style={{ color: '#9FC5E8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#B4A7D6' })}><FiberManualRecordIcon style={{ color: '#B4A7D6' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#D5A6BD' })}><FiberManualRecordIcon style={{ color: '#D5A6BD' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#A61C00' })}><FiberManualRecordIcon style={{ color: '#A61C00' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#CC0000' })}><FiberManualRecordIcon style={{ color: '#CC0000' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#E69138' })}><FiberManualRecordIcon style={{ color: '#E69138' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#F1C232' })}><FiberManualRecordIcon style={{ color: '#F1C232' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#6AA84F' })}><FiberManualRecordIcon style={{ color: '#6AA84F' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#45818E' })}><FiberManualRecordIcon style={{ color: '#45818E' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#3C78D8' })}><FiberManualRecordIcon style={{ color: '#3C78D8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#3D85C6' })}><FiberManualRecordIcon style={{ color: '#3D85C6' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#674EA7' })}><FiberManualRecordIcon style={{ color: '#674EA7' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#A64D79' })}><FiberManualRecordIcon style={{ color: '#A64D79' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#A61C00' })}><FiberManualRecordIcon style={{ color: '#A61C00' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#CC0000' })}><FiberManualRecordIcon style={{ color: '#CC0000' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#E69138' })}><FiberManualRecordIcon style={{ color: '#E69138' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#F1C232' })}><FiberManualRecordIcon style={{ color: '#F1C232' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#6AA84F' })}><FiberManualRecordIcon style={{ color: '#6AA84F' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#45818E' })}><FiberManualRecordIcon style={{ color: '#45818E' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#3C78D8' })}><FiberManualRecordIcon style={{ color: '#3C78D8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#3D85C6' })}><FiberManualRecordIcon style={{ color: '#3D85C6' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#674EA7' })}><FiberManualRecordIcon style={{ color: '#674EA7' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#A64D79' })}><FiberManualRecordIcon style={{ color: '#A64D79' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#85200C' })}><FiberManualRecordIcon style={{ color: '#85200C' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#990000' })}><FiberManualRecordIcon style={{ color: '#990000' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#B45F06' })}><FiberManualRecordIcon style={{ color: '#B45F06' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#BF9000' })}><FiberManualRecordIcon style={{ color: '#BF9000' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#38761D' })}><FiberManualRecordIcon style={{ color: '#38761D' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#134F5C' })}><FiberManualRecordIcon style={{ color: '#134F5C' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#1155CC' })}><FiberManualRecordIcon style={{ color: '#1155CC' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#0B5394' })}><FiberManualRecordIcon style={{ color: '#0B5394' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#351C75' })}><FiberManualRecordIcon style={{ color: '#351C75' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#741B47' })}><FiberManualRecordIcon style={{ color: '#741B47' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#85200C' })}><FiberManualRecordIcon style={{ color: '#85200C' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#990000' })}><FiberManualRecordIcon style={{ color: '#990000' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#B45F06' })}><FiberManualRecordIcon style={{ color: '#B45F06' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#BF9000' })}><FiberManualRecordIcon style={{ color: '#BF9000' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#38761D' })}><FiberManualRecordIcon style={{ color: '#38761D' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#134F5C' })}><FiberManualRecordIcon style={{ color: '#134F5C' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#1155CC' })}><FiberManualRecordIcon style={{ color: '#1155CC' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#0B5394' })}><FiberManualRecordIcon style={{ color: '#0B5394' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#351C75' })}><FiberManualRecordIcon style={{ color: '#351C75' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#741B47' })}><FiberManualRecordIcon style={{ color: '#741B47' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#980000' })}><FiberManualRecordIcon style={{ color: '#980000' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#FF0000' })}><FiberManualRecordIcon style={{ color: '#FF0000' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#FF9900' })}><FiberManualRecordIcon style={{ color: '#FF9900' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#FFFF00' })}><FiberManualRecordIcon style={{ color: '#FFFF00' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#00FF00' })}><FiberManualRecordIcon style={{ color: '#00FF00' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#00FFFF' })}><FiberManualRecordIcon style={{ color: '#00FFFF' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#4A86E8' })}><FiberManualRecordIcon style={{ color: '#4A86E8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#0000FF' })}><FiberManualRecordIcon style={{ color: '#0000FF' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#9900FF' })}><FiberManualRecordIcon style={{ color: '#9900FF' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ minColor: '#FF00FF' })}><FiberManualRecordIcon style={{ color: '#FF00FF' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#980000' })}><FiberManualRecordIcon style={{ color: '#980000' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#FF0000' })}><FiberManualRecordIcon style={{ color: '#FF0000' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#FF9900' })}><FiberManualRecordIcon style={{ color: '#FF9900' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#FFFF00' })}><FiberManualRecordIcon style={{ color: '#FFFF00' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#00FF00' })}><FiberManualRecordIcon style={{ color: '#00FF00' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#00FFFF' })}><FiberManualRecordIcon style={{ color: '#00FFFF' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#4A86E8' })}><FiberManualRecordIcon style={{ color: '#4A86E8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#0000FF' })}><FiberManualRecordIcon style={{ color: '#0000FF' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#9900FF' })}><FiberManualRecordIcon style={{ color: '#9900FF' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ minColor: '#FF00FF' })}><FiberManualRecordIcon style={{ color: '#FF00FF' }} /></IconButton>
                             </DropdownItem>
                         </DropdownMenu>
                     </ButtonDropdown>
@@ -321,38 +321,38 @@ class UMatrix extends Component {
                     </div>
 
                     <ButtonDropdown isOpen={this.state.maxDropdownOpen} toggle={this.maxToggle}>
-                        <DropdownToggle caret size="sm" style={{ backgroundColor: "white", color: "grey", border: "none" }}>
+                        <DropdownToggle id={'dropdown-toggle'} caret size="sm" style={{ backgroundColor: "white", color: "grey", border: "none" }}>
                             Maximum distance: {this.state.maxDistance.toFixed(4)}
                         </DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem header>Color for maximum distance:</DropdownItem>
+                            <DropdownItem id={'dropdown-colour-max'} header>Color for maximum distance:</DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#ffffff' })}><FiberManualRecordIcon style={{ color: '#ffffff' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#000000' })}><FiberManualRecordIcon style={{ color: '#000000' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#ffffff' })}><FiberManualRecordIcon style={{ color: '#ffffff' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#000000' })}><FiberManualRecordIcon style={{ color: '#000000' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#E6B8AF' })}><FiberManualRecordIcon style={{ color: '#E6B8AF' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#F4CCCC' })}><FiberManualRecordIcon style={{ color: '#F4CCCC' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#FCE5CD' })}><FiberManualRecordIcon style={{ color: '#FCE5CD' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#FFF2CC' })}><FiberManualRecordIcon style={{ color: '#FFF2CC' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#D9EAD3' })}><FiberManualRecordIcon style={{ color: '#D9EAD3' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#D0E0E3' })}><FiberManualRecordIcon style={{ color: '#D0E0E3' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#C9DAF8' })}><FiberManualRecordIcon style={{ color: '#C9DAF8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#CFE2F3' })}><FiberManualRecordIcon style={{ color: '#CFE2F3' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#D9D2E9' })}><FiberManualRecordIcon style={{ color: '#D9D2E9' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#EAD1DC' })}><FiberManualRecordIcon style={{ color: '#EAD1DC' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#E6B8AF' })}><FiberManualRecordIcon style={{ color: '#E6B8AF' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#F4CCCC' })}><FiberManualRecordIcon style={{ color: '#F4CCCC' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#FCE5CD' })}><FiberManualRecordIcon style={{ color: '#FCE5CD' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#FFF2CC' })}><FiberManualRecordIcon style={{ color: '#FFF2CC' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#D9EAD3' })}><FiberManualRecordIcon style={{ color: '#D9EAD3' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#D0E0E3' })}><FiberManualRecordIcon style={{ color: '#D0E0E3' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#C9DAF8' })}><FiberManualRecordIcon style={{ color: '#C9DAF8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#CFE2F3' })}><FiberManualRecordIcon style={{ color: '#CFE2F3' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#D9D2E9' })}><FiberManualRecordIcon style={{ color: '#D9D2E9' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#EAD1DC' })}><FiberManualRecordIcon style={{ color: '#EAD1DC' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#DD7E6B' })}><FiberManualRecordIcon style={{ color: '#DD7E6B' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#EA9999' })}><FiberManualRecordIcon style={{ color: '#EA9999' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#F9CB9C' })}><FiberManualRecordIcon style={{ color: '#F9CB9C' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#FFE599' })}><FiberManualRecordIcon style={{ color: '#FFE599' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxolor: '#B6D7A8' })}><FiberManualRecordIcon style={{ color: '#B6D7A8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#A2C4C9' })}><FiberManualRecordIcon style={{ color: '#A2C4C9' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#A4C2F4' })}><FiberManualRecordIcon style={{ color: '#A4C2F4' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#9FC5E8' })}><FiberManualRecordIcon style={{ color: '#9FC5E8' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#B4A7D6' })}><FiberManualRecordIcon style={{ color: '#B4A7D6' }} /></IconButton>
-                                <IconButton size="small" onClick={() => this.setState({ maxColor: '#D5A6BD' })}><FiberManualRecordIcon style={{ color: '#D5A6BD' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#DD7E6B' })}><FiberManualRecordIcon style={{ color: '#DD7E6B' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#EA9999' })}><FiberManualRecordIcon style={{ color: '#EA9999' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#F9CB9C' })}><FiberManualRecordIcon style={{ color: '#F9CB9C' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#FFE599' })}><FiberManualRecordIcon style={{ color: '#FFE599' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxolor: '#B6D7A8' })}><FiberManualRecordIcon style={{ color: '#B6D7A8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#A2C4C9' })}><FiberManualRecordIcon style={{ color: '#A2C4C9' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#A4C2F4' })}><FiberManualRecordIcon style={{ color: '#A4C2F4' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#9FC5E8' })}><FiberManualRecordIcon style={{ color: '#9FC5E8' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#B4A7D6' })}><FiberManualRecordIcon style={{ color: '#B4A7D6' }} /></IconButton>
+                                <IconButton className={'color-button'} size="small" onClick={() => this.setState({ maxColor: '#D5A6BD' })}><FiberManualRecordIcon style={{ color: '#D5A6BD' }} /></IconButton>
                             </DropdownItem>
                             <DropdownItem>
                                 <IconButton size="small" onClick={() => this.setState({ maxColor: '#A61C00' })}><FiberManualRecordIcon style={{ color: '#A61C00' }} /></IconButton>
@@ -400,10 +400,10 @@ class UMatrix extends Component {
 
                 <div>
                     <React.Fragment>
-                        <Button style={{ color: "grey" }}>Zoom: </Button>
-                        <IconButton onClick={this.zoomOut}><AddBoxIcon /></IconButton>
-                        <IconButton onClick={this.zoomIn}><IndeterminateCheckBoxIcon /></IconButton>
-                        <IconButton onClick={this.resetTransform}>< SettingsBackupRestoreIcon /></IconButton>
+                        <Button id={'zoom-text'} style={{ color: "grey" }}>Zoom: </Button>
+                        <IconButton id={'zoom-out'} onClick={this.zoomOut}><AddBoxIcon /></IconButton>
+                        <IconButton id={'zoom-in'} onClick={this.zoomIn}><IndeterminateCheckBoxIcon /></IconButton>
+                        <IconButton id={'zoom-reset'} onClick={this.resetTransform}>< SettingsBackupRestoreIcon /></IconButton>
                     </React.Fragment>
                     <MapInteractionCSS
                         value={this.state.value}

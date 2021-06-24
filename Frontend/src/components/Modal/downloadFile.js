@@ -25,7 +25,6 @@ function DownloadFile(props) {
 
     const handleMenuItemClick = (event, index) => {
         let filename = props.datasetName.split(".")[0] + options[index];
-        console.log("download filename is : ", filename);
 
         downloading(props.datasetName, filename, options[index]);
         setOpen(false);

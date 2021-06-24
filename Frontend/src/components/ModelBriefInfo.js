@@ -22,7 +22,6 @@ function ModelBriefInfo(props) {
 
     //while a user chooses to delete a model
     const handleYesBtn = () => {
-        console.log("filename is " + props.modelName);
         props.editModelDescription(props.modelName, briefInfo, sessionStorage.getItem('verifiedUsername'));
         props.fetchModelFiles(sessionStorage.getItem('verifiedUsername'), false);
         //props.fetchModelFiles()

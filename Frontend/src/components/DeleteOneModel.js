@@ -20,8 +20,6 @@ function DeleteOneModel(props) {
 
     //while a user chooses to delete a model
     const handleYesBtn= () => {
-        console.log("filename is " + props.deletedFileName);
-        console.log(typeof(props.deleteModel));
         props.deleteModel(props.deletedFileName, sessionStorage.getItem('verifiedUsername'));
         setModal(!isModalOpen);
     }

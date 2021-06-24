@@ -17,7 +17,6 @@ class AllModel extends Component {
 
   componentDidUpdate() {
     if (this.props.isAllQuery) {
-      console.log("please refresh")
       this.props.fetchAllModels();
     }
   }

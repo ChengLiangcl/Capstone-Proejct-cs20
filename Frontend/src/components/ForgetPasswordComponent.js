@@ -67,9 +67,7 @@ const ForgetPassword = ({ handleChange, ...props }) => {
     setModal(!isModalOpen);
   };
   const onSubmit = (values) => {
-    console.log(values);
     props.passwordChange(values, (res) => {
-      console.log(res);
       setModalContent(res.toString())
       setModal(true)
     });

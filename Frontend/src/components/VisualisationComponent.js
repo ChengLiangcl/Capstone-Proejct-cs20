@@ -50,7 +50,6 @@ function Visualisation(props) {
     const handleChange = (event) => {
         const userInput = event.target.value;
         const modelName = userInput.split(':');
-        console.log("inputted model: ", modelName[0]);
         setInput(event.target.value.split(':')[0]);
     };
 
@@ -68,7 +67,6 @@ function Visualisation(props) {
 
     const handleSubmit = (values) => {
         const newValue = values.bindedModel.split(':');
-        console.log(newValue);
         props.getUMatrixDatasets(newValue[0], sessionStorage.getItem('verifiedUsername'));
     };
 

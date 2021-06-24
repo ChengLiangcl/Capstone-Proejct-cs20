@@ -40,5 +40,61 @@
     "Number_of_Instance": 96,
     "UserName": "17888813173@163.com",
     "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60d438bdcaba5f4b97a7b9c8"
+    },
+    "FileName": "copy(3)_ex_ndy.png",
+    "BriefInfo": "",
+    "Size": "4.93KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 5,
+    "Number_of_Instance": 96,
+    "UserName": "17888813173@163.com",
+    "ModelName": "copy(2)_animal.cod"
+  },
+  {
+    "_id": {
+      "$oid": "60d438becaba5f4b97a7b9c9"
+    },
+    "FileName": "ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "17888813173@163.com",
+    "ModelName": "copy(2)_animal.cod"
+  },
+  {
+    "_id": {
+      "$oid": "60d438d0caba5f4b97a7b9ca"
+    },
+    "FileName": "copy(1)_ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "17888813173@163.com",
+    "ModelName": ""
+  },
+  {
+    "_id": {
+      "$oid": "60d43920caba5f4b97a7b9cb"
+    },
+    "FileName": "copy(2)_ex_fts.dat",
+    "BriefInfo": "",
+    "Size": "13.532KB",
+    "Description": "",
+    "Source": "",
+    "Number_of_Attribute": 6,
+    "Number_of_Instance": 246,
+    "UserName": "17888813173@163.com",
+    "ModelName": ""
   }
 ]

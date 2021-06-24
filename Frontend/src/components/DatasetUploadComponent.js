@@ -136,7 +136,7 @@ function DatasetUpload(props) {
     return (
         <Container>
             <div>
-                {currentFile && (<Progress className="progress-bar" animated value={progress} max="100">{progress}%</Progress>)}
+                {currentFile && (<Progress className="progress-bar-dataset" animated value={progress} max="100">{progress}%</Progress>)}
             </div>
 
             {/** datasets */}

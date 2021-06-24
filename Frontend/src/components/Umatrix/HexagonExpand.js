@@ -40,12 +40,12 @@ function ExpandedHexagon(props) {
 
     return (
         <Row>
-            <IconButton style={{ zIndex: "1" }}
+            <IconButton id={'hex'} style={{ zIndex: "1" }}
                 onMouseEnter={() => setIsShown(true)}
                 onMouseLeave={() => setIsShown(false)}>
                 <svg xmlns="http://www.w3.org/2000/svg"
                     width={props.size}
-                    class="bi bi-hexagon-fill"
+                    className="bi bi-hexagon-fill"
                     viewBox="0 0 16 16">
                     <path fill={color} fill-rule="evenodd"
                         d="M8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z"
@@ -56,7 +56,7 @@ function ExpandedHexagon(props) {
 
             <Col>
                 {isShown && (
-                    <Card style={{ backgroundColor: "#f8f58d", zIndex: "2", width: "27vw", height: "auto" }}>
+                    <Card id={'show-card'} style={{ backgroundColor: "#f8f58d", zIndex: "2", width: "27vw", height: "auto" }}>
                         <CardBody>
                             <div><strong>distance between two vectors: </strong></div>
                             <div>{props.betweenDistance}</div>

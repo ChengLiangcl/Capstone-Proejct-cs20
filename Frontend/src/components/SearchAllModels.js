@@ -9,12 +9,10 @@ function SearchAllModel(props) {
 
     const handleChange = (event) => {
         const userInput = event.target.value;
-        console.log("the user input: ", userInput);
         setInput(event.target.value);
     };
 
     const handleClick = () => {
-        console.log("the current input value: ", inputValue);
         props.queryAllModels(inputValue);
     };
 

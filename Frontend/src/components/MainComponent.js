@@ -145,7 +145,6 @@ class Main extends Component {
                 return nextDatasets !== undefined ? true : false;
             }
             else if (currentDatasets.length !== 0 && nextDatasets.length !== 0) {
-                console.log("current umatrix length: ", currentDatasets);
                 return currentDatasets[0].FileName !== nextDatasets[0].FileName ? true : false;
             }
             else {
@@ -154,36 +153,36 @@ class Main extends Component {
         };
 
         if (compareDatasets(this.props.datasetFiles.datasetFiles, nextProps.datasetFiles.datasetFiles)) {
-            console.log("because of dataset files");
+            //console.log("because of dataset files");
             return true;
         }
         else if (compareDatasets(this.props.allDatasetFiles.datasetFiles, nextProps.allDatasetFiles.datasetFiles)){
-            console.log("because of all dataset files");
+            //console.log("because of all dataset files");
             return true;
         }
         else if (compareDatasets(this.props.allModels.modelFiles, nextProps.allModels.modelFiles)){
-            console.log("because of all model files");
+            //console.log("because of all model files");
             return true;
         }
         else {
             //console.log("current umatrix datasets: ", this.props.connectionFiles.umatrixDatasets[0]);
             //console.log("next umatrix datasets: ", nextProps.connectionFiles.umatrixDatasets[0]);
             if (this.props.connectionFiles.connectionFiles[0] !== nextProps.connectionFiles.connectionFiles[0]) {
-                console.log("because of connection files");
+                //console.log("because of connection files");
                 return true
             }
 
             else if (compareBindedDatasets(this.props.connectionFiles.bindedDatasets, nextProps.connectionFiles.bindedDatasets)) {
-                console.log("because of binded datasets");
+                //console.log("because of binded datasets");
                 return true
             }
 
             else if (compareUmatrixDatasets(this.props.connectionFiles.umatrixDatasets, nextProps.connectionFiles.umatrixDatasets)) {
-                console.log("because of umatrix datasets");
+                //console.log("because of umatrix datasets");
                 return true
             }
             else if (compareProps(this.props.metadata.metadata[0], nextProps.metadata.metadata[0], this.props.modelFiles.modelFiles, nextProps.modelFiles.modelFiles)) {
-                console.log("because of metadata");
+               // console.log("because of metadata");
                 return true
             }
             else {
@@ -213,7 +212,6 @@ class Main extends Component {
         const DatasetSelect = ({ match }) => {
             let datasetName = this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0] == undefined ? localStorage.getItem('datasetname-metadata') :
                 this.props.datasetFiles.datasetFiles.filter(dataset => dataset.FileName === match.params.datasetName)[0].FileName;
-            console.log("dataset name: ", datasetName);
             localStorage.setItem('datasetname-metadata', datasetName);
 
             return (
@@ -235,7 +233,6 @@ class Main extends Component {
         const ModelSelect = ({ match }) => {
             let modelName = this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0] == undefined ? localStorage.getItem('modelname') :
                 this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0].FileName;
-            console.log("model name: ", modelName);
             localStorage.setItem('modelname', modelName);
 
             return (
@@ -254,7 +251,6 @@ class Main extends Component {
         const AllModelSelect = ({ match }) => {
             let modelName = this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0] == undefined ? localStorage.getItem('modelname') :
                 this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0].FileName;
-            console.log("model name: ", modelName);
             localStorage.setItem('modelname', modelName);
 
             return (
@@ -277,7 +273,6 @@ class Main extends Component {
         const UmatrixModelSelect = ({ match }) => {
             let umatrixModelName = this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0] == undefined ? localStorage.getItem('modelname') :
                 this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0].FileName;
-            console.log("umatrix model name: ", umatrixModelName);
 
             return (
                 <SingleVisualisation umatrixModelName={this.props.modelFiles.modelFiles.filter(model => model.FileName === match.params.modelName)[0]}

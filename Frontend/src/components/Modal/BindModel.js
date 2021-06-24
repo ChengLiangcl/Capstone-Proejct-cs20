@@ -22,7 +22,6 @@ function ModelBinding(props) {
 
     const handleSubmit = (values) => {
         const newValue = values.bindedModel.split(':');
-        console.log(newValue);
         props.bindModel(newValue[0], sessionStorage.getItem('verifiedUsername'), props.datasetName);
     };
 

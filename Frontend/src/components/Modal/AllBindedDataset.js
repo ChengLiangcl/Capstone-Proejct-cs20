@@ -16,19 +16,6 @@ function AllBindedDatasets(props) {
     const query = qs.parse(window.location.search.split('?')[1] || '')
     const modelName = query.fileName;
     const userName = query.userName;
-    // console.log("local get model name: ", modelName);
-    // console.log("local get user name: ", userName);
-
-    const [isModalOpen, setModal] = useState(false);
-
-    // const toggleModal = () => {
-    //     setModal(!isModalOpen);
-    // };
-
-    // // while a user chooses not to delete a dataset
-    // const handlenNoBtn = () => {
-    //     setModal(!isModalOpen);
-    // };
 
     const tableHead = () => {
         return (

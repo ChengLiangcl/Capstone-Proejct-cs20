@@ -34,10 +34,16 @@ import ModelBinding from './components/Modal/BindModel';
 import AllBindedDatasets from './components/Modal/AllBindedDataset';
 import BindedDatasets from './components/Modal/BindedDatasets';
 import DownloadFile from './components/Modal/downloadFile';
+import SingleVisualisation from './components/Umatrix/VisualisationComponent';
+import Visualisation from './components/VisualisationComponent';
+import UMatrix from './components/Umatrix/Umatrix';
+import ExpandedHexagon from './components/Umatrix/HexagonExpand';
+import HexagonVector from './components/Umatrix/HexagonVector';
+import {metadata1, metadata2, model1, model2} from './others/testCompareData';
 
 import {
   testDatasets, testModels, testMetadata, testDetailedData, testEmptyMetadata,
-  testBindedDataset, testNoBindedDataset
+  testBindedDataset, testNoBindedDataset, umatrixDatasets
 } from './testData';
 
 let container = null;
@@ -346,7 +352,7 @@ describe("my datasets", () => {
       const uploadBtn = component.find('.upload-btn');
       uploadBtn.simulate('click');
       expect(component.find('.uploading-notice').text()).toBe("Please upload your datasets");
-      expect(component.find('.progress-bar').prop("value")).toBe(0);
+      expect(component.find('.progress-bar-dataset').prop("value")).toBe(0);
     });
   });
 });
@@ -918,18 +924,207 @@ describe("user", () => {
 });
 
 /**=======================Visualisation======================================= */
+describe("visualisation pannel", () => {
+  const umatrixWrapper = shallow(<SingleVisualisation umatrixDatasets={umatrixDatasets} 
+    modelFiles={testModels}/>);
 
-/**======================= Side bar ==================================== */
-// describe("side bar component", () => {
+  it("should rendering all necessary elements when entering into the interface", () => {
+    expect(umatrixWrapper.find('h4')).toBeTruthy();
+    expect(umatrixWrapper.find({variant: "h6"})).toBeTruthy();
+    expect(umatrixWrapper.find('#select model')).toBeTruthy();
+    expect(umatrixWrapper.find('.matrix')).toBeTruthy();
+    expect(umatrixWrapper.find('UMatrix')).toBeTruthy();
+    expect(umatrixWrapper.find('#drawer')).toBeTruthy();
+    expect(umatrixWrapper.find('.form-group')).toBeTruthy();
+    expect(umatrixWrapper.find('#bindedModel')).toBeTruthy();
+    expect(umatrixWrapper.find('#get-umatrix')).toBeTruthy();
+  });
 
-//   it("should render all elements needed", () => {
-//     act(() => {
-//       render((
-//         <Sidebar />
-//       ), container);
-//     })
-//   })
-//});
+  it("should open the drawerwhen click the button", () => {
+    //umatrixWrapper.find('#select model').simulate('click');
+    const onOpen = jest.fn();
+    act(() => {  
+      render(<MemoryRouter><SingleVisualisation umatrixDatasets={umatrixDatasets} 
+        modelFiles={testModels} onChange={onOpen}/></MemoryRouter>, container);
+    });
+
+    fireEvent.click(screen.getByTestId("select model"));
+    expect(onOpen).toHaveBeenCalledTimes(1);
+  });
+
+  it("should open the drawer when click the button", () => {
+    //umatrixWrapper.find('#select model').simulate('click');
+    const onClose = jest.fn();
+    act(() => {  
+      render(<MemoryRouter><SingleVisualisation umatrixDatasets={umatrixDatasets} 
+        modelFiles={testModels} onClose={onClose}/></MemoryRouter>, container);
+    });
+
+    fireEvent.click(screen.getByTestId("close-drawer"));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("visualisation pannel2", () => {
+  const umatrixWrapper = shallow(<Visualisation umatrixDatasets={umatrixDatasets} 
+    modelFiles={testModels}/>);
+
+  it("should rendering all necessary elements when entering into the interface", () => {
+    expect(umatrixWrapper.find('h4')).toBeTruthy();
+    expect(umatrixWrapper.find({variant: "h6"})).toBeTruthy();
+    expect(umatrixWrapper.find('#select model')).toBeTruthy();
+    expect(umatrixWrapper.find('.matrix')).toBeTruthy();
+    expect(umatrixWrapper.find('UMatrix')).toBeTruthy();
+    expect(umatrixWrapper.find('#drawer')).toBeTruthy();
+    expect(umatrixWrapper.find('.form-group')).toBeTruthy();
+    expect(umatrixWrapper.find('#bindedModel')).toBeTruthy();
+    expect(umatrixWrapper.find('#get-umatrix')).toBeTruthy();
+  });
+
+  it("should open the drawerwhen click the button", () => {
+    //umatrixWrapper.find('#select model').simulate('click');
+    const onOpen = jest.fn();
+    act(() => {  
+      render(<MemoryRouter><SingleVisualisation umatrixDatasets={umatrixDatasets} 
+        modelFiles={testModels} onChange={onOpen}/></MemoryRouter>, container);
+    });
+
+    fireEvent.click(screen.getByTestId("select model"));
+    expect(onOpen).toHaveBeenCalledTimes(1);
+  });
+
+  it("should open the drawer when click the button", () => {
+    //umatrixWrapper.find('#select model').simulate('click');
+    const onClose = jest.fn();
+    act(() => {  
+      render(<MemoryRouter><SingleVisualisation umatrixDatasets={umatrixDatasets} 
+        modelFiles={testModels} onClose={onClose}/></MemoryRouter>, container);
+    });
+
+    fireEvent.click(screen.getByTestId("close-drawer"));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("umatrix", () => {
+  const uwrapper = shallow(<UMatrix hexagonSize={20} model={umatrixDatasets[0]}/>);
+
+  it("should render necessary elements when loading the umatrix", () => {
+    expect(uwrapper.find('HexagonVector')).toBeTruthy();
+    expect(uwrapper.find('ExpandedVector')).toBeTruthy();
+    expect(uwrapper.find('#btn-drop-down')).toBeTruthy();
+    expect(uwrapper.find('#drop-down-head')).toBeTruthy();
+    expect(uwrapper.find('.color-button')).toBeTruthy();
+    expect(uwrapper.find('#dropdown-toggle')).toBeTruthy();
+    expect(uwrapper.find('#dropdown-colour-max')).toBeTruthy();
+    expect(uwrapper.find('#zoom-text')).toBeTruthy();
+    expect(uwrapper.find('#zoom-out')).toBeTruthy();
+    expect(uwrapper.find('#zoom-in')).toBeTruthy();
+    expect(uwrapper.find('#zoom-reset')).toBeTruthy();
+    expect(uwrapper.find('MapInteractionCSS')).toBeTruthy();
+  });
+
+  it('should produce correct negibours for umatrix', () => {
+    const uInstance = uwrapper.instance();
+    expect(uInstance.getNeighbourCoordinates('bottom-left', 0, 0)).toStrictEqual([-1, 1]);
+    expect(uInstance.getNeighbourCoordinates('bottom-right', 0, 0)).toStrictEqual([1, 1]);
+    expect(uInstance.getNeighbourCoordinates('right', 0, 0)).toStrictEqual([2, 0]);
+  })
+});
+
+describe("hexagonExpand", () => {
+  const hexagonE = shallow(<ExpandedHexagon  
+    size={4}
+    isVector={false}
+    distanceRatio={0.12}
+    betweenDistance={0.2}
+    minDistanceRatio={0.00012}
+    maxDistanceRatio={0.8}
+    minColor={null}
+    maxColor={null}
+    displayRatio={0.1}/>);
+
+    const hexagonC = shallow(<ExpandedHexagon  
+      size={4}
+      isVector={false}
+      distanceRatio={0.12}
+      betweenDistance={0.2}
+      minDistanceRatio={0.00012}
+      maxDistanceRatio={0.8}
+      minColor={'#85200C'}
+      maxColor={'#351C75'}
+      displayRatio={0.1}/>);
+
+  it("should render necessary elements when loading the umatrix", () => {
+    expect(hexagonE.find('#hex')).toBeTruthy();
+    expect(hexagonE.find('svg')).toBeTruthy();
+    expect(hexagonE.find('div')).toBeTruthy();
+    expect(hexagonE.find('strong')).toBeTruthy();
+    expect(hexagonE.find('#show-card')).toBeTruthy();
+    expect(hexagonC.find('#hex')).toBeTruthy();
+    expect(hexagonC.find('svg')).toBeTruthy();
+    expect(hexagonC.find('div')).toBeTruthy();
+    expect(hexagonC.find('strong')).toBeTruthy();
+    expect(hexagonC.find('#show-card')).toBeTruthy();
+  });
+});
+
+describe("hexagonVector", () => {
+  const hexagonE = shallow(<HexagonVector  
+    size={4}
+    isVector={false}
+    distanceRatio={0.12}
+    betweenDistance={0.2}
+    minDistanceRatio={0.00012}
+    maxDistanceRatio={0.8}
+    minColor={null}
+    maxColor={null}
+    displayRatio={0.1}/>);
+
+    const hexagonC = shallow(<HexagonVector  
+      size={4}
+      isVector={false}
+      distanceRatio={0.12}
+      betweenDistance={0.2}
+      minDistanceRatio={0.00012}
+      maxDistanceRatio={0.8}
+      minColor={'#85200C'}
+      maxColor={'#351C75'}
+      displayRatio={0.1}/>);
+
+  it("should render necessary elements when loading the umatrix", () => {
+    expect(hexagonE.find('#hex')).toBeTruthy();
+    expect(hexagonE.find('svg')).toBeTruthy();
+    expect(hexagonE.find('div')).toBeTruthy();
+    expect(hexagonE.find('strong')).toBeTruthy();
+    expect(hexagonE.find('#show-card')).toBeTruthy();
+    expect(hexagonC.find('#hex')).toBeTruthy();
+    expect(hexagonC.find('svg')).toBeTruthy();
+    expect(hexagonC.find('div')).toBeTruthy();
+    expect(hexagonC.find('strong')).toBeTruthy();
+    expect(hexagonC.find('#show-card')).toBeTruthy();
+  });
+});
+
+/**======================= Main ==================================== */
+describe("main component", () => {
+  const mainWrapper = shallow(<Main/>);
+
+  it("should rendering all necessary elements when entering into the interface", () => {
+    expect(mainWrapper.find('Sidebar')).toBeTruthy();
+    expect(mainWrapper.find('Database')).toBeTruthy();
+    expect(mainWrapper.find('Visualisation')).toBeTruthy();
+    expect(mainWrapper.find('SingleVisualisation')).toBeTruthy();
+    expect(mainWrapper.find('SOMModel')).toBeTruthy();
+    expect(mainWrapper.find('DetailedDataset')).toBeTruthy();
+    expect(mainWrapper.find('MetadataForm')).toBeTruthy();
+    expect(mainWrapper.find('ConnectionUploading')).toBeTruthy();
+    expect(mainWrapper.find('BindedDatasets')).toBeTruthy();
+    expect(mainWrapper.find('AllBindedDatasets')).toBeTruthy();
+    expect(mainWrapper.find('AllDataset')).toBeTruthy();
+    expect(mainWrapper.find('AllModel')).toBeTruthy();
+  });
+});
 
 
 // /* ======================= Model ======================= */

@@ -53,40 +53,33 @@ function SingleVisualisation(props) {
     const handleChange = (event) => {
         const userInput = event.target.value;
         const modelName = userInput.split(':');
-        console.log("inputted model: ", modelName[0]);
         setInput(event.target.value.split(':')[0]);
     };
 
     const handleDrawerOpen = () => {
         setOpen(true);
+        if(props.onChange){
+            props.onChange(true);
+        }
     };
 
     const handleDrawerClose = () => {
         setOpen(false);
+        if(props.onClose){
+            props.onClose(false);
+        }
     };
 
     useEffect(() => {
         const query = qs.parse(window.location.search.split('?')[1] || '')
         const ModelName = query.fileName;
         const UserName = query.userName
-        console.log("local get model name: ", ModelName);
-        console.log("local get user name: ", UserName);
+        // console.log("local get model name: ", ModelName);
+        // console.log("local get user name: ", UserName);
 
         if (ModelName !== undefined) {
-            console.log("model namde defined", ModelName);
             props.getUMatrixDatasets(ModelName, UserName);
         }
-
-        // if (props.umatrixDatasets.length !== 0) {
-        //     console.log("props umatrix: ", props.umatrixDatasets);
-        //     sessionStorage.setItem('umatrix-modelname', props.umatrixDatasets[0].FileName);
-        // }
-
-        /**
-        return () => {
-            console.log("willunmount")
-            props.cleanUmatrixDatasets();
-        } */
     });
 
 
@@ -100,6 +93,8 @@ function SingleVisualisation(props) {
                             {/* <h4>U-Matrix: {props.umatrixDatasets == undefined || props.umatrixDatasets.length == 0 ? "" : UmatrixModelName}</h4> */}
                         </Typography>
                         <Button aria-label="open drawer" edge="end"
+                            id={"select model"}
+                            data-testid = "select model"
                             onClick={handleDrawerOpen}
                             className={clsx(open && classes.hide)}>
                             SelectModel
@@ -113,6 +108,7 @@ function SingleVisualisation(props) {
             </Row>
 
             <Drawer
+                id={'drawer'}
                 className={classes.drawer}
                 variant="persistent"
                 anchor="right"
@@ -121,18 +117,13 @@ function SingleVisualisation(props) {
                     paper: classes.drawerPaper,
                 }}>
                 <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
+                    <IconButton onClick={handleDrawerClose} data-testid="close-drawer">
                         {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </div>
 
                 <Divider />
                 <br />
-                {/* <InputGroup style={{ paddingLeft: '5%', paddingRight: '5%' }}>
-                    <Input ref={el} onChange={handleChange} placeholder="please input your model name" />
-                    <InputGroupAddon addonType="append"><Button onClick={handleClick}>get model</Button></InputGroupAddon>
-                </InputGroup>
-                <Divider /> */}
 
                 <LocalForm>
                     <Col className="form-group">
@@ -149,7 +140,7 @@ function SingleVisualisation(props) {
                     </Col>
                     <Col>
                         <Link to={`/visualisation/${inputValue}?userName=${sessionStorage.getItem('verifiedUsername')}&fileName=${inputValue}`}>
-                            <Button type="submit">get umatrix</Button>
+                            <Button id={'get-umatrix'} type="submit">get umatrix</Button>
                         </Link>
                     </Col>
                 </LocalForm>
